@@ -1,1 +1,6 @@
-This folder contains client
+This folder contains client.
+
+# Techs used
+
++ JavaFX for GUI
+
