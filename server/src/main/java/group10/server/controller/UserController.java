@@ -47,14 +47,14 @@ public class UserController {
 
     @GetMapping("/requestPassword/{userId}")
     @ResponseBody
-    public ResponseEntity<?> requestPassword() {
+    public ResponseEntity<?> requestPassword(@PathVariable long userId) {
         // TODO
         return ResponseEntity.ok("UserRequestPassword");
     }
 
     @PostMapping("/updatePassword/{userId}")
     @ResponseBody
-    public ResponseEntity<?> updatePassword() {
+    public ResponseEntity<?> updatePassword(@PathVariable long userId) {
         // TODO
         return ResponseEntity.ok("UserUpdatePassword");
     }
