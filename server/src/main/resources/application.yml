@@ -1,0 +1,9 @@
+server:
+  port: 8080
+spring:
+  main:
+    banner-mode: off
+  datasource:
+    username: user10
+    password: 6MfZn588r9
+    url: jdbc:mariadb://144.122.71.168:3306/database10
