@@ -7,3 +7,11 @@ spring:
     username: user10
     password: 6MfZn588r9
     url: jdbc:mariadb://144.122.71.168:3306/database10
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        use_sql_comments: true
