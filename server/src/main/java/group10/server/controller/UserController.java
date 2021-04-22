@@ -2,6 +2,8 @@ package group10.server.controller;
 
 import group10.server.model.UserDTO;
 import group10.server.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,8 @@ import javax.validation.Valid;
 public class UserController {
     private ApplicationContext context;
     private UserService userService;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     public UserController(UserService userService, ApplicationContext context) {
@@ -38,6 +42,7 @@ public class UserController {
     @ResponseBody
     public ResponseEntity<?> register(@Valid @RequestBody UserDTO user) {
         // TODO
+        LOGGER.info("User register: " + user.getEmail());
         return ResponseEntity.ok(userService.register(user));
     }
 
