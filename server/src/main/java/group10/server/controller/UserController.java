@@ -1,10 +1,13 @@
 package group10.server.controller;
 
+import group10.server.model.UserDTO;
 import group10.server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/user")
@@ -33,9 +36,9 @@ public class UserController {
 
     @PostMapping("/register")
     @ResponseBody
-    public ResponseEntity<?> register() {
+    public ResponseEntity<?> register(@Valid @RequestBody UserDTO user) {
         // TODO
-        return ResponseEntity.ok("UserRegister");
+        return ResponseEntity.ok(userService.register(user));
     }
 
     @GetMapping("/logout/{userId}")
