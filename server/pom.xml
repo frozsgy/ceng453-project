@@ -71,6 +71,13 @@
 			<artifactId>spring-security-config</artifactId>
 			<version>5.4.5</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt -->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>0.9.1</version>
+		</dependency>
+
 
 
 	</dependencies>
