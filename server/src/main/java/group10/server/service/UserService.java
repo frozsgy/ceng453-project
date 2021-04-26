@@ -24,11 +24,9 @@ public class UserService {
     }
 
     public User register(UserDTO dto) throws IllegalArgumentException {
-        // TODO
         User user = new User();
         user.setUsername(dto.getUsername());
         user.setEmail(dto.getEmail());
-//        String hashedPassword = this.hashPassword(dto.getPassword());
         user.setPassword(this.bCryptPasswordEncoder.encode(dto.getPassword()));
         return userRepository.save(user);
     }
@@ -37,7 +35,7 @@ public class UserService {
         Optional<User> optUser = userRepository.findByUsername(loginData.getUsername());
         if (!optUser.isEmpty()) {
             User user = optUser.get();
-            if (this.checkPassword(loginData.getPassword(), user.getPassword())){
+            if (this.bCryptPasswordEncoder.matches(loginData.getPassword(), user.getPassword())) {
                 return true;
             }
         }
@@ -56,15 +54,5 @@ public class UserService {
 
     public void updatePassword(long userId, String password) {
         // TODO
-    }
-
-    private String hashPassword(String plainPassword) {
-        return BCrypt.hashpw(plainPassword, BCrypt.gensalt());
-    }
-    private boolean checkPassword(String plainPassword, String hashedPassword) {
-        if (BCrypt.checkpw(plainPassword, hashedPassword)){
-            return true;
-        }
-        return false;
     }
 }
