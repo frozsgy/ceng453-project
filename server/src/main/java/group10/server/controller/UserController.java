@@ -1,5 +1,6 @@
 package group10.server.controller;
 
+import group10.server.model.LoginDTO;
 import group10.server.model.UserDTO;
 import group10.server.service.UserService;
 import org.slf4j.Logger;
@@ -33,9 +34,8 @@ public class UserController {
 
     @PostMapping("/login")
     @ResponseBody
-    public ResponseEntity<?> login() {
-        // TODO
-        return ResponseEntity.ok("UserLogin");
+    public ResponseEntity<?> login(@Valid @RequestBody LoginDTO loginData) {
+        return ResponseEntity.ok(userService.login(loginData));
     }
 
     @PostMapping("/register")
