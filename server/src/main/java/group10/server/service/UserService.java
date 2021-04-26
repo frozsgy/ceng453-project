@@ -4,7 +4,11 @@ import group10.server.entity.User;
 import group10.server.model.LoginDTO;
 import group10.server.model.UserDTO;
 import group10.server.repository.UserRepository;
+import group10.server.security.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.mindrot.jbcrypt.BCrypt;
@@ -31,15 +35,15 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public boolean login(LoginDTO loginData) {
+    public String login(LoginDTO loginData) {
         Optional<User> optUser = userRepository.findByUsername(loginData.getUsername());
         if (!optUser.isEmpty()) {
             User user = optUser.get();
             if (this.bCryptPasswordEncoder.matches(loginData.getPassword(), user.getPassword())) {
-                return true;
+                return JWTUtil.getJWTToken(user.getUsername(), user.getId());
             }
         }
-        return false;
+        return "";
     }
 
     public boolean logout(String username) {

@@ -1,5 +1,6 @@
 package group10.server;
 
+import group10.server.security.JWTAuthorizationFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -18,9 +19,6 @@ public class ServerApplication {
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
-    public static void main(String[] args) {
-        SpringApplication.run(ServerApplication.class, args);
-    }
 
     @EnableWebSecurity
     @Configuration
@@ -28,10 +26,15 @@ public class ServerApplication {
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http.csrf().disable()
+                    .addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
                     .authorizeRequests()
                     .antMatchers(HttpMethod.POST, "/api/user/login").permitAll()
                     .antMatchers(HttpMethod.POST, "/api/user/register").permitAll()
                     .anyRequest().authenticated();
         }
+    }
+
+    public static void main(String[] args) {
+        SpringApplication.run(ServerApplication.class, args);
     }
 }
