@@ -46,6 +46,11 @@
 			<artifactId>spring-beans</artifactId>
 			<version>5.3.5</version>
 		</dependency>
+		<dependency>
+			<groupId>org.mindrot</groupId>
+			<artifactId>jbcrypt</artifactId>
+			<version>0.3m</version>
+		</dependency>
 	</dependencies>
 
 	<build>
