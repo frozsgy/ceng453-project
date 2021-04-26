@@ -5,6 +5,7 @@ import group10.server.model.LoginDTO;
 import group10.server.model.UserDTO;
 import group10.server.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -14,10 +15,12 @@ import java.util.Optional;
 public class UserService {
 
     private UserRepository userRepository;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     public User register(UserDTO dto) throws IllegalArgumentException {
@@ -25,8 +28,8 @@ public class UserService {
         User user = new User();
         user.setUsername(dto.getUsername());
         user.setEmail(dto.getEmail());
-        String hashedPassword = this.hashPassword(dto.getPassword());
-        user.setPassword(hashedPassword);
+//        String hashedPassword = this.hashPassword(dto.getPassword());
+        user.setPassword(this.bCryptPasswordEncoder.encode(dto.getPassword()));
         return userRepository.save(user);
     }
 
