@@ -5,7 +5,6 @@ public class JWTConstants {
     protected final static String SECRET_KEY = "CENG453rules!.";
     protected final static String AUTH_HEADER = "Authorization";
     protected final static String TOKEN_PREFIX = "Bearer ";
-    protected final static String DECODE_ON_SIGN = "Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=";
     public final static String LOGIN_PATH = "/api/user/login";
     public final static String REGISTER_PATH = "/api/user/register";
 }

@@ -19,15 +19,15 @@ public class JWTUtil {
         Date now = new Date();
         JwtBuilder builder = Jwts
                 .builder()
+                .setId(Long.toString(userId))
+                .setSubject(username)
                 .claim("authorities",
                         grantedAuthorities.stream()
                                 .map(GrantedAuthority::getAuthority)
                                 .collect(Collectors.toList()))
-                .setId(Long.toString(userId))
-                .setSubject(username)
                 .setIssuedAt(now)
                 .signWith(SignatureAlgorithm.HS512,
-                        TextCodec.BASE64.decode(JWTConstants.DECODE_ON_SIGN)
+                        JWTConstants.SECRET_KEY.getBytes()
                 );
         if (JWTConstants.EXPIRES_IN > 0) {
             Date expirationDate = new Date(System.currentTimeMillis() + JWTConstants.EXPIRES_IN);
