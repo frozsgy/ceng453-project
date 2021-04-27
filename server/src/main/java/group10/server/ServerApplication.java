@@ -1,6 +1,7 @@
 package group10.server;
 
 import group10.server.security.JWTAuthorizationFilter;
+import group10.server.security.JWTConstants;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -28,8 +29,8 @@ public class ServerApplication {
             http.csrf().disable()
                     .addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
                     .authorizeRequests()
-                    .antMatchers(HttpMethod.POST, "/api/user/login").permitAll()
-                    .antMatchers(HttpMethod.POST, "/api/user/register").permitAll()
+                    .antMatchers(HttpMethod.POST, JWTConstants.LOGIN_PATH).permitAll()
+                    .antMatchers(HttpMethod.POST, JWTConstants.REGISTER_PATH).permitAll()
                     .anyRequest().authenticated();
         }
     }
