@@ -1,20 +1,22 @@
-package group10.server.entity;
+package group10.server.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
-@Entity
-@Table(name = "user")
-public class User extends EntityBase {
+public class PlayerDTO {
 
-    @Column(name = "username", length = 255, unique = true)
+    @NotBlank
+    @Size(max = 255, min = 3, message = "Please enter a valid username")
     private String username;
 
-    @Column(name = "password", length = 255)
+    @NotBlank
+    @Size(max = 255, min = 3, message = "Please enter a valid password")
     private String password;
 
-    @Column(name = "email", length = 255, unique = true)
+    @NotBlank
+    @Size(max = 255, min = 3, message = "Please enter a valid email")
+    @Email
     private String email;
 
     public String getUsername() {

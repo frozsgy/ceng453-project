@@ -1,8 +1,8 @@
 package group10.server.controller;
 
 import group10.server.model.LoginDTO;
-import group10.server.model.UserDTO;
-import group10.server.service.UserService;
+import group10.server.model.PlayerDTO;
+import group10.server.service.PlayerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,16 +14,16 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/user")
-public class UserController {
+public class PlayerController {
     private ApplicationContext context;
-    private UserService userService;
+    private PlayerService playerService;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PlayerController.class);
 
     @Autowired
-    public UserController(UserService userService, ApplicationContext context) {
+    public PlayerController(PlayerService playerService, ApplicationContext context) {
         this.context = context;
-        this.userService = userService;
+        this.playerService = playerService;
     }
 
     @GetMapping("")
@@ -35,15 +35,15 @@ public class UserController {
     @PostMapping("/login")
     @ResponseBody
     public String login(@Valid @RequestBody LoginDTO loginData) {
-        return userService.login(loginData);
+        return playerService.login(loginData);
     }
 
     @PostMapping("/register")
     @ResponseBody
-    public ResponseEntity<?> register(@Valid @RequestBody UserDTO user) {
+    public ResponseEntity<?> register(@Valid @RequestBody PlayerDTO user) {
         // TODO
         LOGGER.info("User register: " + user.getEmail());
-        return ResponseEntity.ok(userService.register(user));
+        return ResponseEntity.ok(playerService.register(user));
     }
 
     @GetMapping("/logout/{userId}")
