@@ -2,6 +2,7 @@ package group10.server.service;
 
 import group10.server.entity.Player;
 import group10.server.model.LoginDTO;
+import group10.server.model.PasswordDTO;
 import group10.server.model.PlayerDTO;
 import group10.server.repository.PlayerRepository;
 import group10.server.security.JWTUtil;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
@@ -41,6 +43,7 @@ public class PlayerService {
         Optional<Player> optUser = playerRepository.findByUsername(loginData.getUsername());
         if (optUser.isPresent()) {
             Player player = optUser.get();
+            System.out.println(player.getPassword());
             if (this.bCryptPasswordEncoder.matches(loginData.getPassword(), player.getPassword())) {
                 return JWTUtil.getJWTToken(player.getUsername(), player.getId());
             }
@@ -58,7 +61,9 @@ public class PlayerService {
         // TODO
     }
 
-    public void updatePassword(long userId, String password) {
-        // TODO
+    @Transactional
+    public void updatePassword(long userId, PasswordDTO password) {
+        String encryptedPassword = this.bCryptPasswordEncoder.encode(password.getPassword());
+        playerRepository.updatePassword(userId, encryptedPassword);
     }
 }
