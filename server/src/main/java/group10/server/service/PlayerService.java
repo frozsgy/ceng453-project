@@ -7,6 +7,8 @@ import group10.server.model.PlayerDTO;
 import group10.server.repository.PlayerRepository;
 import group10.server.security.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,11 +20,14 @@ public class PlayerService {
 
     private PlayerRepository playerRepository;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private JavaMailSender javaMailSender;
 
     @Autowired
-    public PlayerService(PlayerRepository playerRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public PlayerService(PlayerRepository playerRepository, BCryptPasswordEncoder bCryptPasswordEncoder,
+                         JavaMailSender javaMailSender) {
         this.playerRepository = playerRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.javaMailSender = javaMailSender;
     }
 
     public long register(PlayerDTO dto) throws IllegalArgumentException {
@@ -59,6 +64,12 @@ public class PlayerService {
 
     public void requestPassword(String username) {
         // TODO
+        // tested and working. Other logic must be implemented.
+        SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setTo("alperen.0311@gmail.com");
+        msg.setSubject("Testing from Spring Boot");
+        msg.setText("Hello World \n Spring Boot Email");
+        javaMailSender.send(msg);
     }
 
     @Transactional
