@@ -11,6 +11,8 @@ import group10.server.repository.PlayerRepository;
 import group10.server.repository.RoleRepository;
 import group10.server.util.EmailComposer;
 import group10.server.util.RandomStringGenerator;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
@@ -76,24 +78,28 @@ public class PlayerService {
         return false;
     }
 
-    public boolean requestPwCode(String email) {
-        // TODO
-        Optional<Player> optUser = playerRepository.findByEmail(email);
-        if (optUser.isPresent()) {
-            Player player = optUser.get();
-            String code = RandomStringGenerator.generate();
-            SimpleMailMessage msg = EmailComposer.composeMail(email, RandomStringGenerator.generate());
-            try{
-                javaMailSender.send(msg);
-                PendingPwCode inserted = new PendingPwCode();
-                inserted.setPlayer(player);
-                inserted.setCode(code);
-                pendingPwCodeRepository.save(inserted);
-                return true;
-            }catch(MailException e) {
+    public boolean requestPwCode(JSONObject emailJSON) {
+        try{
+            String email = emailJSON.getString("email");
+            Optional<Player> optUser = playerRepository.findByEmail(email);
+            if (optUser.isPresent()) {
+                Player player = optUser.get();
+                String code = RandomStringGenerator.generate();
+                SimpleMailMessage msg = EmailComposer.composeMail(email, RandomStringGenerator.generate());
+                try{
+                    javaMailSender.send(msg);
+                    PendingPwCode inserted = new PendingPwCode();
+                    inserted.setPlayer(player);
+                    inserted.setCode(code);
+                    pendingPwCodeRepository.save(inserted);
+                    return true;
+                } catch(MailException e) {
+                    return false;
+                }
+            } else {
                 return false;
             }
-        } else {
+        } catch (JSONException e) {
             return false;
         }
     }

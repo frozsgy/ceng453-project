@@ -4,6 +4,8 @@ import group10.server.model.LoginDTO;
 import group10.server.model.PasswordResetDTO;
 import group10.server.model.PlayerDTO;
 import group10.server.service.PlayerService;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,10 +56,15 @@ public class PlayerController {
         return ResponseEntity.ok("UserLogout");
     }
 
-    @GetMapping("/requestPwCode/{email}")
+    @PostMapping("/requestPwCode")
     @ResponseBody
-    public ResponseEntity<?> requestPwCode(@PathVariable String email) {
-        return ResponseEntity.ok(playerService.requestPwCode(email));
+    public ResponseEntity<?> requestPwCode(@RequestBody String email) {
+        try {
+            JSONObject emailJSON = new JSONObject(email);
+            return ResponseEntity.ok(playerService.requestPwCode(emailJSON));
+        } catch (JSONException e) {
+            return ResponseEntity.ok(false);
+        }
     }
 
     @PutMapping("/updatePassword")

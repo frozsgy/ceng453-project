@@ -9,5 +9,4 @@ public class JWTConstants {
     protected final static String REGISTER_PATH = "/api/user/register";
     protected final static String REQUEST_CODE_PATH = "/api/user/requestPwCode";
     protected final static String UPDATE_PW_PATH = "/api/user/updatePassword";
-
 }
