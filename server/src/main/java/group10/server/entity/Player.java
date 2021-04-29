@@ -1,8 +1,9 @@
 package group10.server.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "player")
@@ -16,6 +17,12 @@ public class Player extends EntityBase {
 
     @Column(name = "email", length = 255, unique = true)
     private String email;
+
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @JoinTable(name = "player_roles", joinColumns = {@JoinColumn(name = "player_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
+    @JsonManagedReference
+    private List<Role> roles;
 
     public String getUsername() {
         return username;
@@ -39,5 +46,13 @@ public class Player extends EntityBase {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 }
