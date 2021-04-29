@@ -1,19 +1,24 @@
 package group10.server.entity;
 
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "score")
 public class Match extends EntityBase {
 
     @ManyToOne
-    @JoinColumn(name="player_id", nullable=false)
+    @JoinColumn(name = "player_id", nullable = false)
     private Player player;
 
     @ManyToOne
-    @JoinColumn(name="game_id", nullable = false)
+    @JoinColumn(name = "game_id", nullable = false)
     private Game game;
+
+    private int level;
 
     private int score;
 
@@ -39,5 +44,13 @@ public class Match extends EntityBase {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
 }
