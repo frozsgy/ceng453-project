@@ -1,9 +1,11 @@
 package group10.server.controller;
 
 import group10.server.entity.Game;
+import group10.server.entity.Match;
 import group10.server.entity.Player;
 import group10.server.model.MatchDTO;
 import group10.server.service.GameService;
+import group10.server.service.MatchService;
 import group10.server.service.PlayerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,14 +22,16 @@ public class GameController {
 
     private ApplicationContext context;
     private GameService gameService;
+    private MatchService matchService;
     private PlayerService playerService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GameController.class);
 
     @Autowired
-    public GameController(ApplicationContext context, GameService gameService, PlayerService playerService) {
+    public GameController(ApplicationContext context, GameService gameService, MatchService matchService, PlayerService playerService) {
         this.context = context;
         this.gameService = gameService;
+        this.matchService = matchService;
         this.playerService = playerService;
     }
 
@@ -56,13 +60,12 @@ public class GameController {
     @PostMapping("/next")
     @ResponseBody
     public ResponseEntity<?> nextMatch(@Valid @RequestBody MatchDTO dto) {
-        // TODO
         int score = dto.getScore();
         long gameId = dto.getGame();
-        int level = dto.getLevel();
         Game game = gameService.getById(gameId);
-        //gameService.nextLevel()
-        return ResponseEntity.ok("accept game scores and such");
+        Player loggedInPlayer = playerService.getLoggedInPlayer();
+        Match currentMatch = matchService.getById(loggedInPlayer, game);
+        return ResponseEntity.ok(gameService.nextLevel(currentMatch, score));
     }
 
 }

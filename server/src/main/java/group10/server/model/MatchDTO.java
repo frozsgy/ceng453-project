@@ -1,17 +1,15 @@
 package group10.server.model;
 
-import javax.validation.constraints.NotBlank;
+import org.hibernate.validator.constraints.Range;
+
 
 public class MatchDTO {
 
-    @NotBlank
+    @Range(min = 0, message= "Score may not be empty")
     private int score;
 
-    @NotBlank
+    @Range(min = 0, message= "Game may not be empty")
     private long game;
-
-    @NotBlank
-    private int level;
 
 
     public int getScore() {
@@ -30,11 +28,4 @@ public class MatchDTO {
         this.game = game;
     }
 
-    public int getLevel() {
-        return level;
-    }
-
-    public void setLevel(int level) {
-        this.level = level;
-    }
 }

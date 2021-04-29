@@ -40,6 +40,7 @@ public class GameService {
         // TODO -- check
         this.finishMatch(oldLevel, score);
         if (oldLevel.getLevel() == 4) {
+            // TODO -- return game ended or sth
             return null;
         }
         Match match = new Match();
@@ -57,6 +58,7 @@ public class GameService {
         if (oldLevel.getLevel() == 3) {
             game.setGameType(GameTypes.HUMAN);
         }
+        gameRepository.save(game);
     }
 
     public Game getById(long id) {
