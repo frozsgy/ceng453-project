@@ -1,6 +1,6 @@
 package group10.server.enums;
 
-enum GameTypes {
+public enum GameTypes {
     AI,
     HUMAN
 }
