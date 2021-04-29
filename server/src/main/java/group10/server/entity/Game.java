@@ -14,5 +14,11 @@ public class Game extends EntityBase {
     @Column(name = "game_type")
     private GameTypes gameType;
 
+    public GameTypes getGameType() {
+        return gameType;
+    }
 
+    public void setGameType(GameTypes gameType) {
+        this.gameType = gameType;
+    }
 }
