@@ -85,7 +85,7 @@ public class PlayerService {
             if (optUser.isPresent()) {
                 Player player = optUser.get();
                 String code = RandomStringGenerator.generate();
-                SimpleMailMessage msg = EmailComposer.composeMail(email, RandomStringGenerator.generate());
+                SimpleMailMessage msg = EmailComposer.composeMail(email, code);
                 try{
                     javaMailSender.send(msg);
                     PendingPwCode inserted = new PendingPwCode();
@@ -112,6 +112,7 @@ public class PlayerService {
             if (pending.getPlayer().getUsername().equals(passwordResetDTO.getUsername())) {
                 String encryptedPassword = this.bCryptPasswordEncoder.encode(passwordResetDTO.getPassword());
                 playerRepository.updatePassword(pending.getPlayer().getId(), encryptedPassword);
+                pendingPwCodeRepository.delete(pending);
                 return true;
             } else {
                 return false;

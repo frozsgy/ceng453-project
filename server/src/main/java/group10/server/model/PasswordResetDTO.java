@@ -8,6 +8,7 @@ public class PasswordResetDTO {
     @NotBlank
     @Size(max = 255, min = 3, message = "Please enter a valid password")
     private String password;
+    @Size(min = 1, message = "Please enter a valid code")
     private String resetCode;
     private String username;
 
