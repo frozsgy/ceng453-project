@@ -1,5 +1,6 @@
 package group10.server.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -13,6 +14,7 @@ public class Player extends EntityBase {
     private String username;
 
     @Column(name = "password", length = 255)
+    @JsonIgnore
     private String password;
 
     @Column(name = "email", length = 255, unique = true)
