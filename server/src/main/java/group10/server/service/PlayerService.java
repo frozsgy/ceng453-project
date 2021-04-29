@@ -4,7 +4,7 @@ import group10.server.config.JWTUtil;
 import group10.server.entity.PendingPwCode;
 import group10.server.entity.Player;
 import group10.server.model.LoginDTO;
-import group10.server.model.PasswordDTO;
+import group10.server.model.PasswordResetDTO;
 import group10.server.model.PlayerDTO;
 import group10.server.repository.PendingPwCodeRepository;
 import group10.server.repository.PlayerRepository;
@@ -87,7 +87,6 @@ public class PlayerService {
                 javaMailSender.send(msg);
                 PendingPwCode inserted = new PendingPwCode();
                 inserted.setPlayer(player);
-                inserted.setEmail(email);
                 inserted.setCode(code);
                 pendingPwCodeRepository.save(inserted);
                 return true;
@@ -100,9 +99,20 @@ public class PlayerService {
     }
 
     @Transactional
-    public void updatePassword(long userId, PasswordDTO password) {
-        String encryptedPassword = this.bCryptPasswordEncoder.encode(password.getPassword());
-        playerRepository.updatePassword(userId, encryptedPassword);
+    public boolean updatePassword(PasswordResetDTO passwordResetDTO) {
+        Optional<PendingPwCode> optionalPending = pendingPwCodeRepository.findByCode(passwordResetDTO.getResetCode());
+        if (optionalPending.isPresent()) {
+            PendingPwCode pending = optionalPending.get();
+            if (pending.getPlayer().getUsername().equals(passwordResetDTO.getUsername())) {
+                String encryptedPassword = this.bCryptPasswordEncoder.encode(passwordResetDTO.getPassword());
+                playerRepository.updatePassword(pending.getPlayer().getId(), encryptedPassword);
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 
     public Player getLoggedInPlayer() {

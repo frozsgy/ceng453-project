@@ -1,7 +1,7 @@
 package group10.server.controller;
 
 import group10.server.model.LoginDTO;
-import group10.server.model.PasswordDTO;
+import group10.server.model.PasswordResetDTO;
 import group10.server.model.PlayerDTO;
 import group10.server.service.PlayerService;
 import org.slf4j.Logger;
@@ -60,11 +60,10 @@ public class PlayerController {
         return ResponseEntity.ok(playerService.requestPassword(email));
     }
 
-    @PutMapping("/updatePassword/{userId}")
+    @PutMapping("/updatePassword")
     @ResponseBody
-    public ResponseEntity<?> updatePassword(@PathVariable long userId, @Valid @RequestBody PasswordDTO password) {
-        playerService.updatePassword(userId, password);
-        return ResponseEntity.ok("UserUpdatePassword");
+    public ResponseEntity<?> updatePassword(@Valid @RequestBody PasswordResetDTO passwordResetDTO) {
+        return ResponseEntity.ok(playerService.updatePassword(passwordResetDTO));
     }
 
 }
