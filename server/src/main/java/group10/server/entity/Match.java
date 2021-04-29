@@ -7,7 +7,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "rounds")
+@Table(name = "score")
 public class Match extends EntityBase {
 
     @ManyToOne

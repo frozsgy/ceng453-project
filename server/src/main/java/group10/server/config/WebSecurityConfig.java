@@ -33,6 +33,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(AUTH_WHITELIST).permitAll()
                 .antMatchers(HttpMethod.POST, JWTConstants.LOGIN_PATH).permitAll()
                 .antMatchers(HttpMethod.POST, JWTConstants.REGISTER_PATH).permitAll()
+                .antMatchers(HttpMethod.POST, JWTConstants.REQUEST_CODE_PATH).permitAll()
+                .antMatchers(HttpMethod.PUT, JWTConstants.UPDATE_PW_PATH).permitAll()
                 .anyRequest().authenticated();
     }
 }

@@ -1,9 +1,11 @@
 package group10.server.controller;
 
 import group10.server.model.LoginDTO;
-import group10.server.model.PasswordDTO;
+import group10.server.model.PasswordResetDTO;
 import group10.server.model.PlayerDTO;
 import group10.server.service.PlayerService;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,18 +56,21 @@ public class PlayerController {
         return ResponseEntity.ok("UserLogout");
     }
 
-    @GetMapping("/requestPassword/{userId}")
+    @PostMapping("/requestPwCode")
     @ResponseBody
-    public ResponseEntity<?> requestPassword(@PathVariable long userId) {
-        // TODO
-        return ResponseEntity.ok("UserRequestPassword");
+    public ResponseEntity<?> requestPwCode(@RequestBody String email) {
+        try {
+            JSONObject emailJSON = new JSONObject(email);
+            return ResponseEntity.ok(playerService.requestPwCode(emailJSON));
+        } catch (JSONException e) {
+            return ResponseEntity.ok(false);
+        }
     }
 
-    @PutMapping("/updatePassword/{userId}")
+    @PutMapping("/updatePassword")
     @ResponseBody
-    public ResponseEntity<?> updatePassword(@PathVariable long userId, @Valid @RequestBody PasswordDTO password) {
-        playerService.updatePassword(userId, password);
-        return ResponseEntity.ok("UserUpdatePassword");
+    public ResponseEntity<?> updatePassword(@Valid @RequestBody PasswordResetDTO passwordResetDTO) {
+        return ResponseEntity.ok(playerService.updatePassword(passwordResetDTO));
     }
 
 }
