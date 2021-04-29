@@ -6,8 +6,8 @@ import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "pending_pw_codes")
-public class PendingPwCodes extends EntityBase {
+@Table(name = "pending_pw_code")
+public class PendingPwCode extends EntityBase {
 
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
