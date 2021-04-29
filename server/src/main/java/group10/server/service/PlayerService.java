@@ -5,7 +5,7 @@ import group10.server.model.LoginDTO;
 import group10.server.model.PasswordDTO;
 import group10.server.model.PlayerDTO;
 import group10.server.repository.PlayerRepository;
-import group10.server.security.JWTUtil;
+import group10.server.config.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;

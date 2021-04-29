@@ -1,4 +1,4 @@
-package group10.server.security;
+package group10.server.config;
 
 public class JWTConstants {
     protected final static int EXPIRES_IN = 60_000; // in ms

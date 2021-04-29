@@ -1,4 +1,4 @@
-package group10.server.security;
+package group10.server.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
