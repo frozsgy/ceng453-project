@@ -10,5 +10,5 @@ import java.util.Optional;
 public interface PendingPwCodeRepository extends JpaRepository<PendingPwCode, Long> {
 
     Optional<PendingPwCode> findById(long id);
-
+    Optional<PendingPwCode> findByCode(String code);
 }
