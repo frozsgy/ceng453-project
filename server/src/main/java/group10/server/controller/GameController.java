@@ -1,7 +1,8 @@
 package group10.server.controller;
 
-import group10.server.config.JWTConstants;
+import group10.server.entity.Game;
 import group10.server.entity.Player;
+import group10.server.model.MatchDTO;
 import group10.server.service.GameService;
 import group10.server.service.PlayerService;
 import org.slf4j.Logger;
@@ -9,9 +10,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/game")
@@ -52,10 +53,15 @@ public class GameController {
         return ResponseEntity.ok("is matched or not");
     }
 
-    @PostMapping("/finish")
+    @PostMapping("/next")
     @ResponseBody
-    public ResponseEntity<?> postEndGame() {
+    public ResponseEntity<?> nextMatch(@Valid @RequestBody MatchDTO dto) {
         // TODO
+        int score = dto.getScore();
+        long gameId = dto.getGame();
+        int level = dto.getLevel();
+        Game game = gameService.getById(gameId);
+        //gameService.nextLevel()
         return ResponseEntity.ok("accept game scores and such");
     }
 
