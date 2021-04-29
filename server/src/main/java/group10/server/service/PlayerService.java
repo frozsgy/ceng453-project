@@ -1,13 +1,18 @@
 package group10.server.service;
 
 import group10.server.config.JWTUtil;
+import group10.server.entity.PendingPwCode;
 import group10.server.entity.Player;
 import group10.server.model.LoginDTO;
 import group10.server.model.PasswordDTO;
 import group10.server.model.PlayerDTO;
+import group10.server.repository.PendingPwCodeRepository;
 import group10.server.repository.PlayerRepository;
 import group10.server.repository.RoleRepository;
+import group10.server.util.EmailComposer;
+import group10.server.util.RandomStringGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.Authentication;
@@ -26,14 +31,17 @@ public class PlayerService {
     private RoleRepository roleRepository;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     private JavaMailSender javaMailSender;
+    private PendingPwCodeRepository pendingPwCodeRepository;
 
     @Autowired
     public PlayerService(PlayerRepository playerRepository, RoleRepository roleRepository,
-                         BCryptPasswordEncoder bCryptPasswordEncoder, JavaMailSender javaMailSender) {
+                         BCryptPasswordEncoder bCryptPasswordEncoder, JavaMailSender javaMailSender,
+                         PendingPwCodeRepository pendingPwCodeRepository) {
         this.playerRepository = playerRepository;
         this.roleRepository = roleRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.javaMailSender = javaMailSender;
+        this.pendingPwCodeRepository = pendingPwCodeRepository;
     }
 
     public long register(PlayerDTO dto) throws IllegalArgumentException {
@@ -68,14 +76,27 @@ public class PlayerService {
         return false;
     }
 
-    public void requestPassword(String username) {
+    public boolean requestPassword(String email) {
         // TODO
-        // tested and working. Other logic must be implemented.
-        SimpleMailMessage msg = new SimpleMailMessage();
-        msg.setTo("alperen.0311@gmail.com");
-        msg.setSubject("Testing from Spring Boot");
-        msg.setText("Hello World \n Spring Boot Email");
-        javaMailSender.send(msg);
+        Optional<Player> optUser = playerRepository.findByEmail(email);
+        if (optUser.isPresent()) {
+            Player player = optUser.get();
+            String code = RandomStringGenerator.generate();
+            SimpleMailMessage msg = EmailComposer.composeMail(email, RandomStringGenerator.generate());
+            try{
+                javaMailSender.send(msg);
+                PendingPwCode inserted = new PendingPwCode();
+                inserted.setPlayer(player);
+                inserted.setEmail(email);
+                inserted.setCode(code);
+                pendingPwCodeRepository.save(inserted);
+                return true;
+            }catch(MailException e) {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 
     @Transactional
