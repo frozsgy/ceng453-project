@@ -1,10 +1,16 @@
 package group10.server.controller;
 
+import group10.server.config.JWTConstants;
+import group10.server.entity.Player;
+import group10.server.service.GameService;
+import group10.server.service.PlayerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -12,11 +18,16 @@ import org.springframework.web.bind.annotation.*;
 public class GameController {
 
     private ApplicationContext context;
-    private static final Logger LOGGER = LoggerFactory.getLogger(PlayerController.class);
+    private GameService gameService;
+    private PlayerService playerService;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(GameController.class);
 
     @Autowired
-    public GameController(ApplicationContext context) {
+    public GameController(ApplicationContext context, GameService gameService, PlayerService playerService) {
         this.context = context;
+        this.gameService = gameService;
+        this.playerService = playerService;
     }
 
     @GetMapping("")
@@ -29,11 +40,12 @@ public class GameController {
     @GetMapping("/new")
     @ResponseBody
     public ResponseEntity<?> getNewGame() {
-        // TODO
-        return ResponseEntity.ok("NewGame");
+        Player loggedInPlayer = playerService.getLoggedInPlayer();
+        LOGGER.info("New Game request from " + loggedInPlayer.getUsername());
+        return ResponseEntity.ok(gameService.newGame(loggedInPlayer));
     }
 
-    @GetMapping("/natch")
+    @GetMapping("/match")
     @ResponseBody
     public ResponseEntity<?> isMatched() {
         // TODO
