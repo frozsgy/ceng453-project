@@ -54,10 +54,10 @@ public class PlayerController {
         return ResponseEntity.ok("UserLogout");
     }
 
-    @GetMapping("/requestPassword/{email}")
+    @GetMapping("/requestPwCode/{email}")
     @ResponseBody
-    public ResponseEntity<?> requestPassword(@PathVariable String email) {
-        return ResponseEntity.ok(playerService.requestPassword(email));
+    public ResponseEntity<?> requestPwCode(@PathVariable String email) {
+        return ResponseEntity.ok(playerService.requestPwCode(email));
     }
 
     @PutMapping("/updatePassword")

@@ -76,7 +76,7 @@ public class PlayerService {
         return false;
     }
 
-    public boolean requestPassword(String email) {
+    public boolean requestPwCode(String email) {
         // TODO
         Optional<Player> optUser = playerRepository.findByEmail(email);
         if (optUser.isPresent()) {
