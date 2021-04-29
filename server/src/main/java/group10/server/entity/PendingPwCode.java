@@ -14,7 +14,6 @@ public class PendingPwCode extends EntityBase {
     @JoinColumn(name = "player_id", nullable = false)
     private Player player;
     private String code;
-    private String email;
 
     public Player getPlayer() {
         return player;
@@ -30,13 +29,5 @@ public class PendingPwCode extends EntityBase {
 
     public void setCode(String code) {
         this.code = code;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 }
