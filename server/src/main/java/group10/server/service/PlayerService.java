@@ -9,6 +9,8 @@ import group10.server.config.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -48,7 +50,6 @@ public class PlayerService {
         Optional<Player> optUser = playerRepository.findByUsername(loginData.getUsername());
         if (optUser.isPresent()) {
             Player player = optUser.get();
-            System.out.println(player.getPassword());
             if (this.bCryptPasswordEncoder.matches(loginData.getPassword(), player.getPassword())) {
                 return JWTUtil.getJWTToken(player.getUsername(), player.getId());
             }
@@ -76,5 +77,12 @@ public class PlayerService {
     public void updatePassword(long userId, PasswordDTO password) {
         String encryptedPassword = this.bCryptPasswordEncoder.encode(password.getPassword());
         playerRepository.updatePassword(userId, encryptedPassword);
+    }
+
+    public Player getLoggedInPlayer() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = (String) auth.getPrincipal();
+        Optional<Player> playerByUsername = playerRepository.findByUsername(username);
+        return playerByUsername.orElse(null);
     }
 }
