@@ -43,7 +43,7 @@ class PlayerControllerTests {
     private ObjectMapper objectMapper;
 
     @Test
-    @DisplayName("Test for User Register")
+    @DisplayName("User Register")
     @Order(1)
     void registerTest() {
         PlayerDTO playerDTO = new PlayerDTO();
@@ -54,7 +54,7 @@ class PlayerControllerTests {
     }
 
     @Test
-    @DisplayName("Test for User Register - Empty Mail")
+    @DisplayName("User Register - Empty Mail")
     void registerEmptyMailTest() throws Exception {
         PlayerDTO playerDTO = new PlayerDTO();
         playerDTO.setEmail(empty);
@@ -66,7 +66,7 @@ class PlayerControllerTests {
     }
 
     @Test
-    @DisplayName("Test for User Register - Empty Password")
+    @DisplayName("User Register - Empty Password")
     void registerEmptyPasswordTest() throws Exception {
         PlayerDTO playerDTO = new PlayerDTO();
         playerDTO.setEmail(testEmail);
@@ -78,7 +78,7 @@ class PlayerControllerTests {
     }
 
     @Test
-    @DisplayName("Test for User Register - Empty Username")
+    @DisplayName("User Register - Empty Username")
     void registerEmptyUsernameTest() throws Exception {
         PlayerDTO playerDTO = new PlayerDTO();
         playerDTO.setEmail(testEmail);
@@ -90,7 +90,7 @@ class PlayerControllerTests {
     }
 
     @Test
-    @DisplayName("Test for User Login with Erroneous Input")
+    @DisplayName("User Login with Erroneous Input")
     @Order(2)
     void loginTestErroneous() throws Exception {
         LoginDTO dto = new LoginDTO();
@@ -104,7 +104,7 @@ class PlayerControllerTests {
     }
 
     @Test
-    @DisplayName("Test for Successful User Login")
+    @DisplayName("Successful User Login")
     @Order(3)
     void loginTest() throws Exception {
         LoginDTO dto = new LoginDTO();
@@ -116,7 +116,7 @@ class PlayerControllerTests {
     }
 
     @Test
-    @DisplayName("Test for User Login with Wrong Uname")
+    @DisplayName("User Login with Wrong Uname")
     @Order(4)
     void loginTestWronUname() throws Exception {
         LoginDTO dto = new LoginDTO();
@@ -130,7 +130,7 @@ class PlayerControllerTests {
     }
 
     @Test
-    @DisplayName("Test for Correct Request Password")
+    @DisplayName("Correct Request Password")
     @Order(5)
     void requestPasswordTest() throws Exception {
         String correctEmailJson = "{email:" + testEmail + "}";
@@ -142,7 +142,7 @@ class PlayerControllerTests {
     }
 
     @Test
-    @DisplayName("Test for Invalid Request Password")
+    @DisplayName("Invalid Request Password")
     void requestPasswordInvalidTest() throws Exception {
         String wrongEmailJson = "{email: asdasda@gmail.com}";
         this.mvc.perform(post("/api/user/requestPwCode")
@@ -153,7 +153,7 @@ class PlayerControllerTests {
     }
 
     @Test
-    @DisplayName("Test for Invalid Request Password Body")
+    @DisplayName("Invalid Request Password Body")
     void requestPasswordInvalidBodyTest() throws Exception {
         this.mvc.perform(post("/api/user/requestPwCode")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -163,7 +163,7 @@ class PlayerControllerTests {
     }
 
     @Test
-    @DisplayName("Test for Update Password With Wrong Code")
+    @DisplayName("Update Password With Wrong Code")
     void updatePasswordInvalidCode() throws Exception {
         PasswordResetDTO dto = new PasswordResetDTO();
         dto.setUsername(testUsername);
@@ -178,7 +178,7 @@ class PlayerControllerTests {
     }
 
     @Test
-    @DisplayName("Test for Update Password Without Code")
+    @DisplayName("Update Password Without Code")
     void updatePasswordEmptyInvalid() throws Exception {
         PasswordResetDTO dto = new PasswordResetDTO();
         dto.setUsername(testUsername);
@@ -192,7 +192,7 @@ class PlayerControllerTests {
     }
 
     @Test
-    @DisplayName("Test for Update Password With Empty Password")
+    @DisplayName("Update Password With Empty Password")
     void updatePasswordInvalidPassword() throws Exception {
         PasswordResetDTO dto = new PasswordResetDTO();
         dto.setUsername(testUsername);
