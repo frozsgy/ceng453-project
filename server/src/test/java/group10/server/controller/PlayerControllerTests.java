@@ -1,5 +1,6 @@
 package group10.server.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import group10.server.model.LoginDTO;
 import group10.server.model.PlayerDTO;
@@ -30,7 +31,8 @@ class PlayerControllerTests {
     private final String testUsername = "testUser";
     private final String testPassword = "testPassword";
     private final String testEmail = "test@gmail.com";
-    private String token;
+    private final static String AUTH_HEADER = "Authorization";
+    private static String token;
 
     @Autowired
     private PlayerService playerService;
@@ -53,6 +55,42 @@ class PlayerControllerTests {
     }
 
     @Test
+    @DisplayName("Test for User Register - Empty Mail")
+    void registerEmptyMailTest() throws Exception {
+        PlayerDTO playerDTO = new PlayerDTO();
+        playerDTO.setEmail("");
+        playerDTO.setPassword(testPassword);
+        playerDTO.setUsername(testUsername);
+        String json = objectMapper.writeValueAsString(playerDTO);
+        this.mvc.perform(post("/api/user/register").contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().is5xxServerError());
+    }
+
+    @Test
+    @DisplayName("Test for User Register - Empty Password")
+    void registerEmptyPasswordTest() throws Exception {
+        PlayerDTO playerDTO = new PlayerDTO();
+        playerDTO.setEmail(testEmail);
+        playerDTO.setPassword("");
+        playerDTO.setUsername(testUsername);
+        String json = objectMapper.writeValueAsString(playerDTO);
+        this.mvc.perform(post("/api/user/register").contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().is5xxServerError());
+    }
+
+    @Test
+    @DisplayName("Test for User Register - Empty Username")
+    void registerEmptyUsernameTest() throws Exception {
+        PlayerDTO playerDTO = new PlayerDTO();
+        playerDTO.setEmail(testEmail);
+        playerDTO.setPassword(testPassword);
+        playerDTO.setUsername("");
+        String json = objectMapper.writeValueAsString(playerDTO);
+        this.mvc.perform(post("/api/user/register").contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().is5xxServerError());
+    }
+
+    @Test
     @DisplayName("Test for User Login with Erroneous Input")
     @Order(2)
     void loginTestErroneous() throws Exception {
@@ -63,7 +101,6 @@ class PlayerControllerTests {
         this.mvc.perform(post("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(json))
                 .andExpect(status().is5xxServerError())
                 .andExpect(content().string("{\"error\":\"Wrong username/password\"}"));
-
     }
 
     @Test
@@ -76,10 +113,34 @@ class PlayerControllerTests {
         String json = objectMapper.writeValueAsString(dto);
         this.token = this.mvc.perform(post("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(json))
                 .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+    }
 
+    @Test
+    @DisplayName("Test for User Login with Wrong Uname")
+    @Order(4)
+    void loginTestWronUname() throws Exception {
+        LoginDTO dto = new LoginDTO();
+        dto.setUsername("qwe!@#");
+        dto.setPassword(testPassword);
+        String json = objectMapper.writeValueAsString(dto);
+        this.mvc.perform(post("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().is5xxServerError())
+                .andExpect(content().string("{\"error\":\"Wrong username/password\"}"));
+    }
+
+    @Test
+    @DisplayName("Test for Correct Request Password")
+    @Order(5)
+    void requestPasswordTest() throws Exception {
+        this.mvc.perform(post("/api/user/requestPwCode").header(AUTH_HEADER, getTokenHeader())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{email:" + testEmail + "}"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("true"));
     }
 
     public String getToken() {
         return token;
     }
+    public String getTokenHeader() { return "Bearer " + token; }
 }
