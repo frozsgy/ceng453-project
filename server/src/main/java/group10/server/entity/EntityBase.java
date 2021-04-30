@@ -91,7 +91,7 @@ public class EntityBase implements Serializable {
     /**
      * Sets id.
      *
-     * @param id
+     * @param id id to be set
      */
     public void setId(long id) {
         this.id = id;
@@ -109,7 +109,7 @@ public class EntityBase implements Serializable {
     /**
      * Sets create date.
      *
-     * @param createDate
+     * @param createDate date to be set for creation date
      */
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
@@ -127,7 +127,7 @@ public class EntityBase implements Serializable {
     /**
      * Sets update date.
      *
-     * @param updateDate
+     * @param updateDate date to be set for update date
      */
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
@@ -145,7 +145,7 @@ public class EntityBase implements Serializable {
     /**
      * Sets active status.
      *
-     * @param active
+     * @param active Value to be set for active
      */
     public void setActive(boolean active) {
         this.active = active;
@@ -163,7 +163,7 @@ public class EntityBase implements Serializable {
     /**
      * Sets operation type.
      *
-     * @param operationType
+     * @param operationType operation type to be set
      */
     public void setOperationType(String operationType) {
         this.operationType = operationType;
