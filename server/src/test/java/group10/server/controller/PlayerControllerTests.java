@@ -30,7 +30,8 @@ class PlayerControllerTests {
     private final String testUsername = "testUser";
     private final String testPassword = "testPassword";
     private final String testEmail = "test@gmail.com";
-    private static String token;
+    private final String empty = "";
+    private final String wrongCode = "adsgtaas";
 
     @Autowired
     private PlayerService playerService;
@@ -56,7 +57,7 @@ class PlayerControllerTests {
     @DisplayName("Test for User Register - Empty Mail")
     void registerEmptyMailTest() throws Exception {
         PlayerDTO playerDTO = new PlayerDTO();
-        playerDTO.setEmail("");
+        playerDTO.setEmail(empty);
         playerDTO.setPassword(testPassword);
         playerDTO.setUsername(testUsername);
         String json = objectMapper.writeValueAsString(playerDTO);
@@ -69,7 +70,7 @@ class PlayerControllerTests {
     void registerEmptyPasswordTest() throws Exception {
         PlayerDTO playerDTO = new PlayerDTO();
         playerDTO.setEmail(testEmail);
-        playerDTO.setPassword("");
+        playerDTO.setPassword(empty);
         playerDTO.setUsername(testUsername);
         String json = objectMapper.writeValueAsString(playerDTO);
         this.mvc.perform(post("/api/user/register").contentType(MediaType.APPLICATION_JSON).content(json))
@@ -82,7 +83,7 @@ class PlayerControllerTests {
         PlayerDTO playerDTO = new PlayerDTO();
         playerDTO.setEmail(testEmail);
         playerDTO.setPassword(testPassword);
-        playerDTO.setUsername("");
+        playerDTO.setUsername(empty);
         String json = objectMapper.writeValueAsString(playerDTO);
         this.mvc.perform(post("/api/user/register").contentType(MediaType.APPLICATION_JSON).content(json))
                 .andExpect(status().is5xxServerError());
@@ -94,7 +95,8 @@ class PlayerControllerTests {
     void loginTestErroneous() throws Exception {
         LoginDTO dto = new LoginDTO();
         dto.setUsername(testUsername);
-        dto.setPassword("wrongPassword");
+        String wrongPassword = "wrongPassword";
+        dto.setPassword(wrongPassword);
         String json = objectMapper.writeValueAsString(dto);
         this.mvc.perform(post("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(json))
                 .andExpect(status().is5xxServerError())
@@ -109,7 +111,7 @@ class PlayerControllerTests {
         dto.setUsername(testUsername);
         dto.setPassword(testPassword);
         String json = objectMapper.writeValueAsString(dto);
-        this.token = this.mvc.perform(post("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(json))
+        this.mvc.perform(post("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(json))
                 .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
     }
 
@@ -118,7 +120,8 @@ class PlayerControllerTests {
     @Order(4)
     void loginTestWronUname() throws Exception {
         LoginDTO dto = new LoginDTO();
-        dto.setUsername("qwe!@#");
+        String wrongUsername = "qwe!@#";
+        dto.setUsername(wrongUsername);
         dto.setPassword(testPassword);
         String json = objectMapper.writeValueAsString(dto);
         this.mvc.perform(post("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(json))
@@ -130,9 +133,10 @@ class PlayerControllerTests {
     @DisplayName("Test for Correct Request Password")
     @Order(5)
     void requestPasswordTest() throws Exception {
+        String correctEmailJson = "{email:" + testEmail + "}";
         this.mvc.perform(post("/api/user/requestPwCode")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{email:" + testEmail + "}"))
+                .content(correctEmailJson))
                 .andExpect(status().isOk())
                 .andExpect(content().string("true"));
     }
@@ -140,9 +144,10 @@ class PlayerControllerTests {
     @Test
     @DisplayName("Test for Invalid Request Password")
     void requestPasswordInvalidTest() throws Exception {
+        String wrongEmailJson = "{email: asdasda@gmail.com}";
         this.mvc.perform(post("/api/user/requestPwCode")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{email: asdasda@gmail.com}"))
+                .content(wrongEmailJson))
                 .andExpect(status().isOk())
                 .andExpect(content().string("false"));
     }
@@ -152,7 +157,7 @@ class PlayerControllerTests {
     void requestPasswordInvalidBodyTest() throws Exception {
         this.mvc.perform(post("/api/user/requestPwCode")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("asdasda@gmail.com"))
+                .content(testUsername))
                 .andExpect(status().isOk())
                 .andExpect(content().string("false"));
     }
@@ -161,8 +166,8 @@ class PlayerControllerTests {
     void updatePasswordInvalidCode() throws Exception {
         PasswordResetDTO dto = new PasswordResetDTO();
         dto.setUsername(testUsername);
-        dto.setPassword("asdsa");
-        dto.setResetCode("adsgtaas");
+        dto.setPassword(testPassword);
+        dto.setResetCode(wrongCode);
         String json = objectMapper.writeValueAsString(dto);
         this.mvc.perform(put("/api/user/updatePassword")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -176,8 +181,8 @@ class PlayerControllerTests {
     void updatePasswordEmptyInvalid() throws Exception {
         PasswordResetDTO dto = new PasswordResetDTO();
         dto.setUsername(testUsername);
-        dto.setPassword("asdsa");
-        dto.setResetCode("");
+        dto.setPassword(testPassword);
+        dto.setResetCode(empty);
         String json = objectMapper.writeValueAsString(dto);
         this.mvc.perform(put("/api/user/updatePassword")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -190,17 +195,12 @@ class PlayerControllerTests {
     void updatePasswordInvalidPassword() throws Exception {
         PasswordResetDTO dto = new PasswordResetDTO();
         dto.setUsername(testUsername);
-        dto.setPassword("");
-        dto.setResetCode("adsasdsa");
+        dto.setPassword(empty);
+        dto.setResetCode(wrongCode);
         String json = objectMapper.writeValueAsString(dto);
         this.mvc.perform(put("/api/user/updatePassword")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
                 .andExpect(status().is5xxServerError());
     }
-
-    public String getToken() {
-        return token;
-    }
-    public String getTokenHeader() { return "Bearer " + token; }
 }
