@@ -35,17 +35,24 @@ The ER diagram of the project can be found below.
 
 # API Documentation
 
-The API Documentation through Swagger can be accessed while the application is running at the following URL: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html).
+The API Documentation through Swagger can be accessed while the application is running at the following URL: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html). Also the documentation generated using Postman is also available at [https://documenter.getpostman.com/view/12050224/TzRLkVr2](https://documenter.getpostman.com/view/12050224/TzRLkVr2).
 
  
 # Tests
 
 For the testing of the project, we have developed unit tests and also provided a Postman collection. Further details about them can be found below.
 
-## Unit Tests
+## Unit and Integration Tests
 
--- TODO 
+The unit and integration tests for the project are available under the `test` folder. The tests can be run through either an IDE, or during `mvn package`. 
+
+* **GameControllerTests**: Tests of the GameController.
+* **PlayerControllerTests**: Tests of the PlayerController.
+* **GameServiceTests**: Tests of the GameService.
+* **MatchServiceTests**: Tests of the MatchService.
+* **PlayerServiceTests**: Tests of the PlayerService.
+
 
 ## Postman Collection 
 
-To test the external API endpoints, we provide a Postman Collection, which is available at [docs/CENG453_Server_API_Endpoints.postman_collection.json](docs/CENG453_Server_API_Endpoints.postman_collection.json). Also, the documentation of the Postman Collection is available at [https://documenter.getpostman.com/view/12050224/TzRLkVr2](https://documenter.getpostman.com/view/12050224/TzRLkVr2).
+To test the external API endpoints, we provide a Postman Collection, which is available at [docs/CENG453_Server_API_Endpoints.postman_collection.json](docs/CENG453_Server_API_Endpoints.postman_collection.json). While testing the endpoints, you need to update the `Bearer` token using the response of the `Login` endpoint if the endpoint needs authentication. Setting the token project-wise is enough for all endpoints.
