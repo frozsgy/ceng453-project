@@ -66,12 +66,6 @@ public class PlayerService {
         throw new IllegalArgumentException("Wrong username/password");
     }
 
-    public boolean logout(String username) {
-        // TODO
-
-        return false;
-    }
-
     public boolean requestPwCode(JSONObject emailJSON) {
         try{
             String email = emailJSON.getString("email");

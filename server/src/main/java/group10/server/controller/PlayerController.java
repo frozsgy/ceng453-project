@@ -52,13 +52,6 @@ public class PlayerController {
         return ResponseEntity.ok(playerService.register(user));
     }
 
-    @GetMapping("/logout")
-    @ResponseBody
-    public ResponseEntity<?> logout() {
-        // TODO -- since JWT is stateless, we cannot forcefully logout from the server side.
-        return ResponseEntity.ok("UserLogout");
-    }
-
     @PostMapping("/requestPwCode")
     @ResponseBody
     public ResponseEntity<?> requestPwCode(@RequestBody String email) {
