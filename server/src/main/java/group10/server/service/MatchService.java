@@ -17,7 +17,7 @@ import java.util.List;
 public class MatchService {
 
     /**
-     * Auto-wired match repostiory. Responsible for interacting with match table.
+     * Auto-wired match repository. Responsible for interacting with match table.
      */
     private MatchRepository matchRepository;
 
