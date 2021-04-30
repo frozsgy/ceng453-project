@@ -1,7 +1,6 @@
 package group10.server.service;
 
 
-import group10.server.entity.Player;
 import group10.server.model.LoginDTO;
 import group10.server.model.PasswordResetDTO;
 import group10.server.model.PlayerDTO;
@@ -10,17 +9,9 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
-
-import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -31,7 +22,6 @@ public class PlayerServiceTests {
     private final String testPassword = "testQPASDassword";
     private final String testEmail = "tQestXASDq@gmail.com";
     private final String empty = "";
-    private final String wrongCode = "adsgtaas";
 
 
     @Autowired
@@ -59,9 +49,7 @@ public class PlayerServiceTests {
         player.setEmail(testEmail);
         player.setPassword(testPassword);
         player.setUsername(testUsername);
-        Exception exception = Assertions.assertThrows(DataIntegrityViolationException.class, () -> {
-            playerService.register(player);
-        });
+        Assertions.assertThrows(DataIntegrityViolationException.class, () -> playerService.register(player));
     }
 
     @Test
@@ -85,9 +73,7 @@ public class PlayerServiceTests {
         LoginDTO login = new LoginDTO();
         login.setPassword(empty);
         login.setUsername(testUsername);
-        Exception exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            playerService.login(login);
-        });
+        Assertions.assertThrows(IllegalArgumentException.class, () -> playerService.login(login));
     }
 
     @Test
@@ -99,9 +85,7 @@ public class PlayerServiceTests {
         LoginDTO login = new LoginDTO();
         login.setPassword(testPassword);
         login.setUsername("asddsa");
-        Exception exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            playerService.login(login);
-        });
+        Assertions.assertThrows(IllegalArgumentException.class, () -> playerService.login(login));
     }
 
     @Test
@@ -111,9 +95,7 @@ public class PlayerServiceTests {
         LoginDTO login = new LoginDTO();
         login.setPassword(testPassword);
         login.setUsername(testUsername);
-        Exception exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            playerService.login(login);
-        });
+        Assertions.assertThrows(IllegalArgumentException.class, () -> playerService.login(login));
     }
     @Test
     @DisplayName("Correct Request Password Code")
@@ -135,13 +117,12 @@ public class PlayerServiceTests {
     @DisplayName("Empty Request Password Code")
     void requestPasswordEmpty() throws Exception {
         register();
-        String emailJson = empty;
-        Assertions.assertTrue(playerService.requestPwCode(new JSONObject(emailJson)));
+        Assertions.assertTrue(playerService.requestPwCode(new JSONObject(empty)));
     }
 
     @Test
     @DisplayName("Update Password Without Code")
-    void updatePasswordEmptyInvalid() throws Exception {
+    void updatePasswordEmptyInvalid()  {
         PasswordResetDTO dto = new PasswordResetDTO();
         dto.setUsername(testUsername);
         dto.setPassword(testPassword);
