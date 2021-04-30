@@ -4,6 +4,7 @@ import group10.server.entity.Game;
 import group10.server.entity.Match;
 import group10.server.entity.Player;
 import group10.server.model.MatchDTO;
+import group10.server.repository.Scoreboard;
 import group10.server.service.GameService;
 import group10.server.service.MatchService;
 import group10.server.service.PlayerService;
@@ -11,6 +12,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -61,6 +65,16 @@ public class GameController {
         LOGGER.info("Next Match request from: " + loggedInPlayer.getUsername());
         Match currentMatch = matchService.getById(loggedInPlayer, game);
         return ResponseEntity.ok(gameService.nextLevel(currentMatch, score));
+    }
+
+    @GetMapping("/scoreboard/{day}")
+    @ResponseBody
+    public ResponseEntity<?> getScoreboard(@PathVariable int day,
+                                           @RequestParam(name = "pageSize", defaultValue = "10") int pageSize,
+                                           @RequestParam(name = "pageNumber", defaultValue = "0") int pageNumber) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Page<Scoreboard> scoreboard = gameService.getScoreboard(day, pageable);
+        return ResponseEntity.ok(scoreboard);
     }
 
 }

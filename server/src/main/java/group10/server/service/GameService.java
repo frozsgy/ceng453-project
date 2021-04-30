@@ -6,7 +6,10 @@ import group10.server.entity.Player;
 import group10.server.enums.GameTypes;
 import group10.server.repository.GameRepository;
 import group10.server.repository.MatchRepository;
+import group10.server.repository.Scoreboard;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -61,6 +64,10 @@ public class GameService {
     public Game getById(long id) {
         Optional<Game> game = gameRepository.findById(id);
         return game.orElse(null);
+    }
+
+    public Page<Scoreboard> getScoreboard(long days, Pageable pageable) {
+        return matchRepository.getScoreboard(days, pageable);
     }
 
 }
