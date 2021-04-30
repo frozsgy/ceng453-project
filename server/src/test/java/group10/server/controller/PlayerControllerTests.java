@@ -3,6 +3,7 @@ package group10.server.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import group10.server.model.LoginDTO;
+import group10.server.model.PasswordResetDTO;
 import group10.server.model.PlayerDTO;
 import group10.server.service.PlayerService;
 import org.junit.jupiter.api.*;
@@ -132,12 +133,52 @@ class PlayerControllerTests {
     @DisplayName("Test for Correct Request Password")
     @Order(5)
     void requestPasswordTest() throws Exception {
-        this.mvc.perform(post("/api/user/requestPwCode").header(AUTH_HEADER, getTokenHeader())
+        this.mvc.perform(post("/api/user/requestPwCode")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{email:" + testEmail + "}"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("true"));
     }
+
+    @Test
+    @DisplayName("Test for Invalid Request Password")
+    void requestPasswordInvalidTest() throws Exception {
+        this.mvc.perform(post("/api/user/requestPwCode")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{email: asdasda@gmail.com}"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("false"));
+    }
+    @Test
+    @DisplayName("Test for Update Password With Wrong Code")
+    void updatePasswordInvalid() throws Exception {
+        PasswordResetDTO dto = new PasswordResetDTO();
+        dto.setUsername(testUsername);
+        dto.setPassword("asdsa");
+        dto.setResetCode("adsgtaas");
+        String json = objectMapper.writeValueAsString(dto);
+        this.mvc.perform(put("/api/user/updatePassword")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+                .andExpect(status().isOk())
+                .andExpect(content().string("false"));
+    }
+
+    @Test
+    @DisplayName("Test for Update Password Without Code")
+    void updatePasswordEmptyInvalid() throws Exception {
+        PasswordResetDTO dto = new PasswordResetDTO();
+        dto.setUsername(testUsername);
+        dto.setPassword("asdsa");
+        dto.setResetCode("");
+        String json = objectMapper.writeValueAsString(dto);
+        this.mvc.perform(put("/api/user/updatePassword")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+                .andExpect(status().is5xxServerError());
+    }
+
+
 
     public String getToken() {
         return token;
