@@ -35,7 +35,7 @@ public class Game extends EntityBase {
     /**
      * Sets Game Type.
      *
-     * @param gameType
+     * @param gameType game type to be set
      */
     public void setGameType(GameTypes gameType) {
         this.gameType = gameType;

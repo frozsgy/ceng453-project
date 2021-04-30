@@ -42,7 +42,7 @@ public class PendingPwCode extends EntityBase {
     /**
      * Sets Player
      *
-     * @param player
+     * @param player player to be set
      */
     public void setPlayer(Player player) {
         this.player = player;
@@ -60,7 +60,7 @@ public class PendingPwCode extends EntityBase {
     /**
      * Sets code
      *
-     * @param code
+     * @param code code to be set
      */
     public void setCode(String code) {
         this.code = code;

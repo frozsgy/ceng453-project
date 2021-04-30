@@ -54,7 +54,7 @@ public class Match extends EntityBase {
     /**
      * Sets Player
      *
-     * @param player
+     * @param player player to be set
      */
     public void setPlayer(Player player) {
         this.player = player;
@@ -72,7 +72,7 @@ public class Match extends EntityBase {
     /**
      * Sets Game
      *
-     * @param game
+     * @param game game to be set
      */
     public void setGame(Game game) {
         this.game = game;
@@ -90,7 +90,7 @@ public class Match extends EntityBase {
     /**
      * Sets score
      *
-     * @param score
+     * @param score score to be set
      */
     public void setScore(int score) {
         this.score = score;
@@ -108,7 +108,7 @@ public class Match extends EntityBase {
     /**
      * Sets level of the Match
      *
-     * @param level
+     * @param level level to be set
      */
     public void setLevel(int level) {
         this.level = level;
