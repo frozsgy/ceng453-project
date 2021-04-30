@@ -40,9 +40,9 @@ public class PlayerController {
 
     @PostMapping("/login")
     @ResponseBody
-    public String login(@Valid @RequestBody LoginDTO loginData) {
+    public ResponseEntity<?> login(@Valid @RequestBody LoginDTO loginData) {
         LOGGER.info("User login: " + loginData.getUsername());
-        return playerService.login(loginData);
+        return ResponseEntity.ok(playerService.login(loginData));
     }
 
     @PostMapping("/register")
@@ -52,10 +52,10 @@ public class PlayerController {
         return ResponseEntity.ok(playerService.register(user));
     }
 
-    @GetMapping("/logout/{userId}")
+    @GetMapping("/logout")
     @ResponseBody
-    public ResponseEntity<?> logout(@PathVariable long userId) {
-        // TODO
+    public ResponseEntity<?> logout() {
+        // TODO -- since JWT is stateless, we cannot forcefully logout from the server side.
         return ResponseEntity.ok("UserLogout");
     }
 

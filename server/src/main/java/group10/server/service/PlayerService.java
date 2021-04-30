@@ -46,22 +46,16 @@ public class PlayerService {
         this.pendingPwCodeRepository = pendingPwCodeRepository;
     }
 
-    public long register(PlayerDTO dto) throws IllegalArgumentException {
+    public Player register(PlayerDTO dto) throws IllegalArgumentException {
         Player player = new Player();
         player.setUsername(dto.getUsername());
         player.setEmail(dto.getEmail());
         player.setPassword(this.bCryptPasswordEncoder.encode(dto.getPassword()));
         player.setRoles(Arrays.asList(roleRepository.findByName("ROLE_USER")));
-        long userId = -1;
-        try {
-            Player saved = playerRepository.save(player);
-            userId = saved.getId();
-        } catch (Exception ignored) {
-        }
-        return userId;
+        return playerRepository.save(player);
     }
 
-    public String login(LoginDTO loginData) {
+    public String login(LoginDTO loginData) throws IllegalArgumentException {
         Optional<Player> optUser = playerRepository.findByUsername(loginData.getUsername());
         if (optUser.isPresent()) {
             Player player = optUser.get();
@@ -69,7 +63,7 @@ public class PlayerService {
                 return JWTUtil.getJWTToken(player.getUsername(), player.getId());
             }
         }
-        return "Wrong username/password";
+        throw new IllegalArgumentException("Wrong username/password");
     }
 
     public boolean logout(String username) {

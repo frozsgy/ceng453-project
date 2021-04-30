@@ -10,6 +10,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -25,8 +26,7 @@ class PlayerControllerTests {
         playerDTO.setEmail("skjdsajk@gmail.com");
         playerDTO.setPassword("qwerty");
         playerDTO.setUsername("testUser");
-        long response = -1;
-        assertThat(playerService.register(playerDTO), greaterThan(response));
+        assertThat(playerService.register(playerDTO), notNullValue());
     }
 
 }

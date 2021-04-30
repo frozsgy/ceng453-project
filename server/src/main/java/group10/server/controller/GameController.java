@@ -47,8 +47,8 @@ public class GameController {
     @GetMapping("/match")
     @ResponseBody
     public ResponseEntity<?> isMatched() {
-        // TODO
-        return ResponseEntity.ok("is matched or not");
+        // TODO - stub left for concurrency
+        return ResponseEntity.ok(false);
     }
 
     @PostMapping("/next")
