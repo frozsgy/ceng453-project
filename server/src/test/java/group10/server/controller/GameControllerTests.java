@@ -3,9 +3,12 @@ package group10.server.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import group10.server.entity.Game;
 import group10.server.model.LoginDTO;
+import group10.server.model.MatchDTO;
 import group10.server.model.PlayerDTO;
 import group10.server.service.PlayerService;
+import org.json.JSONObject;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -15,11 +18,13 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultActions;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
 
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -34,6 +39,8 @@ class GameControllerTests {
     private final String testPassword = "testPassword";
     private final String testEmail = "test@gmail.com";
     private static String token;
+    private static long gameId = -1;
+    private static int scorePerMatch = 42;
 
     @Autowired
     private PlayerService playerService;
@@ -59,15 +66,48 @@ class GameControllerTests {
         String json = objectMapper.writeValueAsString(dto);
         token = this.mvc.perform(post("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(json))
                 .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
-        System.out.println(token);
     }
 
     @Test
     @DisplayName("Create New Game")
     @Order(2)
     void newGameTest() throws Exception {
-        this.mvc.perform(get("/api/game/new").header("Authorization", "Bearer " + token)
+        ResultActions newGame = this.mvc.perform(get("/api/game/new").header("Authorization", "Bearer " + token)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
+        String contentAsString = newGame.andReturn().getResponse().getContentAsString();
+        JSONObject json = new JSONObject(contentAsString);
+        gameId = json.getJSONObject("game").getLong("id");
+    }
+
+    @Test
+    @DisplayName("Play for 4 rounds")
+    @Order(2)
+    void nextGameTest() throws Exception {
+        MatchDTO dto = new MatchDTO();
+        dto.setGame(gameId);
+        for (int i = 0; i < 4; i++) {
+            dto.setScore((i + 1) * scorePerMatch);
+            String json = objectMapper.writeValueAsString(dto);
+            String authorization = this.mvc.perform(post("/api/game/next").contentType(MediaType.APPLICATION_JSON).content(json)
+                    .header("Authorization", "Bearer " + token)
+                    .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk())
+                    .andReturn().getResponse().getContentAsString();
+            JSONObject jsonResponse = new JSONObject(authorization);
+            JSONObject returnedGame = jsonResponse.getJSONObject("game");
+            long returnedGameId = returnedGame.getLong("id");
+            int returnedLevel = jsonResponse.getInt("level");
+            int returnedScore = jsonResponse.getInt("score");
+            assertEquals(returnedGameId, gameId);
+            if (i != 3) {
+                assertEquals(returnedLevel, i + 2);
+                assertEquals(returnedScore, 0);
+            } else {
+                assertEquals(returnedLevel, 4);
+                assertEquals(returnedScore, scorePerMatch * 4);
+            }
+        }
+
     }
 }
