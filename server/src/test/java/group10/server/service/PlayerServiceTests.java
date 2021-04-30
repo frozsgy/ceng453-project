@@ -4,6 +4,7 @@ package group10.server.service;
 import group10.server.model.LoginDTO;
 import group10.server.model.PasswordResetDTO;
 import group10.server.model.PlayerDTO;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +17,12 @@ import static org.hamcrest.Matchers.notNullValue;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest
+@Transactional
 public class PlayerServiceTests {
 
-    private final String testUsername = "testQASDUserX";
-    private final String testPassword = "testQPASDassword";
-    private final String testEmail = "tQestXASDq@gmail.com";
+    private final String testUsername = "servicetest";
+    private final String testPassword = "servicetest";
+    private final String testEmail = "servicetest@gmail.com";
     private final String empty = "";
 
 
@@ -29,7 +31,6 @@ public class PlayerServiceTests {
 
     @Test
     @DisplayName("User Register")
-    @Transactional
     @Order(1)
     void register() {
         PlayerDTO player = new PlayerDTO();
@@ -41,7 +42,6 @@ public class PlayerServiceTests {
 
     @Test
     @DisplayName("Register Same User")
-    @Transactional
     @Order(2)
     void registerSameUser() {
         register();
@@ -54,7 +54,6 @@ public class PlayerServiceTests {
 
     @Test
     @DisplayName("Login Registered User")
-    @Transactional
     @Order(3)
     void login() {
         register();
@@ -66,7 +65,6 @@ public class PlayerServiceTests {
 
     @Test
     @DisplayName("Invalid Password")
-    @Transactional
     @Order(4)
     void loginInvalid() {
         register();
@@ -78,7 +76,6 @@ public class PlayerServiceTests {
 
     @Test
     @DisplayName("Invalid Username")
-    @Transactional
     @Order(4)
     void loginInvalidUname() {
         register();
@@ -90,7 +87,6 @@ public class PlayerServiceTests {
 
     @Test
     @DisplayName("Login Before Register")
-    @Transactional
     void loginBeforeRegister() {
         LoginDTO login = new LoginDTO();
         login.setPassword(testPassword);
@@ -110,14 +106,14 @@ public class PlayerServiceTests {
     void requestPasswordIncorrect() throws Exception {
         register();
         String emailJson = "{email:" + "asddsa" + "}";
-        Assertions.assertTrue(playerService.requestPwCode(new JSONObject(emailJson)));
+        Assertions.assertFalse(playerService.requestPwCode(new JSONObject(emailJson)));
     }
 
     @Test
     @DisplayName("Empty Request Password Code")
     void requestPasswordEmpty() throws Exception {
         register();
-        Assertions.assertTrue(playerService.requestPwCode(new JSONObject(empty)));
+        Assertions.assertThrows(JSONException.class, () -> playerService.requestPwCode(new JSONObject(empty)));
     }
 
     @Test
@@ -127,6 +123,6 @@ public class PlayerServiceTests {
         dto.setUsername(testUsername);
         dto.setPassword(testPassword);
         dto.setResetCode(empty);
-        Assertions.assertTrue(playerService.updatePassword(dto));
+        Assertions.assertFalse(playerService.updatePassword(dto));
     }
 }
