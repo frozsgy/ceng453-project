@@ -1,0 +1,10 @@
+group10.server
+group10.server.config
+group10.server.controller
+group10.server.entity
+group10.server.enums
+group10.server.exception
+group10.server.model
+group10.server.repository
+group10.server.service
+group10.server.util
