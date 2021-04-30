@@ -118,7 +118,7 @@ class PlayerControllerTests {
     @Test
     @DisplayName("User Login with Wrong Uname")
     @Order(4)
-    void loginTestWronUname() throws Exception {
+    void loginTestWrongUname() throws Exception {
         LoginDTO dto = new LoginDTO();
         String wrongUsername = "qwe!@#";
         dto.setUsername(wrongUsername);
