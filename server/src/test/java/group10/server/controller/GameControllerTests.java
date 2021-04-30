@@ -133,7 +133,7 @@ class GameControllerTests {
     @DisplayName("General Scoreboard")
     @Order(4)
     void testGeneralScoreboard() throws Exception {
-        String authorization = this.mvc.perform(get("/api/game/scoreboard/" + 30).contentType(MediaType.APPLICATION_JSON)
+        String authorization = this.mvc.perform(get("/api/game/scoreboard/30").contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + token)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
