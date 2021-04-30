@@ -17,19 +17,35 @@ This folder contains the backend server application for the CENG453 Project, Pi≈
 
 # Database Design 
 
--- TODO 
+While developing the project, we decided to use an ORM solution to create and persist database structure. In order to achieve this, we have created entities that are representations of the tables that we would need. Since each table would need a primary key (id), activation status, creation date and update date, we opted for creating a base entity and extending all entities from that. The Foreign Key relations are achieved through JPA annotations such as `OneToMany`, `ManyToMany`. 
+
+## Schemas
+
+* **player**: Stores all login information for the players.
+* **role**: Stores different role types such as `USER` and `ADMIN`.
+* **player_roles**: Stores the relationship between player and role tables.
+* **pending_pw_code**: Stores password reset tokens.
+* **game**: Stores general information about the game. A game consists of 4 rounds.
+* **rounds**: Stores round information. 
+
+The ER diagram of the project can be found below.
 
 ![ER Diagram](img/er.jpg)
 
 
 # API Documentation
 
--- TODO 
-
- `http://localhost:8080/swagger-ui.html`
+The API Documentation through Swagger can be accessed while the application is running at the following URL: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html).
 
  
 # Tests
 
+For the testing of the project, we have developed unit tests and also provided a Postman collection. Further details about them can be found below.
+
+## Unit Tests
+
 -- TODO 
 
+## Postman Collection 
+
+To test the external API endpoints, we provide a Postman Collection, which is available at [docs/CENG453_Server_API_Endpoints.postman_collection.json](docs/CENG453_Server_API_Endpoints.postman_collection.json). Also, the documentation of the Postman Collection is available at [https://documenter.getpostman.com/view/12050224/TzRLkVr2](https://documenter.getpostman.com/view/12050224/TzRLkVr2).
