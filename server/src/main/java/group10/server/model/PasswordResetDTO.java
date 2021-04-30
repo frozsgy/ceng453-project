@@ -37,6 +37,10 @@ public class PasswordResetDTO {
         return password;
     }
 
+    /**
+     * Gets the reset code
+     * @return resetCode
+     */
     public String getResetCode() {
         return resetCode;
     }

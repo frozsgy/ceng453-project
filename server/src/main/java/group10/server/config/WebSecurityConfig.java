@@ -36,7 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     /**
      * Spring Security Filter for Authentication.
      * @param http - HttpSecurity
-     * @throws Exception
+     * @throws Exception depending on the HttpSecurity type.
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
