@@ -86,7 +86,7 @@ class GameControllerTests {
     void nextGameTest() throws Exception {
         MatchDTO dto = new MatchDTO();
         dto.setGame(gameId);
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 3; i++) {
             dto.setScore((i + 1) * scorePerMatch);
             String json = objectMapper.writeValueAsString(dto);
             String authorization = this.mvc.perform(post("/api/game/next").contentType(MediaType.APPLICATION_JSON).content(json)
@@ -100,13 +100,8 @@ class GameControllerTests {
             int returnedLevel = jsonResponse.getInt("level");
             int returnedScore = jsonResponse.getInt("score");
             assertEquals(returnedGameId, gameId);
-            if (i != 3) {
-                assertEquals(returnedLevel, i + 2);
-                assertEquals(returnedScore, 0);
-            } else {
-                assertEquals(returnedLevel, 4);
-                assertEquals(returnedScore, scorePerMatch * 4);
-            }
+            assertEquals(returnedLevel, i + 2);
+            assertEquals(returnedScore, 0);
         }
     }
 
