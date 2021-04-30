@@ -79,7 +79,7 @@ public class PlayerService {
     /**
      * Registers (adds) a user to Player table.
      * @param dto DTO object that registered player is created from.
-     * @return Player
+     * @return Registered player
      * @throws IllegalArgumentException if any of the dto fields is invalid.
      * @see Player
      * @see PlayerDTO
@@ -97,7 +97,7 @@ public class PlayerService {
      *
      * Logs in a registered player.
      * @param loginData DTO object that contains username and password.
-     * @return Token
+     * @return Token string
      * @throws IllegalArgumentException if username and password do not match.
      */
     public String login(LoginDTO loginData) throws IllegalArgumentException {
@@ -169,7 +169,7 @@ public class PlayerService {
 
     /**
      * Given token, gets the Player
-     * @return Player
+     * @return Logged in player
      */
     public Player getLoggedInPlayer() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

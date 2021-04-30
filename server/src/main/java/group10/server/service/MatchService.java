@@ -34,7 +34,7 @@ public class MatchService {
      * Gets the next match (i.e, next level).
      * @param player Player that plays the game.
      * @param game Game being played.
-     * @return Match next level
+     * @return Next level
      * @see Match
      */
     public Match getById(Player player, Game game) {
