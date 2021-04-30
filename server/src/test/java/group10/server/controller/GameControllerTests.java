@@ -81,7 +81,7 @@ class GameControllerTests {
     }
 
     @Test
-    @DisplayName("Play for 4 rounds")
+    @DisplayName("Play for 3 rounds")
     @Order(2)
     void nextGameTest() throws Exception {
         MatchDTO dto = new MatchDTO();
@@ -108,12 +108,33 @@ class GameControllerTests {
                 assertEquals(returnedScore, scorePerMatch * 4);
             }
         }
+    }
 
+    @Test
+    @DisplayName("Play final round")
+    @Order(3)
+    void finalRoundTest() throws Exception {
+        MatchDTO dto = new MatchDTO();
+        dto.setGame(gameId);
+        dto.setScore(4 * scorePerMatch);
+        String json = objectMapper.writeValueAsString(dto);
+        String authorization = this.mvc.perform(post("/api/game/next").contentType(MediaType.APPLICATION_JSON).content(json)
+                .header("Authorization", "Bearer " + token)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        JSONObject jsonResponse = new JSONObject(authorization);
+        JSONObject returnedGame = jsonResponse.getJSONObject("game");
+        long returnedGameId = returnedGame.getLong("id");
+        int returnedLevel = jsonResponse.getInt("level");
+        int returnedScore = jsonResponse.getInt("score");
+        assertEquals(returnedLevel, 4);
+        assertEquals(returnedScore, scorePerMatch * 4);
     }
 
     @Test
     @DisplayName("Scoreboard per Game")
-    @Order(3)
+    @Order(4)
     void testGameScoreboard() throws Exception {
         String authorization = this.mvc.perform(get("/api/game/scoreboard/game/" + gameId).contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + token)
@@ -129,7 +150,7 @@ class GameControllerTests {
 
     @Test
     @DisplayName("General Scoreboard")
-    @Order(4)
+    @Order(5)
     void testGeneralScoreboard() throws Exception {
         String authorization = this.mvc.perform(get("/api/game/scoreboard/30").contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + token)
