@@ -8,6 +8,7 @@ import group10.server.model.LoginDTO;
 import group10.server.model.MatchDTO;
 import group10.server.model.PlayerDTO;
 import group10.server.service.PlayerService;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -107,6 +108,22 @@ class GameControllerTests {
                 assertEquals(returnedLevel, 4);
                 assertEquals(returnedScore, scorePerMatch * 4);
             }
+        }
+
+    }
+
+    @Test
+    @DisplayName("Test for Game Scoreboard")
+    @Order(3)
+    void testGameScoreboard() throws Exception {
+        String authorization = this.mvc.perform(get("/api/game/scoreboard/game/" + gameId).contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + token)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        JSONObject jsonResponse = new JSONObject(authorization);
+        for (int i = 1; i < 5; i++) {
+            assertEquals(jsonResponse.getLong(String.valueOf(i)), scorePerMatch * i);
         }
 
     }
