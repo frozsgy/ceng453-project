@@ -16,11 +16,11 @@ public interface MatchRepository extends JpaRepository<Match, Long> {
     Match findFirstByPlayerAndGameOrderByUpdateDateDesc(Player player, Game game);
 
     @Query(value = "SELECT SUM(r.score) AS Score, r.player_id AS UserId FROM rounds r " +
-            "WHERE r.create_date >= CURDATE() - INTERVAL :days DAY GROUP BY r.player_id ORDER BY Score DESC ",
+            "WHERE r.create_date >= TIMESTAMPADD(DAY, :days, NOW()) GROUP BY r.player_id ORDER BY Score DESC ",
             countQuery = "SELECT COUNT(*) FROM (SELECT SUM(r.score) AS Score, r.player_id AS UserId FROM rounds r " +
-                    "WHERE r.create_date >= CURDATE() - INTERVAL :days DAY GROUP BY r.player_id) k",
+                    "WHERE r.create_date >= TIMESTAMPADD(DAY, :days, NOW()) GROUP BY r.player_id) k",
             nativeQuery = true)
-    Page<Scoreboard> getScoreboard(@Param(value = "days") long days, Pageable pageable);
+    Page<Scoreboard> getScoreboard(@Param(value = "days") int days, Pageable pageable);
 
     List<Match> findByGame(Game game);
 

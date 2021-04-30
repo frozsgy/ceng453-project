@@ -66,8 +66,8 @@ public class GameService {
         return game.orElse(null);
     }
 
-    public Page<Scoreboard> getScoreboard(long days, Pageable pageable) {
-        return matchRepository.getScoreboard(days, pageable);
+    public Page<Scoreboard> getScoreboard(int days, Pageable pageable) {
+        return matchRepository.getScoreboard(-days, pageable);
     }
 
 }
