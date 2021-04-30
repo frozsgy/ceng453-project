@@ -35,7 +35,17 @@ The ER diagram of the project can be found below.
 
 # API Documentation
 
-The API Documentation through Swagger can be accessed while the application is running at the following URL: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html). Also the documentation generated using Postman is also available at [https://documenter.getpostman.com/view/12050224/TzRLkVr2](https://documenter.getpostman.com/view/12050224/TzRLkVr2).
+## Swagger 
+
+The API Documentation through Swagger can be accessed while the application is running at the following URL: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html). 
+
+## JavaDoc
+
+The JavaDoc files are available under the [docs/javadocs](docs/javadocs) folder.
+
+## Postman
+
+Also the documentation generated using Postman is also available at [https://documenter.getpostman.com/view/12050224/TzRLkVr2](https://documenter.getpostman.com/view/12050224/TzRLkVr2).
 
  
 # Tests
