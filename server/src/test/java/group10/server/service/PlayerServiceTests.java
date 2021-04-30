@@ -3,6 +3,7 @@ package group10.server.service;
 
 import group10.server.entity.Player;
 import group10.server.model.LoginDTO;
+import group10.server.model.PasswordResetDTO;
 import group10.server.model.PlayerDTO;
 import org.json.JSONObject;
 import org.junit.jupiter.api.*;
@@ -17,6 +18,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -114,10 +116,36 @@ public class PlayerServiceTests {
         });
     }
     @Test
-    @DisplayName("Correct Request Password")
+    @DisplayName("Correct Request Password Code")
     void requestPasswordTest() throws Exception {
         register();
         String correctEmailJson = "{email:" + testEmail + "}";
         Assertions.assertTrue(playerService.requestPwCode(new JSONObject(correctEmailJson)));
+    }
+
+    @Test
+    @DisplayName("Incorrect Request Password Code")
+    void requestPasswordIncorrect() throws Exception {
+        register();
+        String emailJson = "{email:" + "asddsa" + "}";
+        Assertions.assertTrue(playerService.requestPwCode(new JSONObject(emailJson)));
+    }
+
+    @Test
+    @DisplayName("Empty Request Password Code")
+    void requestPasswordEmpty() throws Exception {
+        register();
+        String emailJson = empty;
+        Assertions.assertTrue(playerService.requestPwCode(new JSONObject(emailJson)));
+    }
+
+    @Test
+    @DisplayName("Update Password Without Code")
+    void updatePasswordEmptyInvalid() throws Exception {
+        PasswordResetDTO dto = new PasswordResetDTO();
+        dto.setUsername(testUsername);
+        dto.setPassword(testPassword);
+        dto.setResetCode(empty);
+        Assertions.assertTrue(playerService.updatePassword(dto));
     }
 }
