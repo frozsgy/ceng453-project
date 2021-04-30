@@ -1,34 +1,29 @@
 package group10.server.controller;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import group10.server.entity.Game;
+import group10.server.entity.Player;
 import group10.server.model.LoginDTO;
 import group10.server.model.MatchDTO;
 import group10.server.model.PlayerDTO;
 import group10.server.service.PlayerService;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
-
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -37,12 +32,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class GameControllerTests {
 
-    private final String testUsername = "testUser";
+    private final String testUsername = "testUser2";
     private final String testPassword = "testPassword";
-    private final String testEmail = "test@gmail.com";
+    private final String testEmail = "test2@gmail.com";
     private static String token;
     private static long gameId = -1;
     private static int scorePerMatch = 42;
+    private static long userId = -1;
 
     @Autowired
     private PlayerService playerService;
@@ -61,7 +57,9 @@ class GameControllerTests {
         playerDTO.setEmail(testEmail);
         playerDTO.setPassword(testPassword);
         playerDTO.setUsername(testUsername);
-        assertThat(playerService.register(playerDTO), notNullValue());
+        Player registered = playerService.register(playerDTO);
+        assertThat(registered, notNullValue());
+        userId = registered.getId();
         LoginDTO dto = new LoginDTO();
         dto.setUsername(testUsername);
         dto.setPassword(testPassword);
@@ -143,7 +141,7 @@ class GameControllerTests {
         int numberOfElements = jsonResponse.getInt("numberOfElements");
         assertEquals(numberOfElements, 1);
         JSONObject scoreboardOne = scoreboard.getJSONObject(0);
-        assertEquals(scoreboardOne.getLong("userId"), 1);
+        assertEquals(scoreboardOne.getLong("userId"), userId);
         assertEquals(scoreboardOne.getLong("score"), 10 * scorePerMatch);
     }
 

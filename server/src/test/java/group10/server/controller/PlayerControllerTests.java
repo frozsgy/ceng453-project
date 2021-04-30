@@ -161,6 +161,7 @@ class PlayerControllerTests {
                 .andExpect(status().isOk())
                 .andExpect(content().string("false"));
     }
+
     @Test
     @DisplayName("Test for Update Password With Wrong Code")
     void updatePasswordInvalidCode() throws Exception {
