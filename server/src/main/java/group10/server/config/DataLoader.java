@@ -7,12 +7,24 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
+/**
+ * @author Alperen Caykus, Mustafa Ozan Alpay
+ * Config class that is responsible of the Role logic of Players.
+ */
 @Component
 public class DataLoader implements ApplicationRunner {
 
+    /**
+     * Auto-wired role repository. Responsible for interacting with role table.
+     */
     @Autowired
     private RoleRepository roleRepository;
 
+    /**
+     * Creates the role mechanism during run.
+     * @param args - Application arguments of Spring
+     * @throws Exception - gets thrown if an exception happens at role repository
+     */
     @Override
     public void run(ApplicationArguments args) throws Exception {
 
