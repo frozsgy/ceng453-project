@@ -151,7 +151,7 @@ class PlayerControllerTests {
     }
     @Test
     @DisplayName("Test for Update Password With Wrong Code")
-    void updatePasswordInvalid() throws Exception {
+    void updatePasswordInvalidCode() throws Exception {
         PasswordResetDTO dto = new PasswordResetDTO();
         dto.setUsername(testUsername);
         dto.setPassword("asdsa");
@@ -171,6 +171,20 @@ class PlayerControllerTests {
         dto.setUsername(testUsername);
         dto.setPassword("asdsa");
         dto.setResetCode("");
+        String json = objectMapper.writeValueAsString(dto);
+        this.mvc.perform(put("/api/user/updatePassword")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+                .andExpect(status().is5xxServerError());
+    }
+
+    @Test
+    @DisplayName("Test for Update Password Without Code")
+    void updatePasswordInvalidPassword() throws Exception {
+        PasswordResetDTO dto = new PasswordResetDTO();
+        dto.setUsername(testUsername);
+        dto.setPassword("");
+        dto.setResetCode("adsasdsa");
         String json = objectMapper.writeValueAsString(dto);
         this.mvc.perform(put("/api/user/updatePassword")
                 .contentType(MediaType.APPLICATION_JSON)
