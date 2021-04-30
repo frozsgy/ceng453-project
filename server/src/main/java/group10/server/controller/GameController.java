@@ -15,6 +15,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -62,13 +63,17 @@ public class GameController {
     @PostMapping("/next")
     @ResponseBody
     public ResponseEntity<?> nextMatch(@Valid @RequestBody MatchDTO dto) {
-        int score = dto.getScore();
-        long gameId = dto.getGame();
-        Game game = gameService.getById(gameId);
-        Player loggedInPlayer = playerService.getLoggedInPlayer();
-        LOGGER.info("Next Match request from: " + loggedInPlayer.getUsername());
-        Match currentMatch = matchService.getById(loggedInPlayer, game);
-        return ResponseEntity.ok(gameService.nextLevel(currentMatch, score));
+        try {
+            int score = dto.getScore();
+            long gameId = dto.getGame();
+            Game game = gameService.getById(gameId);
+            Player loggedInPlayer = playerService.getLoggedInPlayer();
+            LOGGER.info("Next Match request from: " + loggedInPlayer.getUsername());
+            Match currentMatch = matchService.getById(loggedInPlayer, game);
+            return ResponseEntity.ok(gameService.nextLevel(currentMatch, score));
+        } catch (NullPointerException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/scoreboard/{day}")
