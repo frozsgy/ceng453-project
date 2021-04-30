@@ -1,0 +1,387 @@
+{
+	"info": {
+		"_postman_id": "08c903c9-9fa9-4fd9-af7b-4e970e7fc7a1",
+		"name": "CENG453 Server API Endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Player",
+			"item": [
+				{
+					"name": "User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"user"
+							]
+						},
+						"description": "Returns the current logged in user."
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"test1\",\n    \"password\": \"test1\",\n    \"email\": \"test1@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/user/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"user",
+								"register"
+							]
+						},
+						"description": "New users can register through this endpoint."
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"test1\",\n    \"password\": \"test1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/user/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"user",
+								"login"
+							]
+						},
+						"description": "Endpoint for player login."
+					},
+					"response": []
+				},
+				{
+					"name": "Request Password Code",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"alperen.0311@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/user/requestPwCode",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"user",
+								"requestPwCode"
+							]
+						},
+						"description": "This endpoint requests a password reset through email."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Password",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwianRpIjoiNiIsInN1YiI6ImF4ZCIsImlhdCI6MTYxOTU1ODQ3NiwiZXhwIjoxNjIwMTU4NDc2fQ.gEvOuhraNelLbNaaicrmmpgC2Hv4Bze18b6-SJE-M_M82PFzqbLyIJNr4b9wKfs7XATUVLoUTJIiTsebgIRdQg",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"password\": \"\",\n    \"resetCode\": \"\",\n    \"username\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/user/updatePassword",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"user",
+								"updatePassword"
+							]
+						},
+						"description": "Resets the password using the token that was sent through email."
+					},
+					"response": []
+				}
+			],
+			"description": "This folder contains all endpoints related to Player (User) accounts.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Game",
+			"item": [
+				{
+					"name": "New Game",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/game/new",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"game",
+								"new"
+							]
+						},
+						"description": "Starts a new game for the logged in player."
+					},
+					"response": []
+				},
+				{
+					"name": "Next Round",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiIxNSIsInN1YiI6InRlc3QyIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTYxOTc4NzI2OSwiZXhwIjoxNjE5Nzg3ODY5fQ.ZRqKtvBu4Beo2QDXkpzqyBT8SxNQlI7ULqnsdTeOFSEiZM1rBt3ZLRm8b4iJ9pFJMT8n5hENyolkc_jX8B3s5w",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"game\": 1,\n    \"score\": 142\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/game/next",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"game",
+								"next"
+							]
+						},
+						"description": "Saves the score from the previous round and initiates the next round of game."
+					},
+					"response": []
+				},
+				{
+					"name": "Is Matched",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/game/new",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"game",
+								"new"
+							]
+						},
+						"description": "This endpoint will be implemented for the concurrency level to allow matching different users at level 4."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Scoreboard",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/game/scoreboard/30",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"game",
+								"scoreboard",
+								"30"
+							]
+						},
+						"description": "Returns the scoreboard of the last n-days."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Scores per Level by Game Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/game/scoreboard/game/15",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"game",
+								"scoreboard",
+								"game",
+								"15"
+							]
+						},
+						"description": "Returns the level-by-level scoreboard of a specific game."
+					},
+					"response": []
+				}
+			],
+			"description": "This folder contains all endpoints related to Game.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiIxMCIsInN1YiI6InRlc3QyIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTYxOTc5NDA2OSwiZXhwIjoxNjE5Nzk0NjY5fQ.XbApCNAcNO5PObHJBYqUNJPYe4Uz2hdZiHwHyYS_thzpv3l2GgO_nZJ-R_2caNkYcoyNL_KPfjzqW82GpskJ3Q",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
