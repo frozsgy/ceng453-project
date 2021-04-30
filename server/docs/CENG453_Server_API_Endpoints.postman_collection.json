@@ -223,21 +223,11 @@
 				{
 					"name": "Next Round",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiIxNSIsInN1YiI6InRlc3QyIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTYxOTc4NzI2OSwiZXhwIjoxNjE5Nzg3ODY5fQ.ZRqKtvBu4Beo2QDXkpzqyBT8SxNQlI7ULqnsdTeOFSEiZM1rBt3ZLRm8b4iJ9pFJMT8n5hENyolkc_jX8B3s5w",
-									"type": "string"
-								}
-							]
-						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"game\": 1,\n    \"score\": 142\n}",
+							"raw": "{\n    \"game\": 14,\n    \"score\": 199\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -312,7 +302,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/game/scoreboard/game/15",
+							"raw": "http://localhost:8080/api/game/scoreboard/game/14",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -323,7 +313,7 @@
 								"game",
 								"scoreboard",
 								"game",
-								"15"
+								"14"
 							]
 						},
 						"description": "Returns the level-by-level scoreboard of a specific game."
@@ -359,7 +349,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiIxMCIsInN1YiI6InRlc3QyIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTYxOTc5NDA2OSwiZXhwIjoxNjE5Nzk0NjY5fQ.XbApCNAcNO5PObHJBYqUNJPYe4Uz2hdZiHwHyYS_thzpv3l2GgO_nZJ-R_2caNkYcoyNL_KPfjzqW82GpskJ3Q",
+				"value": "PLACEHOLDER_TOKEN",
 				"type": "string"
 			}
 		]
