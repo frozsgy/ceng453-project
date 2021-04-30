@@ -47,7 +47,7 @@ public class Role extends EntityBase {
     public void setName(String name) {
         this.name = name;
     }
-    
+
     /**
      * Gets Players with roles.
      *
