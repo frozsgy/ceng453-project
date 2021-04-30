@@ -149,6 +149,16 @@ class PlayerControllerTests {
                 .andExpect(status().isOk())
                 .andExpect(content().string("false"));
     }
+
+    @Test
+    @DisplayName("Test for Invalid Request Password Body")
+    void requestPasswordInvalidBodyTest() throws Exception {
+        this.mvc.perform(post("/api/user/requestPwCode")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("asdasda@gmail.com"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("false"));
+    }
     @Test
     @DisplayName("Test for Update Password With Wrong Code")
     void updatePasswordInvalidCode() throws Exception {
@@ -179,7 +189,7 @@ class PlayerControllerTests {
     }
 
     @Test
-    @DisplayName("Test for Update Password Without Code")
+    @DisplayName("Test for Update Password With Empty Password")
     void updatePasswordInvalidPassword() throws Exception {
         PasswordResetDTO dto = new PasswordResetDTO();
         dto.setUsername(testUsername);
