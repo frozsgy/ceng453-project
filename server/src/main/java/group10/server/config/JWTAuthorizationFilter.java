@@ -14,13 +14,19 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * @author Alperen Caykus, Mustafa Ozan Alpay
+ * {@inheritDoc}
+ */
 public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         try {
-            if (checkJWTToken(request, response)) {
+            if (checkJWTToken(request)) {
                 Claims claims = validateToken(request);
                 if (claims.get("authorities") != null) {
                     setUpSpringAuthentication(claims);
@@ -33,19 +39,24 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
             chain.doFilter(request, response);
         } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException e) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
         }
     }
 
+    /**
+     * Given HTTP Request, extracts the Bearer token.
+     * @param request HTTP request that the token is going to be extracted
+     * @return Claims that token carries
+     */
     private Claims validateToken(HttpServletRequest request) {
         String jwtToken = request.getHeader(JWTConstants.AUTH_HEADER).replace(JWTConstants.TOKEN_PREFIX, "");
         return Jwts.parser().setSigningKey(JWTConstants.SECRET_KEY.getBytes()).parseClaimsJws(jwtToken).getBody();
     }
 
     /**
-     * Authentication method in Spring flow
-     *
-     * @param claims
+     * Authentication method in Spring flow.
+     * Authenticates or does not authenticate the token with the given Claims
+     * @param claims Claims that the token carries.
      */
     private void setUpSpringAuthentication(Claims claims) {
         @SuppressWarnings("unchecked")
@@ -57,7 +68,12 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
     }
 
-    private boolean checkJWTToken(HttpServletRequest request, HttpServletResponse res) {
+    /**
+     * Given a request checks if Bearer token header exists.
+     * @param request HTTP request that the token is investigated
+     * @return True Bearer header exists, false otherwise
+     */
+    private boolean checkJWTToken(HttpServletRequest request) {
         String authenticationHeader = request.getHeader(JWTConstants.AUTH_HEADER);
         return authenticationHeader != null && authenticationHeader.startsWith(JWTConstants.TOKEN_PREFIX);
     }
