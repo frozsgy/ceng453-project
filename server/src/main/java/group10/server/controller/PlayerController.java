@@ -1,5 +1,6 @@
 package group10.server.controller;
 
+import group10.server.entity.Player;
 import group10.server.model.LoginDTO;
 import group10.server.model.PasswordResetDTO;
 import group10.server.model.PlayerDTO;
@@ -32,19 +33,21 @@ public class PlayerController {
     @GetMapping("")
     @ResponseBody
     public ResponseEntity<?> get() {
-        return ResponseEntity.ok("UserHome");
+        Player loggedIn = playerService.getLoggedInPlayer();
+        LOGGER.info("Get user details: " + loggedIn.getUsername());
+        return ResponseEntity.ok(loggedIn);
     }
 
     @PostMapping("/login")
     @ResponseBody
     public String login(@Valid @RequestBody LoginDTO loginData) {
+        LOGGER.info("User login: " + loginData.getUsername());
         return playerService.login(loginData);
     }
 
     @PostMapping("/register")
     @ResponseBody
     public ResponseEntity<?> register(@Valid @RequestBody PlayerDTO user) {
-        // TODO
         LOGGER.info("User register: " + user.getEmail());
         return ResponseEntity.ok(playerService.register(user));
     }
@@ -59,6 +62,7 @@ public class PlayerController {
     @PostMapping("/requestPwCode")
     @ResponseBody
     public ResponseEntity<?> requestPwCode(@RequestBody String email) {
+        LOGGER.info("Password code request for: " + email);
         try {
             JSONObject emailJSON = new JSONObject(email);
             return ResponseEntity.ok(playerService.requestPwCode(emailJSON));
@@ -70,6 +74,7 @@ public class PlayerController {
     @PutMapping("/updatePassword")
     @ResponseBody
     public ResponseEntity<?> updatePassword(@Valid @RequestBody PasswordResetDTO passwordResetDTO) {
+        LOGGER.info("Password updated for: " + passwordResetDTO.getUsername());
         return ResponseEntity.ok(playerService.updatePassword(passwordResetDTO));
     }
 

@@ -25,7 +25,6 @@ public class GameService {
     }
 
     public Match newGame(Player player) {
-        // TODO -- check
         Game game = new Game();
         game.setGameType(GameTypes.AI);
         gameRepository.save(game);
@@ -37,11 +36,9 @@ public class GameService {
     }
 
     public Match nextLevel(Match oldLevel, int score) {
-        // TODO -- check
         this.finishMatch(oldLevel, score);
         if (oldLevel.getLevel() == 4) {
-            // TODO -- return game ended or sth
-            return null;
+            return oldLevel;
         }
         Match match = new Match();
         match.setActive(true);

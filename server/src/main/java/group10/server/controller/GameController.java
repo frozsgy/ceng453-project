@@ -35,18 +35,12 @@ public class GameController {
         this.playerService = playerService;
     }
 
-    @GetMapping("")
-    @ResponseBody
-    public ResponseEntity<?> get() {
-        return ResponseEntity.ok("GameHome");
-    }
-
 
     @GetMapping("/new")
     @ResponseBody
     public ResponseEntity<?> getNewGame() {
         Player loggedInPlayer = playerService.getLoggedInPlayer();
-        LOGGER.info("New Game request from " + loggedInPlayer.getUsername());
+        LOGGER.info("New Game request from: " + loggedInPlayer.getUsername());
         return ResponseEntity.ok(gameService.newGame(loggedInPlayer));
     }
 
@@ -64,6 +58,7 @@ public class GameController {
         long gameId = dto.getGame();
         Game game = gameService.getById(gameId);
         Player loggedInPlayer = playerService.getLoggedInPlayer();
+        LOGGER.info("Next Match request from: " + loggedInPlayer.getUsername());
         Match currentMatch = matchService.getById(loggedInPlayer, game);
         return ResponseEntity.ok(gameService.nextLevel(currentMatch, score));
     }
