@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface MatchRepository extends JpaRepository<Match, Long> {
 
     Match findFirstByPlayerAndGameOrderByUpdateDateDesc(Player player, Game game);
@@ -19,5 +21,7 @@ public interface MatchRepository extends JpaRepository<Match, Long> {
                     "WHERE r.create_date >= CURDATE() - INTERVAL :days DAY GROUP BY r.player_id) k",
             nativeQuery = true)
     Page<Scoreboard> getScoreboard(@Param(value = "days") long days, Pageable pageable);
+
+    List<Match> findByGame(Game game);
 
 }

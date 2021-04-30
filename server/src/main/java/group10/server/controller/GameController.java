@@ -19,6 +19,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/game")
@@ -75,6 +79,15 @@ public class GameController {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         Page<Scoreboard> scoreboard = gameService.getScoreboard(day, pageable);
         return ResponseEntity.ok(scoreboard);
+    }
+
+    @GetMapping("/scoreboard/game/{id}")
+    @ResponseBody
+    public ResponseEntity<?> getScoreboard(@PathVariable long id) {
+        Game game = gameService.getById(id);
+        List<Match> rounds = matchService.findByGame(game);
+        Map<Integer, Integer> collect = rounds.stream().collect(Collectors.toMap(Match::getLevel, Match::getScore));
+        return ResponseEntity.ok(collect);
     }
 
 }

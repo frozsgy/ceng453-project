@@ -7,6 +7,7 @@ import group10.server.repository.MatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,6 +22,10 @@ public class MatchService {
 
     public Match getById(Player player, Game game) {
         return matchRepository.findFirstByPlayerAndGameOrderByUpdateDateDesc(player, game);
+    }
+
+    public List<Match> findByGame(Game game) {
+        return matchRepository.findByGame(game);
     }
 
 }
