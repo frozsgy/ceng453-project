@@ -42,7 +42,7 @@ public class Role extends EntityBase {
     /**
      * Sets name of the role.
      *
-     * @param name
+     * @param name name to be set for the role
      */
     public void setName(String name) {
         this.name = name;
@@ -60,7 +60,7 @@ public class Role extends EntityBase {
     /**
      * Sets Players with roles.
      *
-     * @param players
+     * @param players roles to be set for players
      */
     public void setPlayers(List<Player> players) {
         this.players = players;

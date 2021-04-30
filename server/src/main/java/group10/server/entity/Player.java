@@ -56,7 +56,7 @@ public class Player extends EntityBase {
     /**
      * Sets username.
      *
-     * @param username
+     * @param username username to be set for the player
      */
     public void setUsername(String username) {
         this.username = username;
@@ -74,7 +74,7 @@ public class Player extends EntityBase {
     /**
      * Sets password.
      *
-     * @param password
+     * @param password password to be set for the player
      */
     public void setPassword(String password) {
         this.password = password;
@@ -92,7 +92,7 @@ public class Player extends EntityBase {
     /**
      * Sets email.
      *
-     * @param email
+     * @param email email to be set for the player
      */
     public void setEmail(String email) {
         this.email = email;
@@ -110,7 +110,7 @@ public class Player extends EntityBase {
     /**
      * Sets roles.
      *
-     * @param roles
+     * @param roles roles to be set for the player
      */
     public void setRoles(List<Role> roles) {
         this.roles = roles;
