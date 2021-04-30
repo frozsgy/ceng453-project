@@ -4,10 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import group10.server.model.LoginDTO;
 import group10.server.model.PlayerDTO;
 import group10.server.service.PlayerService;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -33,6 +30,7 @@ class PlayerControllerTests {
     private final String testUsername = "testUser";
     private final String testPassword = "testPassword";
     private final String testEmail = "test@gmail.com";
+    private String token;
 
     @Autowired
     private PlayerService playerService;
@@ -44,6 +42,7 @@ class PlayerControllerTests {
     private ObjectMapper objectMapper;
 
     @Test
+    @DisplayName("Test for User Register")
     @Order(1)
     void registerTest() {
         PlayerDTO playerDTO = new PlayerDTO();
@@ -54,6 +53,7 @@ class PlayerControllerTests {
     }
 
     @Test
+    @DisplayName("Test for User Login with Erroneous Input")
     @Order(2)
     void loginTestErroneous() throws Exception {
         LoginDTO dto = new LoginDTO();
@@ -67,15 +67,19 @@ class PlayerControllerTests {
     }
 
     @Test
+    @DisplayName("Test for Successful User Login")
     @Order(3)
     void loginTest() throws Exception {
         LoginDTO dto = new LoginDTO();
         dto.setUsername(testUsername);
         dto.setPassword(testPassword);
         String json = objectMapper.writeValueAsString(dto);
-        this.mvc.perform(post("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(json))
-                .andExpect(status().isOk());
+        this.token = this.mvc.perform(post("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 
     }
 
+    public String getToken() {
+        return token;
+    }
 }
