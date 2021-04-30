@@ -25,17 +25,48 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * @author Alperen Caykus, Mustafa Ozan Alpay
+ * REST Endpoint class for Games.
+ * All requests that are sent to /api/game is handled by
+ * this class
+ */
 @RestController
 @RequestMapping("/api/game")
 public class GameController {
 
+    /**
+     * Autowired application context to connect spring.
+     */
     private ApplicationContext context;
+    /**
+     * Autowired service responsible of games.
+     * @see GameService
+     */
     private GameService gameService;
+    /**
+     * Autowired service responsible of matches (levels)
+     * @see MatchService
+     */
     private MatchService matchService;
+    /**
+     * Autowired service responsible of players
+     * @see PlayerService
+     */
     private PlayerService playerService;
 
+    /**
+     * Logger to log things to standard out.
+     */
     private static final Logger LOGGER = LoggerFactory.getLogger(GameController.class);
 
+    /**
+     * Constructor for game controller.
+     * @param context Autowired application context
+     * @param gameService Autowired game service
+     * @param matchService Autowired match service
+     * @param playerService Autowired player service
+     */
     @Autowired
     public GameController(ApplicationContext context, GameService gameService, MatchService matchService, PlayerService playerService) {
         this.context = context;
@@ -44,7 +75,12 @@ public class GameController {
         this.playerService = playerService;
     }
 
-
+    /**
+     * HTTP GET requests to /new path are served by this method.
+     * Gets a new game and logs the username of the player
+     * that sent the request.
+     * @return HTTP200 New game as response.
+     */
     @GetMapping("/new")
     @ResponseBody
     public ResponseEntity<?> getNewGame() {
@@ -53,6 +89,11 @@ public class GameController {
         return ResponseEntity.ok(gameService.newGame(loggedInPlayer));
     }
 
+    /**
+     * HTTP GET requests to /match path are served by this method.
+     * Stub code left empty to implement later when handling concurrency.
+     * @return HTTP200 false
+     */
     @GetMapping("/match")
     @ResponseBody
     public ResponseEntity<?> isMatched() {
@@ -60,6 +101,12 @@ public class GameController {
         return ResponseEntity.ok(false);
     }
 
+    /**
+     * HTTP POST requests to /next path are served by this method.
+     * Logs the username of the user that sent the request to standard out.
+     * @param dto HTTP Request body that contains level information.
+     * @return HTTP200 with next level if request is valid, else HTTP 400 Bad request
+     */
     @PostMapping("/next")
     @ResponseBody
     public ResponseEntity<?> nextMatch(@Valid @RequestBody MatchDTO dto) {
@@ -76,6 +123,13 @@ public class GameController {
         }
     }
 
+    /**
+     * HTTP GET requests to /scoreboard/{day} path are served by this method.
+     * @param day Scoreboard of last 'day' days
+     * @param pageSize Number of score entries to be retrieved
+     * @param pageNumber Page number of wanted scores. Used for paging the data.
+     * @return HTTP200 scoreboard
+     */
     @GetMapping("/scoreboard/{day}")
     @ResponseBody
     public ResponseEntity<?> getScoreboard(@PathVariable int day,
@@ -86,6 +140,11 @@ public class GameController {
         return ResponseEntity.ok(scoreboard);
     }
 
+    /**
+     * HTTP GET requests to /scoreboard/game/{id} path are served by this method.
+     * @param id ID of the game
+     * @return HTTP200 Scoreboard related to this game
+     */
     @GetMapping("/scoreboard/game/{id}")
     @ResponseBody
     public ResponseEntity<?> getScoreboard(@PathVariable long id) {
