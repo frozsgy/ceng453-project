@@ -8,6 +8,7 @@ import group10.server.model.LoginDTO;
 import group10.server.model.MatchDTO;
 import group10.server.model.PlayerDTO;
 import group10.server.service.PlayerService;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.*;
@@ -113,7 +114,7 @@ class GameControllerTests {
     }
 
     @Test
-    @DisplayName("Test for Game Scoreboard")
+    @DisplayName("Scoreboard per Game")
     @Order(3)
     void testGameScoreboard() throws Exception {
         String authorization = this.mvc.perform(get("/api/game/scoreboard/game/" + gameId).contentType(MediaType.APPLICATION_JSON)
@@ -127,4 +128,23 @@ class GameControllerTests {
         }
 
     }
+
+    @Test
+    @DisplayName("General Scoreboard")
+    @Order(4)
+    void testGeneralScoreboard() throws Exception {
+        String authorization = this.mvc.perform(get("/api/game/scoreboard/" + 30).contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + token)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        JSONObject jsonResponse = new JSONObject(authorization);
+        JSONArray scoreboard = jsonResponse.getJSONArray("content");
+        int numberOfElements = jsonResponse.getInt("numberOfElements");
+        assertEquals(numberOfElements, 1);
+        JSONObject scoreboardOne = scoreboard.getJSONObject(0);
+        assertEquals(scoreboardOne.getLong("userId"), 1);
+        assertEquals(scoreboardOne.getLong("score"), 10 * scorePerMatch);
+    }
+
 }
