@@ -1,6 +1,5 @@
 package group10.server.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import group10.server.model.LoginDTO;
 import group10.server.model.PasswordResetDTO;
@@ -13,7 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
@@ -32,7 +30,6 @@ class PlayerControllerTests {
     private final String testUsername = "testUser";
     private final String testPassword = "testPassword";
     private final String testEmail = "test@gmail.com";
-    private final static String AUTH_HEADER = "Authorization";
     private static String token;
 
     @Autowired
@@ -201,8 +198,6 @@ class PlayerControllerTests {
                 .content(json))
                 .andExpect(status().is5xxServerError());
     }
-
-
 
     public String getToken() {
         return token;
