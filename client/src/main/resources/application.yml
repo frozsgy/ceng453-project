@@ -2,3 +2,8 @@ spring:
   main:
     web-application-type: none
     banner-mode: off
+  application:
+    ui:
+      width: 800
+      height: 600
+      title: CENG453 Pişti
