@@ -33,6 +33,7 @@ public class StageInitializer implements ApplicationListener<UiApplication.Stage
     public void onApplicationEvent(UiApplication.StageReadyEvent stageReadyEvent) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(uiResuorce.getURL());
+            fxmlLoader.setControllerFactory(aClass -> applicationContext.getBean(aClass));
             Parent parent = fxmlLoader.load();
 
             Stage stage = stageReadyEvent.getStage();
