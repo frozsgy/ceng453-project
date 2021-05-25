@@ -14,7 +14,7 @@ import java.io.IOException;
 
 @Component
 public class StageInitializer implements ApplicationListener<UiApplication.StageReadyEvent> {
-    @Value("classpath:/ui.fxml")
+    @Value("classpath:/fxml/login.fxml")
     private Resource uiResuorce;
     @Value("${spring.application.ui.width}")
     private int windowWidth;
