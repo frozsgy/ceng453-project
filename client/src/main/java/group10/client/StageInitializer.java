@@ -15,14 +15,14 @@ import java.io.IOException;
 @Component
 public class StageInitializer implements ApplicationListener<UiApplication.StageReadyEvent> {
     @Value("classpath:/fxml/login.fxml")
-    private Resource uiResuorce;
+    private Resource loginResource;
     @Value("${spring.application.ui.width}")
     private int windowWidth;
     @Value("${spring.application.ui.height}")
     private int windowHeight;
     private String applicationTitle;
     private ApplicationContext applicationContext;
-
+    private static Stage stage;
     public StageInitializer(@Value("${spring.application.ui.title}") String applicationTitle,
                             ApplicationContext applicationContext) {
         this.applicationTitle = applicationTitle;
@@ -32,11 +32,12 @@ public class StageInitializer implements ApplicationListener<UiApplication.Stage
     @Override
     public void onApplicationEvent(UiApplication.StageReadyEvent stageReadyEvent) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(uiResuorce.getURL());
+            FXMLLoader fxmlLoader = new FXMLLoader(loginResource.getURL());
             fxmlLoader.setControllerFactory(aClass -> applicationContext.getBean(aClass));
             Parent parent = fxmlLoader.load();
 
             Stage stage = stageReadyEvent.getStage();
+            this.stage = stage;
             stage.setScene(new Scene(parent, windowWidth, windowHeight));
             stage.setTitle(applicationTitle);
             stage.show();
