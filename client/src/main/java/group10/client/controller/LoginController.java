@@ -2,6 +2,8 @@ package group10.client.controller;
 
 import group10.client.constants.LoginConstants;
 import group10.client.constants.SharedConstants;
+import group10.client.model.Player;
+import group10.client.service.HTTPService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -36,6 +38,8 @@ public class LoginController implements Initializable {
     protected void userLogIn(ActionEvent event) throws IOException {
         if (validateForm()) {
             this.clearErrorMessage();
+            Player player = new Player(username.getText(),password.getText());
+            HTTPService.getInstance().login(player);
         } else {
             this.setErrorMessage();
         }
