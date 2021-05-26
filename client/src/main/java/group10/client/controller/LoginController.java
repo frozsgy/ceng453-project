@@ -39,7 +39,11 @@ public class LoginController implements Initializable {
         if (validateForm()) {
             this.clearErrorMessage();
             Player player = new Player(username.getText(),password.getText());
-            HTTPService.getInstance().login(player);
+            if (HTTPService.getInstance().login(player)) {
+                // TODO navigation
+            } else {
+                this.setErrorMessage();
+            }
         } else {
             this.setErrorMessage();
         }
