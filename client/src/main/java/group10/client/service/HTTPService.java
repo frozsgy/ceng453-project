@@ -46,6 +46,7 @@ public class HTTPService {
             System.out.println("Invalid credientials");
             return false;
         }
+        System.out.println("Success!");
         return true;
     }
 }
