@@ -16,10 +16,13 @@ public class HTTPService {
     @Value("${spring.application.apiAddress}")
     private String apiAddress;
     private RestTemplate restTemplate;
+    private Gson gson;
+
     private static HTTPService instance;
 
     private HTTPService() {
         this.restTemplate = new RestTemplate();
+        this.gson = new Gson();
     }
     public static HTTPService getInstance() {
         if (instance == null) {
@@ -29,7 +32,6 @@ public class HTTPService {
     }
 
     public boolean login(Player player) {
-        Gson gson = new Gson();
         String json = gson.toJson(player);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
