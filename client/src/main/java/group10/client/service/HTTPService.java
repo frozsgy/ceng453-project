@@ -41,14 +41,15 @@ public class HTTPService {
                 TODO
                 for some reasons, this.apiAddress not injected. for now, I placed url hardcoded to test the client.
              */
-            ResponseEntity<?> response =  restTemplate.exchange("http://localhost:8080/api/user/login", HttpMethod.POST, entity, String.class);
+            ResponseEntity<String> response =  restTemplate.exchange("http://localhost:8080/api/user/login", HttpMethod.POST, entity, String.class);
+            String token = response.getBody(); // store it somewhere
+            System.out.println("Success!");
         } catch (HttpServerErrorException e) {
             // invalid credientials.
             // debug data
             System.out.println("Invalid credientials");
             return false;
         }
-        System.out.println("Success!");
         return true;
     }
 }
