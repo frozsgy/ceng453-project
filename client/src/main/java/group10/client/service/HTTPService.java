@@ -13,7 +13,7 @@ import org.springframework.http.*;
 @Service
 public class HTTPService {
 
-    @Value("${spring.application.apiAddress}")
+    @Value("${spring.application.api-address}")
     private String apiAddress;
     private RestTemplate restTemplate;
     private Gson gson;
