@@ -1,6 +1,8 @@
 package group10.client.controller;
 
 import group10.client.constants.ErrorConstants;
+import group10.client.model.Player;
+import group10.client.service.HTTPService;
 import group10.client.utility.UIUtility;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -40,6 +42,13 @@ public class RegisterController implements Initializable, FormView {
     protected void userRegister(ActionEvent event) throws IOException {
         if (validateForm()) {
             this.clearErrorMessage();
+            Player player = new Player(username.getText(), password.getText(), email.getText());
+            String errorMessage = HTTPService.getInstance().register(player);
+            if (errorMessage != null && errorMessage.isEmpty()) {
+                buttonBackRegister.fire(); // trigger navigation to login.
+            } else {
+                this.setErrorMessage(errorMessage);
+            }
 
         } else {
             this.setErrorMessage(ErrorConstants.REGISTER_ERROR_MESSAGE);

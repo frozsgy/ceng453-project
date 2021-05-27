@@ -1,6 +1,7 @@
 package group10.client.service;
 
 import com.google.gson.Gson;
+import group10.client.constants.ErrorConstants;
 import group10.client.constants.ServerFolders;
 import group10.client.model.Player;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +11,8 @@ import org.springframework.web.client.RestTemplate;
 
 import org.springframework.http.*;
 
+import java.util.Map;
+
 @Service
 public class HTTPService {
 
@@ -17,6 +20,7 @@ public class HTTPService {
     private String apiAddress;
     private RestTemplate restTemplate;
     private Gson gson;
+    private final static String API = "http://localhost:8080/api";
 
     private static HTTPService instance;
 
@@ -41,7 +45,8 @@ public class HTTPService {
                 TODO
                 for some reasons, this.apiAddress not injected. for now, I placed url hardcoded to test the client.
              */
-            ResponseEntity<String> response =  restTemplate.exchange("http://localhost:8080/api/user/login", HttpMethod.POST, entity, String.class);
+            String path = this.API + ServerFolders.LOGIN_PATH;
+            ResponseEntity<String> response =  restTemplate.exchange(path, HttpMethod.POST, entity, String.class);
             String token = response.getBody(); // store it somewhere
             System.out.println("Success!");
         } catch (HttpServerErrorException e) {
@@ -51,5 +56,21 @@ public class HTTPService {
             return false;
         }
         return true;
+    }
+
+    public String register(Player player) {
+        String json = gson.toJson(player);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> entity = new HttpEntity<>(json, headers);
+        try {
+            String path = this.API + ServerFolders.REGISTER_PATH;
+            ResponseEntity<String> response =  restTemplate.exchange(path, HttpMethod.POST, entity, String.class);
+        } catch (HttpServerErrorException e) {
+            String errorKey = "error";
+            Map<String, String> messagePair = gson.fromJson(e.getResponseBodyAsString(), Map.class);
+            return messagePair.get(errorKey);
+        }
+        return ErrorConstants.EMPTY_STRING;
     }
 }
