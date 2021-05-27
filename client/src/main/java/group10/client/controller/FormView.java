@@ -3,7 +3,7 @@ package group10.client.controller;
 
 public interface FormView {
 
-    void setErrorMessage();
+    void setErrorMessage(String msg);
 
     void clearErrorMessage();
 

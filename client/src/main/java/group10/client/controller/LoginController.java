@@ -44,10 +44,10 @@ public class LoginController implements Initializable, FormView {
             if (HTTPService.getInstance().login(player)) {
                 // TODO navigation
             } else {
-                this.setErrorMessage();
+                this.setErrorMessage(ErrorConstants.LOGIN_ERROR_MESSAGE);
             }
         } else {
-            this.setErrorMessage();
+            this.setErrorMessage(ErrorConstants.LOGIN_ERROR_MESSAGE);
         }
     }
 
@@ -59,8 +59,8 @@ public class LoginController implements Initializable, FormView {
     }
 
     @Override
-    public void setErrorMessage() {
-        this.loginErrMsg.setText(ErrorConstants.LOGIN_ERROR_MESSAGE);
+    public void setErrorMessage(String msg) {
+        this.loginErrMsg.setText(msg);
 
     }
 

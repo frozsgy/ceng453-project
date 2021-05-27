@@ -39,11 +39,10 @@ public class RegisterController implements Initializable, FormView {
     @FXML
     protected void userRegister(ActionEvent event) throws IOException {
         if (validateForm()) {
+            this.clearErrorMessage();
 
         } else {
-
-
-
+            this.setErrorMessage(ErrorConstants.REGISTER_ERROR_MESSAGE);
         }
     }
 
@@ -63,8 +62,8 @@ public class RegisterController implements Initializable, FormView {
     }
 
     @Override
-    public void setErrorMessage() {
-        this.registerErrorMsg.setText(ErrorConstants.REGISTER_ERROR_MESSAGE);
+    public void setErrorMessage(String msg) {
+        this.registerErrorMsg.setText(msg);
     }
 
     @Override
