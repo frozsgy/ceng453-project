@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import static group10.client.constants.UiConstants.REGISTER_FXML;
+import group10.client.constants.UiConstants;
 
 @Component
 public class LoginController implements Initializable, FormView {
@@ -45,11 +45,11 @@ public class LoginController implements Initializable, FormView {
     }
 
     @FXML
-    protected void userLogIn(ActionEvent event) throws IOException {
+    protected void userLogIn(ActionEvent event) {
         if (validateForm()) {
             LoadingSpinner spinner = new LoadingSpinner(loginStackPane, loginBorderPane);
             this.clearErrorMessage();
-            Player player = new Player(username.getText(),password.getText());
+            Player player = new Player(username.getText(), password.getText());
             spinner.start();
             Task loginTask = new Task<Boolean>() {
                 @Override
@@ -63,6 +63,8 @@ public class LoginController implements Initializable, FormView {
                         boolean result = (Boolean) loginTask.getValue();
                         if (result) {
                             // TODO navigation
+                            URL resource = getClass().getResource(UiConstants.MENU_FXML);
+                            UIUtility.navigateTo(event, resource, null);
                         } else {
                             this.setErrorMessage(ErrorConstants.LOGIN_ERROR_MESSAGE);
                         }
@@ -75,7 +77,7 @@ public class LoginController implements Initializable, FormView {
 
     @FXML
     protected void navigateToRegister(ActionEvent event) {
-        URL resource = getClass().getResource(REGISTER_FXML);
+        URL resource = getClass().getResource(UiConstants.REGISTER_FXML);
         UIUtility.navigateTo(event, resource, null);
 
     }
