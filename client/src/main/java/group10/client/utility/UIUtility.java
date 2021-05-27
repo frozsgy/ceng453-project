@@ -21,7 +21,7 @@ public class UIUtility {
             Scene scene = new Scene(registerScreen);
             stage.setScene(scene);
             if (title != null && !title.isEmpty()) {
-                stage.setTitle("My New Scene");
+                stage.setTitle(title);
             }
             stage.show();
         } catch (IOException e) {
