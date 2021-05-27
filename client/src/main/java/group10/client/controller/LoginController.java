@@ -27,10 +27,12 @@ import java.net.URL;
 import java.util.EventObject;
 import java.util.ResourceBundle;
 
+import static group10.client.constants.UiConstants.registerFxml;
+
 @Component
 public class LoginController implements Initializable {
 
-    @Value("classpath:/fxml/register.fxml")
+    @Value("classpath:" + registerFxml)
     private Resource registerResource;
     @FXML
     private Button buttonLogin;
@@ -69,7 +71,7 @@ public class LoginController implements Initializable {
     }
     @FXML
     protected void navigateToRegister(ActionEvent event) throws IOException{
-        URL resource = getClass().getResource("/fxml/register.fxml");
+        URL resource = getClass().getResource(registerFxml);
         UIUtility.navigateTo(event, resource, null);
         //UIUtility.navigateTo(event, registerResource, null);
 

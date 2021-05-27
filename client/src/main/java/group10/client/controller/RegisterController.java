@@ -18,9 +18,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static group10.client.constants.UiConstants.loginFxml;
+
 public class RegisterController implements Initializable {
 
-    @Value("classpath:/fxml/login.fxml")
+    @Value("classpath:" + loginFxml)
     private Resource loginResource;
     @FXML
     private TextField username;
@@ -48,7 +50,7 @@ public class RegisterController implements Initializable {
     @FXML
     protected void navigateToLogin(ActionEvent event) throws IOException {
         System.out.println("Going back");
-        URL resource = getClass().getResource("/fxml/login.fxml");
+        URL resource = getClass().getResource(loginFxml);
         UIUtility.navigateTo(event, resource, null);
     }
 }
