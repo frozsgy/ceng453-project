@@ -59,7 +59,7 @@ public class HTTPService {
         return true;
     }
 
-    public String register(Player player, LoadingSpinner spinner) {
+    public String register(Player player) {
         String json = gson.toJson(player);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -68,7 +68,6 @@ public class HTTPService {
             String path = this.API + ServerFolders.REGISTER_PATH;
             ResponseEntity<String> response =  restTemplate.exchange(path, HttpMethod.POST, entity, String.class);
         } catch (HttpServerErrorException e) {
-//            spinner.stop();
             String errorKey = "error";
             Map<String, String> messagePair = gson.fromJson(e.getResponseBodyAsString(), Map.class);
             return messagePair.get(errorKey);
