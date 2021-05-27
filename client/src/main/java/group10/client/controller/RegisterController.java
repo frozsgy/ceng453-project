@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 
@@ -29,6 +30,8 @@ public class RegisterController implements Initializable {
     private Button buttonBackRegister;
     @FXML
     private Button buttonRegister;
+    @FXML
+    private Text registerErrorMsg;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

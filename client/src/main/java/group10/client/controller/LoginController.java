@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -40,7 +41,7 @@ public class LoginController implements Initializable {
     @FXML
     private PasswordField password;
     @FXML
-    private Label loginErrMsg;
+    private Text loginErrMsg;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
     }

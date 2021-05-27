@@ -6,6 +6,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Text?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group10.client.controller.RegisterController">
    <center>
@@ -18,10 +19,8 @@
             <Label layoutX="182.0" layoutY="203.0" text="Password" />
             <Label layoutX="194.0" layoutY="264.0" text="Email" />
             <Button fx:id="buttonRegister" layoutX="163.0" layoutY="335.0" mnemonicParsing="false" onAction="#userRegister" prefHeight="47.0" prefWidth="105.0" text="Register" />
-            <Button fx:id="buttonBack" layoutX="14.0" layoutY="26.0" mnemonicParsing="false" onAction="#navigateToLogin" text="Back" />
-            <Label layoutX="250.0" layoutY="136.0" text="Label" />
-            <Label layoutX="250.0" layoutY="203.0" text="Label" />
-            <Label layoutX="250.0" layoutY="264.0" text="Label" />
+            <Button fx:id="buttonBackRegister" layoutX="14.0" layoutY="26.0" mnemonicParsing="false" onAction="#navigateToLogin" text="Back" />
+            <Text fx:id="registerErrorMsg" fill="RED" layoutX="30.0" layoutY="326.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="364.7392578125" />
          </children>
       </AnchorPane>
    </center>
