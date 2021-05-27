@@ -1,5 +1,6 @@
 package group10.client.controller;
 
+import group10.client.constants.ErrorConstants;
 import group10.client.utility.UIUtility;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -8,8 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
 
 import java.io.IOException;
 import java.net.URL;
@@ -17,7 +16,7 @@ import java.util.ResourceBundle;
 
 import static group10.client.constants.UiConstants.LOGIN_FXML;
 
-public class RegisterController implements Initializable {
+public class RegisterController implements Initializable, FormView {
 
     @FXML
     private TextField username;
@@ -39,7 +38,13 @@ public class RegisterController implements Initializable {
 
     @FXML
     protected void userRegister(ActionEvent event) throws IOException {
-        System.out.println("Registering");
+        if (validateForm()) {
+
+        } else {
+
+
+
+        }
     }
 
     @FXML
@@ -48,4 +53,23 @@ public class RegisterController implements Initializable {
         URL resource = getClass().getResource(LOGIN_FXML);
         UIUtility.navigateTo(event, resource, null);
     }
+
+    @Override
+    public boolean validateForm() {
+        if (username.getText().isEmpty() || password.getText().isEmpty() || email.getText().isEmpty()) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public void setErrorMessage() {
+        this.registerErrorMsg.setText(ErrorConstants.REGISTER_ERROR_MESSAGE);
+    }
+
+    @Override
+    public void clearErrorMessage() {
+        this.registerErrorMsg.setText(ErrorConstants.EMPTY_STRING);
+    }
+
 }

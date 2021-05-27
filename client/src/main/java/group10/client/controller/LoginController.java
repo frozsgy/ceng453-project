@@ -1,7 +1,6 @@
 package group10.client.controller;
 
-import group10.client.constants.LoginConstants;
-import group10.client.constants.SharedConstants;
+import group10.client.constants.ErrorConstants;
 import group10.client.model.Player;
 import group10.client.service.HTTPService;
 import group10.client.utility.UIUtility;
@@ -12,8 +11,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -23,7 +20,7 @@ import java.util.ResourceBundle;
 import static group10.client.constants.UiConstants.REGISTER_FXML;
 
 @Component
-public class LoginController implements Initializable {
+public class LoginController implements Initializable, FormView {
     
     @FXML
     private Button buttonLogin;
@@ -54,12 +51,6 @@ public class LoginController implements Initializable {
         }
     }
 
-    private boolean validateForm() {
-        if (username.getText().isEmpty() || password.getText().isEmpty()) {
-            return false;
-        }
-        return true;
-    }
     @FXML
     protected void navigateToRegister(ActionEvent event) throws IOException{
         URL resource = getClass().getResource(REGISTER_FXML);
@@ -67,11 +58,21 @@ public class LoginController implements Initializable {
 
     }
 
-    private void setErrorMessage() {
-        loginErrMsg.setText(LoginConstants.ERROR_MESSAGE);
+    @Override
+    public void setErrorMessage() {
+        this.loginErrMsg.setText(ErrorConstants.LOGIN_ERROR_MESSAGE);
+
     }
 
-    private void clearErrorMessage() {
-        loginErrMsg.setText(SharedConstants.EMPTY_STRING);
+    @Override
+    public void clearErrorMessage() {
+        this.loginErrMsg.setText(ErrorConstants.EMPTY_STRING);
+    }
+    @Override
+    public boolean validateForm() {
+        if (username.getText().isEmpty() || password.getText().isEmpty()) {
+            return false;
+        }
+        return true;
     }
 }
