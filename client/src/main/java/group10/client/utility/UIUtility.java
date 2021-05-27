@@ -1,12 +1,15 @@
 package group10.client.utility;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 
+import javax.swing.*;
 import java.io.IOException;
 
 public class UIUtility {
@@ -24,5 +27,10 @@ public class UIUtility {
         } catch (IOException e) {
 
         }
+    }
+    public static void navigateTo(ActionEvent event, Resource resource, String title) {
+        Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+        UIUtility.navigateTo(stage, resource, title);
+
     }
 }
