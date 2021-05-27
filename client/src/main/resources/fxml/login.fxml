@@ -23,7 +23,7 @@
             <TextField fx:id="username" layoutX="117.0" layoutY="183.0" />
             <Button fx:id="buttonLogin" layoutX="143.0" layoutY="309.0" mnemonicParsing="false" onAction="#userLogIn" prefHeight="51.0" prefWidth="121.0" text="Log In" />
             <Label fx:id="loginErrMsg" layoutX="138.0" layoutY="114.0" prefHeight="36.0" prefWidth="130.0" textFill="RED" />
-            <Button fx:id="buttonRegister" layoutX="143.0" layoutY="386.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="121.0" text="Register" />
+            <Button fx:id="buttonRegister" layoutX="143.0" layoutY="386.0" mnemonicParsing="false" onAction="#navigateToRegister" prefHeight="51.0" prefWidth="121.0" text="Register" />
          </children>
       </AnchorPane>
    </center>
