@@ -13,15 +13,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
-import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
-
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.concurrent.atomic.AtomicReference;
 
 import static group10.client.constants.UiConstants.LOGIN_FXML;
 
@@ -40,8 +36,6 @@ public class RegisterController implements Initializable, FormView {
     @FXML
     private Text registerErrorMsg;
     @FXML
-    private ProgressIndicator registerSpinner;
-    @FXML
     private AnchorPane registerMidPane;
     @FXML
     private BorderPane registerBorderPane;
@@ -53,9 +47,9 @@ public class RegisterController implements Initializable, FormView {
     public void initialize(URL url, ResourceBundle resourceBundle) { }
 
     @FXML
-    protected void userRegister(ActionEvent event) throws IOException {
-        LoadingSpinner spinner = new LoadingSpinner(registerStackPane, registerBorderPane);
+    protected void userRegister(ActionEvent event) {
         if (validateForm()) {
+            LoadingSpinner spinner = new LoadingSpinner(registerStackPane, registerBorderPane);
             this.clearErrorMessage();
             Player player = new Player(username.getText(), password.getText(), email.getText());
             spinner.start();
@@ -82,7 +76,7 @@ public class RegisterController implements Initializable, FormView {
     }
 
     @FXML
-    protected void navigateToLogin(ActionEvent event) throws IOException {
+    protected void navigateToLogin(ActionEvent event) {
         System.out.println("Going back");
         URL resource = getClass().getResource(LOGIN_FXML);
         UIUtility.navigateTo(event, resource, null);
