@@ -69,9 +69,7 @@ public class LoginController implements Initializable {
     }
     @FXML
     protected void navigateToRegister(ActionEvent event) throws IOException{
-        Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
-        System.out.println("clicked");
-        UIUtility.navigateTo(stage, registerResource, null);
+        UIUtility.navigateTo(event, registerResource, null);
 
     }
 

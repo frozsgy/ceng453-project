@@ -2,6 +2,7 @@ package group10.client.controller;
 
 import group10.client.model.Player;
 import group10.client.service.HTTPService;
+import group10.client.utility.UIUtility;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -46,5 +47,6 @@ public class RegisterController implements Initializable {
     @FXML
     protected void navigateToLogin(ActionEvent event) throws IOException {
         System.out.println("Going back");
+        UIUtility.navigateTo(event, loginResource, null);
     }
 }
