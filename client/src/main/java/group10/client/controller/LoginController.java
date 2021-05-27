@@ -29,7 +29,7 @@ import java.util.ResourceBundle;
 @Component
 public class LoginController implements Initializable {
 
-    @Value("classpath:/fxml/ui.fxml")
+    @Value("classpath:/fxml/register.fxml")
     private Resource registerResource;
     @FXML
     private Button buttonLogin;
