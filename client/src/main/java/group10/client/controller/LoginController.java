@@ -69,7 +69,9 @@ public class LoginController implements Initializable {
     }
     @FXML
     protected void navigateToRegister(ActionEvent event) throws IOException{
-        UIUtility.navigateTo(event, registerResource, null);
+        URL resource = getClass().getResource("/fxml/register.fxml");
+        UIUtility.navigateTo(event, resource, null);
+        //UIUtility.navigateTo(event, registerResource, null);
 
     }
 

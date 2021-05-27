@@ -5,6 +5,7 @@ import group10.client.service.HTTPService;
 import group10.client.utility.UIUtility;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
@@ -47,6 +48,7 @@ public class RegisterController implements Initializable {
     @FXML
     protected void navigateToLogin(ActionEvent event) throws IOException {
         System.out.println("Going back");
-        UIUtility.navigateTo(event, loginResource, null);
+        URL resource = getClass().getResource("/fxml/login.fxml");
+        UIUtility.navigateTo(event, resource, null);
     }
 }
