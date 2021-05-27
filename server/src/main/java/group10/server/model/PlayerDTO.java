@@ -30,7 +30,7 @@ public class PlayerDTO {
      */
     @NotBlank
     @Size(max = 255, min = 3, message = "Please enter a valid email")
-    @Email
+    @Email(message="Please enter a valid email")
     private String email;
 
     /**
