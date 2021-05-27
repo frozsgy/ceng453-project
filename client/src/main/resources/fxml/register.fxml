@@ -6,21 +6,23 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group10.client.controller.RegisterController">
+<BorderPane fx:id="registerBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group10.client.controller.RegisterController">
    <center>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <AnchorPane fx:id="registerMidPane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <TextField fx:id="username" layoutX="117.0" layoutY="183.0" prefHeight="24.0" prefWidth="180.0" />
             <PasswordField fx:id="password" layoutX="117.0" layoutY="263.0" prefHeight="24.0" prefWidth="180.0" />
-            <TextField fx:id="email" layoutX="78.0" layoutY="343.0" prefHeight="24.0" prefWidth="270.0" />
+            <TextField fx:id="email" layoutX="117.0" layoutY="336.0" prefHeight="24.0" prefWidth="180.0" />
             <Label layoutX="167.0" layoutY="160.0" text="Username" />
             <Label layoutX="171.0" layoutY="236.0" text="Password" />
             <Label layoutX="184.0" layoutY="312.0" text="Email" />
-            <Button fx:id="buttonRegister" layoutX="155.0" layoutY="425.0" mnemonicParsing="false" onAction="#userRegister" prefHeight="47.0" prefWidth="105.0" text="Register" />
+            <Button fx:id="buttonRegister" layoutX="150.0" layoutY="401.0" mnemonicParsing="false" onAction="#userRegister" prefHeight="47.0" prefWidth="105.0" text="Register" />
             <Button fx:id="buttonBackRegister" layoutX="14.0" layoutY="26.0" mnemonicParsing="false" onAction="#navigateToLogin" text="Back" />
-            <Text fx:id="registerErrorMsg" fill="RED" layoutX="25.0" layoutY="398.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="364.7392578125" />
+            <Text fx:id="registerErrorMsg" fill="RED" layoutX="20.0" layoutY="389.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="364.7392578125" />
+            <StackPane fx:id="registerStackPane" disable="true" layoutX="-5.0" prefHeight="600.0" prefWidth="404.0" />
          </children>
       </AnchorPane>
    </center>

@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import group10.client.constants.ErrorConstants;
 import group10.client.constants.ServerFolders;
 import group10.client.model.Player;
+import group10.client.utility.LoadingSpinner;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpServerErrorException;
@@ -58,7 +59,7 @@ public class HTTPService {
         return true;
     }
 
-    public String register(Player player) {
+    public String register(Player player, LoadingSpinner spinner) {
         String json = gson.toJson(player);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -67,6 +68,7 @@ public class HTTPService {
             String path = this.API + ServerFolders.REGISTER_PATH;
             ResponseEntity<String> response =  restTemplate.exchange(path, HttpMethod.POST, entity, String.class);
         } catch (HttpServerErrorException e) {
+//            spinner.stop();
             String errorKey = "error";
             Map<String, String> messagePair = gson.fromJson(e.getResponseBodyAsString(), Map.class);
             return messagePair.get(errorKey);
