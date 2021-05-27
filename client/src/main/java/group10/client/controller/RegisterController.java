@@ -1,11 +1,8 @@
 package group10.client.controller;
 
-import group10.client.model.Player;
-import group10.client.service.HTTPService;
 import group10.client.utility.UIUtility;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
@@ -18,12 +15,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static group10.client.constants.UiConstants.loginFxml;
+import static group10.client.constants.UiConstants.LOGIN_FXML;
 
 public class RegisterController implements Initializable {
 
-    @Value("classpath:" + loginFxml)
-    private Resource loginResource;
     @FXML
     private TextField username;
     @FXML
@@ -50,7 +45,7 @@ public class RegisterController implements Initializable {
     @FXML
     protected void navigateToLogin(ActionEvent event) throws IOException {
         System.out.println("Going back");
-        URL resource = getClass().getResource(loginFxml);
+        URL resource = getClass().getResource(LOGIN_FXML);
         UIUtility.navigateTo(event, resource, null);
     }
 }

@@ -7,33 +7,24 @@ import group10.client.service.HTTPService;
 import group10.client.utility.UIUtility;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.EventObject;
 import java.util.ResourceBundle;
 
-import static group10.client.constants.UiConstants.registerFxml;
+import static group10.client.constants.UiConstants.REGISTER_FXML;
 
 @Component
 public class LoginController implements Initializable {
-
-    @Value("classpath:" + registerFxml)
-    private Resource registerResource;
+    
     @FXML
     private Button buttonLogin;
     @FXML
@@ -71,9 +62,8 @@ public class LoginController implements Initializable {
     }
     @FXML
     protected void navigateToRegister(ActionEvent event) throws IOException{
-        URL resource = getClass().getResource(registerFxml);
+        URL resource = getClass().getResource(REGISTER_FXML);
         UIUtility.navigateTo(event, resource, null);
-        //UIUtility.navigateTo(event, registerResource, null);
 
     }
 
