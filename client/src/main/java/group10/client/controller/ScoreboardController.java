@@ -71,11 +71,21 @@ public class ScoreboardController implements Initializable {
         PagedEntity<Scoreboard> pagedEntity = getScoreboard(30,0);
         ScoreboardStorage.getInstance().setData(pagedEntity);
         ScoreboardStorage.getInstance().setInterval(30);
-        List<Integer> pages = IntStream.range(1, (int) pagedEntity.getTotalPages() + 1).boxed().collect(Collectors.toList());
-        pageCombo.getItems().addAll(pages);
-        int currentPage = (int) pagedEntity.getNumber() + 1;
-        pageCombo.getSelectionModel().select(Integer.valueOf(currentPage));
+        this.updateComboboxValues();
+    }
+
+    private void updateItemNumbers() {
+        PagedEntity<Scoreboard> pagedEntity = ScoreboardStorage.getInstance().getData();
         totalEntries.setText("Total Entries: " + pagedEntity.getTotalElements());
+    }
+
+    private void updateComboboxValues() {
+        PagedEntity<Scoreboard> pagedEntity = ScoreboardStorage.getInstance().getData();
+        List<Integer> pages = IntStream.range(1, (int) pagedEntity.getTotalPages() + 1).boxed().collect(Collectors.toList());
+        pageCombo.getItems().clear();
+        pageCombo.getItems().addAll(pages);
+        pageCombo.getSelectionModel().select(0);
+        this.updateItemNumbers();
     }
 
     @SuppressWarnings("unchecked")
@@ -92,33 +102,35 @@ public class ScoreboardController implements Initializable {
 
     @FXML
     protected void goToFirstPage(ActionEvent event) {
-       getScoreboard(ScoreboardStorage.getInstance().getInterval(), 0);
+        pageCombo.getSelectionModel().select(0);
     }
 
     @FXML
     protected void goToPreviousPage(ActionEvent event) {
         long currentPage = ScoreboardStorage.getInstance().getData().getPageDetails().getPageNumber();
         long previousPage = currentPage == 0 ? 0 : currentPage - 1;
-        getScoreboard(ScoreboardStorage.getInstance().getInterval(), previousPage);
+        pageCombo.getSelectionModel().select((int) previousPage);
     }
 
     @FXML
     protected void goToNextPage(ActionEvent event) {
         long currentPage = ScoreboardStorage.getInstance().getData().getPageDetails().getPageNumber();
         long nextPage = currentPage == ScoreboardStorage.getInstance().getData().getTotalPages() - 1 ? currentPage : currentPage + 1;
-        getScoreboard(ScoreboardStorage.getInstance().getInterval(), nextPage);
+        pageCombo.getSelectionModel().select((int) nextPage);
     }
 
     @FXML
     protected void goToLastPage(ActionEvent event) {
         long totalPageNumber = ScoreboardStorage.getInstance().getData().getTotalPages();
-        getScoreboard(ScoreboardStorage.getInstance().getInterval(), totalPageNumber - 1);
+        pageCombo.getSelectionModel().select((int) totalPageNumber - 1);
     }
 
     @FXML
     protected void goToPage(ActionEvent event) {
         Integer selectedPage = (Integer) pageCombo.getSelectionModel().getSelectedItem();
-        getScoreboard(ScoreboardStorage.getInstance().getInterval(), selectedPage - 1);
+        if (selectedPage != null) {
+            getScoreboard(ScoreboardStorage.getInstance().getInterval(), selectedPage - 1);
+        }
     }
 
     @FXML
@@ -130,6 +142,8 @@ public class ScoreboardController implements Initializable {
             case "radio30" -> ScoreboardStorage.getInstance().setInterval(30);
             default -> ScoreboardStorage.getInstance().setInterval(365); // TODO -- all time is a year or not? maybe update sql
         }
-        getScoreboard(ScoreboardStorage.getInstance().getInterval(), 0);
+        this.updateComboboxValues();
+        pageCombo.getSelectionModel().select(0);
+        //getScoreboard(ScoreboardStorage.getInstance().getInterval(), 0);
     }
 }
