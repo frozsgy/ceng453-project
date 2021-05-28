@@ -46,7 +46,7 @@ public class HTTPService {
                 TODO
                 for some reasons, this.apiAddress not injected. for now, I placed url hardcoded to test the client.
              */
-            String path = this.API + ServerFolders.LOGIN_PATH;
+            String path = API + ServerFolders.LOGIN_PATH;
             ResponseEntity<String> response = restTemplate.exchange(path, HttpMethod.POST, entity, String.class);
             String token = response.getBody(); // store it somewhere
             SessionStorage.getInstance().setToken(token);
@@ -67,7 +67,7 @@ public class HTTPService {
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(json, headers);
         try {
-            String path = this.API + ServerFolders.REGISTER_PATH;
+            String path = API + ServerFolders.REGISTER_PATH;
             ResponseEntity<String> response = restTemplate.exchange(path, HttpMethod.POST, entity, String.class);
         } catch (HttpServerErrorException e) {
             String errorKey = "error";
@@ -76,4 +76,24 @@ public class HTTPService {
         }
         return ErrorConstants.EMPTY_STRING;
     }
+
+    public String getScoreboard(long days) {
+        return getScoreboard(days, 0);
+    }
+
+    public String getScoreboard(long days, long page) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(SessionStorage.getInstance().getToken());
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+        try {
+            String path = API + ServerFolders.SCOREBOARD_PATH + "/" + days + "?pageNumber=" + page;
+            ResponseEntity<String> response = restTemplate.exchange(path, HttpMethod.GET, entity, String.class);
+            return response.getBody();
+        } catch (HttpServerErrorException e) {
+            String errorKey = "error";
+            Map<String, String> messagePair = gson.fromJson(e.getResponseBodyAsString(), Map.class);
+            return messagePair.get(errorKey);
+        }
+    }
+
 }

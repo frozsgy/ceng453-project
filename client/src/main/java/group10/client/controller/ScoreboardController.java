@@ -1,16 +1,18 @@
 package group10.client.controller;
 
+import com.google.gson.Gson;
 import group10.client.model.Scoreboard;
-import group10.client.utility.SessionStorage;
+import group10.client.model.ScoreboardEntry;
+import group10.client.service.HTTPService;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.stereotype.Component;
 
 import java.net.URL;
@@ -25,10 +27,10 @@ public class ScoreboardController implements Initializable {
     private BorderPane scoreboardBorderPane;
 
     @FXML
-    private TableView<Scoreboard> tableView;
+    private TableView<ScoreboardEntry> tableView;
 
     @FXML
-    private TableColumn<Scoreboard, Long> scoreColumn;
+    private TableColumn<ScoreboardEntry, Long> scoreColumn;
 
     @FXML
     private Text titleText;
@@ -38,11 +40,26 @@ public class ScoreboardController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         scoreColumn.setSortType(TableColumn.SortType.DESCENDING);
 
+        getScoreboard(30,0);
 
-        ObservableList<Scoreboard> data = tableView.getItems();
-        data.add(new Scoreboard(12, 123, "test"));
-        data.add(new Scoreboard(132, 1233, "test2"));
+    }
+
+    protected void getScoreboard(long days, long page) {
+
+
+
+        ObservableList<ScoreboardEntry> data = tableView.getItems();
+        data.add(new ScoreboardEntry(12, 123, "test"));
+        data.add(new ScoreboardEntry(132, 1233, "test2"));
         tableView.getSortOrder().addAll(scoreColumn);
+
+        String scoreboardString = HTTPService.getInstance().getScoreboard(days, page);
+        System.out.println((scoreboardString));
+        Gson gson = new Gson();
+        Scoreboard scoreboard = gson.fromJson(scoreboardString, Scoreboard.class);
+        tableView.getItems().addAll(scoreboard.getContent());
+        tableView.getSortOrder().addAll(scoreColumn);
+
 
 
     }
