@@ -7,6 +7,7 @@ import group10.client.model.Scoreboard;
 import group10.client.service.HTTPService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
@@ -16,7 +17,10 @@ import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Type;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Component
 public class ScoreboardController implements Initializable {
@@ -35,6 +39,15 @@ public class ScoreboardController implements Initializable {
     @FXML
     private Text titleText;
 
+    @FXML
+    private Text totalEntries;
+
+    @FXML
+    private ComboBox<Integer> pageCombo;
+
+    @FXML
+    private Text pageCount;
+
     private Gson gson;
 
     @Override
@@ -42,17 +55,24 @@ public class ScoreboardController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.gson = new Gson();
         scoreColumn.setSortType(TableColumn.SortType.DESCENDING);
-        getScoreboard(30,0);
-
+        PagedEntity<Scoreboard> pagedEntity = getScoreboard(30,0);
+        List<Integer> pages = IntStream.range(1, (int) pagedEntity.getTotalPages() + 1).boxed().collect(Collectors.toList());
+        pageCombo.getItems().addAll(pages);
+        int currentPage = (int) pagedEntity.getNumber() + 1;
+        pageCombo.getSelectionModel().select(Integer.valueOf(currentPage));
+        long totalPages = pagedEntity.getTotalPages();
+        pageCount.setText(" / " + totalPages);
+        totalEntries.setText("Total Entries: " + pagedEntity.getNumberOfElements());
     }
 
     @SuppressWarnings("unchecked")
-    protected void getScoreboard(long days, long page) {
+    protected PagedEntity<Scoreboard> getScoreboard(long days, long page) {
         tableView.getItems().clear();
         String scoreboardString = HTTPService.getInstance().getScoreboard(days, page);
         Type collectionType = new TypeToken<PagedEntity<Scoreboard>>(){}.getType();
         PagedEntity<Scoreboard> pagedEntity = gson.fromJson(scoreboardString, collectionType);
         tableView.getItems().addAll(pagedEntity.getContent());
         tableView.getSortOrder().addAll(scoreColumn);
+        return pagedEntity;
     }
 }

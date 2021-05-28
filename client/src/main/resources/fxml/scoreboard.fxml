@@ -9,6 +9,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.collections.FXCollections?>
 <BorderPane fx:id="scoreboardBorderPane" maxHeight="-Infinity" maxWidth="-Infinity"
             minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800."
             xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
@@ -24,14 +25,16 @@
     </top>
     <center>
     <AnchorPane fx:id="scoreboardAnchor" prefHeight="400.0" prefWidth="400.0" BorderPane.alignment="CENTER">
-        <Text fx:id="titleText" layoutX="10.0" layoutY="24.0" style="-fx-font: BOLD 28 'Open Sans';">Scoreboard</Text>
-    <TableView fx:id="tableView" layoutY="40"  prefWidth="400">
+        <Text fx:id="titleText" layoutY="24.0" style="-fx-font: BOLD 28 'Open Sans';">Scoreboard</Text>
+        <Text fx:id="totalEntries" layoutY="55.0">Total Entries: </Text>
+
+    <TableView fx:id="tableView" layoutY="70" prefWidth="760" prefHeight="440">
         <columns>
-            <TableColumn text="Username" fx:id="usernameColumn"  prefWidth="180">
+            <TableColumn text="Username" fx:id="usernameColumn"  prefWidth="250">
                 <cellValueFactory><PropertyValueFactory property="username" />
                 </cellValueFactory>
             </TableColumn>
-            <TableColumn text="Score" fx:id="scoreColumn"  prefWidth="100">
+            <TableColumn text="Score" fx:id="scoreColumn"  prefWidth="150">
                 <cellValueFactory><PropertyValueFactory property="score" />
                 </cellValueFactory>
             </TableColumn>
@@ -41,6 +44,20 @@
             <fx:reference source="scoreColumn" sortType="DESCENDING" />
         </sortOrder>
     </TableView>
+        <Button layoutX="10.0" layoutY="535.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="120.0" text="&lt;&lt;" />
+        <Button layoutX="140.0" layoutY="535.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="120.0" text="&lt;" />
+        <ComboBox fx:id="pageCombo" layoutX="320.0" layoutY="535.0" prefHeight="32.0" prefWidth="80.0" promptText="choose">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                </FXCollections>
+            </items>
+        </ComboBox>
+        <Text fx:id="pageCount" layoutX="430.0" layoutY="555.0" style="-fx-font: NORMAL 20 'Open Sans';"> /  </Text>
+
+
+        <Button layoutX="500.0" layoutY="535.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="120.0" text="&gt;" />
+        <Button layoutX="630.0" layoutY="535.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="120.0" text="&gt;&gt;" />
+
     </AnchorPane>
     </center>
 
