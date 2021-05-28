@@ -86,7 +86,8 @@ public class HTTPService {
         headers.setBearerAuth(SessionStorage.getInstance().getToken());
         HttpEntity<String> entity = new HttpEntity<>(headers);
         try {
-            String path = API + ServerFolders.SCOREBOARD_PATH + "/" + days + "?pageSize=1&pageNumber=" + page;
+            // pageSize=1&
+            String path = API + ServerFolders.SCOREBOARD_PATH + "/" + days + "?pageNumber=" + page;
             ResponseEntity<String> response = restTemplate.exchange(path, HttpMethod.GET, entity, String.class);
             return response.getBody();
         } catch (HttpServerErrorException e) {

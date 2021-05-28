@@ -45,17 +45,14 @@
         </sortOrder>
     </TableView>
         <Button layoutX="10.0" layoutY="535.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="120.0" text="&lt;&lt;" />
-        <Button layoutX="140.0" layoutY="535.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="120.0" text="&lt;" />
-        <ComboBox fx:id="pageCombo" layoutX="320.0" layoutY="535.0" prefHeight="32.0" prefWidth="80.0" promptText="choose">
+        <Button layoutX="150.0" layoutY="535.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="120.0" text="&lt;" />
+        <ComboBox fx:id="pageCombo" layoutX="320.0" layoutY="535.0" prefHeight="32.0" prefWidth="120.0" promptText="choose">
             <items>
                 <FXCollections fx:factory="observableArrayList">
                 </FXCollections>
             </items>
         </ComboBox>
-        <Text fx:id="pageCount" layoutX="430.0" layoutY="555.0" style="-fx-font: NORMAL 20 'Open Sans';"> /  </Text>
-
-
-        <Button layoutX="500.0" layoutY="535.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="120.0" text="&gt;" />
+        <Button layoutX="490.0" layoutY="535.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="120.0" text="&gt;" />
         <Button layoutX="630.0" layoutY="535.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="120.0" text="&gt;&gt;" />
 
     </AnchorPane>

@@ -45,9 +45,6 @@ public class ScoreboardController implements Initializable {
     @FXML
     private ComboBox<Integer> pageCombo;
 
-    @FXML
-    private Text pageCount;
-
     private Gson gson;
 
     @Override
@@ -60,8 +57,6 @@ public class ScoreboardController implements Initializable {
         pageCombo.getItems().addAll(pages);
         int currentPage = (int) pagedEntity.getNumber() + 1;
         pageCombo.getSelectionModel().select(Integer.valueOf(currentPage));
-        long totalPages = pagedEntity.getTotalPages();
-        pageCount.setText(" / " + totalPages);
         totalEntries.setText("Total Entries: " + pagedEntity.getNumberOfElements());
     }
 
