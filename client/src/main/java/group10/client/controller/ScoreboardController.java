@@ -11,9 +11,7 @@ import group10.client.utility.UIUtility;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
@@ -49,11 +47,25 @@ public class ScoreboardController implements Initializable {
     @FXML
     private ComboBox<Integer> pageCombo;
 
+    @FXML
+    private RadioButton radio7;
+
+    @FXML
+    private RadioButton radio30;
+
+    @FXML
+    private RadioButton radioAll;
+
     private Gson gson;
+    private ToggleGroup group;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        this.group = new ToggleGroup();
+        radio7.setToggleGroup(group);
+        radio30.setToggleGroup(group);
+        radioAll.setToggleGroup(group);
         this.gson = new Gson();
         scoreColumn.setSortType(TableColumn.SortType.DESCENDING);
         PagedEntity<Scoreboard> pagedEntity = getScoreboard(30,0);
@@ -107,5 +119,17 @@ public class ScoreboardController implements Initializable {
     protected void goToPage(ActionEvent event) {
         Integer selectedPage = (Integer) pageCombo.getSelectionModel().getSelectedItem();
         getScoreboard(ScoreboardStorage.getInstance().getInterval(), selectedPage - 1);
+    }
+
+    @FXML
+    protected void changeInterval(ActionEvent event) {
+        RadioButton selectedRadioButton = (RadioButton) group.getSelectedToggle();
+        String radioId = selectedRadioButton.getId();
+        switch (radioId) {
+            case "radio7" -> ScoreboardStorage.getInstance().setInterval(7);
+            case "radio30" -> ScoreboardStorage.getInstance().setInterval(30);
+            default -> ScoreboardStorage.getInstance().setInterval(365); // TODO -- all time is a year or not? maybe update sql
+        }
+        getScoreboard(ScoreboardStorage.getInstance().getInterval(), 0);
     }
 }

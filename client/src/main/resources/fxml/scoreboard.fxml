@@ -28,6 +28,10 @@
         <Text fx:id="titleText" layoutY="24.0" style="-fx-font: BOLD 28 'Open Sans';">Scoreboard</Text>
         <Text fx:id="totalEntries" layoutY="55.0">Total Entries: </Text>
 
+        <RadioButton fx:id="radio7" layoutY="45" layoutX="520" onAction="#changeInterval">7 days</RadioButton>
+        <RadioButton fx:id="radio30" layoutY="45" layoutX="600" selected="true" onAction="#changeInterval">30 days</RadioButton>
+        <RadioButton fx:id="radioAll" layoutY="45" layoutX="680" onAction="#changeInterval">All time</RadioButton>
+
     <TableView fx:id="tableView" layoutY="70" prefWidth="760" prefHeight="440">
         <columns>
             <TableColumn text="Username" fx:id="usernameColumn"  prefWidth="250">
