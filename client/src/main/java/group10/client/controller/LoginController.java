@@ -5,7 +5,7 @@ import group10.client.constants.UiConstants;
 import group10.client.model.Player;
 import group10.client.service.HTTPService;
 import group10.client.utility.LoadingSpinner;
-import group10.client.utility.SessionStorage;
+import group10.client.state.SessionStorage;
 import group10.client.utility.UIUtility;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
@@ -19,7 +19,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.net.URL;

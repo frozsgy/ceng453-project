@@ -1,5 +1,6 @@
 package group10.client.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PagedEntity<T> {
@@ -35,7 +36,7 @@ public class PagedEntity<T> {
     }
 
     public static class PageDetails {
-        private PageSort pageSort;
+        private PageSort sort;
         private long offset;
         private long pageNumber;
         private long pageSize;
@@ -43,11 +44,11 @@ public class PagedEntity<T> {
         private boolean unpaged;
 
         public PageSort getPageSort() {
-            return pageSort;
+            return sort;
         }
 
         public void setPageSort(PageSort pageSort) {
-            this.pageSort = pageSort;
+            this.sort = pageSort;
         }
 
         public long getOffset() {
@@ -92,13 +93,13 @@ public class PagedEntity<T> {
     }
 
     private List<T> content;
-    private PageDetails pageDetails;
+    private PageDetails pageable;
     private long totalElements;
     private long totalPages;
     private boolean last;
     private long size;
     private long number;
-    private PageSort pageSort;
+    private PageSort sort;
     private long numberOfElements;
     private boolean first;
     private boolean empty;
@@ -112,11 +113,11 @@ public class PagedEntity<T> {
     }
 
     public PageDetails getPageDetails() {
-        return pageDetails;
+        return pageable;
     }
 
     public void setPageDetails(PageDetails pageDetails) {
-        this.pageDetails = pageDetails;
+        this.pageable = pageDetails;
     }
 
     public long getTotalElements() {
@@ -160,11 +161,11 @@ public class PagedEntity<T> {
     }
 
     public PageSort getPageSort() {
-        return pageSort;
+        return sort;
     }
 
     public void setPageSort(PageSort pageSort) {
-        this.pageSort = pageSort;
+        this.sort = pageSort;
     }
 
     public long getNumberOfElements() {

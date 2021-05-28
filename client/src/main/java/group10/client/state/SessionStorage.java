@@ -1,4 +1,4 @@
-package group10.client.utility;
+package group10.client.state;
 
 
 public class SessionStorage {

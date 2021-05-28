@@ -1,7 +1,7 @@
 package group10.client.controller;
 
 import group10.client.constants.UiConstants;
-import group10.client.utility.SessionStorage;
+import group10.client.state.SessionStorage;
 import group10.client.utility.UIUtility;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

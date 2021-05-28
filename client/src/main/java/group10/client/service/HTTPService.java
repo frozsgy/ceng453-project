@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import group10.client.constants.ErrorConstants;
 import group10.client.constants.ServerFolders;
 import group10.client.model.Player;
-import group10.client.utility.SessionStorage;
+import group10.client.state.SessionStorage;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -87,7 +87,7 @@ public class HTTPService {
         HttpEntity<String> entity = new HttpEntity<>(headers);
         try {
             // pageSize=1&
-            String path = API + ServerFolders.SCOREBOARD_PATH + "/" + days + "?pageNumber=" + page;
+            String path = API + ServerFolders.SCOREBOARD_PATH + "/" + days + "?pageSize=1&pageNumber=" + page;
             ResponseEntity<String> response = restTemplate.exchange(path, HttpMethod.GET, entity, String.class);
             return response.getBody();
         } catch (HttpServerErrorException e) {
