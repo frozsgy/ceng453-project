@@ -35,7 +35,8 @@ public interface MatchRepository extends JpaRepository<Match, Long> {
      * @param pageable Pageable object for pagination
      * @return Page of Scoreboard
      */
-    @Query(value = "SELECT SUM(r.score) AS Score, r.player_id AS UserId FROM rounds r " +
+    @Query(value = "SELECT SUM(r.score) AS Score, r.player_id AS UserId, p.username AS Username FROM rounds r " +
+            "JOIN player p ON r.player_id = p.id "+
             "WHERE r.create_date >= TIMESTAMPADD(DAY, :days, NOW()) GROUP BY r.player_id ORDER BY Score DESC ",
             countQuery = "SELECT COUNT(*) FROM (SELECT SUM(r.score) AS Score, r.player_id AS UserId FROM rounds r " +
                     "WHERE r.create_date >= TIMESTAMPADD(DAY, :days, NOW()) GROUP BY r.player_id) k",

@@ -18,9 +18,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @Transactional
 public class MatchServiceTests {
 
-    private final String testUsername = "testUser2";
+    private final String testUsername = "testUser24";
     private final String testPassword = "testPassword";
-    private final String testEmail = "test2@gmail.com";
+    private final String testEmail = "test24@gmail.com";
     private static long gameId = -1;
     private static int scorePerMatch = 42;
     private static Player player = null;

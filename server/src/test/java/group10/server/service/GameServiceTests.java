@@ -22,9 +22,9 @@ import static org.junit.jupiter.api.Assertions.*;
 @Transactional
 public class GameServiceTests {
 
-    private final String testUsername = "testUser2";
+    private final String testUsername = "testUser24";
     private final String testPassword = "testPassword";
-    private final String testEmail = "test2@gmail.com";
+    private final String testEmail = "test24@gmail.com";
     private static String token;
     private static long gameId = -1;
     private static int scorePerMatch = 42;

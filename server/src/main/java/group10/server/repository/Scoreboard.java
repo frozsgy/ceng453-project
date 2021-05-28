@@ -19,4 +19,11 @@ public interface Scoreboard {
      * @return User id.
      */
     long getUserId();
+
+    /**
+     * Getter method for Username.
+     *
+     * @return Username.
+     */
+    String getUsername();
 }
