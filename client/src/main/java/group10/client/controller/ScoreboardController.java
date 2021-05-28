@@ -24,6 +24,9 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static group10.client.constants.UiConstants.LOGIN_FXML;
+import static group10.client.constants.UiConstants.MENU_FXML;
+
 @Component
 public class ScoreboardController implements Initializable {
 
@@ -55,6 +58,9 @@ public class ScoreboardController implements Initializable {
 
     @FXML
     private RadioButton radioAll;
+
+    @FXML
+    private Button backScoreboard;
 
     private Gson gson;
     private ToggleGroup group;
@@ -145,5 +151,11 @@ public class ScoreboardController implements Initializable {
         this.updateComboboxValues();
         pageCombo.getSelectionModel().select(0);
         //getScoreboard(ScoreboardStorage.getInstance().getInterval(), 0);
+    }
+
+    @FXML
+    protected void navigateToHome(ActionEvent event) {
+        URL resource = getClass().getResource(MENU_FXML);
+        UIUtility.navigateTo(event, resource, null);
     }
 }

@@ -26,6 +26,7 @@
     <center>
     <AnchorPane fx:id="scoreboardAnchor" prefHeight="400.0" prefWidth="400.0" BorderPane.alignment="CENTER">
         <Text fx:id="titleText" layoutY="24.0" style="-fx-font: BOLD 28 'Open Sans';">Scoreboard</Text>
+        <Button fx:id="backScoreboard"  layoutX="640" mnemonicParsing="false" onAction="#navigateToHome" prefHeight="32.0" prefWidth="120.0">Back</Button>
         <Text fx:id="totalEntries" layoutY="55.0">Total Entries: </Text>
 
         <RadioButton fx:id="radio7" layoutY="45" layoutX="520" onAction="#changeInterval">7 days</RadioButton>
