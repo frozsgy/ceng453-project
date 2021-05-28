@@ -6,10 +6,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
 
@@ -40,13 +38,13 @@ public class UIUtility {
     }
 
     public static void navigateTo(ActionEvent event, Resource resource, String title) {
-        Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         UIUtility.navigateTo(stage, resource, title);
 
     }
 
     public static void navigateTo(ActionEvent event, URL resource, String title) {
-        Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         UIUtility.navigateTo(stage, resource, title);
 
     }

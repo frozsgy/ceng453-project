@@ -1,6 +1,5 @@
 package group10.client;
 
-import group10.client.controller.LoginController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -24,6 +23,7 @@ public class StageInitializer implements ApplicationListener<UiApplication.Stage
     private String applicationTitle;
     private ApplicationContext applicationContext;
     public static Stage stage;
+
     public StageInitializer(@Value("${spring.application.ui.title}") String applicationTitle,
                             ApplicationContext applicationContext) {
         this.applicationTitle = applicationTitle;

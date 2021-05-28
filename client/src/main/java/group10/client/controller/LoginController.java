@@ -43,9 +43,6 @@ public class LoginController implements Initializable, FormView {
     @FXML
     private BorderPane loginBorderPane;
 
-    @Value("${spring.application.ui.title}")
-    private String initialTitle;
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         buttonLogin.setDefaultButton(true);
@@ -72,7 +69,8 @@ public class LoginController implements Initializable, FormView {
                             // TODO navigation
                             URL resource = getClass().getResource(UiConstants.MENU_FXML);
                             String username = SessionStorage.getInstance().getUsername();
-                            String newTitle = initialTitle + " - " + username;
+                            String title = UiConstants.getInstance().getWindowTitle();
+                            String newTitle = title + " - " + username;
                             UIUtility.navigateTo(event, resource, newTitle);
                         } else {
                             this.setErrorMessage(ErrorConstants.LOGIN_ERROR_MESSAGE);
