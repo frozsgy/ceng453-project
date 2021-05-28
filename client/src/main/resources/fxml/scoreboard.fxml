@@ -46,7 +46,7 @@
     </TableView>
         <Button layoutX="10.0" layoutY="535.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="120.0" text="&lt;&lt;" onAction="#goToFirstPage" />
         <Button layoutX="150.0" layoutY="535.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="120.0" text="&lt;" onAction="#goToPreviousPage" />
-        <ComboBox fx:id="pageCombo" layoutX="320.0" layoutY="535.0" prefHeight="32.0" prefWidth="120.0" promptText="choose">
+        <ComboBox fx:id="pageCombo" layoutX="320.0" layoutY="535.0" prefHeight="32.0" prefWidth="120.0" promptText="Page" onAction="#goToPage">
             <items>
                 <FXCollections fx:factory="observableArrayList">
                 </FXCollections>

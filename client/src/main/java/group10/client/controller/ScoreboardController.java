@@ -63,8 +63,7 @@ public class ScoreboardController implements Initializable {
         pageCombo.getItems().addAll(pages);
         int currentPage = (int) pagedEntity.getNumber() + 1;
         pageCombo.getSelectionModel().select(Integer.valueOf(currentPage));
-
-        totalEntries.setText("Total Entries: " + pagedEntity.getNumberOfElements());
+        totalEntries.setText("Total Entries: " + pagedEntity.getTotalElements());
     }
 
     @SuppressWarnings("unchecked")
@@ -102,5 +101,11 @@ public class ScoreboardController implements Initializable {
     protected void goToLastPage(ActionEvent event) {
         long totalPageNumber = ScoreboardStorage.getInstance().getData().getTotalPages();
         getScoreboard(ScoreboardStorage.getInstance().getInterval(), totalPageNumber - 1);
+    }
+
+    @FXML
+    protected void goToPage(ActionEvent event) {
+        Integer selectedPage = (Integer) pageCombo.getSelectionModel().getSelectedItem();
+        getScoreboard(ScoreboardStorage.getInstance().getInterval(), selectedPage - 1);
     }
 }
