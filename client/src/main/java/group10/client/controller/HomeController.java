@@ -11,10 +11,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
 
 @Component
 public class HomeController implements Initializable {
@@ -57,7 +59,8 @@ public class HomeController implements Initializable {
     protected void logout(ActionEvent event) {
         SessionStorage.getInstance().logout();
         URL resource = getClass().getResource(UiConstants.LOGIN_FXML);
-        UIUtility.navigateTo(event, resource, null);
+        String title = UiConstants.getInstance().getWindowTitle();
+        UIUtility.navigateTo(event, resource, title);
     }
 
 }

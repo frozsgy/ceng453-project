@@ -4,6 +4,7 @@ import group10.client.constants.ErrorConstants;
 import group10.client.model.Player;
 import group10.client.service.HTTPService;
 import group10.client.utility.LoadingSpinner;
+import group10.client.utility.SessionStorage;
 import group10.client.utility.UIUtility;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
@@ -17,6 +18,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.net.URL;
@@ -40,6 +42,10 @@ public class LoginController implements Initializable, FormView {
     private StackPane loginStackPane;
     @FXML
     private BorderPane loginBorderPane;
+
+    @Value("${spring.application.ui.title}")
+    private String initialTitle;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
     }
@@ -64,7 +70,9 @@ public class LoginController implements Initializable, FormView {
                         if (result) {
                             // TODO navigation
                             URL resource = getClass().getResource(UiConstants.MENU_FXML);
-                            UIUtility.navigateTo(event, resource, null);
+                            String username = SessionStorage.getInstance().getUsername();
+                            String newTitle = initialTitle + " - " + username;
+                            UIUtility.navigateTo(event, resource, newTitle);
                         } else {
                             this.setErrorMessage(ErrorConstants.LOGIN_ERROR_MESSAGE);
                         }
@@ -94,9 +102,6 @@ public class LoginController implements Initializable, FormView {
     }
     @Override
     public boolean validateForm() {
-        if (username.getText().isEmpty() || password.getText().isEmpty()) {
-            return false;
-        }
-        return true;
+        return !username.getText().isEmpty() && !password.getText().isEmpty();
     }
 }
