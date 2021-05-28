@@ -14,8 +14,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -44,7 +47,9 @@ public class RegisterController implements Initializable, FormView {
 
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) { }
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        buttonRegister.setDefaultButton(true);
+    }
 
     @FXML
     protected void userRegister(ActionEvent event) {
@@ -63,7 +68,7 @@ public class RegisterController implements Initializable, FormView {
                     (EventHandler<WorkerStateEvent>) t -> {
                         spinner.stop();
                         String errorMessage = (String) registerTask.getValue();
-                        if (errorMessage!= null && errorMessage.isEmpty()) {
+                        if (errorMessage != null && errorMessage.isEmpty()) {
                             buttonBackRegister.fire(); // trigger navigation to login.
                         } else {
                             setErrorMessage(errorMessage);
