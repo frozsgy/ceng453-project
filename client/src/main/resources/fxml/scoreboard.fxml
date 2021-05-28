@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<BorderPane fx:id="scoreboardBorderPane" maxHeight="-Infinity" maxWidth="-Infinity"
+            minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800."
+            xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="group10.client.controller.ScoreboardController">
+    <left>
+        <AnchorPane prefHeight="200.0" prefWidth="20.0" BorderPane.alignment="CENTER" />
+    </left>
+    <right>
+        <AnchorPane prefHeight="200.0" prefWidth="20.0" BorderPane.alignment="CENTER" />
+    </right>
+    <top>
+        <AnchorPane prefHeight="10.0" prefWidth="20.0" BorderPane.alignment="CENTER" />
+    </top>
+    <center>
+    <AnchorPane fx:id="scoreboardAnchor" prefHeight="400.0" prefWidth="400.0" BorderPane.alignment="CENTER">
+        <Text fx:id="titleText" layoutX="10.0" layoutY="24.0" style="-fx-font: BOLD 28 'Open Sans';">Scoreboard</Text>
+    <TableView fx:id="tableView" layoutY="40"  prefWidth="400">
+        <columns>
+            <TableColumn text="Username" fx:id="usernameColumn"  prefWidth="180">
+                <cellValueFactory><PropertyValueFactory property="username" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Score" fx:id="scoreColumn"  prefWidth="100">
+                <cellValueFactory><PropertyValueFactory property="score" />
+                </cellValueFactory>
+            </TableColumn>
+
+        </columns>
+        <sortOrder>
+            <fx:reference source="scoreColumn" sortType="DESCENDING" />
+        </sortOrder>
+    </TableView>
+    </AnchorPane>
+    </center>
+
+</BorderPane>

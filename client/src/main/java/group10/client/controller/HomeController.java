@@ -48,6 +48,8 @@ public class HomeController implements Initializable {
 
     @FXML
     protected void navigateToScoreboard(ActionEvent event) {
+        URL resource = getClass().getResource(UiConstants.SCOREBOARD_XML);
+        UIUtility.navigateTo(event, resource, null);
 
 
     }
