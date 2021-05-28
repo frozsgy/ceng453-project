@@ -35,32 +35,23 @@ public class ScoreboardController implements Initializable {
     @FXML
     private Text titleText;
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        scoreColumn.setSortType(TableColumn.SortType.DESCENDING);
+    private Gson gson;
 
+    @Override
+
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        this.gson = new Gson();
+        scoreColumn.setSortType(TableColumn.SortType.DESCENDING);
         getScoreboard(30,0);
 
     }
 
+    @SuppressWarnings("unchecked")
     protected void getScoreboard(long days, long page) {
-
-
-
-        ObservableList<ScoreboardEntry> data = tableView.getItems();
-        data.add(new ScoreboardEntry(12, 123, "test"));
-        data.add(new ScoreboardEntry(132, 1233, "test2"));
-        tableView.getSortOrder().addAll(scoreColumn);
-
+        tableView.getItems().clear();
         String scoreboardString = HTTPService.getInstance().getScoreboard(days, page);
-        System.out.println((scoreboardString));
-        Gson gson = new Gson();
         Scoreboard scoreboard = gson.fromJson(scoreboardString, Scoreboard.class);
         tableView.getItems().addAll(scoreboard.getContent());
         tableView.getSortOrder().addAll(scoreColumn);
-
-
-
     }
 }
