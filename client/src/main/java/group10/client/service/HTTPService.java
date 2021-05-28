@@ -5,6 +5,7 @@ import group10.client.constants.ErrorConstants;
 import group10.client.constants.ServerFolders;
 import group10.client.model.Player;
 import group10.client.utility.LoadingSpinner;
+import group10.client.utility.SessionStorage;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpServerErrorException;
@@ -31,7 +32,7 @@ public class HTTPService {
     }
     public static HTTPService getInstance() {
         if (instance == null) {
-            return new HTTPService();
+            instance = new HTTPService();
         }
         return instance;
     }
@@ -49,6 +50,8 @@ public class HTTPService {
             String path = this.API + ServerFolders.LOGIN_PATH;
             ResponseEntity<String> response =  restTemplate.exchange(path, HttpMethod.POST, entity, String.class);
             String token = response.getBody(); // store it somewhere
+            SessionStorage.getInstance().setToken(token);
+            SessionStorage.getInstance().setUsername(player.getUsername());
             System.out.println("Success!");
         } catch (HttpServerErrorException e) {
             // invalid credientials.
