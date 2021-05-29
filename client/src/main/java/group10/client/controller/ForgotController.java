@@ -55,7 +55,13 @@ public class ForgotController implements Initializable, FormView {
 
     }
 
-    private boolean sendCodeRequest(String email) {
+    private void makeStateTransition() {
+        this.forgotEmail.setDisable(true);
+        this.forgotCode.setDisable(false);
+        this.forgotUsername.setDisable(false);
+        this.forgotNewPassword.setDisable(false);
+    }
+    private void sendCodeRequest(String email) {
         Task requestCodeTask = new Task<Boolean>() {
             @Override
             public Boolean call() {
@@ -69,6 +75,7 @@ public class ForgotController implements Initializable, FormView {
                     this.isEmailSubmitted = out;
                     if (out) {
                         setSuccessMessage(UiInfoConstants.EMAIL_SENT_SUCCESS);
+                        this.makeStateTransition();
                     } else {
                         setErrorMessage(UiInfoConstants.USER_NOT_FOUND);
                     }
@@ -77,15 +84,15 @@ public class ForgotController implements Initializable, FormView {
     }
     @FXML
     public void submitForgot(ActionEvent event) {
-        if (this.validateForm()) {
+        if (!this.validateForm()) {
             this.setErrorMessage(UiInfoConstants.EMPTY_FIELD_ERROR_MESSAGE);
         } else {
             if (!isEmailSubmitted) {
                 this.forgotSendEmailButton.setText(BUTTON_RESET_TEXT);
+                System.out.println(this.forgotEmail.getText());
                 this.sendCodeRequest(this.forgotEmail.getText());
             } else {
                 this.forgotSendEmailButton.setText(BUTTON_EMAIL_TEXT);
-                isEmailSubmitted = false;
             }
         }
     }

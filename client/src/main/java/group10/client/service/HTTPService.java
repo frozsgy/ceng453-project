@@ -3,6 +3,7 @@ package group10.client.service;
 import com.google.gson.Gson;
 import group10.client.constants.UiInfoConstants;
 import group10.client.constants.ServerFolders;
+import group10.client.model.PasswordReset;
 import group10.client.model.Player;
 import group10.client.state.SessionStorage;
 import org.springframework.beans.factory.annotation.Value;
@@ -77,21 +78,19 @@ public class HTTPService {
         return UiInfoConstants.EMPTY_STRING;
     }
 
-    public Boolean sendCode(String emailInput) {
-        class EmailContainer {
-            String email;
-            EmailContainer(String email) {this.email = email;}
-        }
-        EmailContainer emailContainer = new EmailContainer(emailInput);
+    public Boolean sendCode(String email) {
+
+        PasswordReset emailContainer = new PasswordReset(email);
         String json = gson.toJson(emailContainer);
+        System.out.println(json);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(json, headers);
         try {
             String path = API + ServerFolders.REQUEST_CODE_PATH;
             ResponseEntity<Boolean> response = restTemplate.exchange(path, HttpMethod.POST, entity, Boolean.class);
-            System.out.println(response);
-            return true;
+            boolean body = response.getBody();
+            return body;
         } catch (HttpServerErrorException e) {
             System.out.println("Error");
         }

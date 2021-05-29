@@ -12,7 +12,7 @@
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Text fx:id="forgotInfoText" layoutX="42.0" layoutY="403.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="315.9912109375" />
+            <Text fx:id="forgotInfoText" layoutX="3.0" layoutY="400.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="394.9912109375" />
             <TextField fx:id="forgotEmail" layoutX="115.0" layoutY="125.0" />
             <TextField fx:id="forgotUsername" disable="true" layoutX="115.0" layoutY="200.0" />
             <TextField fx:id="forgotCode" disable="true" layoutX="115.0" layoutY="275.0" />
