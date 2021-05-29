@@ -23,8 +23,8 @@ public class UIUtility {
                 stage.setTitle(title);
             }
             stage.show();
-        } catch (IOException ignored) {
-
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -32,7 +32,8 @@ public class UIUtility {
     public static void navigateTo(Stage stage, Resource resource, String title) {
         try {
             navigateTo(stage, resource.getURL(), title);
-        } catch (IOException ignored) {
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
     }
