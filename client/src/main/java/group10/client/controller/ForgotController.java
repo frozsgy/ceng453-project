@@ -4,6 +4,7 @@ import group10.client.constants.UiInfoConstants;
 import group10.client.constants.UiConstants;
 import group10.client.model.PasswordReset;
 import group10.client.service.HTTPService;
+import group10.client.utility.LoadingSpinner;
 import group10.client.utility.UIUtility;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
@@ -14,6 +15,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import org.springframework.stereotype.Component;
 
@@ -44,6 +47,10 @@ public class ForgotController implements Initializable, FormView {
     private Text forgotInfoText;
     @FXML
     private Button forgotBackButton;
+    @FXML
+    private StackPane forgotStackPane;
+    @FXML
+    private BorderPane forgotBorderPane;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -65,6 +72,8 @@ public class ForgotController implements Initializable, FormView {
     }
 
     private void sendRequest(PasswordReset resetContainer) {
+        LoadingSpinner spinner = new LoadingSpinner(forgotStackPane, forgotBorderPane);
+        spinner.start();
         Task requestCodeTask = new Task<String>() {
             @Override
             public String call() {
@@ -92,6 +101,7 @@ public class ForgotController implements Initializable, FormView {
                     } else {
                         setErrorMessage(msg);
                     }
+                    spinner.stop();
                 });
         new Thread(requestCodeTask).start();
     }
