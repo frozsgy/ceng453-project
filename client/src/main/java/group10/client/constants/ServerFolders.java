@@ -6,6 +6,7 @@ public class ServerFolders {
     public final static String LOGIN_PATH = USER + "login";
     public final static String REGISTER_PATH = USER + "register";
     public final static String REQUEST_CODE_PATH = USER + "requestPwCode";
+    public final static String UPDATE_PW_PATH = USER + "updatePassword";
     public final static String SCOREBOARD_PATH = GAME + "scoreboard";
 
 }
