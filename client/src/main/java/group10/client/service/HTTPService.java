@@ -44,9 +44,10 @@ public class HTTPService {
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(json, headers);
         try {
-            /*
+            /**
                 TODO
                 for some reasons, this.apiAddress not injected. for now, I placed url hardcoded to test the client.
+                also, hash passwords.
              */
             String path = API + ServerFolders.LOGIN_PATH;
             ResponseEntity<String> response = restTemplate.exchange(path, HttpMethod.POST, entity, String.class);

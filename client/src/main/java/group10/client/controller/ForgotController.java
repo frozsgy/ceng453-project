@@ -109,7 +109,6 @@ public class ForgotController implements Initializable, FormView {
         } else {
             clearErrorMessage();
             if (!isEmailSubmitted) {
-                this.forgotSendEmailButton.setText(BUTTON_EMAIL_TEXT);
                 PasswordReset emailContainer = new PasswordReset(this.forgotEmail.getText());
                 this.sendRequest(emailContainer);
             } else {
