@@ -40,33 +40,29 @@ public interface MatchRepository extends JpaRepository<Match, Long> {
             "FROM rounds r " +
             "JOIN player p ON r.player_id = p.id "+
             "JOIN  " +
-            "(SELECT SUM(r.score) AS Score, r.player_id AS UserId, p.username AS Username " +
+            "(SELECT SUM(r.score) AS Score, r.player_id AS UserId " +
             "FROM rounds r  " +
-            "JOIN player p ON r.player_id = p.id  " +
             "WHERE r.create_date >= TIMESTAMPADD(DAY, :days, NOW())  " +
             "AND r.level = 1 " +
             "GROUP BY r.player_id) l1  " +
             "ON l1.UserId = r.player_id " +
             "JOIN  " +
-            "(SELECT SUM(r.score) AS Score, r.player_id AS UserId, p.username AS Username " +
+            "(SELECT SUM(r.score) AS Score, r.player_id AS UserId " +
             "FROM rounds r  " +
-            "JOIN player p ON r.player_id = p.id  " +
             "WHERE r.create_date >= TIMESTAMPADD(DAY, :days, NOW())  " +
             "AND r.level = 2 " +
             "GROUP BY r.player_id) l2 " +
             "ON l2.UserId = r.player_id " +
             "JOIN " +
-            "(SELECT SUM(r.score) AS Score, r.player_id AS UserId, p.username AS Username " +
+            "(SELECT SUM(r.score) AS Score, r.player_id AS UserId " +
             "FROM rounds r  " +
-            "JOIN player p ON r.player_id = p.id  " +
             "WHERE r.create_date >= TIMESTAMPADD(DAY, :days, NOW())  " +
             "AND r.level = 3 " +
             "GROUP BY r.player_id) l3 " +
             "ON l3.UserId = r.player_id " +
             "JOIN  " +
-            "(SELECT SUM(r.score) AS Score, r.player_id AS UserId, p.username AS Username " +
+            "(SELECT SUM(r.score) AS Score, r.player_id AS UserId " +
             "FROM rounds r  " +
-            "JOIN player p ON r.player_id = p.id  " +
             "WHERE r.create_date >= TIMESTAMPADD(DAY, :days, NOW())  " +
             "AND r.level = 4 " +
             "GROUP BY r.player_id) l4 " +
