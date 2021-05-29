@@ -14,6 +14,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -41,6 +42,8 @@ public class LoginController implements Initializable, FormView {
     private StackPane loginStackPane;
     @FXML
     private BorderPane loginBorderPane;
+    @FXML
+    private Hyperlink forgetPwForwarder;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -86,6 +89,12 @@ public class LoginController implements Initializable, FormView {
         URL resource = getClass().getResource(UiConstants.REGISTER_FXML);
         UIUtility.navigateTo(event, resource, null);
 
+    }
+
+    @FXML
+    protected void navigateToForgot(ActionEvent event) {
+        URL resource = getClass().getResource(UiConstants.DUMMY_PAGE_XML);
+        UIUtility.navigateTo(event, resource, null);
     }
 
     @Override
