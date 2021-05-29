@@ -26,4 +26,32 @@ public interface Scoreboard {
      * @return Username.
      */
     String getUsername();
+
+    /**
+     * Getter method for Score for Level One.
+     *
+     * @return Score.
+     */
+    long getLevelOne();
+
+    /**
+     * Getter method for Score for Level Two.
+     *
+     * @return Score.
+     */
+    long getLevelTwo();
+
+    /**
+     * Getter method for Score for Level Three.
+     *
+     * @return Score.
+     */
+    long getLevelThree();
+
+    /**
+     * Getter method for Score for Level Four.
+     *
+     * @return Score.
+     */
+    long getLevelFour();
 }

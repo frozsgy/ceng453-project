@@ -35,8 +35,42 @@ public interface MatchRepository extends JpaRepository<Match, Long> {
      * @param pageable Pageable object for pagination
      * @return Page of Scoreboard
      */
-    @Query(value = "SELECT SUM(r.score) AS Score, r.player_id AS UserId, p.username AS Username FROM rounds r " +
+    @Query(value = "SELECT SUM(r.score) AS Score, r.player_id AS UserId, p.username AS Username, " +
+            "l1.Score AS LevelOne, l2.Score AS LevelTwo, l3.Score AS LevelThree, l4.Score AS LevelFour " +
+            "FROM rounds r " +
             "JOIN player p ON r.player_id = p.id "+
+            "JOIN  " +
+            "(SELECT SUM(r.score) AS Score, r.player_id AS UserId, p.username AS Username " +
+            "FROM rounds r  " +
+            "JOIN player p ON r.player_id = p.id  " +
+            "WHERE r.create_date >= TIMESTAMPADD(DAY, :days, NOW())  " +
+            "AND r.level = 1 " +
+            "GROUP BY r.player_id) l1  " +
+            "ON l1.UserId = r.player_id " +
+            "JOIN  " +
+            "(SELECT SUM(r.score) AS Score, r.player_id AS UserId, p.username AS Username " +
+            "FROM rounds r  " +
+            "JOIN player p ON r.player_id = p.id  " +
+            "WHERE r.create_date >= TIMESTAMPADD(DAY, :days, NOW())  " +
+            "AND r.level = 2 " +
+            "GROUP BY r.player_id) l2 " +
+            "ON l2.UserId = r.player_id " +
+            "JOIN " +
+            "(SELECT SUM(r.score) AS Score, r.player_id AS UserId, p.username AS Username " +
+            "FROM rounds r  " +
+            "JOIN player p ON r.player_id = p.id  " +
+            "WHERE r.create_date >= TIMESTAMPADD(DAY, :days, NOW())  " +
+            "AND r.level = 3 " +
+            "GROUP BY r.player_id) l3 " +
+            "ON l3.UserId = r.player_id " +
+            "JOIN  " +
+            "(SELECT SUM(r.score) AS Score, r.player_id AS UserId, p.username AS Username " +
+            "FROM rounds r  " +
+            "JOIN player p ON r.player_id = p.id  " +
+            "WHERE r.create_date >= TIMESTAMPADD(DAY, :days, NOW())  " +
+            "AND r.level = 4 " +
+            "GROUP BY r.player_id) l4 " +
+            "ON l4.UserId = r.player_id " +
             "WHERE r.create_date >= TIMESTAMPADD(DAY, :days, NOW()) GROUP BY r.player_id ORDER BY Score DESC ",
             countQuery = "SELECT COUNT(*) FROM (SELECT SUM(r.score) AS Score, r.player_id AS UserId FROM rounds r " +
                     "WHERE r.create_date >= TIMESTAMPADD(DAY, :days, NOW()) GROUP BY r.player_id) k",
