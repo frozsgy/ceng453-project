@@ -8,4 +8,6 @@ public class UiInfoConstants {
     public final static String PASSWORD_RESET_SUCCESS = "Password successfully updated.";
     public final static String CODE_DONT_MATCH_MESSAGE = "Username and code do not match.";
     public final static String EMPTY_STRING = "";
+    public final static String RED_COLOR = "#ff0000";
+    public final static String GREEN_COLOR = "#00ff3d";
 }

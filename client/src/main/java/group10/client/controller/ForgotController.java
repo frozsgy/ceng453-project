@@ -19,6 +19,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import org.springframework.stereotype.Component;
+import javafx.scene.paint.Paint;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -28,9 +29,6 @@ public class ForgotController implements Initializable, FormView {
 
     private final static String BUTTON_EMAIL_TEXT = "Send Email";
     private final static String BUTTON_RESET_TEXT = "Change Password";
-    private final static String RED_COLOR = "-fx-text-inner-color: red";
-    private final static String GREEN_COLOR = "-fx-text-inner-color: green";
-
     private boolean isEmailSubmitted;
 
     @FXML
@@ -85,7 +83,6 @@ public class ForgotController implements Initializable, FormView {
         };
         requestCodeTask.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED,
                 (EventHandler<WorkerStateEvent>) t -> {
-//                    spinner.stop();
                     String msg = (String) requestCodeTask.getValue();
                     if (msg.isEmpty()) {
                         if (!isEmailSubmitted) {
@@ -124,13 +121,13 @@ public class ForgotController implements Initializable, FormView {
 
     @Override
     public void setErrorMessage(String msg) {
-        this.forgotInfoText.setStyle(RED_COLOR);
+        this.forgotInfoText.setFill(Paint.valueOf(UiInfoConstants.RED_COLOR));
         this.forgotInfoText.setText(msg);
     }
 
     @Override
     public void setSuccessMessage(String msg) {
-        this.forgotInfoText.setStyle(GREEN_COLOR);
+        this.forgotInfoText.setFill(Paint.valueOf(UiInfoConstants.GREEN_COLOR));
         this.forgotInfoText.setText(msg);
     }
 
