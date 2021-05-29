@@ -10,7 +10,7 @@ public class PasswordReset {
     public PasswordReset(String email) {
         this.email = email;
     }
-    public PasswordReset (String password, String resetCode, String username) {
+    public PasswordReset (String username, String resetCode, String password) {
         this.password = password;
         this.resetCode = resetCode;
         this.username = username;
