@@ -22,7 +22,7 @@
             <Label layoutX="168.0" layoutY="184.0" text="Username" />
             <Label fx:id="forgotResetCode" layoutX="164.0" layoutY="259.0" text="Reset Code" />
             <Label layoutX="153.0" layoutY="334.0" text="New Password" />
-            <Button fx:id="forgotBack" layoutX="11.0" layoutY="14.0" mnemonicParsing="false" onAction="#navigateToLogin" text="Back" />
+            <Button fx:id="forgotBackButton" layoutX="11.0" layoutY="14.0" mnemonicParsing="false" onAction="#navigateToLogin" text="Back" />
          </children>
       </AnchorPane>
    </center>

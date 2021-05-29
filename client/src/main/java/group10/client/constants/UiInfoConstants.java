@@ -6,5 +6,6 @@ public class UiInfoConstants {
     public final static String USER_NOT_FOUND = "User not found.";
     public final static String EMAIL_SENT_SUCCESS = "Password Reset code has been successfully sent.";
     public final static String PASSWORD_RESET_SUCCESS = "Password successfully updated.";
+    public final static String CODE_DONT_MATCH_MESSAGE = "Username and code do not match.";
     public final static String EMPTY_STRING = "";
 }

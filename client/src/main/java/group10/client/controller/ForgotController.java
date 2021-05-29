@@ -2,6 +2,7 @@ package group10.client.controller;
 
 import group10.client.constants.UiInfoConstants;
 import group10.client.constants.UiConstants;
+import group10.client.model.PasswordReset;
 import group10.client.service.HTTPService;
 import group10.client.utility.UIUtility;
 import javafx.concurrent.Task;
@@ -41,10 +42,11 @@ public class ForgotController implements Initializable, FormView {
     private Button forgotSendEmailButton;
     @FXML
     private Text forgotInfoText;
+    @FXML
+    private Button forgotBackButton;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        System.out.println("asdsadsa");
         this.isEmailSubmitted = false;
     }
 
@@ -52,32 +54,43 @@ public class ForgotController implements Initializable, FormView {
     public void navigateToLogin(ActionEvent event) {
         URL resource = getClass().getResource(UiConstants.LOGIN_FXML);
         UIUtility.navigateTo(event, resource, null);
-
     }
 
     private void makeStateTransition() {
+        this.forgotSendEmailButton.setText(BUTTON_RESET_TEXT);
         this.forgotEmail.setDisable(true);
         this.forgotCode.setDisable(false);
         this.forgotUsername.setDisable(false);
         this.forgotNewPassword.setDisable(false);
     }
-    private void sendCodeRequest(String email) {
-        Task requestCodeTask = new Task<Boolean>() {
+
+    private void sendRequest(PasswordReset resetContainer) {
+        Task requestCodeTask = new Task<String>() {
             @Override
-            public Boolean call() {
-                return HTTPService.getInstance().sendCode(email);
+            public String call() {
+                if (!isEmailSubmitted) {
+                    return HTTPService.getInstance().sendCode(resetContainer);
+                }
+                return HTTPService.getInstance().updatePassword(resetContainer);
             }
         };
         requestCodeTask.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED,
                 (EventHandler<WorkerStateEvent>) t -> {
 //                    spinner.stop();
-                    boolean out = (Boolean) requestCodeTask.getValue();
-                    this.isEmailSubmitted = out;
-                    if (out) {
-                        setSuccessMessage(UiInfoConstants.EMAIL_SENT_SUCCESS);
-                        this.makeStateTransition();
+                    String msg = (String) requestCodeTask.getValue();
+                    if (msg.isEmpty()) {
+                        if (!isEmailSubmitted) {
+                            // code request completed.
+                            setSuccessMessage(UiInfoConstants.EMAIL_SENT_SUCCESS);
+                            this.makeStateTransition();
+                            isEmailSubmitted = true;
+                        } else {
+                            // reset completed.
+                            setSuccessMessage(UiInfoConstants.PASSWORD_RESET_SUCCESS);
+                            forgotBackButton.fire(); // go back to login.
+                        }
                     } else {
-                        setErrorMessage(UiInfoConstants.USER_NOT_FOUND);
+                        setErrorMessage(msg);
                     }
                 });
         new Thread(requestCodeTask).start();
@@ -87,22 +100,22 @@ public class ForgotController implements Initializable, FormView {
         if (!this.validateForm()) {
             this.setErrorMessage(UiInfoConstants.EMPTY_FIELD_ERROR_MESSAGE);
         } else {
+            clearErrorMessage();
             if (!isEmailSubmitted) {
-                this.forgotSendEmailButton.setText(BUTTON_RESET_TEXT);
-                System.out.println(this.forgotEmail.getText());
-                this.sendCodeRequest(this.forgotEmail.getText());
-            } else {
                 this.forgotSendEmailButton.setText(BUTTON_EMAIL_TEXT);
+                PasswordReset emailContainer = new PasswordReset(this.forgotEmail.getText());
+                this.sendRequest(emailContainer);
+            } else {
+                PasswordReset updateContainer = new PasswordReset(this.forgotUsername.getText(), this.forgotCode.getText(), this.forgotNewPassword.getText());
+                this.sendRequest(updateContainer);
             }
         }
     }
 
     @Override
     public void setErrorMessage(String msg) {
-
         this.forgotInfoText.setStyle(RED_COLOR);
         this.forgotInfoText.setText(msg);
-
     }
 
     @Override

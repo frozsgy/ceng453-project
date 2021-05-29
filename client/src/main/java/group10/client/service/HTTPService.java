@@ -22,6 +22,7 @@ public class HTTPService {
     private RestTemplate restTemplate;
     private Gson gson;
     private final static String API = "http://localhost:8080/api";
+    private final static String SERVER_ERROR_MSG_KEY = "error";
 
     private static HTTPService instance;
 
@@ -71,18 +72,14 @@ public class HTTPService {
             String path = API + ServerFolders.REGISTER_PATH;
             ResponseEntity<String> response = restTemplate.exchange(path, HttpMethod.POST, entity, String.class);
         } catch (HttpServerErrorException e) {
-            String errorKey = "error";
             Map<String, String> messagePair = gson.fromJson(e.getResponseBodyAsString(), Map.class);
-            return messagePair.get(errorKey);
+            return messagePair.get(SERVER_ERROR_MSG_KEY);
         }
         return UiInfoConstants.EMPTY_STRING;
     }
 
-    public Boolean sendCode(String email) {
-
-        PasswordReset emailContainer = new PasswordReset(email);
+    public String sendCode(PasswordReset emailContainer) {
         String json = gson.toJson(emailContainer);
-        System.out.println(json);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(json, headers);
@@ -90,11 +87,32 @@ public class HTTPService {
             String path = API + ServerFolders.REQUEST_CODE_PATH;
             ResponseEntity<Boolean> response = restTemplate.exchange(path, HttpMethod.POST, entity, Boolean.class);
             boolean body = response.getBody();
-            return body;
+            if (!body) {
+                return UiInfoConstants.USER_NOT_FOUND;
+            }
         } catch (HttpServerErrorException e) {
             System.out.println("Error");
         }
-        return false;
+        return UiInfoConstants.EMPTY_STRING;
+    }
+
+    public String updatePassword(PasswordReset resetForm) {
+        String json = gson.toJson(resetForm);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> entity = new HttpEntity<>(json, headers);
+        try {
+            String path = API + ServerFolders.UPDATE_PW_PATH;
+            ResponseEntity<Boolean> response = restTemplate.exchange(path, HttpMethod.PUT, entity, Boolean.class);
+            boolean body = response.getBody();
+            if (!body) {
+                return UiInfoConstants.CODE_DONT_MATCH_MESSAGE;
+            }
+        } catch (HttpServerErrorException e) {
+            Map<String, String> messagePair = gson.fromJson(e.getResponseBodyAsString(), Map.class);
+            return messagePair.get(SERVER_ERROR_MSG_KEY);
+        }
+        return UiInfoConstants.EMPTY_STRING;
     }
 
     public String getScoreboard(long days) {
