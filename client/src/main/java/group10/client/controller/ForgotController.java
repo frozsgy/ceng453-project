@@ -1,9 +1,13 @@
 package group10.client.controller;
 
-import group10.client.constants.ErrorConstants;
+import group10.client.constants.UiInfoConstants;
 import group10.client.constants.UiConstants;
+import group10.client.service.HTTPService;
 import group10.client.utility.UIUtility;
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -51,14 +55,34 @@ public class ForgotController implements Initializable, FormView {
 
     }
 
+    private boolean sendCodeRequest(String email) {
+        Task requestCodeTask = new Task<Boolean>() {
+            @Override
+            public Boolean call() {
+                return HTTPService.getInstance().sendCode(email);
+            }
+        };
+        requestCodeTask.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED,
+                (EventHandler<WorkerStateEvent>) t -> {
+//                    spinner.stop();
+                    boolean out = (Boolean) requestCodeTask.getValue();
+                    this.isEmailSubmitted = out;
+                    if (out) {
+                        setSuccessMessage(UiInfoConstants.EMAIL_SENT_SUCCESS);
+                    } else {
+                        setErrorMessage(UiInfoConstants.USER_NOT_FOUND);
+                    }
+                });
+        new Thread(requestCodeTask).start();
+    }
     @FXML
     public void submitForgot(ActionEvent event) {
         if (this.validateForm()) {
-            this.setErrorMessage(ErrorConstants.EMPTY_FIELD_ERROR_MESSAGE);
+            this.setErrorMessage(UiInfoConstants.EMPTY_FIELD_ERROR_MESSAGE);
         } else {
             if (!isEmailSubmitted) {
                 this.forgotSendEmailButton.setText(BUTTON_RESET_TEXT);
-                isEmailSubmitted = true;
+                this.sendCodeRequest(this.forgotEmail.getText());
             } else {
                 this.forgotSendEmailButton.setText(BUTTON_EMAIL_TEXT);
                 isEmailSubmitted = false;
@@ -82,7 +106,7 @@ public class ForgotController implements Initializable, FormView {
 
     @Override
     public void clearErrorMessage() {
-        this.forgotInfoText.setText(ErrorConstants.EMPTY_STRING);
+        this.forgotInfoText.setText(UiInfoConstants.EMPTY_STRING);
     }
 
     @Override

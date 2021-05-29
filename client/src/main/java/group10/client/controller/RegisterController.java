@@ -1,6 +1,6 @@
 package group10.client.controller;
 
-import group10.client.constants.ErrorConstants;
+import group10.client.constants.UiInfoConstants;
 import group10.client.model.Player;
 import group10.client.service.HTTPService;
 import group10.client.utility.LoadingSpinner;
@@ -76,7 +76,7 @@ public class RegisterController implements Initializable, FormView {
                     });
             new Thread(registerTask).start();
         } else {
-            this.setErrorMessage(ErrorConstants.EMPTY_FIELD_ERROR_MESSAGE);
+            this.setErrorMessage(UiInfoConstants.EMPTY_FIELD_ERROR_MESSAGE);
         }
     }
 
@@ -108,7 +108,7 @@ public class RegisterController implements Initializable, FormView {
 
     @Override
     public void clearErrorMessage() {
-        this.registerErrorMsg.setText(ErrorConstants.EMPTY_STRING);
+        this.registerErrorMsg.setText(UiInfoConstants.EMPTY_STRING);
     }
 
 }

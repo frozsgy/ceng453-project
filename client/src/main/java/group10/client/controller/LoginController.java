@@ -1,6 +1,6 @@
 package group10.client.controller;
 
-import group10.client.constants.ErrorConstants;
+import group10.client.constants.UiInfoConstants;
 import group10.client.constants.UiConstants;
 import group10.client.model.Player;
 import group10.client.service.HTTPService;
@@ -75,12 +75,12 @@ public class LoginController implements Initializable, FormView {
                             String newTitle = title + " - " + username;
                             UIUtility.navigateTo(event, resource, newTitle);
                         } else {
-                            this.setErrorMessage(ErrorConstants.LOGIN_ERROR_MESSAGE);
+                            this.setErrorMessage(UiInfoConstants.LOGIN_ERROR_MESSAGE);
                         }
                     });
             new Thread(loginTask).start();
         } else {
-            this.setErrorMessage(ErrorConstants.LOGIN_ERROR_MESSAGE);
+            this.setErrorMessage(UiInfoConstants.LOGIN_ERROR_MESSAGE);
         }
     }
 
@@ -110,7 +110,7 @@ public class LoginController implements Initializable, FormView {
 
     @Override
     public void clearErrorMessage() {
-        this.loginErrMsg.setText(ErrorConstants.EMPTY_STRING);
+        this.loginErrMsg.setText(UiInfoConstants.EMPTY_STRING);
     }
 
     @Override

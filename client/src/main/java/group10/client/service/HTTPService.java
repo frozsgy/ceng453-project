@@ -1,7 +1,7 @@
 package group10.client.service;
 
 import com.google.gson.Gson;
-import group10.client.constants.ErrorConstants;
+import group10.client.constants.UiInfoConstants;
 import group10.client.constants.ServerFolders;
 import group10.client.model.Player;
 import group10.client.state.SessionStorage;
@@ -74,7 +74,28 @@ public class HTTPService {
             Map<String, String> messagePair = gson.fromJson(e.getResponseBodyAsString(), Map.class);
             return messagePair.get(errorKey);
         }
-        return ErrorConstants.EMPTY_STRING;
+        return UiInfoConstants.EMPTY_STRING;
+    }
+
+    public Boolean sendCode(String emailInput) {
+        class EmailContainer {
+            String email;
+            EmailContainer(String email) {this.email = email;}
+        }
+        EmailContainer emailContainer = new EmailContainer(emailInput);
+        String json = gson.toJson(emailContainer);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> entity = new HttpEntity<>(json, headers);
+        try {
+            String path = API + ServerFolders.REQUEST_CODE_PATH;
+            ResponseEntity<Boolean> response = restTemplate.exchange(path, HttpMethod.POST, entity, Boolean.class);
+            System.out.println(response);
+            return true;
+        } catch (HttpServerErrorException e) {
+            System.out.println("Error");
+        }
+        return false;
     }
 
     public String getScoreboard(long days) {
