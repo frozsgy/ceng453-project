@@ -104,6 +104,11 @@ public class LoginController implements Initializable, FormView {
     }
 
     @Override
+    public void setSuccessMessage(String msg) {
+
+    }
+
+    @Override
     public void clearErrorMessage() {
         this.loginErrMsg.setText(ErrorConstants.EMPTY_STRING);
     }

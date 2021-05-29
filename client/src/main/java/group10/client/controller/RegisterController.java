@@ -76,7 +76,7 @@ public class RegisterController implements Initializable, FormView {
                     });
             new Thread(registerTask).start();
         } else {
-            this.setErrorMessage(ErrorConstants.REGISTER_ERROR_MESSAGE);
+            this.setErrorMessage(ErrorConstants.EMPTY_FIELD_ERROR_MESSAGE);
         }
     }
 
@@ -98,6 +98,12 @@ public class RegisterController implements Initializable, FormView {
     @Override
     public void setErrorMessage(String msg) {
         this.registerErrorMsg.setText(msg);
+    }
+
+
+    @Override
+    public void setSuccessMessage(String msg) {
+
     }
 
     @Override
