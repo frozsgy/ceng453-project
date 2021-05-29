@@ -93,7 +93,7 @@ public class LoginController implements Initializable, FormView {
 
     @FXML
     protected void navigateToForgot(ActionEvent event) {
-        URL resource = getClass().getResource(UiConstants.DUMMY_PAGE_XML);
+        URL resource = getClass().getResource(UiConstants.FORGOT_FXML);
         UIUtility.navigateTo(event, resource, null);
     }
 

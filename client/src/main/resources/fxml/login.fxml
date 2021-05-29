@@ -25,11 +25,11 @@
             <Label layoutX="171.0" layoutY="236.0" text="Password" />
             <TextField fx:id="username" layoutX="117.0" layoutY="183.0" />
             <PasswordField fx:id="password" layoutX="117.0" layoutY="263.0" />
-            <Button fx:id="buttonLogin" layoutX="143.0" layoutY="309.0" mnemonicParsing="false" onAction="#userLogIn" prefHeight="51.0" prefWidth="121.0" text="Log In" />
-            <Button fx:id="buttonRegister" layoutX="143.0" layoutY="386.0" mnemonicParsing="false" onAction="#navigateToRegister" prefHeight="51.0" prefWidth="121.0" text="Register" />
+            <Button fx:id="buttonLogin" layoutX="143.0" layoutY="342.0" mnemonicParsing="false" onAction="#userLogIn" prefHeight="51.0" prefWidth="121.0" text="Log In" />
+            <Button fx:id="buttonRegister" layoutX="143.0" layoutY="419.0" mnemonicParsing="false" onAction="#navigateToRegister" prefHeight="51.0" prefWidth="121.0" text="Register" />
             <Text fx:id="loginErrMsg" fill="RED" layoutX="2.0" layoutY="144.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="403.7294921875" />
             <StackPane fx:id="loginStackPane" disable="true" layoutX="2.0" prefHeight="600.0" prefWidth="403.0" />
-            <Hyperlink fx:id="forgetPwForwarder" onAction="#navigateToForgot" text="Hyperlink" underline="true" />
+            <Hyperlink fx:id="forgetPwForwarder" layoutX="103.0" layoutY="300.0" onAction="#navigateToForgot" text="Forgot Password? Click here." textAlignment="CENTER" underline="true" />
          </children>
       </AnchorPane>
    </center>

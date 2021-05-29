@@ -11,8 +11,9 @@ public class UiConstants {
     public static final String LOGIN_FXML = FXML_DIR_PATH + "login.fxml";
     public static final String REGISTER_FXML = FXML_DIR_PATH + "register.fxml";
     public static final String MENU_FXML = FXML_DIR_PATH + "home.fxml";
-    public static final String SCOREBOARD_XML = FXML_DIR_PATH + "scoreboard.fxml";
-    public static final String DUMMY_PAGE_XML = FXML_DIR_PATH + "ui.fxml";
+    public static final String SCOREBOARD_FXML = FXML_DIR_PATH + "scoreboard.fxml";
+    public static final String DUMMY_PAGE_FXML = FXML_DIR_PATH + "ui.fxml";
+    public static final String FORGOT_FXML = FXML_DIR_PATH + "forgot.fxml";
 
     private String WINDOW_TITLE;
 
