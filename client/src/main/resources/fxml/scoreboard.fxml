@@ -35,12 +35,28 @@
 
     <TableView fx:id="tableView" layoutY="70" prefWidth="760" prefHeight="440">
         <columns>
-            <TableColumn text="Username" fx:id="usernameColumn"  prefWidth="250">
+            <TableColumn text="Username" fx:id="usernameColumn"  prefWidth="210">
                 <cellValueFactory><PropertyValueFactory property="username" />
                 </cellValueFactory>
             </TableColumn>
-            <TableColumn text="Score" fx:id="scoreColumn"  prefWidth="150">
+            <TableColumn text="Total Score" fx:id="scoreColumn"  prefWidth="140">
                 <cellValueFactory><PropertyValueFactory property="score" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Level One" fx:id="scoreOneColumn"  prefWidth="100">
+                <cellValueFactory><PropertyValueFactory property="levelOne" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Level Two" fx:id="scoreTwoColumn"  prefWidth="100">
+                <cellValueFactory><PropertyValueFactory property="levelTwo" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Level Three" fx:id="scoreThreeColumn"  prefWidth="100">
+                <cellValueFactory><PropertyValueFactory property="levelThree" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Level Four" fx:id="scoreFourColumn"  prefWidth="100">
+                <cellValueFactory><PropertyValueFactory property="levelFour" />
                 </cellValueFactory>
             </TableColumn>
 
