@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Text?>
 
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group10.client.controller.GameController">
    <bottom>
       <AnchorPane prefHeight="306.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <children>
@@ -15,7 +15,7 @@
             <Rectangle fx:id="selfCard1" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="114.0" layoutX="91.0" layoutY="346.0" stroke="BLACK" strokeType="INSIDE" width="116.0" />
             <Rectangle fx:id="selfCard3" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="114.0" layoutX="430.0" layoutY="346.0" stroke="BLACK" strokeType="INSIDE" width="116.0" />
             <Rectangle fx:id="selfCard4" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="114.0" layoutX="593.0" layoutY="346.0" stroke="BLACK" strokeType="INSIDE" width="116.0" />
-            <Text fx:id="level" layoutX="14.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Level:" wrappingWidth="99.7294921875" />
+            <Text fx:id="levelText" layoutX="14.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Level:" wrappingWidth="99.7294921875" />
          </children>
       </AnchorPane>
    </bottom>

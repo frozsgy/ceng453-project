@@ -23,6 +23,6 @@ public class GameController implements Initializable {
 
     private void setLevelText() {
         String levelStr = "Level " ;
-//        levelText.setText(levelText + this.round.toString());
+        levelText.setText(levelStr + this.round);
     }
 }
