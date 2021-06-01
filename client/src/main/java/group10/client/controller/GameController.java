@@ -39,10 +39,8 @@ public class GameController implements Initializable {
     private void shuffleCards() {
         List<Suits> suits = new ArrayList();
         List<Cards> cards = new ArrayList();
-        List<Integer> suitCount = new ArrayList();
         for (Suits suit : Suits.values()) {
             suits.add(suit);
-            suitCount.add(0);
         }
         for (Cards card : Cards.values()) {
             cards.add(card);
@@ -55,6 +53,7 @@ public class GameController implements Initializable {
         }
         Collections.shuffle(allCards);
     }
+
     private void setLevelText() {
         String levelStr = "Level " ;
         levelText.setText(levelStr + round);
