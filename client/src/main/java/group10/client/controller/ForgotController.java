@@ -12,6 +12,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -58,7 +59,7 @@ public class ForgotController implements Initializable, FormView {
     @FXML
     public void navigateToLogin(ActionEvent event) {
         URL resource = getClass().getResource(UiConstants.LOGIN_FXML);
-        UIUtility.navigateTo(event, resource, null);
+        Scene login = UIUtility.navigateTo(event, resource, null);
     }
 
     private void makeStateTransition() {

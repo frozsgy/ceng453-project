@@ -11,6 +11,7 @@ import group10.client.utility.UIUtility;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
@@ -156,6 +157,6 @@ public class ScoreboardController implements Initializable {
     @FXML
     protected void navigateToHome(ActionEvent event) {
         URL resource = getClass().getResource(MENU_FXML);
-        UIUtility.navigateTo(event, resource, null);
+        Scene home = UIUtility.navigateTo(event, resource, null);
     }
 }

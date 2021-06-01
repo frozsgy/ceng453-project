@@ -13,7 +13,7 @@ import java.net.URL;
 
 public class UIUtility {
 
-    public static void navigateTo(Stage stage, URL resource, String title) {
+    public static Scene navigateTo(Stage stage, URL resource, String title) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(resource);
             Parent registerScreen = fxmlLoader.load();
@@ -23,30 +23,30 @@ public class UIUtility {
                 stage.setTitle(title);
             }
             stage.show();
+            return scene;
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
 
-    public static void navigateTo(Stage stage, Resource resource, String title) {
+    public static Scene navigateTo(Stage stage, Resource resource, String title) {
         try {
-            navigateTo(stage, resource.getURL(), title);
+            return navigateTo(stage, resource.getURL(), title);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        return null;
     }
 
-    public static void navigateTo(ActionEvent event, Resource resource, String title) {
+    public static Scene navigateTo(ActionEvent event, Resource resource, String title) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        UIUtility.navigateTo(stage, resource, title);
-
+        return UIUtility.navigateTo(stage, resource, title);
     }
 
-    public static void navigateTo(ActionEvent event, URL resource, String title) {
+    public static Scene navigateTo(ActionEvent event, URL resource, String title) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        UIUtility.navigateTo(stage, resource, title);
-
+        return UIUtility.navigateTo(stage, resource, title);
     }
 }

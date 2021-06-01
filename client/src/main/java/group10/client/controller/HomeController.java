@@ -6,6 +6,7 @@ import group10.client.utility.UIUtility;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
@@ -43,13 +44,13 @@ public class HomeController implements Initializable {
     @FXML
     protected void navigateToNewGame(ActionEvent event) {
         URL resource = getClass().getResource(UiConstants.GAME_FXML);
-        UIUtility.navigateTo(event, resource, null);
+        Scene newGame = UIUtility.navigateTo(event, resource, null);
     }
 
     @FXML
     protected void navigateToScoreboard(ActionEvent event) {
         URL resource = getClass().getResource(UiConstants.SCOREBOARD_FXML);
-        UIUtility.navigateTo(event, resource, null);
+        Scene scoreboard = UIUtility.navigateTo(event, resource, null);
     }
 
     @FXML
@@ -57,7 +58,7 @@ public class HomeController implements Initializable {
         SessionStorage.getInstance().logout();
         URL resource = getClass().getResource(UiConstants.LOGIN_FXML);
         String title = UiConstants.getInstance().getWindowTitle();
-        UIUtility.navigateTo(event, resource, title);
+        Scene login = UIUtility.navigateTo(event, resource, title);
     }
 
 }

@@ -13,6 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
@@ -73,7 +74,7 @@ public class LoginController implements Initializable, FormView {
                             String username = SessionStorage.getInstance().getUsername();
                             String title = UiConstants.getInstance().getWindowTitle();
                             String newTitle = title + " - " + username;
-                            UIUtility.navigateTo(event, resource, newTitle);
+                            Scene menu = UIUtility.navigateTo(event, resource, newTitle);
                         } else {
                             this.setErrorMessage(UiInfoConstants.LOGIN_ERROR_MESSAGE);
                         }
@@ -87,14 +88,14 @@ public class LoginController implements Initializable, FormView {
     @FXML
     protected void navigateToRegister(ActionEvent event) {
         URL resource = getClass().getResource(UiConstants.REGISTER_FXML);
-        UIUtility.navigateTo(event, resource, null);
+        Scene register = UIUtility.navigateTo(event, resource, null);
 
     }
 
     @FXML
     protected void navigateToForgot(ActionEvent event) {
         URL resource = getClass().getResource(UiConstants.FORGOT_FXML);
-        UIUtility.navigateTo(event, resource, null);
+        Scene forgot = UIUtility.navigateTo(event, resource, null);
     }
 
     @Override
