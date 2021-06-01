@@ -45,6 +45,9 @@ public class HomeController implements Initializable {
     protected void navigateToNewGame(ActionEvent event) {
         URL resource = getClass().getResource(UiConstants.GAME_FXML);
         Scene newGame = UIUtility.navigateTo(event, resource, null);
+        if (newGame != null) {
+            newGame.setOnKeyPressed(e -> GameController.keyPressEvent(e));
+        }
     }
 
     @FXML
