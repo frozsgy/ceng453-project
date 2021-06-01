@@ -42,16 +42,14 @@ public class HomeController implements Initializable {
 
     @FXML
     protected void navigateToNewGame(ActionEvent event) {
-
-
+        URL resource = getClass().getResource(UiConstants.GAME_FXML);
+        UIUtility.navigateTo(event, resource, null);
     }
 
     @FXML
     protected void navigateToScoreboard(ActionEvent event) {
         URL resource = getClass().getResource(UiConstants.SCOREBOARD_FXML);
         UIUtility.navigateTo(event, resource, null);
-
-
     }
 
     @FXML
