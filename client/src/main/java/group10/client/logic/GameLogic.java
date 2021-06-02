@@ -84,7 +84,7 @@ public class GameLogic {
         }
     }
 
-    private int calculateStackScore() {
+    int calculateStackScore() {
         // calculate score of the stack, in case of match
         // each jack - 1
         // each ace -- 1
