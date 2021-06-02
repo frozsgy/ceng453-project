@@ -25,6 +25,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Text;
+import javafx.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -84,11 +85,11 @@ public class GameController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         GameLogic.getInstance();
+        _instance = this;
         this.gson = new Gson();
         this.requestNewGame();
         this.round = 0;
         this.setUpNextLevel(); // set up level 1
-        _instance = this;
     }
 
     @SuppressWarnings("unchecked")
@@ -317,7 +318,10 @@ public class GameController implements Initializable {
             pressed.setOnMouseClicked(null);
             // TODO -- add a pause to let the player thinks the AI is thinking
             GameLogic.getInstance().setCurrentPlayer(PlayerEnum.TWO); // TODO -- generalize this
-            Card opponentCard = GameLogic.getInstance().playAsComputer(cardMappings);
+            Pair<Rectangle, Card> cardMap = GameLogic.getInstance().playAsComputer(cardMappings);
+            Rectangle removed = cardMap.getKey();
+            Card opponentCard = cardMap.getValue();
+            this.upperAnchorPane.getChildren().remove(removed);
             Rectangle opponentRectangle = createCardRectangle();
             drawCardInsideRectangle(opponentRectangle, opponentCard);
             midStack.getChildren().add(opponentRectangle.getParent());
@@ -337,7 +341,7 @@ public class GameController implements Initializable {
                     // TODO -- give mid stack to lasstWinner
                     LOGGER.info("end level");
                     // TODO -- send scores to server (gameId from GameLogic -> playerGameEntity :: gameId)
-                    this.setUpNextLevel();
+//                    this.setUpNextLevel();
                 }
 
             }

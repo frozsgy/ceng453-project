@@ -7,6 +7,7 @@ import group10.client.model.Card;
 import group10.client.model.PlayerGameEntity;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Pair;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -164,7 +165,7 @@ public class GameLogic {
         return score;
     }
 
-    public Card playAsComputer(Map<Rectangle, Card> cardMappings) {
+    public Pair<Rectangle, Card> playAsComputer(Map<Rectangle, Card> cardMappings) {
         // TODO - this needs numerous implementations, and it already smells a bit?
         List<Card> cards = this.playerCards.get(PlayerEnum.TWO);
         Card card = cards.get(0);
@@ -175,10 +176,11 @@ public class GameLogic {
                 r = entry.getKey();
             }
         }
-        r.setVisible(false);
+//        r.setVisible(false);
         //midStack.getChildren().add(r.getParent());
         this.playerCards.replace(PlayerEnum.TWO, cards);
-        return card;
+        Pair<Rectangle, Card> pair = new Pair<>(r, card);
+        return pair;
 
     }
 
