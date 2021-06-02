@@ -1,5 +1,6 @@
 package group10.client.controller;
 
+import group10.client.constants.GameConstants;
 import group10.client.enums.Cards;
 import group10.client.enums.PlayerEnum;
 import group10.client.enums.Suits;
@@ -81,10 +82,24 @@ public class GameController implements Initializable {
     }
 
     private void drawAllCards() {
+        Map<PlayerEnum, List<Card>> playerCards = GameLogic.getInstance().getPlayerCards();
+        List<Card> cardsOne = playerCards.get(PlayerEnum.ONE);
+        List<Card> cardsTwo = playerCards.get(PlayerEnum.TWO);
         for (Rectangle r : currentCards) {
+            // human cards
+            // enable clickable
+            r.setOnMouseClicked(this::throwCard);
             Card top = allCards.pop();
+            cardsOne.add(top);
             drawCard(r, top);
         }
+        LOGGER.info("Cards were dealt for Player One");
+        for (int i = 0; i < GameConstants.CARD_PER_HAND; i++) {
+            Card top = allCards.pop();
+            cardsTwo.add(top);
+        }
+        LOGGER.info("Cards were dealt for Player Two");
+        GameLogic.getInstance().setPlayerCards(playerCards);
     }
 
     private void drawCard(Rectangle r, Card cardToDraw) {
@@ -161,10 +176,16 @@ public class GameController implements Initializable {
             Rectangle pressed = (Rectangle) ((Node) event.getTarget());
             midStack.getChildren().add(pressed.getParent());
             Card card = this.cardMappings.get(pressed);
-            GameLogic.getInstance().getMiddle().push(card);
+            if (GameLogic.getInstance().checkIfMatch(card, PlayerEnum.ONE)) {
+                // TODO -- clean stack display
+            }
+            // TODO -- let other player play
             currentCards.remove(pressed);
             // TODO -- if last card, assign the mid stack to the last winning team
             // if match, save lastWinner as 1 or 2.
+
+            // disable clickable
+            pressed.setOnMouseClicked(null);
         } catch (IllegalArgumentException ex) {
             LOGGER.warn("Already played");
         }

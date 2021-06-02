@@ -74,7 +74,6 @@ public class GameLogicTests {
         assertEquals(scores, 6);
     }
 
-    
 
 
 }
