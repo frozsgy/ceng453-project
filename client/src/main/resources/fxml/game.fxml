@@ -9,7 +9,7 @@
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group10.client.controller.GameController">
    <children>
       <Text fx:id="levelText" layoutX="8.0" layoutY="271.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Level:" wrappingWidth="99.7294921875" />
-      <AnchorPane layoutX="47.0" prefHeight="200.0" prefWidth="793.0">
+      <AnchorPane layoutX="24.0" prefHeight="200.0" prefWidth="793.0">
          <children>
             <Rectangle fx:id="opponentCard2" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="114.0" layoutX="255.0" stroke="BLACK" strokeType="INSIDE" width="117.0" />
             <Rectangle fx:id="opponentCard1" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="114.0" layoutX="91.0" stroke="BLACK" strokeType="INSIDE" width="116.0" />
@@ -17,8 +17,8 @@
             <Rectangle fx:id="opponentCard4" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="114.0" layoutX="593.0" stroke="BLACK" strokeType="INSIDE" width="116.0" />
          </children>
       </AnchorPane>
-      <StackPane fx:id="midStack" layoutX="386.0" layoutY="217.0" prefHeight="114.0" prefWidth="116.0" />
-      <AnchorPane fx:id="bottomAnchorPane" layoutX="47.0" layoutY="400.0" prefHeight="200.0" prefWidth="793.0">
+      <StackPane fx:id="midStack" layoutX="351.0" layoutY="217.0" prefHeight="114.0" prefWidth="116.0" />
+      <AnchorPane fx:id="bottomAnchorPane" layoutX="12.0" layoutY="400.0" prefHeight="200.0" prefWidth="793.0">
          <children>
             <Rectangle fx:id="selfCard2" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="114.0" layoutX="255.0" layoutY="86.0" onMouseClicked="#throwCard" stroke="BLACK" strokeType="INSIDE" width="117.0" />
             <Rectangle fx:id="selfCard1" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="114.0" layoutX="81.0" layoutY="86.0" onMouseClicked="#throwCard" stroke="BLACK" strokeType="INSIDE" width="116.0" />
