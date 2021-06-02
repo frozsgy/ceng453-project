@@ -55,6 +55,7 @@ public class GameController implements Initializable {
     private Stack<Card> allCards;
     private List<Rectangle> currentCards;
     private Map<Rectangle, Card> cardMappings;
+    private int lastWinner = 0;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -106,6 +107,7 @@ public class GameController implements Initializable {
         stack2.setPickOnBounds(false);
         bottomAnchorPane.getChildren().add(stack);
         this.cardMappings.put(r, cardToDraw);
+        //TODO -- place 3 cards facing down, 1 card facing up to the mid stack
     }
 
     private void shuffleCards() {
@@ -159,20 +161,39 @@ public class GameController implements Initializable {
             Card card = this.cardMappings.get(pressed);
             this.middle.push(card);
             currentCards.remove(pressed);
+            // TODO -- if last card, assign the mid stack to the last winning team
+            // if match, save lastWinner as 1 or 2.
         } catch (IllegalArgumentException ex) {
             LOGGER.warn("Already played");
         }
     }
 
-    private void checkIfMatch(Card candidateCard) {
+    private boolean checkIfMatch(Card candidateCard) {
         Card topCard = this.middle.peek();
-        if (candidateCard.equals(topCard)) {
-            // empty stack and calculate scores, and save scores
+        if (this.middle.size() == 1 && candidateCard.equals(topCard)) {
+            if (candidateCard.getCard() == Cards.JACK) {
+                // TODO -- double pişti :: 20 points
+            } else {
+                // TODO -- pişti :: 10 points
+            }
+            return true;
+        } else if (candidateCard.equals(topCard) || candidateCard.getCard() == Cards.JACK) {
+            // TODO -- empty stack and calculate scores, and save scores
+            return true;
+        } else {
+            return false;
         }
     }
 
     private int calculateStackScore() {
         // calculate score of the stack, in case of match
+        // each jack - 1
+        // each ace -- 1
+        // two of clubs -- 2
+        // ten of diamonds -- 3
+        // most cards -- 3 :: equality -> no team
+        // pisti -- 10
+        // double pisti -- 20
         return 0;
     }
 }
