@@ -68,12 +68,11 @@ public class GameLogic {
             if (candidateCard.getCard() == Cards.JACK) {
                 // TODO -- double pişti :: 20 points
                 this.scores.replace(player, currentScore + 20);
-            } else if (candidateCard.getCard() == Cards.ACE) {
-                // TODO -- pişti with ACE's? --
-                this.scores.replace(player, currentScore + 12);
             } else {
                 // TODO -- pişti :: 10 points
-                this.scores.replace(player, currentScore + 10);
+                this.middle.push(candidateCard);
+                int stackScore = this.calculateStackScore(); // pişti with aces, and other special cards
+                this.scores.replace(player, currentScore + 10 + stackScore);
             }
             this.middle.empty();
             return true;
