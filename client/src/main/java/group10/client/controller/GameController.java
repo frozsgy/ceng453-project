@@ -139,8 +139,13 @@ public class GameController implements Initializable {
          * implement game logic. This currently updates view for the playing player.
          * We also need to make a connection between Rectangle and Cards
          */
+        try {
+            Rectangle pressed = (Rectangle)((Node) event.getTarget());
+            midStack.getChildren().add(pressed.getParent());
+            currentCards.remove(pressed);
+        } catch (IllegalArgumentException ex) {
+            System.out.println("Already played");
+        }
 
-        Rectangle pressed = (Rectangle)((Node) event.getTarget());
-        midStack.getChildren().add(pressed.getParent());
     }
 }
