@@ -43,4 +43,9 @@ public class Card {
     public int hashCode() {
         return Objects.hash(card, suit);
     }
+
+    @Override
+    public String toString() {
+        return card + " - " + suit;
+    }
 }

@@ -17,6 +17,7 @@ public class GameLogic {
     private Map<PlayerEnum, Integer> scores;
     private Map<PlayerEnum, List<Card>> playerCards;
     private PlayerEnum currentPlayer = PlayerEnum.ONE;
+    private int hand = 1;
 
     private static GameLogic instance;
 
@@ -88,6 +89,7 @@ public class GameLogic {
         }
         Card topCard = this.middle.peek(); // TODO -- place 4 cards at init
         Integer currentScore = this.scores.get(player);
+        System.out.println("check if match - " + candidateCard + " - top : " + topCard);
         if (this.middle.size() == 1 && candidateCard.equals(topCard)) {
             if (candidateCard.getCard() == Cards.JACK) {
                 // double pişti :: 20 points
@@ -99,12 +101,15 @@ public class GameLogic {
                 this.scores.replace(player, currentScore + 10 + stackScore);
             }
             this.middle.empty();
+            System.out.println("score for " + player + ": " + this.scores.get(player));
             return true;
-        } else if (candidateCard.equals(topCard) || candidateCard.getCard() == Cards.JACK) {
+        } else if (candidateCard.getCard().equals(topCard.getCard()) || candidateCard.getCard() == Cards.JACK) {
             // empty stack and calculate scores, and save scores
             this.middle.push(candidateCard);
             int stackScore = this.calculateStackScore();
             this.scores.replace(player, currentScore + stackScore);
+            this.middle.empty();
+            System.out.println("score for " + player + ": " + this.scores.get(player));
             return true;
         } else {
             return false;
@@ -136,7 +141,7 @@ public class GameLogic {
         return score;
     }
 
-    public Card playAsComputer(StackPane midStack, Map<Rectangle, Card> cardMappings) {
+    public Card playAsComputer(Map<Rectangle, Card> cardMappings) {
         // TODO - this needs numerous implementations, and it already smells a bit?
         List<Card> cards = this.playerCards.get(PlayerEnum.TWO);
         Card card = cards.get(0);
@@ -152,7 +157,11 @@ public class GameLogic {
         this.playerCards.replace(PlayerEnum.TWO, cards);
         return card;
 
+    }
 
+    public boolean isHandEmpty() {
+        List<Card> cards = this.playerCards.get(PlayerEnum.TWO);
+        return cards.isEmpty();
     }
 
 }

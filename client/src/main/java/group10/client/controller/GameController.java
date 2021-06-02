@@ -221,20 +221,32 @@ public class GameController implements Initializable {
             Card card = this.cardMappings.get(pressed);
             if (GameLogic.getInstance().checkIfMatch(card, PlayerEnum.ONE)) {
                 // TODO -- clean stack display
+                LOGGER.info("match - player one");
+                midStack.getChildren().clear();
             }
             // TODO -- let other player play
             currentCards.remove(pressed);
             // TODO -- if last card, assign the mid stack to the last winning team
             // if match, save lastWinner as 1 or 2.
-
+            GameLogic.getInstance().getMiddle().push(card);
             // disable clickable
             pressed.setOnMouseClicked(null);
-            // TODO -- add a pause to let the player thinks the AI is thinking 
+            // TODO -- add a pause to let the player thinks the AI is thinking
             GameLogic.getInstance().setCurrentPlayer(PlayerEnum.TWO); // TODO -- generalize this
-            Card opponentCard = GameLogic.getInstance().playAsComputer(midStack, cardMappings);
+            Card opponentCard = GameLogic.getInstance().playAsComputer(cardMappings);
             Rectangle opponentRectangle = createCardRectangle();
             drawCardInsideRectangle(opponentRectangle, opponentCard);
             midStack.getChildren().add(opponentRectangle.getParent());
+            if (GameLogic.getInstance().checkIfMatch(opponentCard, PlayerEnum.TWO)) {
+                // TODO -- clean stack display
+                LOGGER.info("match - player two");
+                midStack.getChildren().clear();
+            }
+            GameLogic.getInstance().getMiddle().push(opponentCard);
+            if (GameLogic.getInstance().isHandEmpty()) {
+                LOGGER.info("deal cards again");
+            }
+
         } catch (IllegalArgumentException ex) {
             LOGGER.warn("Already played");
         }
