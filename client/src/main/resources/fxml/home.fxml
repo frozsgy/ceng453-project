@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Text?>
 
-
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.StackPane?>
-<BorderPane fx:id="homeBorderPane"  maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800." xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group10.client.controller.HomeController">
+<BorderPane fx:id="homeBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800." xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group10.client.controller.HomeController">
    <left>
       <AnchorPane prefHeight="200.0" prefWidth="20.0" BorderPane.alignment="CENTER" />
    </left>
@@ -18,12 +16,12 @@
    <center>
       <AnchorPane fx:id="homeAnchor" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Text fx:id="helloText" layoutX="117.0" layoutY="183.0" />
-            <Button fx:id="buttonNewGame" layoutX="4.0" layoutY="10.0" mnemonicParsing="false" onAction="#navigateToNewGame" prefHeight="32.0" prefWidth="120.0" text="New Game" />
-            <Button fx:id="buttonScoreboard" layoutX="134.0" layoutY="10.0" mnemonicParsing="false" onAction="#navigateToScoreboard" prefHeight="32.0" prefWidth="120.0" text="Scoreboard" />
-            <Button fx:id="buttonLogout" layoutX="264.0" layoutY="10.0" mnemonicParsing="false" onAction="#logout" prefHeight="32.0" prefWidth="120.0" text="Logout" />
+            <Text fx:id="helloText" layoutX="288.0" layoutY="35.0" textAlignment="CENTER" wrappingWidth="184.20947265625" />
+            <Button fx:id="buttonNewGame" layoutX="320.0" layoutY="155.0" mnemonicParsing="false" onAction="#navigateToNewGame" prefHeight="32.0" prefWidth="120.0" text="New Game" />
+            <Button fx:id="buttonScoreboard" layoutX="324.0" layoutY="300.0" mnemonicParsing="false" onAction="#navigateToScoreboard" prefHeight="32.0" prefWidth="120.0" text="Scoreboard" />
+            <Button fx:id="buttonLogout" layoutX="2.0" layoutY="14.0" mnemonicParsing="false" onAction="#logout" prefHeight="32.0" prefWidth="120.0" text="Logout" />
 
-            <StackPane fx:id="homeStackPane" disable="true" layoutX="2.0" prefHeight="600.0" prefWidth="403.0" />
+            <StackPane fx:id="homeStackPane" disable="true" layoutX="2.0" prefHeight="600.0" prefWidth="403.0" visible="false" />
          </children>
       </AnchorPane>
       <!--<Text strokeType="OUTSIDE" strokeWidth="0.0" text="DUMMY PAGE" wrappingWidth="89.05126953125" BorderPane.alignment="CENTER" />-->
