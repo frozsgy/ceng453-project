@@ -86,15 +86,8 @@ public class GameController implements Initializable {
         GameLogic.getInstance();
         this.gson = new Gson();
         this.requestNewGame();
-        this.initOpponentCards();
-        this.round = 1;
-        this.setLevelText();
-        this.shuffleCards();
-        this.initPlayerCards();
-        this.initStack();
-        this.drawAllCards();
-        this.setPlayerScore(0);
-        this.setEnemyScore(0);
+        this.round = 0;
+        this.setUpNextLevel(); // set up level 1
         _instance = this;
     }
 
