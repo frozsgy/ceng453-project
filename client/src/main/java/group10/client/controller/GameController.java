@@ -14,7 +14,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import org.apache.logging.slf4j.SLF4JLogger;
+import javafx.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -54,23 +54,26 @@ public class GameController implements Initializable {
     private Stack<Card> middle;
     private Stack<Card> allCards;
     private List<Rectangle> currentCards;
+    private Map<Rectangle, Card> cardMappings;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        this.cardMappings = new HashMap<>();
         Image img = new Image("/static/card_full.png");
-        opponentCard1.setFill(new ImagePattern(img));
-        opponentCard2.setFill(new ImagePattern(img));
-        opponentCard3.setFill(new ImagePattern(img));
-        opponentCard4.setFill(new ImagePattern(img));
-        round = 1;
-        setLevelText();
-        allCards = new Stack();
+        this.opponentCard1.setFill(new ImagePattern(img));
+        this.opponentCard2.setFill(new ImagePattern(img));
+        this.opponentCard3.setFill(new ImagePattern(img));
+        this.opponentCard4.setFill(new ImagePattern(img));
+        this.round = 1;
+        this.setLevelText();
+        this.allCards = new Stack<>();
         this.shuffleCards();
-        currentCards = new ArrayList();
-        currentCards.add(selfCard1);
-        currentCards.add(selfCard2);
-        currentCards.add(selfCard3);
-        currentCards.add(selfCard4);
-        drawAllCards();
+        this.currentCards = new ArrayList<>();
+        this.currentCards.add(selfCard1);
+        this.currentCards.add(selfCard2);
+        this.currentCards.add(selfCard3);
+        this.currentCards.add(selfCard4);
+        this.drawAllCards();
         _instance = this;
     }
 
@@ -88,7 +91,7 @@ public class GameController implements Initializable {
         String suitName = suit.name();
         String cardName = margin + card.toString();
 //        final Rectangle rectangle = new Rectangle();
-        final Text text = new Text (suitName);
+        final Text text = new Text(suitName);
         final StackPane stack = new StackPane();
         final Text text2 = new Text(cardName);
         final StackPane stack2 = new StackPane();
@@ -102,6 +105,7 @@ public class GameController implements Initializable {
         stack.setPickOnBounds(false);
         stack2.setPickOnBounds(false);
         bottomAnchorPane.getChildren().add(stack);
+        this.cardMappings.put(r, cardToDraw);
     }
 
     private void shuffleCards() {
@@ -119,7 +123,7 @@ public class GameController implements Initializable {
     }
 
     private void setLevelText() {
-        String levelStr = "Level " ;
+        String levelStr = "Level ";
         levelText.setText(levelStr + round);
     }
 
@@ -150,12 +154,25 @@ public class GameController implements Initializable {
          * We also need to make a connection between Rectangle and Cards
          */
         try {
-            Rectangle pressed = (Rectangle)((Node) event.getTarget());
+            Rectangle pressed = (Rectangle) ((Node) event.getTarget());
             midStack.getChildren().add(pressed.getParent());
+            Card card = this.cardMappings.get(pressed);
+            this.middle.push(card);
             currentCards.remove(pressed);
         } catch (IllegalArgumentException ex) {
             LOGGER.warn("Already played");
         }
+    }
 
+    private void checkIfMatch(Card candidateCard) {
+        Card topCard = this.middle.peek();
+        if (candidateCard.equals(topCard)) {
+            // empty stack and calculate scores, and save scores
+        }
+    }
+
+    private int calculateStackScore() {
+        // calculate score of the stack, in case of match
+        return 0;
     }
 }

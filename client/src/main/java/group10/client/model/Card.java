@@ -3,6 +3,8 @@ package group10.client.model;
 import group10.client.enums.Cards;
 import group10.client.enums.Suits;
 
+import java.util.Objects;
+
 public class Card {
 
     private Cards card;
@@ -27,5 +29,18 @@ public class Card {
 
     public void setSuit(Suits suit) {
         this.suit = suit;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Card card1 = (Card) o;
+        return card == card1.card && suit == card1.suit;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(card, suit);
     }
 }
