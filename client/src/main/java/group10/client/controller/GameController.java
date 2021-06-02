@@ -62,15 +62,15 @@ public class GameController implements Initializable {
 
     private void drawAllCards() {
         for (Rectangle r : currentCards) {
-            drawCard(r);
+            Pair<Cards, Suits> top = allCards.pop();
+            drawCard(r, top);
         }
     }
 
-    private void drawCard(Rectangle r) {
+    private void drawCard(Rectangle r, Pair<Cards, Suits> cardToDraw) {
         String margin = " ";
-        Pair<Cards, Suits> top = allCards.pop();
-        Suits suit = top.getValue();
-        Cards card = top.getKey();
+        Suits suit = cardToDraw.getValue();
+        Cards card = cardToDraw.getKey();
         String suitName = suit.name();
         String cardName = margin + card.toString();
 //        final Rectangle rectangle = new Rectangle();
