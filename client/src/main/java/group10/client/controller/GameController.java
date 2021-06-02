@@ -69,7 +69,7 @@ public class GameController implements Initializable {
         Suits suit = top.getValue();
         Cards card = top.getKey();
         String suitName = suit.name();
-        String cardName = margin + card.name();
+        String cardName = margin + card.toString();
 //        final Rectangle rectangle = new Rectangle();
         final Text text = new Text (suitName);
         final StackPane stack = new StackPane();
