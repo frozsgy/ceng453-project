@@ -102,6 +102,7 @@ public class GameLogic {
             }
             this.middle.empty();
             System.out.println("score for " + player + ": " + this.scores.get(player));
+            this.lastWinner = player;
             return true;
         } else if (candidateCard.getCard().equals(topCard.getCard()) || candidateCard.getCard() == Cards.JACK) {
             // empty stack and calculate scores, and save scores
@@ -110,6 +111,7 @@ public class GameLogic {
             this.scores.replace(player, currentScore + stackScore);
             this.middle.empty();
             System.out.println("score for " + player + ": " + this.scores.get(player));
+            this.lastWinner = player;
             return true;
         } else {
             return false;

@@ -67,6 +67,18 @@ public class GameController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         GameLogic.getInstance();
         this.cardMappings = new HashMap<>();
+        this.initOpponentCards();
+        this.round = 1;
+        this.setLevelText();
+        this.allCards = new Stack<>();
+        this.shuffleCards();
+        this.initPlayerCards();
+        this.initStack();
+        this.drawAllCards();
+        _instance = this;
+    }
+
+    private void initOpponentCards() {
         Image img = new Image(CARD_BACK_IMAGE);
         this.opponentCard1.setFill(new ImagePattern(img));
         this.opponentCard2.setFill(new ImagePattern(img));
@@ -77,18 +89,20 @@ public class GameController implements Initializable {
         this.opponentCards.add(opponentCard2);
         this.opponentCards.add(opponentCard3);
         this.opponentCards.add(opponentCard4);
-        this.round = 1;
-        this.setLevelText();
-        this.allCards = new Stack<>();
-        this.shuffleCards();
+    }
+
+    private void initPlayerCards() {
         this.currentCards = new ArrayList<>();
         this.currentCards.add(selfCard1);
         this.currentCards.add(selfCard2);
         this.currentCards.add(selfCard3);
         this.currentCards.add(selfCard4);
-        this.initStack();
+    }
+
+    private void nextHand() {
+        this.initOpponentCards();
+        this.initPlayerCards();
         this.drawAllCards();
-        _instance = this;
     }
 
     private Rectangle createCardRectangle() {
@@ -244,7 +258,16 @@ public class GameController implements Initializable {
             }
             GameLogic.getInstance().getMiddle().push(opponentCard);
             if (GameLogic.getInstance().isHandEmpty()) {
-                LOGGER.info("deal cards again");
+                if (!this.allCards.isEmpty()) {
+                    LOGGER.info("deal cards again");
+                    this.nextHand();
+                } else {
+                    PlayerEnum lastWinner = GameLogic.getInstance().getLastWinner();
+                    // TODO -- give mid stack to lasstWinner
+                    LOGGER.info("end level");
+                    // TODO -- start new level 
+                }
+
             }
 
         } catch (IllegalArgumentException ex) {
