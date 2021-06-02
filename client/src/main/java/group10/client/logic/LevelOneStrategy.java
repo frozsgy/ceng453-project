@@ -15,12 +15,7 @@ public class LevelOneStrategy extends AiStrategy{
         List<Card> cards = this.playerCards.get(PlayerEnum.TWO);
         Card card = cards.get(0);
         cards.remove(card);
-        Rectangle r = null;
-        for (Map.Entry<Rectangle, Card> entry: cardMappings.entrySet()) {
-            if (card.equals(entry.getValue())) {
-                r = entry.getKey();
-            }
-        }
+        Rectangle r = GameLogic.getRectangleByCard(cardMappings, card);
 //        r.setVisible(false);
         //midStack.getChildren().add(r.getParent());
         this.playerCards.replace(PlayerEnum.TWO, cards);

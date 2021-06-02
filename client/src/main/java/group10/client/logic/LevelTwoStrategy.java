@@ -12,6 +12,16 @@ import java.util.Stack;
 public class LevelTwoStrategy extends AiStrategy{
     @Override
     public Pair<Rectangle, Card> playAsComputer(Map<Rectangle, Card> cardMappings) {
+        List<Card> cards = this.playerCards.get(PlayerEnum.TWO);
+        if (this.middle.size() == 1) {
+            Card cardOnMid = this.middle.peek();
+            for (Card trying : cards) {
+                if (trying.equals(cardOnMid)) {
+
+                }
+            }
+
+        }
         return null;
     }
 

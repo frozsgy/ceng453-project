@@ -47,9 +47,11 @@ public class GameLogic {
 
     public void setAiStrategy(int level) {
         if (level == 1) {
-            strategy = new LevelOneStrategy(this.playerCards);
+            strategy = new LevelOneStrategy(this.playerCards, this.middle);
+        } else if (level == 2){
+            strategy = new LevelTwoStrategy(this.playerCards, this.middle);
         } else {
-            strategy = new LevelOneStrategy(this.playerCards);
+            strategy = new LevelTwoStrategy(this.playerCards, this.middle);
         }
     }
 
@@ -151,7 +153,7 @@ public class GameLogic {
         }
     }
 
-    int calculateStackScore() {
+    public int calculateStackScore() {
         // calculate score of the stack, in case of match
         // each jack - 1
         // each ace -- 1
@@ -179,6 +181,16 @@ public class GameLogic {
     public boolean isHandEmpty() {
         List<Card> cards = this.playerCards.get(PlayerEnum.TWO);
         return cards.isEmpty();
+    }
+
+    public static Rectangle getRectangleByCard(Map<Rectangle, Card> cardMappings, Card card) {
+        Rectangle r = null;
+        for (Map.Entry<Rectangle, Card> entry: cardMappings.entrySet()) {
+            if (card.equals(entry.getValue())) {
+                r = entry.getKey();
+            }
+        }
+        return r;
     }
 
 }
