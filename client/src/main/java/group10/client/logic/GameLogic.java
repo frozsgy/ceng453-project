@@ -30,7 +30,7 @@ public class GameLogic {
         return instance;
     }
 
-    private GameLogic() {
+    public void resetFields() {
         this.middle = new Stack<>();
         this.scores = new HashMap<>();
         this.scores.put(PlayerEnum.ONE, 0);
@@ -38,6 +38,9 @@ public class GameLogic {
         this.playerCards = new HashMap<>();
         this.playerCards.put(PlayerEnum.ONE, new ArrayList<>());
         this.playerCards.put(PlayerEnum.TWO, new ArrayList<>());
+    }
+    private GameLogic() {
+        this.resetFields();
     }
 
     public Map<PlayerEnum, List<Card>> getPlayerCards() {

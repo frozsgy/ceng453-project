@@ -86,11 +86,9 @@ public class GameController implements Initializable {
         GameLogic.getInstance();
         this.gson = new Gson();
         this.requestNewGame();
-        this.cardMappings = new HashMap<>();
         this.initOpponentCards();
         this.round = 1;
         this.setLevelText();
-        this.allCards = new Stack<>();
         this.shuffleCards();
         this.initPlayerCards();
         this.initStack();
@@ -108,6 +106,7 @@ public class GameController implements Initializable {
     }
 
     private void initOpponentCards() {
+        this.opponentCards = new ArrayList<>();
         Image img = new Image(CARD_BACK_IMAGE);
         this.opponentCard1 = createCardRectangle();
         this.opponentCard2 = createCardRectangle();
@@ -117,7 +116,6 @@ public class GameController implements Initializable {
         this.opponentCard2.setFill(new ImagePattern(img));
         this.opponentCard3.setFill(new ImagePattern(img));
         this.opponentCard4.setFill(new ImagePattern(img));
-        this.opponentCards = new ArrayList<>();
         this.opponentCards.add(opponentCard1);
         this.opponentCards.add(opponentCard2);
         this.opponentCards.add(opponentCard3);
@@ -125,7 +123,6 @@ public class GameController implements Initializable {
         for (int i = 0; i < opponentCards.size(); i++) {
             try{
                 upperAnchorPane.getChildren().add(opponentCards.get(i));
-//                opponentCards.get(i).setFill(new ImagePattern(img));
             } catch (IllegalArgumentException e) {
                 LOGGER.info("First initalization of enemy card " + (i + 1));
             }
@@ -147,7 +144,6 @@ public class GameController implements Initializable {
         for (int i = 0; i < currentCards.size(); i++) {
             try{
                 bottomAnchorPane.getChildren().add(currentCards.get(i));
-//                currentCards.set(i, createCardRectangle());
             } catch (IllegalArgumentException e) {
                 LOGGER.info("First initalization of card " + (i + 1));
             }
@@ -176,6 +172,7 @@ public class GameController implements Initializable {
 
     private void initStack() {
         Image img = new Image(CARD_BACK_IMAGE);
+        midStack.getChildren().clear();
         for (int i = 0; i < GameConstants.CARD_PER_HAND; i++) {
             Card top = allCards.pop();
             GameLogic.getInstance().getMiddle().push(top);
@@ -242,6 +239,8 @@ public class GameController implements Initializable {
     }
 
     private void shuffleCards() {
+        this.allCards = new Stack<>();
+        this.cardMappings = new HashMap<>();
         List<Suits> suits = new ArrayList<>();
         List<Cards> cards = new ArrayList<>();
         Collections.addAll(suits, Suits.values());
@@ -262,7 +261,18 @@ public class GameController implements Initializable {
 
     private void setUpNextLevel() {
         round++;
+        GameLogic.getInstance().resetFields();
         setLevelText();
+        this.bottomAnchorPane.getChildren().clear();
+        this.upperAnchorPane.getChildren().clear();
+        this.midStack.getChildren().clear();
+        this.setEnemyScore(0);
+        this.setPlayerScore(0);
+        this.initOpponentCards();
+        this.shuffleCards();
+        this.initPlayerCards();
+        this.initStack();
+        this.drawAllCards();
     }
 
     private void setPlayerScore(int score) {
@@ -334,7 +344,7 @@ public class GameController implements Initializable {
                     // TODO -- give mid stack to lasstWinner
                     LOGGER.info("end level");
                     // TODO -- send scores to server (gameId from GameLogic -> playerGameEntity :: gameId)
-                    // TODO -- start new level
+                    this.setUpNextLevel();
                 }
 
             }
