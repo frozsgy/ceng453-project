@@ -14,6 +14,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import org.apache.logging.slf4j.SLF4JLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.net.URL;
@@ -21,6 +24,8 @@ import java.util.*;
 
 @Component
 public class GameController implements Initializable {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(GameController.class);
 
     @FXML
     private Text levelText;
@@ -100,14 +105,10 @@ public class GameController implements Initializable {
     }
 
     private void shuffleCards() {
-        List<Suits> suits = new ArrayList();
-        List<Cards> cards = new ArrayList();
-        for (Suits suit : Suits.values()) {
-            suits.add(suit);
-        }
-        for (Cards card : Cards.values()) {
-            cards.add(card);
-        }
+        List<Suits> suits = new ArrayList<>();
+        List<Cards> cards = new ArrayList<>();
+        Collections.addAll(suits, Suits.values());
+        Collections.addAll(cards, Cards.values());
         for (Suits suit : suits) {
             for (Cards card : cards) {
                 Card added = new Card(card, suit);
@@ -153,7 +154,7 @@ public class GameController implements Initializable {
             midStack.getChildren().add(pressed.getParent());
             currentCards.remove(pressed);
         } catch (IllegalArgumentException ex) {
-            System.out.println("Already played");
+            LOGGER.warn("Already played");
         }
 
     }
