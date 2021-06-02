@@ -45,6 +45,10 @@ public class GameController implements Initializable {
     private static final double HORIZONTAL_CARD_SPACING = 174;
     @FXML
     private Text levelText;
+    @FXML
+    private Text yourScore;
+    @FXML
+    private Text enemyScore;
 //    @FXML
     private Rectangle selfCard1;
 //    @FXML
@@ -91,6 +95,8 @@ public class GameController implements Initializable {
         this.initPlayerCards();
         this.initStack();
         this.drawAllCards();
+        this.setPlayerScore(0);
+        this.setEnemyScore(0);
         _instance = this;
     }
 
@@ -259,6 +265,15 @@ public class GameController implements Initializable {
         setLevelText();
     }
 
+    private void setPlayerScore(int score) {
+        String text = "Your Score: ";
+        this.yourScore.setText(text + score);
+    }
+
+    private void setEnemyScore(int score) {
+        String text = "Opponent Score: ";
+        this.enemyScore.setText(text + score);
+    }
     protected static void keyPressEvent(KeyEvent event) {
         KeyCombination ctrl9 = new KeyCodeCombination(KeyCode.DIGIT9, KeyCodeCombination.CONTROL_DOWN);
         if (ctrl9.match(event)) {
@@ -289,6 +304,7 @@ public class GameController implements Initializable {
                 LOGGER.info("match - player one");
                 midStack.getChildren().clear();
             }
+            this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.ONE));
             // TODO -- let other player play
             currentCards.remove(pressed);
             // TODO -- if last card, assign the mid stack to the last winning team
@@ -307,6 +323,7 @@ public class GameController implements Initializable {
                 LOGGER.info("match - player two");
                 midStack.getChildren().clear();
             }
+            this.setEnemyScore(GameLogic.getInstance().getScores().get(PlayerEnum.TWO));
             GameLogic.getInstance().getMiddle().push(opponentCard);
             if (GameLogic.getInstance().isHandEmpty()) {
                 if (!this.allCards.isEmpty()) {

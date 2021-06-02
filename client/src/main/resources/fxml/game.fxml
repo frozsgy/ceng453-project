@@ -10,5 +10,7 @@
       <AnchorPane fx:id="upperAnchorPane" layoutX="24.0" prefHeight="200.0" prefWidth="793.0" />
       <StackPane fx:id="midStack" layoutX="351.0" layoutY="217.0" prefHeight="114.0" prefWidth="116.0" />
       <AnchorPane fx:id="bottomAnchorPane" layoutX="12.0" layoutY="400.0" prefHeight="200.0" prefWidth="793.0" />
+      <Text fx:id="yourScore" layoutX="8.0" layoutY="312.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your Score:" wrappingWidth="99.7294921875" />
+      <Text fx:id="enemyScore" layoutX="8.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enemy Score:" wrappingWidth="99.7294921875" />
    </children>
 </AnchorPane>
