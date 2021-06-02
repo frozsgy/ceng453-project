@@ -7,11 +7,14 @@ import javafx.util.Pair;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 public abstract class AiStrategy {
     protected Map<PlayerEnum, List<Card>> playerCards;
+    protected Stack<Card> middle;
     public abstract Pair<Rectangle, Card> playAsComputer(Map<Rectangle, Card> cardMappings);
-    public AiStrategy(Map<PlayerEnum, List<Card>> playerCards) {
+    public AiStrategy(Map<PlayerEnum, List<Card>> playerCards, Stack<Card> middle) {
         this.playerCards = playerCards;
+        this.middle = middle;
     }
 }
