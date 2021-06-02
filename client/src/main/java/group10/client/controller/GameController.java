@@ -26,6 +26,8 @@ import org.springframework.stereotype.Component;
 import java.net.URL;
 import java.util.*;
 
+import static group10.client.constants.UiConstants.CARD_BACK_IMAGE;
+
 @Component
 public class GameController implements Initializable {
 
@@ -57,6 +59,7 @@ public class GameController implements Initializable {
     private static GameController _instance;
     private Stack<Card> allCards;
     private List<Rectangle> currentCards;
+    private List<Rectangle> opponentCards;
     private Map<Rectangle, Card> cardMappings;
 
 
@@ -64,11 +67,16 @@ public class GameController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         GameLogic.getInstance();
         this.cardMappings = new HashMap<>();
-        Image img = new Image("/static/card_full.png");
+        Image img = new Image(CARD_BACK_IMAGE);
         this.opponentCard1.setFill(new ImagePattern(img));
         this.opponentCard2.setFill(new ImagePattern(img));
         this.opponentCard3.setFill(new ImagePattern(img));
         this.opponentCard4.setFill(new ImagePattern(img));
+        this.opponentCards = new ArrayList<>();
+        this.opponentCards.add(opponentCard1);
+        this.opponentCards.add(opponentCard2);
+        this.opponentCards.add(opponentCard3);
+        this.opponentCards.add(opponentCard4);
         this.round = 1;
         this.setLevelText();
         this.allCards = new Stack<>();
@@ -83,20 +91,24 @@ public class GameController implements Initializable {
         _instance = this;
     }
 
-    private void initStack() {
-        Image img = new Image("/static/card_full.png");
+    private Rectangle createCardRectangle() {
+        Rectangle card = new Rectangle();
+        card.setArcHeight(5.0);
+        card.setArcWidth(5.0);
+        card.setHeight(114.0);
+        card.setWidth(117.0);
+        card.setStroke(Paint.valueOf("BLACK"));
+        card.setStrokeType(StrokeType.valueOf("INSIDE"));
+        card.setFill(Paint.valueOf("WHITE"));
+        return card;
+    }
 
+    private void initStack() {
+        Image img = new Image(CARD_BACK_IMAGE);
         for (int i = 0; i < GameConstants.CARD_PER_HAND; i++) {
             Card top = allCards.pop();
             GameLogic.getInstance().getMiddle().push(top);
-            Rectangle card = new Rectangle();
-            card.setArcHeight(5.0);
-            card.setArcWidth(5.0);
-            card.setHeight(114.0);
-            card.setWidth(117.0);
-            card.setStroke(Paint.valueOf("BLACK"));
-            card.setStrokeType(StrokeType.valueOf("INSIDE"));
-            card.setFill(Paint.valueOf("WHITE"));
+            Rectangle card = createCardRectangle();
             if (i + 1 != GameConstants.CARD_PER_HAND) {
                 card.setFill(new ImagePattern(img));
                 midStack.getChildren().add(card);
@@ -124,6 +136,7 @@ public class GameController implements Initializable {
         for (int i = 0; i < GameConstants.CARD_PER_HAND; i++) {
             Card top = allCards.pop();
             cardsTwo.add(top);
+            this.cardMappings.put(opponentCards.get(i), top);
         }
         LOGGER.info("Cards were dealt for Player Two");
         GameLogic.getInstance().setPlayerCards(playerCards);
@@ -216,6 +229,12 @@ public class GameController implements Initializable {
 
             // disable clickable
             pressed.setOnMouseClicked(null);
+            // TODO -- add a pause to let the player thinks the AI is thinking 
+            GameLogic.getInstance().setCurrentPlayer(PlayerEnum.TWO); // TODO -- generalize this
+            Card opponentCard = GameLogic.getInstance().playAsComputer(midStack, cardMappings);
+            Rectangle opponentRectangle = createCardRectangle();
+            drawCardInsideRectangle(opponentRectangle, opponentCard);
+            midStack.getChildren().add(opponentRectangle.getParent());
         } catch (IllegalArgumentException ex) {
             LOGGER.warn("Already played");
         }

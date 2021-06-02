@@ -4,8 +4,11 @@ import group10.client.enums.Cards;
 import group10.client.enums.PlayerEnum;
 import group10.client.enums.Suits;
 import group10.client.model.Card;
+import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Rectangle;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class GameLogic {
 
@@ -13,6 +16,7 @@ public class GameLogic {
     private PlayerEnum lastWinner = PlayerEnum.NULL;
     private Map<PlayerEnum, Integer> scores;
     private Map<PlayerEnum, List<Card>> playerCards;
+    private PlayerEnum currentPlayer = PlayerEnum.ONE;
 
     private static GameLogic instance;
 
@@ -69,6 +73,13 @@ public class GameLogic {
         GameLogic.instance = instance;
     }
 
+    public PlayerEnum getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public void setCurrentPlayer(PlayerEnum currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
 
     public boolean checkIfMatch(Card candidateCard, PlayerEnum player) {
         this.playerCards.get(player).remove(candidateCard);
@@ -125,5 +136,23 @@ public class GameLogic {
         return score;
     }
 
+    public Card playAsComputer(StackPane midStack, Map<Rectangle, Card> cardMappings) {
+        // TODO - this needs numerous implementations, and it already smells a bit?
+        List<Card> cards = this.playerCards.get(PlayerEnum.TWO);
+        Card card = cards.get(0);
+        cards.remove(card);
+        Rectangle r = null;
+        for (Map.Entry<Rectangle, Card> entry: cardMappings.entrySet()) {
+            if (card.equals(entry.getValue())) {
+                r = entry.getKey();
+            }
+        }
+        r.setVisible(false);
+        //midStack.getChildren().add(r.getParent());
+        this.playerCards.replace(PlayerEnum.TWO, cards);
+        return card;
+
+
+    }
 
 }

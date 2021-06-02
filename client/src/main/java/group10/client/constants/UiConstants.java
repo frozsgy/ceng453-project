@@ -15,6 +15,7 @@ public class UiConstants {
     public static final String DUMMY_PAGE_FXML = FXML_DIR_PATH + "ui.fxml";
     public static final String FORGOT_FXML = FXML_DIR_PATH + "forgot.fxml";
     public static final String GAME_FXML = FXML_DIR_PATH + "game.fxml";
+    public static final String CARD_BACK_IMAGE = "/static/card_full.png";
 
     private String WINDOW_TITLE;
 
