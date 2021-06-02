@@ -1,23 +1,19 @@
 package group10.client.controller;
 
-import group10.client.constants.UiConstants;
 import group10.client.enums.Cards;
 import group10.client.enums.Suits;
-import javafx.event.ActionEvent;
+import group10.client.model.Card;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.HPos;
 import javafx.geometry.Pos;
-import javafx.geometry.VPos;
 import javafx.scene.Node;
-import javafx.scene.Parent;
+import javafx.scene.image.Image;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import javafx.util.Pair;
 import org.springframework.stereotype.Component;
 
 import java.net.URL;
@@ -37,16 +33,29 @@ public class GameController implements Initializable {
     @FXML
     private Rectangle selfCard4;
     @FXML
+    private Rectangle opponentCard1;
+    @FXML
+    private Rectangle opponentCard2;
+    @FXML
+    private Rectangle opponentCard3;
+    @FXML
+    private Rectangle opponentCard4;
+    @FXML
     private AnchorPane bottomAnchorPane;
     @FXML
     private StackPane midStack;
     private int round = 1;
     private static GameController _instance;
-    private Stack<Pair<Cards, Suits>> middle;
-    private Stack<Pair<Cards, Suits>> allCards;
+    private Stack<Card> middle;
+    private Stack<Card> allCards;
     private List<Rectangle> currentCards;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        Image img = new Image("/static/card_full.png");
+        opponentCard1.setFill(new ImagePattern(img));
+        opponentCard2.setFill(new ImagePattern(img));
+        opponentCard3.setFill(new ImagePattern(img));
+        opponentCard4.setFill(new ImagePattern(img));
         round = 1;
         setLevelText();
         allCards = new Stack();
@@ -62,15 +71,15 @@ public class GameController implements Initializable {
 
     private void drawAllCards() {
         for (Rectangle r : currentCards) {
-            Pair<Cards, Suits> top = allCards.pop();
+            Card top = allCards.pop();
             drawCard(r, top);
         }
     }
 
-    private void drawCard(Rectangle r, Pair<Cards, Suits> cardToDraw) {
+    private void drawCard(Rectangle r, Card cardToDraw) {
         String margin = " ";
-        Suits suit = cardToDraw.getValue();
-        Cards card = cardToDraw.getKey();
+        Suits suit = cardToDraw.getSuit();
+        Cards card = cardToDraw.getCard();
         String suitName = suit.name();
         String cardName = margin + card.toString();
 //        final Rectangle rectangle = new Rectangle();
@@ -101,7 +110,7 @@ public class GameController implements Initializable {
         }
         for (Suits suit : suits) {
             for (Cards card : cards) {
-                Pair<Cards, Suits> added = new Pair(card, suit);
+                Card added = new Card(card, suit);
                 allCards.add(added);
             }
         }
