@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
@@ -37,6 +38,8 @@ public class GameController implements Initializable {
     private Rectangle selfCard4;
     @FXML
     private AnchorPane bottomAnchorPane;
+    @FXML
+    private StackPane midStack;
     private int round = 1;
     private static GameController _instance;
     private Stack<Pair<Cards, Suits>> middle;
@@ -80,6 +83,8 @@ public class GameController implements Initializable {
         stack.getChildren().addAll(r, text, stack2);
         stack.setLayoutX(r.getLayoutX());
         stack.setLayoutY(r.getLayoutY());
+        stack2.setLayoutX(r.getLayoutX());
+        stack2.setLayoutY(r.getLayoutY());
         stack.setPickOnBounds(false);
         stack2.setPickOnBounds(false);
         bottomAnchorPane.getChildren().add(stack);
@@ -129,6 +134,7 @@ public class GameController implements Initializable {
 
     @FXML
     protected void throwCard(MouseEvent event) {
-
+        Rectangle pressed = (Rectangle)((Node) event.getTarget());
+        midStack.getChildren().add(pressed.getParent());
     }
 }

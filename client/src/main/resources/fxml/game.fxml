@@ -8,18 +8,12 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group10.client.controller.GameController">
    <bottom>
-      <AnchorPane fx:id="bottomAnchorPane" prefHeight="306.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+      <AnchorPane fx:id="bottomAnchorPane" prefHeight="336.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <children>
             <Rectangle fx:id="selfCard2" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="114.0" layoutX="255.0" layoutY="346.0" onMouseClicked="#throwCard" stroke="BLACK" strokeType="INSIDE" width="117.0" />
             <Rectangle fx:id="selfCard1" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="114.0" layoutX="91.0" layoutY="346.0" onMouseClicked="#throwCard" stroke="BLACK" strokeType="INSIDE" width="116.0" />
             <Rectangle fx:id="selfCard3" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="114.0" layoutX="430.0" layoutY="346.0" onMouseClicked="#throwCard" stroke="BLACK" strokeType="INSIDE" width="116.0" />
             <Rectangle fx:id="selfCard4" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="114.0" layoutX="593.0" layoutY="346.0" onMouseClicked="#throwCard" stroke="BLACK" strokeType="INSIDE" width="116.0" />
-            <Text fx:id="levelText" layoutX="14.0" layoutY="169.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Level:" wrappingWidth="99.7294921875" />
-            <AnchorPane layoutX="200.0" prefHeight="254.0" prefWidth="400.0">
-               <children>
-                  <StackPane layoutX="100.0" layoutY="214.0" prefHeight="98.0" prefWidth="200.0" />
-               </children>
-            </AnchorPane>
          </children>
       </AnchorPane>
    </bottom>
@@ -34,9 +28,19 @@
       </AnchorPane>
    </top>
    <left>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <AnchorPane prefHeight="33.0" prefWidth="262.0" BorderPane.alignment="CENTER">
+         <children>
+            <Text fx:id="levelText" strokeType="OUTSIDE" strokeWidth="0.0" text="Level:" wrappingWidth="99.7294921875" />
+         </children></AnchorPane>
    </left>
    <right>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </right>
+   <center>
+      <AnchorPane prefHeight="254.0" prefWidth="400.0" BorderPane.alignment="CENTER">
+         <children>
+            <StackPane fx:id="midStack" layoutX="78.0" layoutY="194.0" prefHeight="114.0" prefWidth="116.0" />
+         </children>
+      </AnchorPane>
+   </center>
 </BorderPane>
