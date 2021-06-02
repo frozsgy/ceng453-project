@@ -3,6 +3,7 @@ package group10.client.controller;
 import group10.client.enums.Cards;
 import group10.client.enums.PlayerEnum;
 import group10.client.enums.Suits;
+import group10.client.logic.GameLogic;
 import group10.client.model.Card;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -52,18 +53,14 @@ public class GameController implements Initializable {
     private StackPane midStack;
     private int round = 1;
     private static GameController _instance;
-    private Stack<Card> middle;
     private Stack<Card> allCards;
     private List<Rectangle> currentCards;
     private Map<Rectangle, Card> cardMappings;
-    private PlayerEnum lastWinner = PlayerEnum.NULL;
-    private Map<PlayerEnum, Integer> scores;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.scores = new HashMap<>();
-        this.scores.put(PlayerEnum.ONE, 0);
-        this.scores.put(PlayerEnum.TWO, 0);
+        GameLogic.getInstance();
         this.cardMappings = new HashMap<>();
         Image img = new Image("/static/card_full.png");
         this.opponentCard1.setFill(new ImagePattern(img));
@@ -164,7 +161,7 @@ public class GameController implements Initializable {
             Rectangle pressed = (Rectangle) ((Node) event.getTarget());
             midStack.getChildren().add(pressed.getParent());
             Card card = this.cardMappings.get(pressed);
-            this.middle.push(card);
+            GameLogic.getInstance().getMiddle().push(card);
             currentCards.remove(pressed);
             // TODO -- if last card, assign the mid stack to the last winning team
             // if match, save lastWinner as 1 or 2.
@@ -173,53 +170,4 @@ public class GameController implements Initializable {
         }
     }
 
-    private boolean checkIfMatch(Card candidateCard, PlayerEnum player) {
-        Card topCard = this.middle.peek();
-        Integer currentScore = this.scores.get(player);
-        if (this.middle.size() == 1 && candidateCard.equals(topCard)) {
-            // TODO -- what if pişti with two of clubs and another two? a better implementation needed here
-            if (candidateCard.getCard() == Cards.JACK) {
-                // TODO -- double pişti :: 20 points
-                this.scores.replace(player, currentScore + 20);
-            } else if (candidateCard.getCard() == Cards.ACE) {
-                // TODO -- pişti with ACE's? --
-                this.scores.replace(player, currentScore + 12);
-            } else {
-                // TODO -- pişti :: 10 points
-                this.scores.replace(player, currentScore + 10);
-            }
-            this.middle.empty();
-            return true;
-        } else if (candidateCard.equals(topCard) || candidateCard.getCard() == Cards.JACK) {
-            // TODO -- empty stack and calculate scores, and save scores
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    private int calculateStackScore() {
-        // calculate score of the stack, in case of match
-        // each jack - 1
-        // each ace -- 1
-        // two of clubs -- 2
-        // ten of diamonds -- 3
-        // TODO -- most cards -- 3 :: equality -> no team
-        // pisti -- 10
-        // double pisti -- 20
-        int score = 0;
-        while (!this.middle.isEmpty()) {
-            Card pop = this.middle.pop();
-            Cards card = pop.getCard();
-            Suits suit = pop.getSuit();
-            if (card == Cards.JACK || card == Cards.ACE) {
-                score++;
-            } else if (card == Cards.TWO && suit == Suits.CLUB) {
-                score += 2;
-            } else if (card == Cards.TEN && suit == Suits.DIAMOND) {
-                score += 3;
-            }
-        }
-        return score;
-    }
 }
