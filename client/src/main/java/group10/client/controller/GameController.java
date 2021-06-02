@@ -134,6 +134,12 @@ public class GameController implements Initializable {
 
     @FXML
     protected void throwCard(MouseEvent event) {
+        /**
+         * TODO
+         * implement game logic. This currently updates view for the playing player.
+         * We also need to make a connection between Rectangle and Cards
+         */
+
         Rectangle pressed = (Rectangle)((Node) event.getTarget());
         midStack.getChildren().add(pressed.getParent());
     }
