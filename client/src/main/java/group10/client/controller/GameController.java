@@ -39,27 +39,32 @@ import static group10.client.constants.UiConstants.CARD_BACK_IMAGE;
 public class GameController implements Initializable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GameController.class);
-
+    private static final double LEFTMOST_CARD_X = 81;
+    private static final double PLAYER_CARD_Y = 86;
+    private static final double ENEMY_CARD_Y = 0;
+    private static final double HORIZONTAL_CARD_SPACING = 174;
     @FXML
     private Text levelText;
-    @FXML
+//    @FXML
     private Rectangle selfCard1;
-    @FXML
+//    @FXML
     private Rectangle selfCard2;
-    @FXML
+//    @FXML
     private Rectangle selfCard3;
-    @FXML
+//    @FXML
     private Rectangle selfCard4;
-    @FXML
+//    @FXML
     private Rectangle opponentCard1;
-    @FXML
+//    @FXML
     private Rectangle opponentCard2;
-    @FXML
+//    @FXML
     private Rectangle opponentCard3;
-    @FXML
+//    @FXML
     private Rectangle opponentCard4;
     @FXML
     private AnchorPane bottomAnchorPane;
+    @FXML
+    private AnchorPane upperAnchorPane;
     @FXML
     private StackPane midStack;
     private int round = 1;
@@ -98,6 +103,10 @@ public class GameController implements Initializable {
 
     private void initOpponentCards() {
         Image img = new Image(CARD_BACK_IMAGE);
+        this.opponentCard1 = createCardRectangle();
+        this.opponentCard2 = createCardRectangle();
+        this.opponentCard3 = createCardRectangle();
+        this.opponentCard4 = createCardRectangle();
         this.opponentCard1.setFill(new ImagePattern(img));
         this.opponentCard2.setFill(new ImagePattern(img));
         this.opponentCard3.setFill(new ImagePattern(img));
@@ -107,14 +116,38 @@ public class GameController implements Initializable {
         this.opponentCards.add(opponentCard2);
         this.opponentCards.add(opponentCard3);
         this.opponentCards.add(opponentCard4);
+        for (int i = 0; i < opponentCards.size(); i++) {
+            try{
+                upperAnchorPane.getChildren().add(opponentCards.get(i));
+//                opponentCards.get(i).setFill(new ImagePattern(img));
+            } catch (IllegalArgumentException e) {
+                LOGGER.info("First initalization of enemy card " + (i + 1));
+            }
+            opponentCards.get(i).setLayoutX(LEFTMOST_CARD_X + i * HORIZONTAL_CARD_SPACING);
+            opponentCards.get(i).setLayoutY(ENEMY_CARD_Y);
+        }
     }
 
     private void initPlayerCards() {
         this.currentCards = new ArrayList<>();
+        selfCard1 = createCardRectangle();
+        selfCard2 = createCardRectangle();
+        selfCard3 = createCardRectangle();
+        selfCard4 = createCardRectangle();
         this.currentCards.add(selfCard1);
         this.currentCards.add(selfCard2);
         this.currentCards.add(selfCard3);
         this.currentCards.add(selfCard4);
+        for (int i = 0; i < currentCards.size(); i++) {
+            try{
+                bottomAnchorPane.getChildren().add(currentCards.get(i));
+//                currentCards.set(i, createCardRectangle());
+            } catch (IllegalArgumentException e) {
+                LOGGER.info("First initalization of card " + (i + 1));
+            }
+            currentCards.get(i).setLayoutX(LEFTMOST_CARD_X + i * HORIZONTAL_CARD_SPACING);
+            currentCards.get(i).setLayoutY(PLAYER_CARD_Y);
+        }
     }
 
     private void nextHand() {
