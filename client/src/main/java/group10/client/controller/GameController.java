@@ -15,9 +15,10 @@ import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Text;
-import javafx.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -77,8 +78,34 @@ public class GameController implements Initializable {
         this.currentCards.add(selfCard2);
         this.currentCards.add(selfCard3);
         this.currentCards.add(selfCard4);
+        this.initStack();
         this.drawAllCards();
         _instance = this;
+    }
+
+    private void initStack() {
+        Image img = new Image("/static/card_full.png");
+
+        for (int i = 0; i < GameConstants.CARD_PER_HAND; i++) {
+            Card top = allCards.pop();
+            GameLogic.getInstance().getMiddle().push(top);
+            Rectangle card = new Rectangle();
+            card.setArcHeight(5.0);
+            card.setArcWidth(5.0);
+            card.setHeight(114.0);
+            card.setWidth(117.0);
+            card.setStroke(Paint.valueOf("BLACK"));
+            card.setStrokeType(StrokeType.valueOf("INSIDE"));
+            card.setFill(Paint.valueOf("WHITE"));
+            if (i + 1 != GameConstants.CARD_PER_HAND) {
+                card.setFill(new ImagePattern(img));
+                midStack.getChildren().add(card);
+            } else {
+                StackPane stackPane = drawCardInsideRectangle(card, top);
+                midStack.getChildren().add(stackPane);
+            }
+        }
+        LOGGER.info("Cards were dealt for middle stack");
     }
 
     private void drawAllCards() {
@@ -91,7 +118,7 @@ public class GameController implements Initializable {
             r.setOnMouseClicked(this::throwCard);
             Card top = allCards.pop();
             cardsOne.add(top);
-            drawCard(r, top);
+            drawCardForPlayers(r, top);
         }
         LOGGER.info("Cards were dealt for Player One");
         for (int i = 0; i < GameConstants.CARD_PER_HAND; i++) {
@@ -102,13 +129,12 @@ public class GameController implements Initializable {
         GameLogic.getInstance().setPlayerCards(playerCards);
     }
 
-    private void drawCard(Rectangle r, Card cardToDraw) {
+    private StackPane drawCardInsideRectangle(Rectangle r, Card cardToDraw) {
         String margin = " ";
         Suits suit = cardToDraw.getSuit();
         Cards card = cardToDraw.getCard();
         String suitName = suit.name();
         String cardName = margin + card.toString();
-//        final Rectangle rectangle = new Rectangle();
         final Text text = new Text(suitName);
         final StackPane stack = new StackPane();
         final Text text2 = new Text(cardName);
@@ -122,9 +148,13 @@ public class GameController implements Initializable {
         stack2.setLayoutY(r.getLayoutY());
         stack.setPickOnBounds(false);
         stack2.setPickOnBounds(false);
+        return stack;
+    }
+
+    private void drawCardForPlayers(Rectangle r, Card cardToDraw) {
+        StackPane stack = this.drawCardInsideRectangle(r, cardToDraw);
         bottomAnchorPane.getChildren().add(stack);
         this.cardMappings.put(r, cardToDraw);
-        //TODO -- place 3 cards facing down, 1 card facing up to the mid stack
     }
 
     private void shuffleCards() {
