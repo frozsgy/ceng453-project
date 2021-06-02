@@ -21,6 +21,7 @@ public class GameLogic {
     private PlayerEnum currentPlayer = PlayerEnum.ONE;
     private int hand = 1;
     private PlayerGameEntity playerGameEntity;
+    private AiStrategy strategy;
 
     private static GameLogic instance;
 
@@ -42,6 +43,14 @@ public class GameLogic {
     }
     private GameLogic() {
         this.resetFields();
+    }
+
+    public void setAiStrategy(int level) {
+        if (level == 1) {
+            strategy = new LevelOneStrategy(this.playerCards);
+        } else {
+            strategy = new LevelOneStrategy(this.playerCards);
+        }
     }
 
     public Map<PlayerEnum, List<Card>> getPlayerCards() {
@@ -104,6 +113,8 @@ public class GameLogic {
         this.playerGameEntity = playerGameEntity;
     }
 
+    public AiStrategy getAiStrategy() {return this.strategy;}
+
     public boolean checkIfMatch(Card candidateCard, PlayerEnum player) {
         this.playerCards.get(player).remove(candidateCard);
         if (this.middle.isEmpty()) {
@@ -163,25 +174,6 @@ public class GameLogic {
             }
         }
         return score;
-    }
-
-    public Pair<Rectangle, Card> playAsComputer(Map<Rectangle, Card> cardMappings) {
-        // TODO - this needs numerous implementations, and it already smells a bit?
-        List<Card> cards = this.playerCards.get(PlayerEnum.TWO);
-        Card card = cards.get(0);
-        cards.remove(card);
-        Rectangle r = null;
-        for (Map.Entry<Rectangle, Card> entry: cardMappings.entrySet()) {
-            if (card.equals(entry.getValue())) {
-                r = entry.getKey();
-            }
-        }
-//        r.setVisible(false);
-        //midStack.getChildren().add(r.getParent());
-        this.playerCards.replace(PlayerEnum.TWO, cards);
-        Pair<Rectangle, Card> pair = new Pair<>(r, card);
-        return pair;
-
     }
 
     public boolean isHandEmpty() {

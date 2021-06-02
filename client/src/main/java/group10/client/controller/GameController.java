@@ -267,6 +267,7 @@ public class GameController implements Initializable {
         this.initPlayerCards();
         this.initStack();
         this.drawAllCards();
+        GameLogic.getInstance().setAiStrategy(round);
     }
 
     private void setPlayerScore(int score) {
@@ -318,7 +319,7 @@ public class GameController implements Initializable {
             pressed.setOnMouseClicked(null);
             // TODO -- add a pause to let the player thinks the AI is thinking
             GameLogic.getInstance().setCurrentPlayer(PlayerEnum.TWO); // TODO -- generalize this
-            Pair<Rectangle, Card> cardMap = GameLogic.getInstance().playAsComputer(cardMappings);
+            Pair<Rectangle, Card> cardMap = GameLogic.getInstance().getAiStrategy().playAsComputer(cardMappings);
             Rectangle removed = cardMap.getKey();
             Card opponentCard = cardMap.getValue();
             this.upperAnchorPane.getChildren().remove(removed);
