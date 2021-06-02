@@ -125,8 +125,22 @@ public class HTTPService {
         headers.setBearerAuth(SessionStorage.getInstance().getToken());
         HttpEntity<String> entity = new HttpEntity<>(headers);
         try {
-            // TODO -- REMOVE pageSize=1&
-            String path = API + ServerFolders.SCOREBOARD_PATH + "/" + days + "?pageSize=1&pageNumber=" + page;
+            String path = API + ServerFolders.SCOREBOARD_PATH + "/" + days + "?pageNumber=" + page;
+            ResponseEntity<String> response = restTemplate.exchange(path, HttpMethod.GET, entity, String.class);
+            return response.getBody();
+        } catch (HttpServerErrorException e) {
+            String errorKey = "error";
+            Map<String, String> messagePair = gson.fromJson(e.getResponseBodyAsString(), Map.class);
+            return messagePair.get(errorKey);
+        }
+    }
+
+    public String startNewGame() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(SessionStorage.getInstance().getToken());
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+        try {
+            String path = API + ServerFolders.NEW_GAME_PATH;
             ResponseEntity<String> response = restTemplate.exchange(path, HttpMethod.GET, entity, String.class);
             return response.getBody();
         } catch (HttpServerErrorException e) {

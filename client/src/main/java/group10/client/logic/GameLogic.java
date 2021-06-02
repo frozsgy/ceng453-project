@@ -4,6 +4,7 @@ import group10.client.enums.Cards;
 import group10.client.enums.PlayerEnum;
 import group10.client.enums.Suits;
 import group10.client.model.Card;
+import group10.client.model.PlayerGameEntity;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 
@@ -18,6 +19,7 @@ public class GameLogic {
     private Map<PlayerEnum, List<Card>> playerCards;
     private PlayerEnum currentPlayer = PlayerEnum.ONE;
     private int hand = 1;
+    private PlayerGameEntity playerGameEntity;
 
     private static GameLogic instance;
 
@@ -80,6 +82,22 @@ public class GameLogic {
 
     public void setCurrentPlayer(PlayerEnum currentPlayer) {
         this.currentPlayer = currentPlayer;
+    }
+
+    public int getHand() {
+        return hand;
+    }
+
+    public void setHand(int hand) {
+        this.hand = hand;
+    }
+
+    public PlayerGameEntity getPlayerGameEntity() {
+        return playerGameEntity;
+    }
+
+    public void setPlayerGameEntity(PlayerGameEntity playerGameEntity) {
+        this.playerGameEntity = playerGameEntity;
     }
 
     public boolean checkIfMatch(Card candidateCard, PlayerEnum player) {

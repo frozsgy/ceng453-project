@@ -8,5 +8,6 @@ public class ServerFolders {
     public final static String REQUEST_CODE_PATH = USER + "requestPwCode";
     public final static String UPDATE_PW_PATH = USER + "updatePassword";
     public final static String SCOREBOARD_PATH = GAME + "scoreboard";
+    public final static String NEW_GAME_PATH = GAME + "new";
 
 }

@@ -1,11 +1,17 @@
 package group10.client.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import group10.client.constants.GameConstants;
 import group10.client.enums.Cards;
 import group10.client.enums.PlayerEnum;
 import group10.client.enums.Suits;
 import group10.client.logic.GameLogic;
 import group10.client.model.Card;
+import group10.client.model.PagedEntity;
+import group10.client.model.PlayerGameEntity;
+import group10.client.model.Scoreboard;
+import group10.client.service.HTTPService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -23,6 +29,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.*;
 
@@ -62,10 +69,14 @@ public class GameController implements Initializable {
     private List<Rectangle> opponentCards;
     private Map<Rectangle, Card> cardMappings;
 
+    private Gson gson;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         GameLogic.getInstance();
+        this.gson = new Gson();
+        this.requestNewGame();
         this.cardMappings = new HashMap<>();
         this.initOpponentCards();
         this.round = 1;
@@ -76,6 +87,13 @@ public class GameController implements Initializable {
         this.initStack();
         this.drawAllCards();
         _instance = this;
+    }
+
+    @SuppressWarnings("unchecked")
+    private void requestNewGame() {
+        String newGameString = HTTPService.getInstance().startNewGame();
+        PlayerGameEntity playerGameEntity = gson.fromJson(newGameString, PlayerGameEntity.class);
+        GameLogic.getInstance().setPlayerGameEntity(playerGameEntity);
     }
 
     private void initOpponentCards() {
@@ -265,7 +283,8 @@ public class GameController implements Initializable {
                     PlayerEnum lastWinner = GameLogic.getInstance().getLastWinner();
                     // TODO -- give mid stack to lasstWinner
                     LOGGER.info("end level");
-                    // TODO -- start new level 
+                    // TODO -- send scores to server (gameId from GameLogic -> playerGameEntity :: gameId)
+                    // TODO -- start new level
                 }
 
             }
