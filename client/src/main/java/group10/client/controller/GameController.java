@@ -45,6 +45,7 @@ public class GameController implements Initializable {
     private static final double PLAYER_CARD_Y = 86;
     private static final double ENEMY_CARD_Y = 0;
     private static final double HORIZONTAL_CARD_SPACING = 174;
+    private static final int LAST_ROUND = 3;
     @FXML
     private Text levelText;
     @FXML
@@ -75,6 +76,7 @@ public class GameController implements Initializable {
     private List<Rectangle> currentCards;
     private List<Rectangle> opponentCards;
     private Map<Rectangle, Card> cardMappings;
+    private boolean thirdLevelScorePosted;
 
 
     private Gson gson;
@@ -84,6 +86,7 @@ public class GameController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         GameLogic.getInstance();
         _instance = this;
+        this.thirdLevelScorePosted = false;
         this.leaveButton.setFocusTraversable(false);
 //        this.gson = new Gson();
 //        this.requestNewGame();
@@ -259,7 +262,12 @@ public class GameController implements Initializable {
     }
 
     private void setUpNextLevel() {
-        if (round < 3) {
+        if (round == LAST_ROUND && !thirdLevelScorePosted) {
+            thirdLevelScorePosted = true;
+            // TODO post score here in a seperate method!
+
+        } else if (round < LAST_ROUND) {
+            // post score here.
             round++;
             GameLogic.getInstance().resetFields();
             setLevelText();
@@ -355,7 +363,16 @@ public class GameController implements Initializable {
                     this.setEnemyScore(GameLogic.getInstance().getScores().get(PlayerEnum.TWO));
                     LOGGER.info("end level " + this.round);
                     // TODO -- send scores to server (gameId from GameLogic -> playerGameEntity :: gameId)
-//                    this.setUpNextLevel();
+                    if (this.round < LAST_ROUND) {
+                        Button button = new Button("Next Level");
+                        button.setOnAction(e -> this.setUpNextLevel());
+                        this.midStack.getChildren().add(button);
+                    } else if (this.round == LAST_ROUND) {
+                        Text gameOver = new Text("Game Over");
+                        // send score here.
+                        this.midStack.getChildren().add(gameOver);
+                    }
+
                 }
 
             }
