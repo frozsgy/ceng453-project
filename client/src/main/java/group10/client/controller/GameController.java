@@ -46,6 +46,7 @@ public class GameController implements Initializable {
     private static final double ENEMY_CARD_Y = 0;
     private static final double HORIZONTAL_CARD_SPACING = 174;
     private static final int LAST_ROUND = 3;
+    private static final int MAX_SCORE = 151;
     @FXML
     private Text levelText;
     @FXML
@@ -311,6 +312,17 @@ public class GameController implements Initializable {
         Scene menu = UIUtility.navigateTo(e, resource, null);
     }
 
+    private void setUpNextLevelWrapper() {
+        if (this.round < LAST_ROUND) {
+            Button button = new Button("Next Level");
+            button.setOnAction(e -> this.setUpNextLevel());
+            this.midStack.getChildren().add(button);
+        } else if (this.round == LAST_ROUND) {
+            Text gameOver = new Text("Game Over");
+            // send score here.
+            this.midStack.getChildren().add(gameOver);
+        }
+    }
     @FXML
     protected void throwCard(MouseEvent event) {
         /**
@@ -363,18 +375,14 @@ public class GameController implements Initializable {
                     this.setEnemyScore(GameLogic.getInstance().getScores().get(PlayerEnum.TWO));
                     LOGGER.info("end level " + this.round);
                     // TODO -- send scores to server (gameId from GameLogic -> playerGameEntity :: gameId)
-                    if (this.round < LAST_ROUND) {
-                        Button button = new Button("Next Level");
-                        button.setOnAction(e -> this.setUpNextLevel());
-                        this.midStack.getChildren().add(button);
-                    } else if (this.round == LAST_ROUND) {
-                        Text gameOver = new Text("Game Over");
-                        // send score here.
-                        this.midStack.getChildren().add(gameOver);
-                    }
-
+                    this.setUpNextLevelWrapper(); // adds button or text, then calls next level;
                 }
-
+            } else if (GameLogic.getInstance().getScores().get(PlayerEnum.ONE) == MAX_SCORE) {
+                // TODO -- send scores to server (gameId from GameLogic -> playerGameEntity :: gameId)
+                this.setUpNextLevelWrapper(); // adds button or text, then calls next level;
+            } else if (GameLogic.getInstance().getScores().get(PlayerEnum.TWO) == MAX_SCORE) {
+                // TODO -- send scores to server (gameId from GameLogic -> playerGameEntity :: gameId)
+                this.setUpNextLevelWrapper(); // adds button or text, then calls next level;
             }
 
         } catch (IllegalArgumentException ex) {
