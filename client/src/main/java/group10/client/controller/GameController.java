@@ -347,13 +347,13 @@ public class GameController implements Initializable {
             this.midStack.getChildren().clear();
             GameLogic.getInstance().getMiddle().clear();
             this.setMidCount();
-            GameLogic.getInstance().addScoreToPlayer(PlayerEnum.TWO, GameLogic.DOUBLE_PISTI);
+            GameLogic.getInstance().addScoreToPlayer(PlayerEnum.TWO, GameConstants.DOUBLE_PISTI);
             this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.TWO));
         } else {
             Rectangle r = GameLogic.getRectangleByCard(this.cardMappings, bluffed);
             this.setRectangleVisible(r);
             this.drawCardInsideRectangle(r, bluffed);
-            GameLogic.getInstance().addScoreToPlayer(PlayerEnum.ONE, GameLogic.DOUBLE_PISTI);
+            GameLogic.getInstance().addScoreToPlayer(PlayerEnum.ONE, GameConstants.DOUBLE_PISTI);
             this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.ONE));
             GameLogic.getInstance().getMiddle().push(candidate);
             GameLogic.getInstance().getMiddle().push(bluffed);
@@ -408,7 +408,7 @@ public class GameController implements Initializable {
         GameLogic.getInstance().getMiddle().clear();
         this.setMidCount();
         this.midStack.getChildren().clear();
-        GameLogic.getInstance().addScoreToPlayer(PlayerEnum.TWO, GameLogic.PISTI);
+        GameLogic.getInstance().addScoreToPlayer(PlayerEnum.TWO, GameConstants.PISTI);
         this.setEnemyScore(GameLogic.getInstance().getScores().get(PlayerEnum.TWO));
     }
 
