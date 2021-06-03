@@ -158,7 +158,7 @@ class GameControllerTests {
         assertEquals(numberOfElements, 1);
         JSONObject scoreboardOne = scoreboard.getJSONObject(0);
         assertEquals(scoreboardOne.getLong("userId"), userId);
-        assertEquals(scoreboardOne.getLong("score"), 10 * scorePerMatch);
+        assertEquals(scoreboardOne.getLong("score"), 54 * scorePerMatch);
     }
 
 }
