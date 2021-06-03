@@ -2,13 +2,11 @@ package group10.client.controller;
 
 import group10.client.constants.GameConstants;
 import group10.client.constants.UiConstants;
-import group10.client.entity.Level;
 import group10.client.enums.Cards;
 import group10.client.enums.PlayerEnum;
 import group10.client.enums.Suits;
 import group10.client.logic.GameLogic;
 import group10.client.model.Card;
-import group10.client.service.HTTPService;
 import group10.client.state.SessionStorage;
 import group10.client.utility.UIUtility;
 import javafx.event.ActionEvent;
@@ -34,7 +32,8 @@ import org.springframework.stereotype.Component;
 import java.net.URL;
 import java.util.*;
 
-import static group10.client.constants.GameConstants.*;
+import static group10.client.constants.GameConstants.LAST_ROUND;
+import static group10.client.constants.GameConstants.MAX_SCORE;
 import static group10.client.constants.UiConstants.*;
 
 @Component
@@ -99,7 +98,7 @@ public class GameController implements Initializable {
         this.opponentCards.add(opponentCard3);
         this.opponentCards.add(opponentCard4);
         for (int i = 0; i < opponentCards.size(); i++) {
-            try{
+            try {
                 upperAnchorPane.getChildren().add(opponentCards.get(i));
             } catch (IllegalArgumentException e) {
                 LOGGER.info("First initialization of enemy card " + (i + 1));
@@ -120,7 +119,7 @@ public class GameController implements Initializable {
         this.currentCards.add(selfCard3);
         this.currentCards.add(selfCard4);
         for (int i = 0; i < currentCards.size(); i++) {
-            try{
+            try {
                 bottomAnchorPane.getChildren().add(currentCards.get(i));
             } catch (IllegalArgumentException e) {
                 LOGGER.info("First initialization of card " + (i + 1));
@@ -178,7 +177,7 @@ public class GameController implements Initializable {
         for (Rectangle r : currentCards) {
             // human cards
             // enable clickable
-            r.setOnMouseClicked(this::throwCard);
+            r.setOnMouseClicked(this::mouseClickHandler);
             Card top = allCards.pop();
             cardsOne.add(top);
             drawCardForPlayer(r, top);
@@ -316,6 +315,7 @@ public class GameController implements Initializable {
         String text = "Opponent Score: ";
         this.enemyScore.setText(text + score);
     }
+
     protected static void keyPressEvent(KeyEvent event) {
         KeyCombination ctrl9 = new KeyCodeCombination(KeyCode.DIGIT9, KeyCodeCombination.CONTROL_DOWN);
         if (ctrl9.match(event)) {
@@ -438,6 +438,16 @@ public class GameController implements Initializable {
     }
 
     @FXML
+    protected void mouseClickHandler(MouseEvent event) {
+        if (event.getButton() == MouseButton.PRIMARY) {
+            this.throwCard(event);
+        } else if (event.getButton() == MouseButton.SECONDARY) {
+            if (GameLogic.getInstance().getMiddle().size() == 1) {
+                // TODO -- bluff
+            }
+        }
+    }
+
     protected void throwCard(MouseEvent event) {
         try {
             if (this.bluffed) {
@@ -445,6 +455,7 @@ public class GameController implements Initializable {
                 this.rejectBluff();
             }
             Rectangle pressed = (Rectangle) ((Node) event.getTarget());
+
             this.controlPlayer(pressed);
             // TODO -- add a pause to let the player thinks the AI is thinking
             GameLogic.getInstance().setCurrentPlayer(PlayerEnum.TWO);
