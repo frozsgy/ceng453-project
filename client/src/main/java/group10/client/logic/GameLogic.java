@@ -167,8 +167,10 @@ public class GameLogic {
             if (matchType == MatchType.REGULAR) {
                 this.addScoreToPlayer(player, stackScore);
             } else if (matchType == MatchType.PISTI) {
+                LOGGER.info("Player " + player + " scored a Pisti!");
                 this.addScoreToPlayer(player, stackScore + PISTI);
             } else {
+                LOGGER.info("Player " + player + " scored a Double Pisti!");
                 this.addScoreToPlayer(player, DOUBLE_PISTI);
             }
             LOGGER.info("Score for " + player + ": " + this.scores.get(player));
