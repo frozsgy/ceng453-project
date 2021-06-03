@@ -358,14 +358,14 @@ public class GameController implements Initializable {
 
     @FXML
     private void acceptChallenge(ActionEvent e) {
-        System.out.println("Challenge Accepted");
+        LOGGER.info("Challenge accepted");
         this.challengeButton.setVisible(false); // destroy button.
         this.bluffed = false; // handle flag.
         Card bluffed = GameLogic.getInstance().getMiddle().pop(); // get closed card.
         Card candidate = GameLogic.getInstance().getMiddle().pop(); // get prev card.
         if (candidate.getCard() == bluffed.getCard()) {
             // bluff was real
-            System.out.println("Bluff was real.");
+            LOGGER.info("Bluff was real.");
             this.midStack.getChildren().clear(); // clear mid view.
             GameLogic.getInstance().getMiddle().clear(); // clear middle.
             this.setMidCount(); // update mid count.
@@ -376,7 +376,7 @@ public class GameController implements Initializable {
             this.setEnemyScore(GameLogic.getInstance().getScores().get(PlayerEnum.TWO)); // update ai score.
         } else {
             // bluff was fake.
-            System.out.println("Bluff was fake.");
+            LOGGER.info("Bluff was fake.");
             Rectangle r = GameLogic.getRectangleByCard(this.cardMappings, bluffed); //get the rectangle of closed card.
             this.midStack.getChildren().remove(r);
             this.setRectangleVisible(r); // make rectangle visible.

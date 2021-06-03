@@ -1,5 +1,6 @@
 package group10.client.logic;
 
+import group10.client.controller.GameController;
 import group10.client.entity.Level;
 import group10.client.enums.Cards;
 import group10.client.enums.MatchType;
@@ -9,6 +10,8 @@ import group10.client.model.Card;
 import group10.client.entity.PlayerGame;
 import group10.client.service.HTTPService;
 import javafx.scene.shape.Rectangle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
@@ -16,6 +19,8 @@ import static group10.client.constants.GameConstants.DOUBLE_PISTI;
 import static group10.client.constants.GameConstants.PISTI;
 
 public class GameLogic {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(GameLogic.class);
 
     private Stack<Card> middle;
     private PlayerEnum lastWinner = PlayerEnum.NULL;
@@ -139,7 +144,7 @@ public class GameLogic {
             return MatchType.NO;
         }
         Card topCard = this.middle.peek();
-        System.out.println("check if match - " + candidateCard + " - top : " + topCard);
+        LOGGER.info("Placed " + candidateCard + " on top of " + topCard);
         if (this.middle.size() == 1 && candidateCard.getCard().equals(topCard.getCard())) {
             if (candidateCard.getCard() == Cards.JACK) {
                 return MatchType.DOUBLE_PISTI;
@@ -166,7 +171,7 @@ public class GameLogic {
             } else {
                 this.addScoreToPlayer(player, DOUBLE_PISTI);
             }
-            System.out.println("score for " + player + ": " + this.scores.get(player));
+            LOGGER.info("Score for " + player + ": " + this.scores.get(player));
             this.middle.clear();
             return true;
         }

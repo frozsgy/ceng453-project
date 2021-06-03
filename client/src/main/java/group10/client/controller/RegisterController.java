@@ -83,7 +83,6 @@ public class RegisterController implements Initializable, FormView {
 
     @FXML
     protected void navigateToLogin(ActionEvent event) {
-        System.out.println("Going back");
         URL resource = getClass().getResource(LOGIN_FXML);
         Scene login = UIUtility.navigateTo(event, resource, null);
     }
