@@ -18,8 +18,9 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
-
-import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
 @Service
@@ -33,8 +34,18 @@ public class HTTPService {
     private Gson gson;
     private final static String API = "http://localhost:8080/api";
     private final static String SERVER_ERROR_MSG_KEY = "error";
-
     private static HTTPService instance;
+
+    private String getSHA256(String pw) {
+        try{
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] encodedhash = digest.digest(pw.getBytes(StandardCharsets.UTF_8));
+            return new String(encodedhash);
+        } catch (NoSuchAlgorithmException e) {
+            LOGGER.info("SHA-256 Failed.");
+        }
+        return pw;
+    }
 
     private HTTPService() {
         this.restTemplate = new RestTemplate();
@@ -63,14 +74,10 @@ public class HTTPService {
     }
 
     public boolean login(Player player) {
+        player.setPassword(this.getSHA256(player.getPassword()));
         String json = gson.toJson(player);
         HttpEntity<String> entity = initEntity(false, json);
         try {
-            /**
-                TODO
-                for some reasons, this.apiAddress not injected. for now, I placed url hardcoded to test the client.
-                also, hash passwords.
-             */
             String path = API + ServerFolders.LOGIN_PATH;
             ResponseEntity<String> response = restTemplate.exchange(path, HttpMethod.POST, entity, String.class);
             String token = response.getBody(); // store it somewhere
@@ -85,6 +92,7 @@ public class HTTPService {
     }
 
     public String register(Player player) {
+        player.setPassword(this.getSHA256(player.getPassword()));
         String json = gson.toJson(player);
         HttpEntity<String> entity = initEntity(false, json);
         try {
@@ -118,6 +126,7 @@ public class HTTPService {
     }
 
     public String updatePassword(PasswordReset resetForm) {
+        resetForm.setPassword(this.getSHA256(resetForm.getPassword()));
         String json = gson.toJson(resetForm);
         HttpEntity<String> entity = initEntity(false, json);
         try {
