@@ -137,7 +137,7 @@ public class GameLogic {
             if (candidateCard.getCard() == Cards.JACK) {
                 // double pişti :: 20 points
                 this.addScoreToPlayer(player, DOUBLE_PISTI);
-            } else {ben de 
+            } else {
                 // pişti :: 10 points
                 this.middle.push(candidateCard);
                 int stackScore = this.calculateStackScore(); // pişti with aces, and other special cards
