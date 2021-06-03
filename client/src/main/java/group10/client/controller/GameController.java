@@ -368,6 +368,7 @@ public class GameController implements Initializable {
         midStack.getChildren().add(opponentRectangle.getParent());
         if (isCardHidden(opponentRectangle)) {
             // handle bluf
+            GameLogic.getInstance().getMiddle().add(opponentCard);
         } else {
             if (GameLogic.getInstance().checkIfMatch(opponentCard, PlayerEnum.TWO)) {
                 LOGGER.info("match - player two");
