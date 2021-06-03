@@ -57,6 +57,8 @@ public class GameController implements Initializable {
     private Text midCartCount;
     @FXML
     private Button leaveButton;
+    @FXML
+    private Button challengeButton;
     private Rectangle selfCard1;
     private Rectangle selfCard2;
     private Rectangle selfCard3;
@@ -72,7 +74,7 @@ public class GameController implements Initializable {
     @FXML
     private StackPane midStack;
     private int round = 1;
-    private static GameController _instance;
+    public static GameController _instance;
     private Stack<Card> allCards;
     private List<Rectangle> currentCards;
     private List<Rectangle> opponentCards;
@@ -105,15 +107,10 @@ public class GameController implements Initializable {
 
     private void initOpponentCards() {
         this.opponentCards = new ArrayList<>();
-        Image img = new Image(CARD_BACK_IMAGE);
-        this.opponentCard1 = createCardRectangle();
-        this.opponentCard2 = createCardRectangle();
-        this.opponentCard3 = createCardRectangle();
-        this.opponentCard4 = createCardRectangle();
-        this.opponentCard1.setFill(new ImagePattern(img));
-        this.opponentCard2.setFill(new ImagePattern(img));
-        this.opponentCard3.setFill(new ImagePattern(img));
-        this.opponentCard4.setFill(new ImagePattern(img));
+        this.opponentCard1 = createCardRectangle(true);
+        this.opponentCard2 = createCardRectangle(true);
+        this.opponentCard3 = createCardRectangle(true);
+        this.opponentCard4 = createCardRectangle(true);
         this.opponentCards.add(opponentCard1);
         this.opponentCards.add(opponentCard2);
         this.opponentCards.add(opponentCard3);
@@ -131,10 +128,10 @@ public class GameController implements Initializable {
 
     private void initPlayerCards() {
         this.currentCards = new ArrayList<>();
-        selfCard1 = createCardRectangle();
-        selfCard2 = createCardRectangle();
-        selfCard3 = createCardRectangle();
-        selfCard4 = createCardRectangle();
+        selfCard1 = createCardRectangle(false);
+        selfCard2 = createCardRectangle(false);
+        selfCard3 = createCardRectangle(false);
+        selfCard4 = createCardRectangle(false);
         this.currentCards.add(selfCard1);
         this.currentCards.add(selfCard2);
         this.currentCards.add(selfCard3);
@@ -156,7 +153,7 @@ public class GameController implements Initializable {
         this.drawAllCards();
     }
 
-    private Rectangle createCardRectangle() {
+    private Rectangle createCardRectangle(boolean hasImage) {
         Rectangle card = new Rectangle();
         card.setArcHeight(5.0);
         card.setArcWidth(5.0);
@@ -165,6 +162,10 @@ public class GameController implements Initializable {
         card.setStroke(Paint.valueOf("BLACK"));
         card.setStrokeType(StrokeType.valueOf("INSIDE"));
         card.setFill(Paint.valueOf("WHITE"));
+        if (hasImage) {
+            Image img = new Image(CARD_BACK_IMAGE);
+            card.setFill(new ImagePattern(img));
+        }
         return card;
     }
 
@@ -174,7 +175,7 @@ public class GameController implements Initializable {
         for (int i = 0; i < GameConstants.CARD_PER_HAND; i++) {
             Card top = allCards.pop();
             GameLogic.getInstance().getMiddle().add(top);
-            Rectangle card = createCardRectangle();
+            Rectangle card = createCardRectangle(false);
             if (i + 1 != GameConstants.CARD_PER_HAND) {
                 card.setFill(new ImagePattern(img));
                 midStack.getChildren().add(card);
@@ -339,6 +340,11 @@ public class GameController implements Initializable {
             this.midStack.getChildren().add(gameOver);
         }
     }
+
+    @FXML
+    private void acceptChallenge(ActionEvent e) {
+        System.out.println("Challenge Accepted");
+    }
     @FXML
     protected void throwCard(MouseEvent event) {
         /**
@@ -367,7 +373,7 @@ public class GameController implements Initializable {
             Rectangle removed = cardMap.getKey();
             Card opponentCard = cardMap.getValue();
             this.upperAnchorPane.getChildren().remove(removed);
-            Rectangle opponentRectangle = createCardRectangle();
+            Rectangle opponentRectangle = createCardRectangle(false);
             drawCardInsideRectangle(opponentRectangle, opponentCard);
             midStack.getChildren().add(opponentRectangle.getParent());
             if (GameLogic.getInstance().checkIfMatch(opponentCard, PlayerEnum.TWO)) {
@@ -406,4 +412,7 @@ public class GameController implements Initializable {
         }
     }
 
+    public Button getChallengeButton() {
+        return challengeButton;
+    }
 }
