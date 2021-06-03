@@ -1,11 +1,11 @@
 package group10.client.controller;
 
-import group10.client.constants.UiInfoConstants;
 import group10.client.constants.UiConstants;
+import group10.client.constants.UiInfoConstants;
 import group10.client.model.Player;
 import group10.client.service.HTTPService;
-import group10.client.utility.LoadingSpinner;
 import group10.client.state.SessionStorage;
+import group10.client.utility.LoadingSpinner;
 import group10.client.utility.UIUtility;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;

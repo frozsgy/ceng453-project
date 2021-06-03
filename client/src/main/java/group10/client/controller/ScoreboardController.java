@@ -73,7 +73,7 @@ public class ScoreboardController implements Initializable {
         radioAll.setToggleGroup(group);
         this.gson = new Gson();
         scoreColumn.setSortType(TableColumn.SortType.DESCENDING);
-        PagedEntity<Scoreboard> pagedEntity = getScoreboard(30,0);
+        PagedEntity<Scoreboard> pagedEntity = getScoreboard(30, 0);
         ScoreboardStorage.getInstance().setData(pagedEntity);
         ScoreboardStorage.getInstance().setInterval(30);
         this.updateComboboxValues();
@@ -97,7 +97,8 @@ public class ScoreboardController implements Initializable {
     protected PagedEntity<Scoreboard> getScoreboard(long days, long page) {
         tableView.getItems().clear();
         String scoreboardString = HTTPService.getInstance().getScoreboard(days, page);
-        Type collectionType = new TypeToken<PagedEntity<Scoreboard>>(){}.getType();
+        Type collectionType = new TypeToken<PagedEntity<Scoreboard>>() {
+        }.getType();
         PagedEntity<Scoreboard> pagedEntity = gson.fromJson(scoreboardString, collectionType);
         ScoreboardStorage.getInstance().setData(pagedEntity);
         tableView.getItems().addAll(pagedEntity.getContent());

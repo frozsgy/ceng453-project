@@ -1,7 +1,7 @@
 package group10.client.controller;
 
-import group10.client.constants.UiInfoConstants;
 import group10.client.constants.UiConstants;
+import group10.client.constants.UiInfoConstants;
 import group10.client.model.PasswordReset;
 import group10.client.service.HTTPService;
 import group10.client.utility.LoadingSpinner;
@@ -18,9 +18,9 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import org.springframework.stereotype.Component;
-import javafx.scene.paint.Paint;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -103,6 +103,7 @@ public class ForgotController implements Initializable, FormView {
                 });
         new Thread(requestCodeTask).start();
     }
+
     @FXML
     public void submitForgot(ActionEvent event) {
         if (!this.validateForm()) {

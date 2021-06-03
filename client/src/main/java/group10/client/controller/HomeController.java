@@ -2,8 +2,8 @@ package group10.client.controller;
 
 import com.google.gson.Gson;
 import group10.client.constants.UiConstants;
-import group10.client.logic.GameLogic;
 import group10.client.entity.PlayerGame;
+import group10.client.logic.GameLogic;
 import group10.client.service.HTTPService;
 import group10.client.state.SessionStorage;
 import group10.client.utility.LoadingSpinner;

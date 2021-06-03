@@ -1,9 +1,5 @@
 package group10.client.model;
 
-//import lombok.Builder;
-
-
-//@Builder
 public class Player {
     private String username;
     private String password;

@@ -1,6 +1,5 @@
 package group10.client.entity;
 
-import java.util.Date;
 import java.util.List;
 
 public class Player extends Base {

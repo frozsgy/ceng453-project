@@ -1,13 +1,12 @@
 package group10.client.logic;
 
-import group10.client.controller.GameController;
 import group10.client.entity.Level;
+import group10.client.entity.PlayerGame;
 import group10.client.enums.Cards;
 import group10.client.enums.MatchType;
 import group10.client.enums.PlayerEnum;
 import group10.client.enums.Suits;
 import group10.client.model.Card;
-import group10.client.entity.PlayerGame;
 import group10.client.service.HTTPService;
 import javafx.scene.shape.Rectangle;
 import org.slf4j.Logger;
@@ -63,7 +62,7 @@ public class GameLogic {
     public void setAiStrategy(int level) {
         if (level == 1) {
             strategy = new LevelOneStrategy(this.playerCards, this.middle);
-        } else if (level == 2){
+        } else if (level == 2) {
             strategy = new LevelTwoStrategy(this.playerCards, this.middle);
         } else {
             strategy = new LevelThreeStrategy(this.playerCards, this.middle);
@@ -131,8 +130,9 @@ public class GameLogic {
     }
 
 
-
-    public AiStrategy getAiStrategy() {return this.strategy;}
+    public AiStrategy getAiStrategy() {
+        return this.strategy;
+    }
 
     public void addScoreToPlayer(PlayerEnum player, int score) {
         Integer currentScore = this.scores.get(player);
@@ -214,7 +214,7 @@ public class GameLogic {
 
     public static Rectangle getRectangleByCard(Map<Rectangle, Card> cardMappings, Card card) {
         Rectangle r = null;
-        for (Map.Entry<Rectangle, Card> entry: cardMappings.entrySet()) {
+        for (Map.Entry<Rectangle, Card> entry : cardMappings.entrySet()) {
             if (card.equals(entry.getValue())) {
                 r = entry.getKey();
             }

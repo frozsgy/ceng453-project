@@ -1,7 +1,5 @@
 package group10.client.entity;
 
-import java.util.Date;
-
 public class PlayerGame extends Base {
 
     private Player player;

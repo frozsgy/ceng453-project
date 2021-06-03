@@ -2,8 +2,6 @@ package group10.client.entity;
 
 import group10.client.enums.GameTypes;
 
-import java.util.Date;
-
 
 public class Game extends Base {
 

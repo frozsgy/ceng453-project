@@ -1,6 +1,5 @@
 package group10.client.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PagedEntity<T> {

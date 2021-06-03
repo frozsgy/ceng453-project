@@ -7,11 +7,15 @@ import group10.client.model.Card;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Pair;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.Stack;
 
-public class LevelThreeStrategy extends AiStrategy{
+public class LevelThreeStrategy extends AiStrategy {
 
     private boolean hasBluffed;
+
     @Override
     public Pair<Rectangle, Card> playAsComputer(Map<Rectangle, Card> cardMappings) {
         List<Card> cards = this.playerCards.get(PlayerEnum.TWO);
@@ -19,19 +23,19 @@ public class LevelThreeStrategy extends AiStrategy{
             Card cardOnTop = this.middle.peek();
             Random rand = new Random();
 //            int bluf = rand.nextInt(2);
-            double bluf = Math.random();
-            double blufProb = 0.33;
-            if (bluf > 1-blufProb && !hasBluffed) { // do with 0.33 prob.
+            double bluff = Math.random();
+            double bluffProb = 0.33;
+            if (bluff > 1 - bluffProb && !hasBluffed) { // do with 0.33 prob.
                 hasBluffed = true;
                 GameController._instance.getChallengeButton().setVisible(true);
                 int headTail = rand.nextInt(2);
                 if (headTail == 0) { //headTail ==0 // do with 50% prob
                     // check if real pisti
-                    for (Card tested: cards) {
+                    for (Card tested : cards) {
                         if (tested.getCard() == cardOnTop.getCard()) {
                             Rectangle r = GameLogic.getRectangleByCard(cardMappings, tested);
                             this.removePlayedCard(tested);
-                            return new Pair(r, tested);
+                            return new Pair<>(r, tested);
                         }
                     }
                 }
@@ -39,7 +43,7 @@ public class LevelThreeStrategy extends AiStrategy{
                 Card c = cards.get(randomIndex);
                 Rectangle r = GameLogic.getRectangleByCard(cardMappings, c);
                 this.removePlayedCard(c);
-                return new Pair(r, c);
+                return new Pair<>(r, c);
             } else {
                 hasBluffed = false;
                 // check if pisti is possible first
@@ -55,8 +59,8 @@ public class LevelThreeStrategy extends AiStrategy{
         Stack<Card> originalMiddle = (Stack<Card>) this.middle.clone();
         int score = 0;
         Card bestCard = null;
-        for (Card tested: cards) {
-            try{
+        for (Card tested : cards) {
+            try {
                 if (tested.getCard() == originalMiddle.peek().getCard() || tested.getCard() == Cards.JACK) {
                     GameLogic.getInstance().setMiddle((Stack<Card>) originalMiddle.clone());
                     GameLogic.getInstance().getMiddle().add(tested);
@@ -82,7 +86,7 @@ public class LevelThreeStrategy extends AiStrategy{
         bestCard = cards.get(randomIndex);
         Rectangle r = GameLogic.getRectangleByCard(cardMappings, bestCard);
         this.removePlayedCard(bestCard);
-        return new Pair(r, bestCard);
+        return new Pair<>(r, bestCard);
     }
 
     public LevelThreeStrategy(Map<PlayerEnum, List<Card>> playerCards, Stack<Card> middle) {

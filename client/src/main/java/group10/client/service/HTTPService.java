@@ -1,13 +1,10 @@
 package group10.client.service;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import group10.client.constants.UiInfoConstants;
 import group10.client.constants.ServerFolders;
+import group10.client.constants.UiInfoConstants;
 import group10.client.entity.Level;
-import group10.client.entity.PagedEntity;
 import group10.client.entity.PlayerGame;
-import group10.client.entity.Scoreboard;
 import group10.client.model.PasswordReset;
 import group10.client.model.Player;
 import group10.client.state.SessionStorage;
@@ -18,6 +15,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
+
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -37,10 +35,10 @@ public class HTTPService {
     private static HTTPService instance;
 
     private String getSHA256(String pw) {
-        try{
+        try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] encodedhash = digest.digest(pw.getBytes(StandardCharsets.UTF_8));
-            return new String(encodedhash);
+            byte[] encodedHash = digest.digest(pw.getBytes(StandardCharsets.UTF_8));
+            return new String(encodedHash);
         } catch (NoSuchAlgorithmException e) {
             LOGGER.info("SHA-256 Failed.");
         }

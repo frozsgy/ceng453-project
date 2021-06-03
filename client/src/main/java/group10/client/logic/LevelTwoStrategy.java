@@ -6,9 +6,12 @@ import group10.client.model.Card;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Pair;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.Stack;
 
-public class LevelTwoStrategy extends AiStrategy{
+public class LevelTwoStrategy extends AiStrategy {
     @Override
     public Pair<Rectangle, Card> playAsComputer(Map<Rectangle, Card> cardMappings) {
         List<Card> cards = this.playerCards.get(PlayerEnum.TWO);
@@ -18,7 +21,7 @@ public class LevelTwoStrategy extends AiStrategy{
                 if (tested.getCard() == cardOnTop.getCard() || tested.getCard() == Cards.JACK) {
                     Rectangle r = GameLogic.getRectangleByCard(cardMappings, tested);
                     this.removePlayedCard(tested);
-                    return new Pair(r, tested);
+                    return new Pair<>(r, tested);
                 }
             }
         }
@@ -27,7 +30,7 @@ public class LevelTwoStrategy extends AiStrategy{
         Card card = cards.get(randIndex);
         Rectangle r = GameLogic.getRectangleByCard(cardMappings, card);
         this.removePlayedCard(card);
-        return new Pair(r, card);
+        return new Pair<>(r, card);
     }
 
     public LevelTwoStrategy(Map<PlayerEnum, List<Card>> playerCards, Stack<Card> middle) {
