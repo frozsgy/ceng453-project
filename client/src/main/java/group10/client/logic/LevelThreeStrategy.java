@@ -11,6 +11,7 @@ import java.util.*;
 
 public class LevelThreeStrategy extends AiStrategy{
 
+    private boolean hasBluffed;
     @Override
     public Pair<Rectangle, Card> playAsComputer(Map<Rectangle, Card> cardMappings) {
         List<Card> cards = this.playerCards.get(PlayerEnum.TWO);
@@ -20,7 +21,8 @@ public class LevelThreeStrategy extends AiStrategy{
 //            int bluf = rand.nextInt(2);
             double bluf = Math.random();
             double blufProb = 0.33;
-            if (bluf > 1-blufProb) { // do with 0.33 prob.
+            if (bluf > 1-blufProb && !hasBluffed) { // do with 0.33 prob.
+                hasBluffed = true;
                 GameController._instance.getChallengeButton().setVisible(true);
                 int headTail = rand.nextInt(2);
                 if (headTail == 0) { //headTail ==0 // do with 50% prob
@@ -39,6 +41,7 @@ public class LevelThreeStrategy extends AiStrategy{
                 this.removePlayedCard(c);
                 return new Pair(r, c);
             } else {
+                hasBluffed = false;
                 // check if pisti is possible first
                 for (Card tested : cards) {
                     if (tested.getCard() == cardOnTop.getCard()) {
@@ -84,5 +87,6 @@ public class LevelThreeStrategy extends AiStrategy{
 
     public LevelThreeStrategy(Map<PlayerEnum, List<Card>> playerCards, Stack<Card> middle) {
         super(playerCards, middle);
+        this.hasBluffed = false;
     }
 }
