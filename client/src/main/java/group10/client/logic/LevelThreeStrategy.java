@@ -17,7 +17,7 @@ public class LevelThreeStrategy extends AiStrategy{
             // check if pisti is possible first
             Card cardOnTop = this.middle.get(this.middle.size() - 1);
             for (Card tested : cards) {
-                if (tested.equals(cardOnTop)) {
+                if (tested.getCard() == cardOnTop.getCard()) {
                     Rectangle r = GameLogic.getRectangleByCard(cardMappings, tested);
                     return new Pair<>(r, tested);
                 }
@@ -27,7 +27,8 @@ public class LevelThreeStrategy extends AiStrategy{
         int score = 0;
         Card bestCard = null;
         for (Card tested: cards) {
-            if (tested.equals(originalMiddle.get(this.middle.size() - 1)) || tested.getCard() == Cards.JACK) {
+
+            if (tested.getCard() == originalMiddle.get(this.middle.size() - 1).getCard() || tested.getCard() == Cards.JACK) {
                 GameLogic.getInstance().setMiddle((ArrayList<Card>) originalMiddle.clone());
                 GameLogic.getInstance().getMiddle().add(tested);
                 int testScore = GameLogic.getInstance().calculateStackScore();

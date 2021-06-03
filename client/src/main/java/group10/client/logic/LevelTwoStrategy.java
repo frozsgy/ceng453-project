@@ -15,7 +15,7 @@ public class LevelTwoStrategy extends AiStrategy{
         if (this.middle.size() > 0) {
             Card cardOnTop = this.middle.get(this.middle.size() - 1);
             for (Card tested : cards) {
-                if (tested.equals(cardOnTop) || tested.getCard() == Cards.JACK) {
+                if (tested.getCard() == cardOnTop.getCard() || tested.getCard() == Cards.JACK) {
                     Rectangle r = GameLogic.getRectangleByCard(cardMappings, tested);
                     return new Pair(r, tested);
                 }
