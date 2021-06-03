@@ -393,6 +393,9 @@ public class GameController implements Initializable {
     private void controlPlayer(Rectangle pressed) {
         midStack.getChildren().add(pressed.getParent()); // add to middle.
         Card card = this.cardMappings.get(pressed); // get pressed card.
+        if (GameLogic.getInstance().getMiddle().isEmpty()) {
+            LOGGER.info("Player One threw " + card + " on an empty stack");
+        }
         if (GameLogic.getInstance().handleThrow(card, PlayerEnum.ONE)) { // check if matched
             LOGGER.info("Cards match for Player One");
             midStack.getChildren().clear(); // match, clear middle view.
@@ -419,6 +422,9 @@ public class GameController implements Initializable {
             GameLogic.getInstance().getMiddle().add(opponentCard); // put card to bluff, do not make check.
             bluffed = true;
         } else {
+            if (GameLogic.getInstance().getMiddle().isEmpty()) {
+                LOGGER.info("Player Two threw " + opponentCard + " on an empty stack");
+            }
             if (GameLogic.getInstance().handleThrow(opponentCard, PlayerEnum.TWO)) { // no bluff, check if scored.
                 LOGGER.info("Cards match for Player Two");
                 midStack.getChildren().clear();
