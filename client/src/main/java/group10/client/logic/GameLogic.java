@@ -20,6 +20,7 @@ public class GameLogic {
     private PlayerGame playerGameEntity;
     private AiStrategy strategy;
     public final static int PISTI = 10;
+    public final static int DOUBLE_PISTI = 2 * PISTI;
 
     private static GameLogic instance;
 
@@ -131,7 +132,7 @@ public class GameLogic {
         if (this.middle.size() == 1 && candidateCard.getCard().equals(topCard.getCard())) {
             if (candidateCard.getCard() == Cards.JACK) {
                 // double pişti :: 20 points
-                this.addScoreToPlayer(player, 2 * PISTI);
+                this.addScoreToPlayer(player, DOUBLE_PISTI);
             } else {
                 // pişti :: 10 points
                 this.middle.push(candidateCard);

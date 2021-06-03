@@ -343,6 +343,21 @@ public class GameController implements Initializable {
     @FXML
     private void acceptChallenge(ActionEvent e) {
         System.out.println("Challenge Accepted");
+        this.challengeButton.setVisible(false);
+        this.bluffed = false;
+        Card bluffed = GameLogic.getInstance().getMiddle().pop();
+        Card candidate = GameLogic.getInstance().getMiddle().pop();
+        if (candidate.getCard() == bluffed.getCard()) {
+            this.midStack.getChildren().clear();
+            GameLogic.getInstance().getMiddle().clear();
+            this.setMidCount();
+            GameLogic.getInstance().addScoreToPlayer(PlayerEnum.TWO, GameLogic.DOUBLE_PISTI);
+            this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.TWO));
+        } else {
+            GameLogic.getInstance().addScoreToPlayer(PlayerEnum.ONE, GameLogic.DOUBLE_PISTI);
+            this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.ONE));
+        }
+
     }
 
     private void controlPlayer(Rectangle pressed) {
@@ -386,7 +401,12 @@ public class GameController implements Initializable {
     }
 
     private void rejectBluf() {
-
+        this.challengeButton.setVisible(false);
+        GameLogic.getInstance().getMiddle().clear();
+        this.setMidCount();
+        this.midStack.getChildren().clear();
+        GameLogic.getInstance().addScoreToPlayer(PlayerEnum.TWO, GameLogic.PISTI);
+        this.setEnemyScore(GameLogic.getInstance().getScores().get(PlayerEnum.TWO));
     }
 
     @FXML
@@ -407,29 +427,27 @@ public class GameController implements Initializable {
             GameLogic.getInstance().setCurrentPlayer(PlayerEnum.TWO);
             this.bluffed = this.controlOpponent();
             this.setMidCount();
-            if (!this.bluffed) {
-                if (GameLogic.getInstance().isHandEmpty()) {
-                    if (!this.allCards.isEmpty()) {
-                        LOGGER.info("deal cards again");
-                        this.nextHand();
-                    } else {
-                        PlayerEnum lastWinner = GameLogic.getInstance().getLastWinner();
-                        GameLogic.getInstance().giveMidStackCardsToLastWinner();
-                        this.midStack.getChildren().clear();
-                        this.setMidCount();
-                        this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.ONE));
-                        this.setEnemyScore(GameLogic.getInstance().getScores().get(PlayerEnum.TWO));
-                        LOGGER.info("end level " + this.round);
-                        // TODO -- send scores to server (gameId from GameLogic -> playerGameEntity :: gameId)
-                        this.setUpNextLevelWrapper(); // adds button or text, then calls next level;
-                    }
-                } else if (GameLogic.getInstance().getScores().get(PlayerEnum.ONE) == MAX_SCORE) {
-                    // TODO -- send scores to server (gameId from GameLogic -> playerGameEntity :: gameId)
-                    this.setUpNextLevelWrapper(); // adds button or text, then calls next level;
-                } else if (GameLogic.getInstance().getScores().get(PlayerEnum.TWO) == MAX_SCORE) {
+            if (GameLogic.getInstance().isHandEmpty()) {
+                if (!this.allCards.isEmpty()) {
+                    LOGGER.info("deal cards again");
+                    this.nextHand();
+                } else {
+                    PlayerEnum lastWinner = GameLogic.getInstance().getLastWinner();
+                    GameLogic.getInstance().giveMidStackCardsToLastWinner();
+                    this.midStack.getChildren().clear();
+                    this.setMidCount();
+                    this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.ONE));
+                    this.setEnemyScore(GameLogic.getInstance().getScores().get(PlayerEnum.TWO));
+                    LOGGER.info("end level " + this.round);
                     // TODO -- send scores to server (gameId from GameLogic -> playerGameEntity :: gameId)
                     this.setUpNextLevelWrapper(); // adds button or text, then calls next level;
                 }
+            } else if (GameLogic.getInstance().getScores().get(PlayerEnum.ONE) == MAX_SCORE) {
+                // TODO -- send scores to server (gameId from GameLogic -> playerGameEntity :: gameId)
+                this.setUpNextLevelWrapper(); // adds button or text, then calls next level;
+            } else if (GameLogic.getInstance().getScores().get(PlayerEnum.TWO) == MAX_SCORE) {
+                // TODO -- send scores to server (gameId from GameLogic -> playerGameEntity :: gameId)
+                this.setUpNextLevelWrapper(); // adds button or text, then calls next level;
             }
 
 
