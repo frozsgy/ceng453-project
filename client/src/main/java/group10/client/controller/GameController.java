@@ -318,10 +318,11 @@ public class GameController implements Initializable {
             if (GameLogic.getInstance().checkIfMatch(card, PlayerEnum.ONE)) {
                 LOGGER.info("match - player one");
                 midStack.getChildren().clear();
+            } else {
+                GameLogic.getInstance().getMiddle().add(card);
             }
             this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.ONE));
             currentCards.remove(pressed);
-            GameLogic.getInstance().getMiddle().add(card);
             // disable clickable
             pressed.setOnMouseClicked(null);
             // TODO -- add a pause to let the player thinks the AI is thinking
@@ -336,9 +337,10 @@ public class GameController implements Initializable {
             if (GameLogic.getInstance().checkIfMatch(opponentCard, PlayerEnum.TWO)) {
                 LOGGER.info("match - player two");
                 midStack.getChildren().clear();
+            } else {
+                GameLogic.getInstance().getMiddle().add(opponentCard);
             }
             this.setEnemyScore(GameLogic.getInstance().getScores().get(PlayerEnum.TWO));
-            GameLogic.getInstance().getMiddle().add(opponentCard);
             this.setMidCount();
             if (GameLogic.getInstance().isHandEmpty()) {
                 if (!this.allCards.isEmpty()) {
