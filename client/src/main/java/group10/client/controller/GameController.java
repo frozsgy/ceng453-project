@@ -103,6 +103,7 @@ public class GameController implements Initializable {
 
     @SuppressWarnings("unchecked")
     private void requestNewGame() {
+        // we can remove this method. migrated to HomeController.navigateToNewGame
         String newGameString = HTTPService.getInstance().startNewGame();
         PlayerGameEntity playerGameEntity = gson.fromJson(newGameString, PlayerGameEntity.class);
         GameLogic.getInstance().setPlayerGameEntity(playerGameEntity);

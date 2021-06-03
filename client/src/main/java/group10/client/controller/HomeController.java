@@ -51,7 +51,6 @@ public class HomeController implements Initializable {
 
     @FXML
     protected void navigateToNewGame(ActionEvent event) {
-
         LoadingSpinner spinner = new LoadingSpinner(homeStackPane, homeBorderPane);
         spinner.start();
         Task newGameTask = new Task<String>() {

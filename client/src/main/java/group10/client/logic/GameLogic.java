@@ -155,6 +155,7 @@ public class GameLogic {
     }
 
     public int calculateStackScore() {
+        // LevelThreeStrategy uses this method, be careful when changing it.
         // calculate score of the stack, in case of match
         // each jack - 1
         // each ace -- 1
