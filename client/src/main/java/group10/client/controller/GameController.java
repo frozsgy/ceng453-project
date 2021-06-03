@@ -268,9 +268,11 @@ public class GameController implements Initializable {
     private void setUpNextLevel() {
         if (round == LAST_ROUND && !thirdLevelScorePosted) {
             thirdLevelScorePosted = true;
-            // TODO post score here in a seperate method!
+            GameLogic.getInstance().sendScores(PlayerEnum.ONE);
         } else if (round < LAST_ROUND) {
-            // TODO post score here in a seperate method!
+            if (this.round != 0) {
+                GameLogic.getInstance().sendScores(PlayerEnum.ONE);
+            }
             round++;
             GameLogic.getInstance().resetFields();
             setLevelText();
@@ -313,7 +315,6 @@ public class GameController implements Initializable {
                 } else {
                     _instance.setUpNextLevel();
                 }
-                GameLogic.getInstance().sendScores(PlayerEnum.ONE);
             }
         }
     }
@@ -439,14 +440,11 @@ public class GameController implements Initializable {
                     this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.ONE));
                     this.setEnemyScore(GameLogic.getInstance().getScores().get(PlayerEnum.TWO));
                     LOGGER.info("end level " + this.round);
-                    GameLogic.getInstance().sendScores(PlayerEnum.ONE);
                     this.setUpNextLevelWrapper(); // adds button or text, then calls next level;
                 }
             } else if (GameLogic.getInstance().getScores().get(PlayerEnum.ONE) == MAX_SCORE) {
-                GameLogic.getInstance().sendScores(PlayerEnum.ONE);
                 this.setUpNextLevelWrapper(); // adds button or text, then calls next level;
             } else if (GameLogic.getInstance().getScores().get(PlayerEnum.TWO) == MAX_SCORE) {
-                GameLogic.getInstance().sendScores(PlayerEnum.ONE);
                 this.setUpNextLevelWrapper(); // adds button or text, then calls next level;
             }
         } catch (IllegalArgumentException ex) {
@@ -456,5 +454,16 @@ public class GameController implements Initializable {
 
     public Button getChallengeButton() {
         return challengeButton;
+    }
+
+    @FXML
+    public void leaveGame(ActionEvent e) {
+        GameLogic.getInstance().getScores().replace(PlayerEnum.ONE, MAX_SCORE);
+        GameLogic.getInstance().getScores().replace(PlayerEnum.TWO, 0);
+        GameLogic.getInstance().getMiddle().clear();
+        for (int i = this.round; i <= LAST_ROUND; i++) {
+            GameLogic.getInstance().sendScores(PlayerEnum.ONE);
+        }
+        this.navigateToHome(e);
     }
 }
