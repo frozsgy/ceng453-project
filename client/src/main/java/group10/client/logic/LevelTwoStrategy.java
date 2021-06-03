@@ -1,5 +1,6 @@
 package group10.client.logic;
 
+import group10.client.enums.Cards;
 import group10.client.enums.PlayerEnum;
 import group10.client.model.Card;
 import javafx.scene.shape.Rectangle;
@@ -14,7 +15,7 @@ public class LevelTwoStrategy extends AiStrategy{
         if (this.middle.size() > 0) {
             Card cardOnTop = this.middle.peek();
             for (Card tested : cards) {
-                if (tested.equals(cardOnTop)) {
+                if (tested.equals(cardOnTop) || tested.getCard() == Cards.JACK) {
                     Rectangle r = GameLogic.getRectangleByCard(cardMappings, tested);
                     return new Pair(r, tested);
                 }

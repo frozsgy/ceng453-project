@@ -301,6 +301,7 @@ public class GameController implements Initializable {
          * We also need to make a connection between Rectangle and Cards
          */
         try {
+            GameLogic x = GameLogic.getInstance();
             Rectangle pressed = (Rectangle) ((Node) event.getTarget());
             midStack.getChildren().add(pressed.getParent());
             Card card = this.cardMappings.get(pressed);
