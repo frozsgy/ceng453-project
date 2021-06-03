@@ -169,7 +169,7 @@ public class GameController implements Initializable {
         midStack.getChildren().clear();
         for (int i = 0; i < GameConstants.CARD_PER_HAND; i++) {
             Card top = allCards.pop();
-            GameLogic.getInstance().getMiddle().push(top);
+            GameLogic.getInstance().getMiddle().add(top);
             Rectangle card = createCardRectangle();
             if (i + 1 != GameConstants.CARD_PER_HAND) {
                 card.setFill(new ImagePattern(img));
@@ -321,7 +321,7 @@ public class GameController implements Initializable {
             }
             this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.ONE));
             currentCards.remove(pressed);
-            GameLogic.getInstance().getMiddle().push(card);
+            GameLogic.getInstance().getMiddle().add(card);
             // disable clickable
             pressed.setOnMouseClicked(null);
             // TODO -- add a pause to let the player thinks the AI is thinking
@@ -338,7 +338,7 @@ public class GameController implements Initializable {
                 midStack.getChildren().clear();
             }
             this.setEnemyScore(GameLogic.getInstance().getScores().get(PlayerEnum.TWO));
-            GameLogic.getInstance().getMiddle().push(opponentCard);
+            GameLogic.getInstance().getMiddle().add(opponentCard);
             this.setMidCount();
             if (GameLogic.getInstance().isHandEmpty()) {
                 if (!this.allCards.isEmpty()) {

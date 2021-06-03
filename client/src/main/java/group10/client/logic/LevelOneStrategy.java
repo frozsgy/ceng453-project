@@ -5,6 +5,7 @@ import group10.client.model.Card;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Pair;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
@@ -22,7 +23,7 @@ public class LevelOneStrategy extends AiStrategy{
         Pair<Rectangle, Card> pair = new Pair<>(r, card);
         return pair;
     }
-    public LevelOneStrategy(Map<PlayerEnum, List<Card>> playerCards, Stack<Card> middle) {
+    public LevelOneStrategy(Map<PlayerEnum, List<Card>> playerCards, ArrayList<Card> middle) {
         super(playerCards, middle);
     }
 }

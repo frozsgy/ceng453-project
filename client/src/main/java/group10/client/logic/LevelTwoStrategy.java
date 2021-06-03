@@ -13,7 +13,7 @@ public class LevelTwoStrategy extends AiStrategy{
     public Pair<Rectangle, Card> playAsComputer(Map<Rectangle, Card> cardMappings) {
         List<Card> cards = this.playerCards.get(PlayerEnum.TWO);
         if (this.middle.size() > 0) {
-            Card cardOnTop = this.middle.peek();
+            Card cardOnTop = this.middle.get(this.middle.size() - 1);
             for (Card tested : cards) {
                 if (tested.equals(cardOnTop) || tested.getCard() == Cards.JACK) {
                     Rectangle r = GameLogic.getRectangleByCard(cardMappings, tested);
@@ -28,7 +28,7 @@ public class LevelTwoStrategy extends AiStrategy{
         return new Pair(r, card);
     }
 
-    public LevelTwoStrategy(Map<PlayerEnum, List<Card>> playerCards, Stack<Card> middle) {
+    public LevelTwoStrategy(Map<PlayerEnum, List<Card>> playerCards, ArrayList<Card> middle) {
         super(playerCards, middle);
     }
 }

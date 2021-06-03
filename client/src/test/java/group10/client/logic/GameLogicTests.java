@@ -13,6 +13,7 @@ import org.springframework.core.annotation.Order;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Stack;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -26,10 +27,10 @@ public class GameLogicTests {
     @DisplayName("Score Calculation - JACKS")
     @Order(1)
     void scoreTestJack() {
-        Stack<Card> middle = GameLogic.getInstance().getMiddle();
-        middle.push(new Card(Cards.JACK, Suits.DIAMOND));
-        middle.push(new Card(Cards.FIVE, Suits.DIAMOND));
-        middle.push(new Card(Cards.JACK, Suits.CLUB));
+        ArrayList<Card> middle = GameLogic.getInstance().getMiddle();
+        middle.add(new Card(Cards.JACK, Suits.DIAMOND));
+        middle.add(new Card(Cards.FIVE, Suits.DIAMOND));
+        middle.add(new Card(Cards.JACK, Suits.CLUB));
         GameLogic instance = GameLogic.getInstance();
         int scores = instance.calculateStackScore();
         assertEquals(scores, 2);
@@ -39,10 +40,10 @@ public class GameLogicTests {
     @DisplayName("Score Calculation - ACES")
     @Order(2)
     void scoreTestAce() {
-        Stack<Card> middle = GameLogic.getInstance().getMiddle();
-        middle.push(new Card(Cards.ACE, Suits.DIAMOND));
-        middle.push(new Card(Cards.FIVE, Suits.DIAMOND));
-        middle.push(new Card(Cards.ACE, Suits.CLUB));
+        ArrayList<Card> middle = GameLogic.getInstance().getMiddle();
+        middle.add(new Card(Cards.ACE, Suits.DIAMOND));
+        middle.add(new Card(Cards.FIVE, Suits.DIAMOND));
+        middle.add(new Card(Cards.ACE, Suits.CLUB));
         GameLogic instance = GameLogic.getInstance();
         int scores = instance.calculateStackScore();
         assertEquals(scores, 2);
@@ -52,10 +53,10 @@ public class GameLogicTests {
     @DisplayName("Score Calculation - Two of Clubs")
     @Order(3)
     void scoreTestTwoOfClubs() {
-        Stack<Card> middle = GameLogic.getInstance().getMiddle();
-        middle.push(new Card(Cards.ACE, Suits.DIAMOND));
-        middle.push(new Card(Cards.FIVE, Suits.DIAMOND));
-        middle.push(new Card(Cards.TWO, Suits.CLUB));
+        ArrayList<Card> middle = GameLogic.getInstance().getMiddle();
+        middle.add(new Card(Cards.ACE, Suits.DIAMOND));
+        middle.add(new Card(Cards.FIVE, Suits.DIAMOND));
+        middle.add(new Card(Cards.TWO, Suits.CLUB));
         GameLogic instance = GameLogic.getInstance();
         int scores = instance.calculateStackScore();
         assertEquals(scores, 3);
@@ -65,10 +66,10 @@ public class GameLogicTests {
     @DisplayName("Score Calculation - Two of Clubs")
     @Order(4)
     void scoreTestTenOfDiamonds() {
-        Stack<Card> middle = GameLogic.getInstance().getMiddle();
-        middle.push(new Card(Cards.ACE, Suits.DIAMOND));
-        middle.push(new Card(Cards.TEN, Suits.DIAMOND));
-        middle.push(new Card(Cards.TWO, Suits.CLUB));
+        ArrayList<Card> middle = GameLogic.getInstance().getMiddle();
+        middle.add(new Card(Cards.ACE, Suits.DIAMOND));
+        middle.add(new Card(Cards.TEN, Suits.DIAMOND));
+        middle.add(new Card(Cards.TWO, Suits.CLUB));
         GameLogic instance = GameLogic.getInstance();
         int scores = instance.calculateStackScore();
         assertEquals(scores, 6);
