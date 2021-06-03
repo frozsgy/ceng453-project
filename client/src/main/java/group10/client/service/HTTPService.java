@@ -1,8 +1,13 @@
 package group10.client.service;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import group10.client.constants.UiInfoConstants;
 import group10.client.constants.ServerFolders;
+import group10.client.entity.Level;
+import group10.client.entity.PagedEntity;
+import group10.client.entity.PlayerGame;
+import group10.client.entity.Scoreboard;
 import group10.client.model.PasswordReset;
 import group10.client.model.Player;
 import group10.client.state.SessionStorage;
@@ -12,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import java.lang.reflect.Type;
 import java.util.Map;
 
 @Service
@@ -145,9 +151,12 @@ public class HTTPService {
         return this.getRequest(API + ServerFolders.NEW_GAME_PATH);
     }
 
-
-    public void sendScores() {
-
+    public PlayerGame sendScores(Level level) {
+        String json = gson.toJson(level);
+        HttpEntity<String> entity = initEntity(true, json);
+        String path = API + ServerFolders.SEND_SCORE_PATH;
+        ResponseEntity<PlayerGame> response = restTemplate.exchange(path, HttpMethod.POST, entity, PlayerGame.class);
+        return response.getBody();
     }
 
 }

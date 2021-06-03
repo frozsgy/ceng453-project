@@ -9,12 +9,7 @@ public class PlayerGame extends Base {
     private long level;
     private long score;
 
-    public PlayerGame(long id, Date createDate, Date updateDate, boolean active, String operationType, Player player, Game game, long level, long score) {
-        super(id, createDate, updateDate, active, operationType);
-        this.player = player;
-        this.game = game;
-        this.level = level;
-        this.score = score;
+    public PlayerGame() {
     }
 
     public Player getPlayer() {

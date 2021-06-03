@@ -13,14 +13,6 @@ public class Base {
     public Base() {
     }
 
-    public Base(long id, Date createDate, Date updateDate, boolean active, String operationType) {
-        this.id = id;
-        this.createDate = createDate;
-        this.updateDate = updateDate;
-        this.active = active;
-        this.operationType = operationType;
-    }
-
     public long getId() {
         return id;
     }

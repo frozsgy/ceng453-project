@@ -9,12 +9,7 @@ public class Player extends Base {
     private String email;
     private List<Role> roles;
 
-
-    public Player(long id, Date createDate, Date updateDate, boolean active, String operationType, String username, String email, List<Role> roles) {
-        super(id, createDate, updateDate, active, operationType);
-        this.username = username;
-        this.email = email;
-        this.roles = roles;
+    public Player() {
     }
 
     public String getUsername() {

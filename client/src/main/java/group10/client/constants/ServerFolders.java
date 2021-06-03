@@ -9,5 +9,6 @@ public class ServerFolders {
     public final static String UPDATE_PW_PATH = USER + "updatePassword";
     public final static String SCOREBOARD_PATH = GAME + "scoreboard";
     public final static String NEW_GAME_PATH = GAME + "new";
+    public final static String SEND_SCORE_PATH = GAME + "next";
 
 }

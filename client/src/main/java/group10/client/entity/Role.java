@@ -6,9 +6,7 @@ public class Role extends Base {
 
     private String name;
 
-    public Role(long id, Date createDate, Date updateDate, boolean active, String operationType, String name) {
-        super(id, createDate, updateDate, active, operationType);
-        this.name = name;
+    public Role() {
     }
 
     public String getName() {
