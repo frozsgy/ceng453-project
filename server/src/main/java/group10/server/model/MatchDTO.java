@@ -10,9 +10,8 @@ import org.hibernate.validator.constraints.Range;
 public class MatchDTO {
 
     /**
-     * Non empty score of the level.
+     * Score of the level.
      */
-    @Range(min = 0, message= "Score may not be empty")
     private int score;
     /**
      * Non empty game id of this level belongs to.
