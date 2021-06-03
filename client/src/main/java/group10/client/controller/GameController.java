@@ -197,13 +197,17 @@ public class GameController implements Initializable {
         GameLogic.getInstance().setPlayerCards(playerCards);
     }
 
+    private boolean isCardHidden(Rectangle r) {
+        return !r.getFill().equals(WHITE);
+    }
+
     private StackPane drawCardInsideRectangle(Rectangle r, Card cardToDraw) {
         String margin = " ";
         Suits suit = cardToDraw.getSuit();
         Cards card = cardToDraw.getCard();
         String suitName = "";
         String cardName = "";
-        if (r.getFill().equals(WHITE)) {
+        if (!isCardHidden(r)) {
             // if not white, hide details.
             suitName = suit.name();
             cardName = margin + card.toString();
