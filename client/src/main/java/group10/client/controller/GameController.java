@@ -323,10 +323,10 @@ public class GameController implements Initializable {
                 GameLogic.getInstance().getScores().replace(PlayerEnum.ONE, MAX_SCORE);
                 GameLogic.getInstance().getScores().replace(PlayerEnum.TWO, resetEnemyScoreTo);
                 if (_instance.round == LAST_ROUND) {
-                    _instance.setUpNextLevelWrapper();
                     _instance.setPlayerScore(MAX_SCORE);
                     _instance.setEnemyScore(resetEnemyScoreTo);
                     _instance.clearView();
+                    _instance.setUpNextLevelWrapper();
                     GameLogic.getInstance().getMiddle().clear();
                     _instance.setMidCount();
                 } else {
