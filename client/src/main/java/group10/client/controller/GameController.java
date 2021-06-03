@@ -50,21 +50,15 @@ public class GameController implements Initializable {
     private Text yourScore;
     @FXML
     private Text enemyScore;
-//    @FXML
+    @FXML
+    private Text midCartCount;
     private Rectangle selfCard1;
-//    @FXML
     private Rectangle selfCard2;
-//    @FXML
     private Rectangle selfCard3;
-//    @FXML
     private Rectangle selfCard4;
-//    @FXML
     private Rectangle opponentCard1;
-//    @FXML
     private Rectangle opponentCard2;
-//    @FXML
     private Rectangle opponentCard3;
-//    @FXML
     private Rectangle opponentCard4;
     @FXML
     private AnchorPane bottomAnchorPane;
@@ -78,6 +72,7 @@ public class GameController implements Initializable {
     private List<Rectangle> currentCards;
     private List<Rectangle> opponentCards;
     private Map<Rectangle, Card> cardMappings;
+
 
     private Gson gson;
 
@@ -253,6 +248,11 @@ public class GameController implements Initializable {
         levelText.setText(levelStr + round);
     }
 
+    private void setMidCount() {
+        String text = "Mid Count: ";
+        midCartCount.setText(text + GameLogic.getInstance().getMiddle().size());
+    }
+
     private void setUpNextLevel() {
         if (round < 3) {
             round++;
@@ -269,6 +269,7 @@ public class GameController implements Initializable {
             this.initStack();
             this.drawAllCards();
             GameLogic.getInstance().setAiStrategy(round);
+            this.setMidCount();
         }
 
     }
@@ -337,6 +338,7 @@ public class GameController implements Initializable {
             }
             this.setEnemyScore(GameLogic.getInstance().getScores().get(PlayerEnum.TWO));
             GameLogic.getInstance().getMiddle().push(opponentCard);
+            this.setMidCount();
             if (GameLogic.getInstance().isHandEmpty()) {
                 if (!this.allCards.isEmpty()) {
                     LOGGER.info("deal cards again");
