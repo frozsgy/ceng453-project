@@ -38,11 +38,22 @@ public class HTTPService {
         return instance;
     }
 
+    private HttpEntity<String> initEntity(boolean withToken, String json) {
+        HttpHeaders headers = new HttpHeaders();
+        if (withToken) {
+            headers.setBearerAuth(SessionStorage.getInstance().getToken());
+        }
+        if (json.isEmpty()) {
+            return new HttpEntity<>(headers);
+        } else {
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            return new HttpEntity<>(json, headers);
+        }
+    }
+
     public boolean login(Player player) {
         String json = gson.toJson(player);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<String> entity = new HttpEntity<>(json, headers);
+        HttpEntity<String> entity = initEntity(false, json);
         try {
             /**
                 TODO
@@ -66,9 +77,7 @@ public class HTTPService {
 
     public String register(Player player) {
         String json = gson.toJson(player);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<String> entity = new HttpEntity<>(json, headers);
+        HttpEntity<String> entity = initEntity(false, json);
         try {
             String path = API + ServerFolders.REGISTER_PATH;
             ResponseEntity<String> response = restTemplate.exchange(path, HttpMethod.POST, entity, String.class);
@@ -81,9 +90,7 @@ public class HTTPService {
 
     public String sendCode(PasswordReset emailContainer) {
         String json = gson.toJson(emailContainer);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<String> entity = new HttpEntity<>(json, headers);
+        HttpEntity<String> entity = initEntity(false, json);
         try {
             String path = API + ServerFolders.REQUEST_CODE_PATH;
             ResponseEntity<Boolean> response = restTemplate.exchange(path, HttpMethod.POST, entity, Boolean.class);
@@ -99,9 +106,7 @@ public class HTTPService {
 
     public String updatePassword(PasswordReset resetForm) {
         String json = gson.toJson(resetForm);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<String> entity = new HttpEntity<>(json, headers);
+        HttpEntity<String> entity = initEntity(false, json);
         try {
             String path = API + ServerFolders.UPDATE_PW_PATH;
             ResponseEntity<Boolean> response = restTemplate.exchange(path, HttpMethod.PUT, entity, Boolean.class);
@@ -121,9 +126,7 @@ public class HTTPService {
     }
 
     public String getScoreboard(long days, long page) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(SessionStorage.getInstance().getToken());
-        HttpEntity<String> entity = new HttpEntity<>(headers);
+        HttpEntity<String> entity = initEntity(true, "");
         try {
             String path = API + ServerFolders.SCOREBOARD_PATH + "/" + days + "?pageNumber=" + page;
             ResponseEntity<String> response = restTemplate.exchange(path, HttpMethod.GET, entity, String.class);
@@ -136,9 +139,7 @@ public class HTTPService {
     }
 
     public String startNewGame() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(SessionStorage.getInstance().getToken());
-        HttpEntity<String> entity = new HttpEntity<>(headers);
+        HttpEntity<String> entity = initEntity(true, "");
         try {
             String path = API + ServerFolders.NEW_GAME_PATH;
             ResponseEntity<String> response = restTemplate.exchange(path, HttpMethod.GET, entity, String.class);
@@ -148,6 +149,11 @@ public class HTTPService {
             Map<String, String> messagePair = gson.fromJson(e.getResponseBodyAsString(), Map.class);
             return messagePair.get(errorKey);
         }
+    }
+
+
+    public void sendScores() {
+
     }
 
 }
