@@ -203,6 +203,10 @@ public class GameController implements Initializable {
         return !r.getFill().equals(WHITE);
     }
 
+    private void setRectangleVisible(Rectangle r) {
+        r.setFill(WHITE);
+    }
+
     private StackPane drawCardInsideRectangle(Rectangle r, Card cardToDraw) {
         String margin = " ";
         Suits suit = cardToDraw.getSuit();
@@ -354,8 +358,14 @@ public class GameController implements Initializable {
             GameLogic.getInstance().addScoreToPlayer(PlayerEnum.TWO, GameLogic.DOUBLE_PISTI);
             this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.TWO));
         } else {
+            Card hiddenCard = bluffed;
+            Rectangle r = GameLogic.getRectangleByCard(this.cardMappings, hiddenCard);
+            this.setRectangleVisible(r);
+            this.drawCardInsideRectangle(r, hiddenCard);
             GameLogic.getInstance().addScoreToPlayer(PlayerEnum.ONE, GameLogic.DOUBLE_PISTI);
             this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.ONE));
+            GameLogic.getInstance().getMiddle().push(candidate);
+            GameLogic.getInstance().getMiddle().push(bluffed);
         }
 
     }

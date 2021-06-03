@@ -115,6 +115,8 @@ public class GameLogic {
         this.playerGameEntity = playerGameEntity;
     }
 
+
+
     public AiStrategy getAiStrategy() {return this.strategy;}
 
     public void addScoreToPlayer(PlayerEnum player, int score) {
