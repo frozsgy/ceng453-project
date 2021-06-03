@@ -366,11 +366,15 @@ public class GameController implements Initializable {
         Rectangle opponentRectangle = createCardRectangle(challengeButton.isVisible());
         drawCardInsideRectangle(opponentRectangle, opponentCard);
         midStack.getChildren().add(opponentRectangle.getParent());
-        if (GameLogic.getInstance().checkIfMatch(opponentCard, PlayerEnum.TWO)) {
-            LOGGER.info("match - player two");
-            midStack.getChildren().clear();
+        if (isCardHidden(opponentRectangle)) {
+            // handle bluf
         } else {
-            GameLogic.getInstance().getMiddle().add(opponentCard);
+            if (GameLogic.getInstance().checkIfMatch(opponentCard, PlayerEnum.TWO)) {
+                LOGGER.info("match - player two");
+                midStack.getChildren().clear();
+            } else {
+                GameLogic.getInstance().getMiddle().add(opponentCard);
+            }
         }
         this.setEnemyScore(GameLogic.getInstance().getScores().get(PlayerEnum.TWO));
     }
