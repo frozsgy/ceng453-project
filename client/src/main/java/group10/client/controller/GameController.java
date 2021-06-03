@@ -404,12 +404,12 @@ public class GameController implements Initializable {
     }
 
     private void rejectBluff() {
-        this.challengeButton.setVisible(false);
-        GameLogic.getInstance().getMiddle().clear();
-        this.setMidCount();
-        this.midStack.getChildren().clear();
-        GameLogic.getInstance().addScoreToPlayer(PlayerEnum.TWO, GameConstants.PISTI);
-        this.setEnemyScore(GameLogic.getInstance().getScores().get(PlayerEnum.TWO));
+        this.challengeButton.setVisible(false); // destroy button.
+        GameLogic.getInstance().getMiddle().clear(); //clear middle, ai got all cards.
+        this.setMidCount(); // reset mid count.
+        this.midStack.getChildren().clear(); // remove cards from view.
+        GameLogic.getInstance().addScoreToPlayer(PlayerEnum.TWO, GameConstants.PISTI); // give score to second player.
+        this.setEnemyScore(GameLogic.getInstance().getScores().get(PlayerEnum.TWO)); //update score view.
     }
 
     @FXML
