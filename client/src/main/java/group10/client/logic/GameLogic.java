@@ -133,7 +133,7 @@ public class GameLogic {
                 int stackScore = this.calculateStackScore(); // pişti with aces, and other special cards
                 this.scores.replace(player, currentScore + 10 + stackScore);
             }
-            this.middle.empty();
+            this.middle.clear();
             System.out.println("score for " + player + ": " + this.scores.get(player));
             this.lastWinner = player;
             return true;
@@ -142,7 +142,7 @@ public class GameLogic {
             this.middle.push(candidateCard);
             int stackScore = this.calculateStackScore();
             this.scores.replace(player, currentScore + stackScore);
-            this.middle.empty();
+            this.middle.clear();
             System.out.println("score for " + player + ": " + this.scores.get(player));
             this.lastWinner = player;
             return true;
