@@ -47,6 +47,8 @@ public class GameController implements Initializable {
     private static final double HORIZONTAL_CARD_SPACING = 174;
     private static final int LAST_ROUND = 3;
     private static final int MAX_SCORE = 151;
+    private static final Paint WHITE = Paint.valueOf("WHITE");
+    private static final Paint BLACK = Paint.valueOf("BLACK");
     @FXML
     private Text levelText;
     @FXML
@@ -91,18 +93,8 @@ public class GameController implements Initializable {
         _instance = this;
         this.thirdLevelScorePosted = false;
         this.leaveButton.setFocusTraversable(false);
-//        this.gson = new Gson();
-//        this.requestNewGame();
         this.round = 0;
         this.setUpNextLevel(); // set up level 1
-    }
-
-    @SuppressWarnings("unchecked")
-    private void requestNewGame() {
-        // we can remove this method. migrated to HomeController.navigateToNewGame
-        String newGameString = HTTPService.getInstance().startNewGame();
-        PlayerGame playerGameEntity = gson.fromJson(newGameString, PlayerGame.class);
-        GameLogic.getInstance().setPlayerGameEntity(playerGameEntity);
     }
 
     private void initOpponentCards() {
@@ -159,9 +151,9 @@ public class GameController implements Initializable {
         card.setArcWidth(5.0);
         card.setHeight(114.0);
         card.setWidth(117.0);
-        card.setStroke(Paint.valueOf("BLACK"));
+        card.setStroke(BLACK);
         card.setStrokeType(StrokeType.valueOf("INSIDE"));
-        card.setFill(Paint.valueOf("WHITE"));
+        card.setFill(WHITE);
         if (hasImage) {
             Image img = new Image(CARD_BACK_IMAGE);
             card.setFill(new ImagePattern(img));
@@ -213,8 +205,12 @@ public class GameController implements Initializable {
         String margin = " ";
         Suits suit = cardToDraw.getSuit();
         Cards card = cardToDraw.getCard();
-        String suitName = suit.name();
-        String cardName = margin + card.toString();
+        String suitName = "";
+        String cardName = "";
+        if (r.getFill().equals(WHITE)) {
+            suitName = suit.name();
+            cardName = margin + card.toString();
+        }
         final Text text = new Text(suitName);
         final StackPane stack = new StackPane();
         final Text text2 = new Text(cardName);
@@ -373,7 +369,7 @@ public class GameController implements Initializable {
             Rectangle removed = cardMap.getKey();
             Card opponentCard = cardMap.getValue();
             this.upperAnchorPane.getChildren().remove(removed);
-            Rectangle opponentRectangle = createCardRectangle(false);
+            Rectangle opponentRectangle = createCardRectangle(challengeButton.isVisible());
             drawCardInsideRectangle(opponentRectangle, opponentCard);
             midStack.getChildren().add(opponentRectangle.getParent());
             if (GameLogic.getInstance().checkIfMatch(opponentCard, PlayerEnum.TWO)) {

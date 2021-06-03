@@ -10,16 +10,37 @@ import javafx.util.Pair;
 import java.util.*;
 
 public class LevelThreeStrategy extends AiStrategy{
+
     @Override
     public Pair<Rectangle, Card> playAsComputer(Map<Rectangle, Card> cardMappings) {
         List<Card> cards = this.playerCards.get(PlayerEnum.TWO);
         if (this.middle.size() == 1) {
-            // check if pisti is possible first
             Card cardOnTop = this.middle.peek();
-            for (Card tested : cards) {
-                if (tested.getCard() == cardOnTop.getCard()) {
-                    Rectangle r = GameLogic.getRectangleByCard(cardMappings, tested);
-                    return new Pair<>(r, tested);
+            Random rand = new Random();
+            int bluf = rand.nextInt(5);
+            if (true) { // bluf == 2
+                GameController._instance.getChallengeButton().setVisible(true);
+                int headTail = rand.nextInt(2);
+                if (false) { //headTail ==0
+                    // check if real pisti
+                    for (Card tested: cards) {
+                        if (tested.getCard() == cardOnTop.getCard()) {
+                            Rectangle r = GameLogic.getRectangleByCard(cardMappings, tested);
+                            return new Pair(r, tested);
+                        }
+                    }
+                }
+                int randomIndex = rand.nextInt(cards.size());
+                Card c = cards.get(randomIndex);
+                Rectangle r = GameLogic.getRectangleByCard(cardMappings, c);
+                return new Pair(r, c);
+            } else {
+                // check if pisti is possible first
+                for (Card tested : cards) {
+                    if (tested.getCard() == cardOnTop.getCard()) {
+                        Rectangle r = GameLogic.getRectangleByCard(cardMappings, tested);
+                        return new Pair<>(r, tested);
+                    }
                 }
             }
         }
