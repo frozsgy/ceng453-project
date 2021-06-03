@@ -448,7 +448,7 @@ public class GameController implements Initializable {
         if (event.getButton() == MouseButton.PRIMARY) {
             this.throwCard(event);
         } else if (event.getButton() == MouseButton.SECONDARY) {
-            if (GameLogic.getInstance().getMiddle().size() == 1) {
+            if (GameLogic.getInstance().getMiddle().size() == 1 && this.round >= LAST_ROUND) {
                 // TODO -- bluff
             }
         }
