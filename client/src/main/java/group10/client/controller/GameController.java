@@ -265,6 +265,25 @@ public class GameController implements Initializable {
         this.midStack.getChildren().clear();
     }
 
+    private void nextLevelCleanup(boolean continued, int playerScore, int enemyScore) {
+        if (!continued) {
+            round++;
+            GameLogic.getInstance().resetScores();
+        }
+        GameLogic.getInstance().resetFields();
+        setLevelText();
+        this.clearView();
+        this.setEnemyScore(enemyScore);
+        this.setPlayerScore(playerScore);
+        this.initOpponentCards();
+        this.shuffleCards();
+        this.initPlayerCards();
+        this.initStack();
+        this.drawAllCards();
+        GameLogic.getInstance().setAiStrategy(round);
+        this.setMidCount();
+    }
+
     private void setUpNextLevel(boolean continued) {
         int playerScore = GameLogic.getInstance().getScores().get(PlayerEnum.ONE);
         int enemyScore = GameLogic.getInstance().getScores().get(PlayerEnum.TWO);
@@ -273,45 +292,17 @@ public class GameController implements Initializable {
                 thirdLevelScorePosted = true;
                 GameLogic.getInstance().sendScores();
             } else {
-                GameLogic.getInstance().resetFields();
-                setLevelText();
-                this.clearView();
-                this.setEnemyScore(enemyScore);
-                    this.setPlayerScore(playerScore);
-
-                this.initOpponentCards();
-                this.shuffleCards();
-                this.initPlayerCards();
-                this.initStack();
-                this.drawAllCards();
-                GameLogic.getInstance().setAiStrategy(round);
-                this.setMidCount();
+                this.nextLevelCleanup(true, playerScore, enemyScore);
             }
         } else if (round < LAST_ROUND) {
             if (this.round != 0 && !continued) {
                 GameLogic.getInstance().sendScores();
             }
             if (!continued) {
-                round++;
-                GameLogic.getInstance().resetScores();
+                playerScore = 0;
+                enemyScore = 0;
             }
-            GameLogic.getInstance().resetFields();
-            setLevelText();
-            this.clearView();
-            if (!continued) {
-                this.setEnemyScore(0);
-                this.setPlayerScore(0);
-            } else {
-                this.setEnemyScore(enemyScore);
-                this.setPlayerScore(playerScore);
-            }
-            this.initOpponentCards();
-            this.shuffleCards();
-            this.initPlayerCards();
-            this.initStack();
-            this.drawAllCards();
-            GameLogic.getInstance().setAiStrategy(round);
-            this.setMidCount();
+            this.nextLevelCleanup(continued, playerScore, enemyScore);
         }
     }
 
@@ -359,7 +350,8 @@ public class GameController implements Initializable {
         } else if (this.round == LAST_ROUND) {
             this.challengeButton.setVisible(false);
             Text gameOver = new Text("Game Over");
-            // send score here.
+            thirdLevelScorePosted = true;
+            GameLogic.getInstance().sendScores();
             this.midStack.getChildren().add(gameOver);
         }
     }
@@ -377,8 +369,11 @@ public class GameController implements Initializable {
             this.midStack.getChildren().clear(); // clear mid view.
             GameLogic.getInstance().getMiddle().clear(); // clear middle.
             this.setMidCount(); // update mid count.
+            if (candidate.getCard() == Cards.JACK) {
+                GameLogic.getInstance().addScoreToPlayer(PlayerEnum.TWO, GameConstants.DOUBLE_PISTI); // double for jack
+            }
             GameLogic.getInstance().addScoreToPlayer(PlayerEnum.TWO, GameConstants.DOUBLE_PISTI); // give points to ai.
-            this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.TWO)); // update ai score.
+            this.setEnemyScore(GameLogic.getInstance().getScores().get(PlayerEnum.TWO)); // update ai score.
         } else {
             // bluff was fake.
             System.out.println("Bluff was fake.");
