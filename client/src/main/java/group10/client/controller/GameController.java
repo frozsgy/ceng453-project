@@ -9,6 +9,7 @@ import group10.client.enums.Suits;
 import group10.client.logic.GameLogic;
 import group10.client.model.Card;
 import group10.client.service.HTTPService;
+import group10.client.state.SessionStorage;
 import group10.client.utility.UIUtility;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -393,7 +394,7 @@ public class GameController implements Initializable {
         midStack.getChildren().add(pressed.getParent()); // add to middle.
         Card card = this.cardMappings.get(pressed); // get pressed card.
         if (GameLogic.getInstance().handleThrow(card, PlayerEnum.ONE)) { // check if matched
-            LOGGER.info("match - player one");
+            LOGGER.info("Cards match for Player One");
             midStack.getChildren().clear(); // match, clear middle view.
         }
         this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.ONE));
@@ -414,12 +415,12 @@ public class GameController implements Initializable {
         drawCardInsideRectangle(opponentRectangle, opponentCard); // put text unless it is hidden.
         midStack.getChildren().add(opponentRectangle.getParent()); // put it to mid.
         if (isCardHidden(opponentRectangle)) {
-            // handle bluf
+            // handle bluff
             GameLogic.getInstance().getMiddle().add(opponentCard); // put card to bluff, do not make check.
             bluffed = true;
         } else {
             if (GameLogic.getInstance().handleThrow(opponentCard, PlayerEnum.TWO)) { // no bluff, check if scored.
-                LOGGER.info("match - player two");
+                LOGGER.info("Cards match for Player Two");
                 midStack.getChildren().clear();
             }
         }
@@ -451,7 +452,7 @@ public class GameController implements Initializable {
             this.setMidCount();
             if (GameLogic.getInstance().isHandEmpty()) {
                 if (!this.allCards.isEmpty()) {
-                    LOGGER.info("deal cards again");
+                    LOGGER.info("Cards dealt");
                     this.nextHand();
                 } else {
                     PlayerEnum lastWinner = GameLogic.getInstance().getLastWinner();
@@ -462,8 +463,9 @@ public class GameController implements Initializable {
                     int enemyScore = GameLogic.getInstance().getScores().get(PlayerEnum.TWO);
                     this.setPlayerScore(playerScore);
                     this.setEnemyScore(enemyScore);
-                    LOGGER.info("end level " + this.round);
+                    LOGGER.info("Deck consumed for level " + this.round);
                     if (playerScore < 151 && enemyScore < 151) {
+                        LOGGER.info("Redealing cards");
                         this.setUpNextLevel(true);
                     } else {
                         this.setUpNextLevelWrapper(); // adds button or text, then calls next level;
@@ -485,6 +487,7 @@ public class GameController implements Initializable {
 
     @FXML
     public void leaveGame(ActionEvent e) {
+        LOGGER.info("Player " + SessionStorage.getInstance().getUsername() + " has left the game");
         GameLogic.getInstance().getScores().replace(PlayerEnum.ONE, 0);
         GameLogic.getInstance().getScores().replace(PlayerEnum.TWO, 0);
         GameLogic.getInstance().getMiddle().clear();
