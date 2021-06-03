@@ -1,9 +1,17 @@
 package group10.client.controller;
 
+import com.google.gson.Gson;
 import group10.client.constants.UiConstants;
+import group10.client.logic.GameLogic;
+import group10.client.model.PlayerGameEntity;
+import group10.client.service.HTTPService;
 import group10.client.state.SessionStorage;
+import group10.client.utility.LoadingSpinner;
 import group10.client.utility.UIUtility;
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
@@ -43,11 +51,29 @@ public class HomeController implements Initializable {
 
     @FXML
     protected void navigateToNewGame(ActionEvent event) {
-        URL resource = getClass().getResource(UiConstants.GAME_FXML);
-        Scene newGame = UIUtility.navigateTo(event, resource, null);
-        if (newGame != null) {
-            newGame.setOnKeyPressed(e -> GameController.keyPressEvent(e));
-        }
+
+        LoadingSpinner spinner = new LoadingSpinner(homeStackPane, homeBorderPane);
+        spinner.start();
+        Task newGameTask = new Task<String>() {
+            @Override
+            public String call() {
+                return HTTPService.getInstance().startNewGame();
+            }
+        };
+        newGameTask.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED,
+                (EventHandler<WorkerStateEvent>) t -> {
+                    Gson gson = new Gson();
+                    String newGameString = (String) newGameTask.getValue();
+                    PlayerGameEntity playerGameEntity = gson.fromJson(newGameString, PlayerGameEntity.class);
+                    GameLogic.getInstance().setPlayerGameEntity(playerGameEntity);
+                    spinner.stop();
+                    URL resource = getClass().getResource(UiConstants.GAME_FXML);
+                    Scene newGame = UIUtility.navigateTo(event, resource, null);
+                    if (newGame != null) {
+                        newGame.setOnKeyPressed(e -> GameController.keyPressEvent(e));
+                    }
+                });
+        new Thread(newGameTask).start();
     }
 
     @FXML

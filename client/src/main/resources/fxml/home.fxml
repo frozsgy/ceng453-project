@@ -21,7 +21,7 @@
             <Button fx:id="buttonScoreboard" layoutX="324.0" layoutY="300.0" mnemonicParsing="false" onAction="#navigateToScoreboard" prefHeight="32.0" prefWidth="120.0" text="Scoreboard" />
             <Button fx:id="buttonLogout" layoutX="2.0" layoutY="14.0" mnemonicParsing="false" onAction="#logout" prefHeight="32.0" prefWidth="120.0" text="Logout" />
 
-            <StackPane fx:id="homeStackPane" disable="true" layoutX="2.0" prefHeight="600.0" prefWidth="403.0" visible="false" />
+            <StackPane fx:id="homeStackPane" disable="true" layoutX="2.0" prefHeight="600.0" prefWidth="759.0" />
          </children>
       </AnchorPane>
       <!--<Text strokeType="OUTSIDE" strokeWidth="0.0" text="DUMMY PAGE" wrappingWidth="89.05126953125" BorderPane.alignment="CENTER" />-->

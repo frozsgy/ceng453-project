@@ -8,16 +8,17 @@ import javafx.scene.layout.StackPane;
 public class LoadingSpinner {
 
     StackPane stackPane;
-    BorderPane registerBorderPane;
+    BorderPane borderPane;
 
     public LoadingSpinner(StackPane stackPane, BorderPane registerBorderPane) {
         this.stackPane = stackPane;
-        this.registerBorderPane = registerBorderPane;
+        this.borderPane = registerBorderPane;
     }
 
     public void start() {
         try {
-            registerBorderPane.setDisable(true);
+            borderPane.setDisable(true);
+            stackPane.setVisible(true);
             ProgressIndicator PI = new ProgressIndicator();
             stackPane.getChildren().add(PI);
             stackPane.setAlignment(Pos.CENTER);
@@ -29,7 +30,8 @@ public class LoadingSpinner {
 
     public void stop() {
         try {
-            registerBorderPane.setDisable(false);
+            borderPane.setDisable(false);
+            stackPane.setVisible(false);
             stackPane.getChildren().clear();
             stackPane.setDisable(true);
         } catch (Exception e) {

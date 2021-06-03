@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import group10.client.constants.GameConstants;
 import group10.client.constants.UiConstants;
+import group10.client.constants.UiInfoConstants;
 import group10.client.enums.Cards;
 import group10.client.enums.PlayerEnum;
 import group10.client.enums.Suits;
@@ -13,8 +14,13 @@ import group10.client.model.PagedEntity;
 import group10.client.model.PlayerGameEntity;
 import group10.client.model.Scoreboard;
 import group10.client.service.HTTPService;
+import group10.client.state.SessionStorage;
+import group10.client.utility.LoadingSpinner;
 import group10.client.utility.UIUtility;
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -89,8 +95,8 @@ public class GameController implements Initializable {
         GameLogic.getInstance();
         _instance = this;
         this.leaveButton.setFocusTraversable(false);
-        this.gson = new Gson();
-        this.requestNewGame();
+//        this.gson = new Gson();
+//        this.requestNewGame();
         this.round = 0;
         this.setUpNextLevel(); // set up level 1
     }

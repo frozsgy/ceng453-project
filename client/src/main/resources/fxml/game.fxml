@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group10.client.controller.GameController">
+<AnchorPane fx:id="gameMainAnchor" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group10.client.controller.GameController">
    <children>
       <Text fx:id="levelText" layoutX="8.0" layoutY="279.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Level:" wrappingWidth="99.7294921875" />
       <AnchorPane fx:id="upperAnchorPane" layoutX="24.0" prefHeight="200.0" prefWidth="793.0" />
