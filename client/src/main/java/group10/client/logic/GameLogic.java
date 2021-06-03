@@ -123,7 +123,7 @@ public class GameLogic {
         Card topCard = this.middle.get(this.middle.size() - 1);
         Integer currentScore = this.scores.get(player);
         System.out.println("check if match - " + candidateCard + " - top : " + topCard);
-        if (this.middle.size() == 1 && candidateCard.equals(topCard)) {
+        if (this.middle.size() == 1 && candidateCard.getCard().equals(topCard.getCard())) {
             if (candidateCard.getCard() == Cards.JACK) {
                 // double pişti :: 20 points
                 this.scores.replace(player, currentScore + 20);
