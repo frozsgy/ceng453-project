@@ -262,19 +262,23 @@ public class GameController implements Initializable {
         midCartCount.setText(text + GameLogic.getInstance().getMiddle().size());
     }
 
+    private void clearView() {
+        this.bottomAnchorPane.getChildren().clear();
+        this.upperAnchorPane.getChildren().clear();
+        this.midStack.getChildren().clear();
+    }
+
     private void setUpNextLevel() {
         if (round == LAST_ROUND && !thirdLevelScorePosted) {
             thirdLevelScorePosted = true;
             // TODO post score here in a seperate method!
 
         } else if (round < LAST_ROUND) {
-            // post score here.
+            // TODO post score here in a seperate method!
             round++;
             GameLogic.getInstance().resetFields();
             setLevelText();
-            this.bottomAnchorPane.getChildren().clear();
-            this.upperAnchorPane.getChildren().clear();
-            this.midStack.getChildren().clear();
+            this.clearView();
             this.setEnemyScore(0);
             this.setPlayerScore(0);
             this.initOpponentCards();
@@ -301,7 +305,19 @@ public class GameController implements Initializable {
         KeyCombination ctrl9 = new KeyCodeCombination(KeyCode.DIGIT9, KeyCodeCombination.CONTROL_DOWN);
         if (ctrl9.match(event)) {
             if (_instance != null) {
-                _instance.setUpNextLevel();
+                int resetEnemyScoreTo = 0;
+                GameLogic.getInstance().getScores().replace(PlayerEnum.ONE, MAX_SCORE);
+                GameLogic.getInstance().getScores().replace(PlayerEnum.TWO, resetEnemyScoreTo);
+                if (_instance.round == LAST_ROUND) {
+                    _instance.setUpNextLevelWrapper();
+                    _instance.setPlayerScore(MAX_SCORE);
+                    _instance.setEnemyScore(resetEnemyScoreTo);
+                    _instance.clearView();
+                    GameLogic.getInstance().getMiddle().clear();
+                    _instance.setMidCount();
+                } else {
+                    _instance.setUpNextLevel();
+                }
             }
         }
     }
