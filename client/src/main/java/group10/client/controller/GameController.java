@@ -339,23 +339,26 @@ public class GameController implements Initializable {
     @FXML
     private void acceptChallenge(ActionEvent e) {
         System.out.println("Challenge Accepted");
-        this.challengeButton.setVisible(false);
-        this.bluffed = false;
-        Card bluffed = GameLogic.getInstance().getMiddle().pop();
-        Card candidate = GameLogic.getInstance().getMiddle().pop();
-        if (candidate.getCard() == bluffed.getCard()) {
-            this.midStack.getChildren().clear();
-            GameLogic.getInstance().getMiddle().clear();
-            this.setMidCount();
-            GameLogic.getInstance().addScoreToPlayer(PlayerEnum.TWO, GameConstants.DOUBLE_PISTI);
-            this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.TWO));
+        this.challengeButton.setVisible(false); // destroy button.
+        this.bluffed = false; // handle flag.
+        Card bluffed = GameLogic.getInstance().getMiddle().pop(); // get closed card.
+        Card candidate = GameLogic.getInstance().getMiddle().pop(); // get prev card.
+        if (candidate.getCard() == bluffed.getCard()) { // bluf was real
+            System.out.println("Bluf was real.");
+            this.midStack.getChildren().clear(); // clear mid view.
+            GameLogic.getInstance().getMiddle().clear(); // clear middle.
+            this.setMidCount(); // update mid count.
+            GameLogic.getInstance().addScoreToPlayer(PlayerEnum.TWO, GameConstants.DOUBLE_PISTI); // give points to ai.
+            this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.TWO)); // update ai score.
         } else {
-            Rectangle r = GameLogic.getRectangleByCard(this.cardMappings, bluffed);
-            this.setRectangleVisible(r);
-            this.drawCardInsideRectangle(r, bluffed);
-            GameLogic.getInstance().addScoreToPlayer(PlayerEnum.ONE, GameConstants.DOUBLE_PISTI);
-            this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.ONE));
-            GameLogic.getInstance().getMiddle().push(candidate);
+            // bluf was fake.
+            System.out.println("Bluf was fake.");
+            Rectangle r = GameLogic.getRectangleByCard(this.cardMappings, bluffed); //get the rectangle of closed card.
+            this.setRectangleVisible(r); // make rectangle visible.
+            this.drawCardInsideRectangle(r, bluffed); // put text to it.
+            GameLogic.getInstance().addScoreToPlayer(PlayerEnum.ONE, GameConstants.DOUBLE_PISTI); // give points to player.
+            this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.ONE)); // update player score view.
+            GameLogic.getInstance().getMiddle().push(candidate); // put things back to middle.
             GameLogic.getInstance().getMiddle().push(bluffed);
         }
 
