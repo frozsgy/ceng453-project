@@ -163,16 +163,17 @@ public class GameController implements Initializable {
         Image img = new Image(CARD_BACK_IMAGE);
         midStack.getChildren().clear();
         for (int i = 0; i < GameConstants.CARD_PER_HAND; i++) {
-            Card top = allCards.pop();
-            GameLogic.getInstance().getMiddle().add(top);
-            Rectangle card = createCardRectangle(false);
+            Card card = allCards.pop();
+            GameLogic.getInstance().getMiddle().add(card);
+            Rectangle rec = createCardRectangle(false);
             if (i + 1 != GameConstants.CARD_PER_HAND) {
-                card.setFill(new ImagePattern(img));
-                midStack.getChildren().add(card);
+                rec.setFill(new ImagePattern(img));
+                midStack.getChildren().add(rec);
             } else {
-                StackPane stackPane = drawCardInsideRectangle(card, top);
+                StackPane stackPane = drawCardInsideRectangle(rec, card);
                 midStack.getChildren().add(stackPane);
             }
+            this.cardMappings.put(rec, card);
         }
         LOGGER.info("Cards were dealt for middle stack");
     }
