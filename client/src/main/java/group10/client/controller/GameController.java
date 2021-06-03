@@ -362,18 +362,18 @@ public class GameController implements Initializable {
     }
 
     private void controlPlayer(Rectangle pressed) {
-        midStack.getChildren().add(pressed.getParent());
-        Card card = this.cardMappings.get(pressed);
-        if (GameLogic.getInstance().checkIfMatch(card, PlayerEnum.ONE)) {
+        midStack.getChildren().add(pressed.getParent()); // add to middle.
+        Card card = this.cardMappings.get(pressed); // get pressed card.
+        if (GameLogic.getInstance().checkIfMatch(card, PlayerEnum.ONE)) { // check if matched
             LOGGER.info("match - player one");
-            midStack.getChildren().clear();
+            midStack.getChildren().clear(); // match, clear middle view.
         } else {
-            GameLogic.getInstance().getMiddle().add(card);
+            GameLogic.getInstance().getMiddle().add(card); // no match, put it to middle.
         }
         this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.ONE));
-        currentCards.remove(pressed);
+        currentCards.remove(pressed); // remove card from hand.
         // disable clickable
-        pressed.setOnMouseClicked(null);
+        pressed.setOnMouseClicked(null); // make unclickable.
     }
 
     private boolean controlOpponent() {
