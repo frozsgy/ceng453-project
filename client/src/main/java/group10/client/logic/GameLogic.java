@@ -9,6 +9,9 @@ import javafx.scene.shape.Rectangle;
 
 import java.util.*;
 
+import static group10.client.constants.GameConstants.DOUBLE_PISTI;
+import static group10.client.constants.GameConstants.PISTI;
+
 public class GameLogic {
 
     private Stack<Card> middle;
@@ -19,8 +22,7 @@ public class GameLogic {
     private int hand = 1;
     private PlayerGame playerGameEntity;
     private AiStrategy strategy;
-    public final static int PISTI = 10;
-    public final static int DOUBLE_PISTI = 2 * PISTI;
+
 
     private static GameLogic instance;
 
