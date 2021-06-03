@@ -89,7 +89,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handleSQLException(HttpServletRequest request, DataIntegrityViolationException t) {
         LOGGER.info("Caught exception: " + t.getMessage());
         Map<String, String> map = new HashMap<>();
-        map.put("error", "Key violation");
+        map.put("error", "A user with the given username / e-mail exists");
         return new ResponseEntity<>(map, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
