@@ -125,11 +125,10 @@ public class HTTPService {
         return getScoreboard(days, 0);
     }
 
-    public String getScoreboard(long days, long page) {
+    private String getRequest(String url) {
         HttpEntity<String> entity = initEntity(true, "");
         try {
-            String path = API + ServerFolders.SCOREBOARD_PATH + "/" + days + "?pageNumber=" + page;
-            ResponseEntity<String> response = restTemplate.exchange(path, HttpMethod.GET, entity, String.class);
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
             return response.getBody();
         } catch (HttpServerErrorException e) {
             String errorKey = "error";
@@ -138,17 +137,12 @@ public class HTTPService {
         }
     }
 
+    public String getScoreboard(long days, long page) {
+        return this.getRequest(API + ServerFolders.SCOREBOARD_PATH + "/" + days + "?pageNumber=" + page);
+    }
+
     public String startNewGame() {
-        HttpEntity<String> entity = initEntity(true, "");
-        try {
-            String path = API + ServerFolders.NEW_GAME_PATH;
-            ResponseEntity<String> response = restTemplate.exchange(path, HttpMethod.GET, entity, String.class);
-            return response.getBody();
-        } catch (HttpServerErrorException e) {
-            String errorKey = "error";
-            Map<String, String> messagePair = gson.fromJson(e.getResponseBodyAsString(), Map.class);
-            return messagePair.get(errorKey);
-        }
+        return this.getRequest(API + ServerFolders.NEW_GAME_PATH);
     }
 
 
