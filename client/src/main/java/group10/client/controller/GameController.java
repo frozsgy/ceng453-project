@@ -361,16 +361,16 @@ public class GameController implements Initializable {
     }
 
     private void controlPlayer(Rectangle pressed) {
-        midStack.getChildren().add(pressed.getParent());
-        Card card = this.cardMappings.get(pressed);
-        if (GameLogic.getInstance().handleThrow(card, PlayerEnum.ONE)) {
+        midStack.getChildren().add(pressed.getParent()); // add to middle.
+        Card card = this.cardMappings.get(pressed); // get pressed card.
+        if (GameLogic.getInstance().handleThrow(card, PlayerEnum.ONE)) { // check if matched
             LOGGER.info("match - player one");
-            midStack.getChildren().clear();
+            midStack.getChildren().clear(); // match, clear middle view.
         }
         this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.ONE));
-        currentCards.remove(pressed);
+        currentCards.remove(pressed); // remove card from hand.
         // disable clickable
-        pressed.setOnMouseClicked(null);
+        pressed.setOnMouseClicked(null); // make unclickable.
     }
 
     private boolean controlOpponent() {
@@ -378,16 +378,18 @@ public class GameController implements Initializable {
         Pair<Rectangle, Card> cardMap = GameLogic.getInstance().getAiStrategy().playAsComputer(cardMappings);
         Rectangle removed = cardMap.getKey();
         Card opponentCard = cardMap.getValue();
-        this.upperAnchorPane.getChildren().remove(removed);
-        Rectangle opponentRectangle = createCardRectangle(challengeButton.isVisible());
-        drawCardInsideRectangle(opponentRectangle, opponentCard);
-        midStack.getChildren().add(opponentRectangle.getParent());
+        this.upperAnchorPane.getChildren().remove(removed); // remove from view.
+        this.cardMappings.remove(removed); // remove the mapping.
+        Rectangle opponentRectangle = createCardRectangle(challengeButton.isVisible()); // generate new view.
+        this.cardMappings.put(opponentRectangle, opponentCard); // create new mapping.
+        drawCardInsideRectangle(opponentRectangle, opponentCard); // put text unless it is hidden.
+        midStack.getChildren().add(opponentRectangle.getParent()); // put it to mid.
         if (isCardHidden(opponentRectangle)) {
             // handle bluf
-            GameLogic.getInstance().getMiddle().add(opponentCard);
+            GameLogic.getInstance().getMiddle().add(opponentCard); // put card to bluff, do not make check.
             bluffed = true;
         } else {
-            if (GameLogic.getInstance().handleThrow(opponentCard, PlayerEnum.TWO)) {
+            if (GameLogic.getInstance().handleThrow(opponentCard, PlayerEnum.TWO)) { // no bluff, check if scored.
                 LOGGER.info("match - player two");
                 midStack.getChildren().clear();
             }
@@ -397,12 +399,12 @@ public class GameController implements Initializable {
     }
 
     private void rejectBluff() {
-        this.challengeButton.setVisible(false);
-        GameLogic.getInstance().getMiddle().clear();
-        this.setMidCount();
-        this.midStack.getChildren().clear();
-        GameLogic.getInstance().addScoreToPlayer(PlayerEnum.TWO, PISTI);
-        this.setEnemyScore(GameLogic.getInstance().getScores().get(PlayerEnum.TWO));
+        this.challengeButton.setVisible(false); // destroy button.
+        GameLogic.getInstance().getMiddle().clear(); //clear middle, ai got all cards.
+        this.setMidCount(); // reset mid count.
+        this.midStack.getChildren().clear(); // remove cards from view.
+        GameLogic.getInstance().addScoreToPlayer(PlayerEnum.TWO, GameConstants.PISTI); // give score to second player.
+        this.setEnemyScore(GameLogic.getInstance().getScores().get(PlayerEnum.TWO)); //update score view.
     }
 
     @FXML

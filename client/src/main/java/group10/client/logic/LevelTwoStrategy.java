@@ -17,6 +17,7 @@ public class LevelTwoStrategy extends AiStrategy{
             for (Card tested : cards) {
                 if (tested.getCard() == cardOnTop.getCard() || tested.getCard() == Cards.JACK) {
                     Rectangle r = GameLogic.getRectangleByCard(cardMappings, tested);
+                    this.removePlayedCard(tested);
                     return new Pair(r, tested);
                 }
             }
@@ -25,6 +26,7 @@ public class LevelTwoStrategy extends AiStrategy{
         int randIndex = rand.nextInt(cards.size());
         Card card = cards.get(randIndex);
         Rectangle r = GameLogic.getRectangleByCard(cardMappings, card);
+        this.removePlayedCard(card);
         return new Pair(r, card);
     }
 

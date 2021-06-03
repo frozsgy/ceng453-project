@@ -26,6 +26,7 @@ public class LevelThreeStrategy extends AiStrategy{
                     for (Card tested: cards) {
                         if (tested.getCard() == cardOnTop.getCard()) {
                             Rectangle r = GameLogic.getRectangleByCard(cardMappings, tested);
+                            this.removePlayedCard(tested);
                             return new Pair(r, tested);
                         }
                     }
@@ -33,12 +34,14 @@ public class LevelThreeStrategy extends AiStrategy{
                 int randomIndex = rand.nextInt(cards.size());
                 Card c = cards.get(randomIndex);
                 Rectangle r = GameLogic.getRectangleByCard(cardMappings, c);
+                this.removePlayedCard(c);
                 return new Pair(r, c);
             } else {
                 // check if pisti is possible first
                 for (Card tested : cards) {
                     if (tested.getCard() == cardOnTop.getCard()) {
                         Rectangle r = GameLogic.getRectangleByCard(cardMappings, tested);
+                        this.removePlayedCard(tested);
                         return new Pair<>(r, tested);
                     }
                 }
@@ -66,12 +69,14 @@ public class LevelThreeStrategy extends AiStrategy{
         this.middle = GameLogic.getInstance().getMiddle();
         if (bestCard != null) {
             Rectangle r = GameLogic.getRectangleByCard(cardMappings, bestCard);
+            this.removePlayedCard(bestCard);
             return new Pair<>(r, bestCard);
         }
         Random rand = new Random();
         int randomIndex = rand.nextInt(cards.size());
         bestCard = cards.get(randomIndex);
         Rectangle r = GameLogic.getRectangleByCard(cardMappings, bestCard);
+        this.removePlayedCard(bestCard);
         return new Pair(r, bestCard);
     }
 
