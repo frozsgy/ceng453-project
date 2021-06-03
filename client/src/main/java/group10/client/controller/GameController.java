@@ -458,7 +458,7 @@ public class GameController implements Initializable {
 
     @FXML
     public void leaveGame(ActionEvent e) {
-        GameLogic.getInstance().getScores().replace(PlayerEnum.ONE, MAX_SCORE);
+        GameLogic.getInstance().getScores().replace(PlayerEnum.ONE, 0);
         GameLogic.getInstance().getScores().replace(PlayerEnum.TWO, 0);
         GameLogic.getInstance().getMiddle().clear();
         for (int i = this.round; i <= LAST_ROUND; i++) {
