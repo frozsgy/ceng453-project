@@ -83,10 +83,6 @@ public class GameController implements Initializable {
     private Map<Rectangle, Card> cardMappings;
     private boolean thirdLevelScorePosted;
 
-
-    private Gson gson;
-
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         GameLogic.getInstance();
@@ -208,6 +204,7 @@ public class GameController implements Initializable {
         String suitName = "";
         String cardName = "";
         if (r.getFill().equals(WHITE)) {
+            // if not white, hide details.
             suitName = suit.name();
             cardName = margin + card.toString();
         }
@@ -341,6 +338,39 @@ public class GameController implements Initializable {
     private void acceptChallenge(ActionEvent e) {
         System.out.println("Challenge Accepted");
     }
+
+    private void controlPlayer(Rectangle pressed) {
+        midStack.getChildren().add(pressed.getParent());
+        Card card = this.cardMappings.get(pressed);
+        if (GameLogic.getInstance().checkIfMatch(card, PlayerEnum.ONE)) {
+            LOGGER.info("match - player one");
+            midStack.getChildren().clear();
+        } else {
+            GameLogic.getInstance().getMiddle().add(card);
+        }
+        this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.ONE));
+        currentCards.remove(pressed);
+        // disable clickable
+        pressed.setOnMouseClicked(null);
+    }
+
+    private void controlOpponent() {
+        Pair<Rectangle, Card> cardMap = GameLogic.getInstance().getAiStrategy().playAsComputer(cardMappings);
+        Rectangle removed = cardMap.getKey();
+        Card opponentCard = cardMap.getValue();
+        this.upperAnchorPane.getChildren().remove(removed);
+        Rectangle opponentRectangle = createCardRectangle(challengeButton.isVisible());
+        drawCardInsideRectangle(opponentRectangle, opponentCard);
+        midStack.getChildren().add(opponentRectangle.getParent());
+        if (GameLogic.getInstance().checkIfMatch(opponentCard, PlayerEnum.TWO)) {
+            LOGGER.info("match - player two");
+            midStack.getChildren().clear();
+        } else {
+            GameLogic.getInstance().getMiddle().add(opponentCard);
+        }
+        this.setEnemyScore(GameLogic.getInstance().getScores().get(PlayerEnum.TWO));
+    }
+
     @FXML
     protected void throwCard(MouseEvent event) {
         /**
@@ -349,36 +379,11 @@ public class GameController implements Initializable {
          * We also need to make a connection between Rectangle and Cards
          */
         try {
-            GameLogic x = GameLogic.getInstance();
             Rectangle pressed = (Rectangle) ((Node) event.getTarget());
-            midStack.getChildren().add(pressed.getParent());
-            Card card = this.cardMappings.get(pressed);
-            if (GameLogic.getInstance().checkIfMatch(card, PlayerEnum.ONE)) {
-                LOGGER.info("match - player one");
-                midStack.getChildren().clear();
-            } else {
-                GameLogic.getInstance().getMiddle().add(card);
-            }
-            this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.ONE));
-            currentCards.remove(pressed);
-            // disable clickable
-            pressed.setOnMouseClicked(null);
+            this.controlPlayer(pressed);
             // TODO -- add a pause to let the player thinks the AI is thinking
             GameLogic.getInstance().setCurrentPlayer(PlayerEnum.TWO);
-            Pair<Rectangle, Card> cardMap = GameLogic.getInstance().getAiStrategy().playAsComputer(cardMappings);
-            Rectangle removed = cardMap.getKey();
-            Card opponentCard = cardMap.getValue();
-            this.upperAnchorPane.getChildren().remove(removed);
-            Rectangle opponentRectangle = createCardRectangle(challengeButton.isVisible());
-            drawCardInsideRectangle(opponentRectangle, opponentCard);
-            midStack.getChildren().add(opponentRectangle.getParent());
-            if (GameLogic.getInstance().checkIfMatch(opponentCard, PlayerEnum.TWO)) {
-                LOGGER.info("match - player two");
-                midStack.getChildren().clear();
-            } else {
-                GameLogic.getInstance().getMiddle().add(opponentCard);
-            }
-            this.setEnemyScore(GameLogic.getInstance().getScores().get(PlayerEnum.TWO));
+            this.controlOpponent();
             this.setMidCount();
             if (GameLogic.getInstance().isHandEmpty()) {
                 if (!this.allCards.isEmpty()) {
