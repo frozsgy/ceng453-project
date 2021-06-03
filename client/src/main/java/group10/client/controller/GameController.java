@@ -3,6 +3,7 @@ package group10.client.controller;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import group10.client.constants.GameConstants;
+import group10.client.constants.UiConstants;
 import group10.client.enums.Cards;
 import group10.client.enums.PlayerEnum;
 import group10.client.enums.Suits;
@@ -12,10 +13,14 @@ import group10.client.model.PagedEntity;
 import group10.client.model.PlayerGameEntity;
 import group10.client.model.Scoreboard;
 import group10.client.service.HTTPService;
+import group10.client.utility.UIUtility;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
@@ -52,6 +57,8 @@ public class GameController implements Initializable {
     private Text enemyScore;
     @FXML
     private Text midCartCount;
+    @FXML
+    private Button leaveButton;
     private Rectangle selfCard1;
     private Rectangle selfCard2;
     private Rectangle selfCard3;
@@ -81,6 +88,7 @@ public class GameController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         GameLogic.getInstance();
         _instance = this;
+        this.leaveButton.setFocusTraversable(false);
         this.gson = new Gson();
         this.requestNewGame();
         this.round = 0;
@@ -295,6 +303,12 @@ public class GameController implements Initializable {
              * implement hack
              */
         }
+    }
+
+    @FXML
+    protected void navigateToHome(ActionEvent e) {
+        URL resource = getClass().getResource(UiConstants.MENU_FXML);
+        Scene menu = UIUtility.navigateTo(e, resource, null);
     }
 
     @FXML
