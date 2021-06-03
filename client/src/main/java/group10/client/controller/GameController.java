@@ -358,7 +358,8 @@ public class GameController implements Initializable {
         pressed.setOnMouseClicked(null);
     }
 
-    private void controlOpponent() {
+    private boolean controlOpponent() {
+        boolean bluffed = false;
         Pair<Rectangle, Card> cardMap = GameLogic.getInstance().getAiStrategy().playAsComputer(cardMappings);
         Rectangle removed = cardMap.getKey();
         Card opponentCard = cardMap.getValue();
@@ -369,6 +370,7 @@ public class GameController implements Initializable {
         if (isCardHidden(opponentRectangle)) {
             // handle bluf
             GameLogic.getInstance().getMiddle().add(opponentCard);
+            bluffed = true;
         } else {
             if (GameLogic.getInstance().checkIfMatch(opponentCard, PlayerEnum.TWO)) {
                 LOGGER.info("match - player two");
@@ -378,6 +380,7 @@ public class GameController implements Initializable {
             }
         }
         this.setEnemyScore(GameLogic.getInstance().getScores().get(PlayerEnum.TWO));
+        return bluffed;
     }
 
     @FXML
@@ -392,7 +395,7 @@ public class GameController implements Initializable {
             this.controlPlayer(pressed);
             // TODO -- add a pause to let the player thinks the AI is thinking
             GameLogic.getInstance().setCurrentPlayer(PlayerEnum.TWO);
-            this.controlOpponent();
+            boolean bluffed = this.controlOpponent();
             this.setMidCount();
             if (GameLogic.getInstance().isHandEmpty()) {
                 if (!this.allCards.isEmpty()) {
