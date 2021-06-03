@@ -14,8 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
-import static group10.client.constants.GameConstants.DOUBLE_PISTI;
-import static group10.client.constants.GameConstants.PISTI;
+import static group10.client.constants.GameConstants.*;
 
 public class GameLogic {
 
@@ -242,7 +241,7 @@ public class GameLogic {
     public void sendScores() {
         long gameId = this.playerGameEntity.getGame().getId();
         long myScore = this.scores.get(PlayerEnum.ONE);
-        if (myScore >= -1) { // TODO -- UPDATE WITH MAX_SCORE
+        if (myScore >= MAX_SCORE) {
             long opponentScore = this.scores.get(PlayerEnum.TWO);
             long levelScore = myScore - opponentScore;
             HTTPService.getInstance().sendScores(new Level(gameId, levelScore));
