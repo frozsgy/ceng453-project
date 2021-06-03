@@ -19,6 +19,7 @@ public class GameLogic {
     private int hand = 1;
     private PlayerGame playerGameEntity;
     private AiStrategy strategy;
+    public final static int PISTI = 10;
 
     private static GameLogic instance;
 
@@ -115,23 +116,27 @@ public class GameLogic {
 
     public AiStrategy getAiStrategy() {return this.strategy;}
 
+    public void addScoreToPlayer(PlayerEnum player, int score) {
+        Integer currentScore = this.scores.get(player);
+        this.scores.replace(player, currentScore + score);
+    }
+
     public boolean checkIfMatch(Card candidateCard, PlayerEnum player) {
         this.playerCards.get(player).remove(candidateCard);
         if (this.middle.isEmpty()) {
             return false;
         }
         Card topCard = this.middle.peek();
-        Integer currentScore = this.scores.get(player);
         System.out.println("check if match - " + candidateCard + " - top : " + topCard);
         if (this.middle.size() == 1 && candidateCard.getCard().equals(topCard.getCard())) {
             if (candidateCard.getCard() == Cards.JACK) {
                 // double pişti :: 20 points
-                this.scores.replace(player, currentScore + 20);
+                this.addScoreToPlayer(player, 2 * PISTI);
             } else {
                 // pişti :: 10 points
                 this.middle.push(candidateCard);
                 int stackScore = this.calculateStackScore(); // pişti with aces, and other special cards
-                this.scores.replace(player, currentScore + 10 + stackScore);
+                this.addScoreToPlayer(player, stackScore + PISTI);
             }
             this.middle.clear();
             System.out.println("score for " + player + ": " + this.scores.get(player));
@@ -141,7 +146,7 @@ public class GameLogic {
             // empty stack and calculate scores, and save scores
             this.middle.push(candidateCard);
             int stackScore = this.calculateStackScore();
-            this.scores.replace(player, currentScore + stackScore);
+            this.addScoreToPlayer(player, stackScore);
             this.middle.clear();
             System.out.println("score for " + player + ": " + this.scores.get(player));
             this.lastWinner = player;
