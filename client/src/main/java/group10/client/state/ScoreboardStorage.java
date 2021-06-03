@@ -1,7 +1,7 @@
 package group10.client.state;
 
-import group10.client.model.PagedEntity;
-import group10.client.model.Scoreboard;
+import group10.client.entity.PagedEntity;
+import group10.client.entity.Scoreboard;
 
 public class ScoreboardStorage {
 

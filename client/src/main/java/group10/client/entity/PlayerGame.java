@@ -1,15 +1,15 @@
-package group10.client.model;
+package group10.client.entity;
 
 import java.util.Date;
 
-public class PlayerGameEntity extends BaseEntity {
+public class PlayerGame extends Base {
 
-    private PlayerEntity player;
-    private GameEntity game;
+    private Player player;
+    private Game game;
     private long level;
     private long score;
 
-    public PlayerGameEntity(long id, Date createDate, Date updateDate, boolean active, String operationType, PlayerEntity player, GameEntity game, long level, long score) {
+    public PlayerGame(long id, Date createDate, Date updateDate, boolean active, String operationType, Player player, Game game, long level, long score) {
         super(id, createDate, updateDate, active, operationType);
         this.player = player;
         this.game = game;
@@ -17,19 +17,19 @@ public class PlayerGameEntity extends BaseEntity {
         this.score = score;
     }
 
-    public PlayerEntity getPlayer() {
+    public Player getPlayer() {
         return player;
     }
 
-    public void setPlayer(PlayerEntity player) {
+    public void setPlayer(Player player) {
         this.player = player;
     }
 
-    public GameEntity getGame() {
+    public Game getGame() {
         return game;
     }
 
-    public void setGame(GameEntity game) {
+    public void setGame(Game game) {
         this.game = game;
     }
 

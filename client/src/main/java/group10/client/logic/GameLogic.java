@@ -4,13 +4,10 @@ import group10.client.enums.Cards;
 import group10.client.enums.PlayerEnum;
 import group10.client.enums.Suits;
 import group10.client.model.Card;
-import group10.client.model.PlayerGameEntity;
-import javafx.scene.layout.StackPane;
+import group10.client.entity.PlayerGame;
 import javafx.scene.shape.Rectangle;
-import javafx.util.Pair;
 
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 public class GameLogic {
 
@@ -20,7 +17,7 @@ public class GameLogic {
     private Map<PlayerEnum, List<Card>> playerCards;
     private PlayerEnum currentPlayer = PlayerEnum.ONE;
     private int hand = 1;
-    private PlayerGameEntity playerGameEntity;
+    private PlayerGame playerGameEntity;
     private AiStrategy strategy;
 
     private static GameLogic instance;
@@ -108,11 +105,11 @@ public class GameLogic {
         this.hand = hand;
     }
 
-    public PlayerGameEntity getPlayerGameEntity() {
+    public PlayerGame getPlayerGameEntity() {
         return playerGameEntity;
     }
 
-    public void setPlayerGameEntity(PlayerGameEntity playerGameEntity) {
+    public void setPlayerGameEntity(PlayerGame playerGameEntity) {
         this.playerGameEntity = playerGameEntity;
     }
 

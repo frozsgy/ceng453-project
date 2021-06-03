@@ -3,7 +3,7 @@ package group10.client.controller;
 import com.google.gson.Gson;
 import group10.client.constants.UiConstants;
 import group10.client.logic.GameLogic;
-import group10.client.model.PlayerGameEntity;
+import group10.client.entity.PlayerGame;
 import group10.client.service.HTTPService;
 import group10.client.state.SessionStorage;
 import group10.client.utility.LoadingSpinner;
@@ -63,7 +63,7 @@ public class HomeController implements Initializable {
                 (EventHandler<WorkerStateEvent>) t -> {
                     Gson gson = new Gson();
                     String newGameString = (String) newGameTask.getValue();
-                    PlayerGameEntity playerGameEntity = gson.fromJson(newGameString, PlayerGameEntity.class);
+                    PlayerGame playerGameEntity = gson.fromJson(newGameString, PlayerGame.class);
                     GameLogic.getInstance().setPlayerGameEntity(playerGameEntity);
                     spinner.stop();
                     URL resource = getClass().getResource(UiConstants.GAME_FXML);

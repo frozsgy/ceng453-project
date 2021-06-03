@@ -1,4 +1,4 @@
-package group10.client.model;
+package group10.client.entity;
 
 public class Scoreboard {
 

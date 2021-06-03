@@ -2,9 +2,8 @@ package group10.client.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import group10.client.constants.UiConstants;
-import group10.client.model.PagedEntity;
-import group10.client.model.Scoreboard;
+import group10.client.entity.PagedEntity;
+import group10.client.entity.Scoreboard;
 import group10.client.service.HTTPService;
 import group10.client.state.ScoreboardStorage;
 import group10.client.utility.UIUtility;
@@ -25,7 +24,6 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static group10.client.constants.UiConstants.LOGIN_FXML;
 import static group10.client.constants.UiConstants.MENU_FXML;
 
 @Component

@@ -1,8 +1,8 @@
-package group10.client.model;
+package group10.client.entity;
 
 import java.util.Date;
 
-public class BaseEntity {
+public class Base {
 
     private long id;
     private Date createDate;
@@ -10,10 +10,10 @@ public class BaseEntity {
     private boolean active;
     private String operationType;
 
-    public BaseEntity() {
+    public Base() {
     }
 
-    public BaseEntity(long id, Date createDate, Date updateDate, boolean active, String operationType) {
+    public Base(long id, Date createDate, Date updateDate, boolean active, String operationType) {
         this.id = id;
         this.createDate = createDate;
         this.updateDate = updateDate;

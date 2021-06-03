@@ -1,16 +1,16 @@
-package group10.client.model;
+package group10.client.entity;
 
 import java.util.Date;
 import java.util.List;
 
-public class PlayerEntity extends BaseEntity {
+public class Player extends Base {
 
     private String username;
     private String email;
-    private List<RoleEntity> roles;
+    private List<Role> roles;
 
 
-    public PlayerEntity(long id, Date createDate, Date updateDate, boolean active, String operationType, String username, String email, List<RoleEntity> roles) {
+    public Player(long id, Date createDate, Date updateDate, boolean active, String operationType, String username, String email, List<Role> roles) {
         super(id, createDate, updateDate, active, operationType);
         this.username = username;
         this.email = email;
@@ -33,11 +33,11 @@ public class PlayerEntity extends BaseEntity {
         this.email = email;
     }
 
-    public List<RoleEntity> getRoles() {
+    public List<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<RoleEntity> roles) {
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
 }

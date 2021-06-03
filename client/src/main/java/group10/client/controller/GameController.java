@@ -1,26 +1,17 @@
 package group10.client.controller;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import group10.client.constants.GameConstants;
 import group10.client.constants.UiConstants;
-import group10.client.constants.UiInfoConstants;
 import group10.client.enums.Cards;
 import group10.client.enums.PlayerEnum;
 import group10.client.enums.Suits;
 import group10.client.logic.GameLogic;
 import group10.client.model.Card;
-import group10.client.model.PagedEntity;
-import group10.client.model.PlayerGameEntity;
-import group10.client.model.Scoreboard;
+import group10.client.entity.PlayerGame;
 import group10.client.service.HTTPService;
-import group10.client.state.SessionStorage;
-import group10.client.utility.LoadingSpinner;
 import group10.client.utility.UIUtility;
-import javafx.concurrent.Task;
-import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -41,7 +32,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.*;
 
@@ -105,7 +95,7 @@ public class GameController implements Initializable {
     private void requestNewGame() {
         // we can remove this method. migrated to HomeController.navigateToNewGame
         String newGameString = HTTPService.getInstance().startNewGame();
-        PlayerGameEntity playerGameEntity = gson.fromJson(newGameString, PlayerGameEntity.class);
+        PlayerGame playerGameEntity = gson.fromJson(newGameString, PlayerGame.class);
         GameLogic.getInstance().setPlayerGameEntity(playerGameEntity);
     }
 
