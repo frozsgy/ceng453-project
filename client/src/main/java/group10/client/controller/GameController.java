@@ -327,6 +327,7 @@ public class GameController implements Initializable {
             button.setOnAction(e -> this.setUpNextLevel());
             this.midStack.getChildren().add(button);
         } else if (this.round == LAST_ROUND) {
+            this.challengeButton.setVisible(false);
             Text gameOver = new Text("Game Over");
             // send score here.
             this.midStack.getChildren().add(gameOver);
