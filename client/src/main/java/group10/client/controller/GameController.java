@@ -392,7 +392,9 @@ public class GameController implements Initializable {
         Rectangle removed = cardMap.getKey();
         Card opponentCard = cardMap.getValue();
         this.upperAnchorPane.getChildren().remove(removed);
+        this.cardMappings.remove(removed);
         Rectangle opponentRectangle = createCardRectangle(challengeButton.isVisible());
+        this.cardMappings.put(opponentRectangle, opponentCard);
         drawCardInsideRectangle(opponentRectangle, opponentCard);
         midStack.getChildren().add(opponentRectangle.getParent());
         if (isCardHidden(opponentRectangle)) {

@@ -15,9 +15,8 @@ public class LevelOneStrategy extends AiStrategy{
     public Pair<Rectangle, Card> playAsComputer(Map<Rectangle, Card> cardMappings) {
         List<Card> cards = this.playerCards.get(PlayerEnum.TWO);
         Card card = cards.get(0);
-        cards.remove(card);
+        this.removePlayedCard(card);
         Rectangle r = GameLogic.getRectangleByCard(cardMappings, card);
-        this.playerCards.replace(PlayerEnum.TWO, cards);
         Pair<Rectangle, Card> pair = new Pair<>(r, card);
         return pair;
     }

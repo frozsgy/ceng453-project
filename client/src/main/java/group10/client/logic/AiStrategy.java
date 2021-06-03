@@ -18,4 +18,9 @@ public abstract class AiStrategy {
         this.playerCards = playerCards;
         this.middle = middle;
     }
+    protected void removePlayedCard(Card card) {
+        List<Card> cards = this.playerCards.get(PlayerEnum.TWO);
+        cards.remove(card);
+        this.playerCards.replace(PlayerEnum.TWO, cards);
+    }
 }
