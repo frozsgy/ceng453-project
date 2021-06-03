@@ -268,10 +268,10 @@ public class GameController implements Initializable {
     private void setUpNextLevel() {
         if (round == LAST_ROUND && !thirdLevelScorePosted) {
             thirdLevelScorePosted = true;
-            GameLogic.getInstance().sendScores(PlayerEnum.ONE);
+            GameLogic.getInstance().sendScores();
         } else if (round < LAST_ROUND) {
             if (this.round != 0) {
-                GameLogic.getInstance().sendScores(PlayerEnum.ONE);
+                GameLogic.getInstance().sendScores();
             }
             round++;
             GameLogic.getInstance().resetFields();
@@ -462,7 +462,7 @@ public class GameController implements Initializable {
         GameLogic.getInstance().getScores().replace(PlayerEnum.TWO, 0);
         GameLogic.getInstance().getMiddle().clear();
         for (int i = this.round; i <= LAST_ROUND; i++) {
-            GameLogic.getInstance().sendScores(PlayerEnum.ONE);
+            GameLogic.getInstance().sendScores();
         }
         this.navigateToHome(e);
     }

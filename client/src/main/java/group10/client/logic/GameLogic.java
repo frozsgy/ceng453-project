@@ -227,12 +227,11 @@ public class GameLogic {
 
     }
 
-    public void sendScores(PlayerEnum playerEnum) {
+    public void sendScores() {
         long gameId = this.playerGameEntity.getGame().getId();
-        long myScore = this.scores.get(playerEnum);
-        if (myScore >= -1) { // TODO -- UPDATE WITH 151
-            PlayerEnum opponent = playerEnum == PlayerEnum.ONE ? PlayerEnum.TWO : PlayerEnum.ONE;
-            long opponentScore = this.scores.get(opponent);
+        long myScore = this.scores.get(PlayerEnum.ONE);
+        if (myScore >= -1) { // TODO -- UPDATE WITH MAX_SCORE
+            long opponentScore = this.scores.get(PlayerEnum.TWO);
             long levelScore = myScore - opponentScore;
             HTTPService.getInstance().sendScores(new Level(gameId, levelScore));
         }
