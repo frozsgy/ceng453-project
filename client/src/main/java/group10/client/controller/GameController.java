@@ -154,16 +154,17 @@ public class GameController implements Initializable {
         Image img = new Image(CARD_BACK_IMAGE);
         midStack.getChildren().clear();
         for (int i = 0; i < GameConstants.CARD_PER_HAND; i++) {
-            Card top = allCards.pop();
-            GameLogic.getInstance().getMiddle().add(top);
-            Rectangle card = createCardRectangle(false);
+            Card card = allCards.pop();
+            GameLogic.getInstance().getMiddle().add(card);
+            Rectangle rec = createCardRectangle(false);
             if (i + 1 != GameConstants.CARD_PER_HAND) {
-                card.setFill(new ImagePattern(img));
-                midStack.getChildren().add(card);
+                rec.setFill(new ImagePattern(img));
+                midStack.getChildren().add(rec);
             } else {
-                StackPane stackPane = drawCardInsideRectangle(card, top);
+                StackPane stackPane = drawCardInsideRectangle(rec, card);
                 midStack.getChildren().add(stackPane);
             }
+            this.cardMappings.put(rec, card);
         }
         LOGGER.info("Cards were dealt for middle stack");
     }
@@ -178,7 +179,8 @@ public class GameController implements Initializable {
             r.setOnMouseClicked(this::throwCard);
             Card top = allCards.pop();
             cardsOne.add(top);
-            drawCardForPlayers(r, top);
+            drawCardForPlayer(r, top);
+            this.cardMappings.put(r, top);
         }
         LOGGER.info("Cards were dealt for Player One");
         for (int i = 0; i < GameConstants.CARD_PER_HAND; i++) {
@@ -225,10 +227,9 @@ public class GameController implements Initializable {
         return stack;
     }
 
-    private void drawCardForPlayers(Rectangle r, Card cardToDraw) {
+    private void drawCardForPlayer(Rectangle r, Card cardToDraw) {
         StackPane stack = this.drawCardInsideRectangle(r, cardToDraw);
         bottomAnchorPane.getChildren().add(stack);
-        this.cardMappings.put(r, cardToDraw);
     }
 
     private void shuffleCards() {
