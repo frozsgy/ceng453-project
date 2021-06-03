@@ -294,11 +294,6 @@ public class GameController implements Initializable {
             if (_instance != null) {
                 _instance.setUpNextLevel();
             }
-            return;
-            /**
-             * TODO
-             * implement hack
-             */
         }
     }
 
@@ -321,20 +316,16 @@ public class GameController implements Initializable {
             midStack.getChildren().add(pressed.getParent());
             Card card = this.cardMappings.get(pressed);
             if (GameLogic.getInstance().checkIfMatch(card, PlayerEnum.ONE)) {
-                // TODO -- clean stack display
                 LOGGER.info("match - player one");
                 midStack.getChildren().clear();
             }
             this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.ONE));
-            // TODO -- let other player play
             currentCards.remove(pressed);
-            // TODO -- if last card, assign the mid stack to the last winning team
-            // if match, save lastWinner as 1 or 2.
             GameLogic.getInstance().getMiddle().push(card);
             // disable clickable
             pressed.setOnMouseClicked(null);
             // TODO -- add a pause to let the player thinks the AI is thinking
-            GameLogic.getInstance().setCurrentPlayer(PlayerEnum.TWO); // TODO -- generalize this
+            GameLogic.getInstance().setCurrentPlayer(PlayerEnum.TWO);
             Pair<Rectangle, Card> cardMap = GameLogic.getInstance().getAiStrategy().playAsComputer(cardMappings);
             Rectangle removed = cardMap.getKey();
             Card opponentCard = cardMap.getValue();
@@ -343,7 +334,6 @@ public class GameController implements Initializable {
             drawCardInsideRectangle(opponentRectangle, opponentCard);
             midStack.getChildren().add(opponentRectangle.getParent());
             if (GameLogic.getInstance().checkIfMatch(opponentCard, PlayerEnum.TWO)) {
-                // TODO -- clean stack display
                 LOGGER.info("match - player two");
                 midStack.getChildren().clear();
             }
@@ -356,7 +346,7 @@ public class GameController implements Initializable {
                     this.nextHand();
                 } else {
                     PlayerEnum lastWinner = GameLogic.getInstance().getLastWinner();
-                    // TODO -- give mid stack to lasstWinner
+                    GameLogic.getInstance().giveMidStackCardsToLastWinner();
                     LOGGER.info("end level " + this.round);
                     // TODO -- send scores to server (gameId from GameLogic -> playerGameEntity :: gameId)
 //                    this.setUpNextLevel();

@@ -120,7 +120,7 @@ public class GameLogic {
         if (this.middle.isEmpty()) {
             return false;
         }
-        Card topCard = this.middle.peek(); // TODO -- place 4 cards at init
+        Card topCard = this.middle.peek();
         Integer currentScore = this.scores.get(player);
         System.out.println("check if match - " + candidateCard + " - top : " + topCard);
         if (this.middle.size() == 1 && candidateCard.equals(topCard)) {
@@ -158,7 +158,7 @@ public class GameLogic {
         // each ace -- 1
         // two of clubs -- 2
         // ten of diamonds -- 3
-        // TODO -- most cards -- 3 :: equality -> no team
+        // most cards -- 3 :: equality -> no team -- done at mid stack
         // pisti -- 10
         // double pisti -- 20
         int score = 0;
@@ -192,4 +192,20 @@ public class GameLogic {
         return r;
     }
 
+    public void giveMidStackCardsToLastWinner() {
+        int stackScore = this.calculateStackScore();
+        List<Card> cards = this.playerCards.get(this.lastWinner);
+        while (!this.middle.isEmpty()) {
+            Card pop = this.middle.pop();
+            cards.add(pop);
+        }
+        this.playerCards.replace(this.lastWinner, cards);
+        this.scores.replace(this.lastWinner, this.scores.get(this.lastWinner) + stackScore);
+        if (this.scores.get(PlayerEnum.ONE) > this.scores.get(PlayerEnum.TWO)) {
+            this.scores.replace(PlayerEnum.ONE, this.scores.get(PlayerEnum.ONE) + 3);
+        } else if (this.scores.get(PlayerEnum.ONE) < this.scores.get(PlayerEnum.TWO)) {
+            this.scores.replace(PlayerEnum.TWO, this.scores.get(PlayerEnum.TWO) + 3);
+        }
+
+    }
 }
