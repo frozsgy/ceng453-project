@@ -349,6 +349,10 @@ public class GameController implements Initializable {
                 } else {
                     PlayerEnum lastWinner = GameLogic.getInstance().getLastWinner();
                     GameLogic.getInstance().giveMidStackCardsToLastWinner();
+                    this.midStack.getChildren().clear();
+                    this.setMidCount();
+                    this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.ONE));
+                    this.setEnemyScore(GameLogic.getInstance().getScores().get(PlayerEnum.TWO));
                     LOGGER.info("end level " + this.round);
                     // TODO -- send scores to server (gameId from GameLogic -> playerGameEntity :: gameId)
 //                    this.setUpNextLevel();
