@@ -31,8 +31,7 @@ import org.springframework.stereotype.Component;
 import java.net.URL;
 import java.util.*;
 
-import static group10.client.constants.GameConstants.LAST_ROUND;
-import static group10.client.constants.GameConstants.MAX_SCORE;
+import static group10.client.constants.GameConstants.*;
 import static group10.client.constants.UiConstants.*;
 
 @Component
@@ -347,13 +346,13 @@ public class GameController implements Initializable {
             this.midStack.getChildren().clear();
             GameLogic.getInstance().getMiddle().clear();
             this.setMidCount();
-            GameLogic.getInstance().addScoreToPlayer(PlayerEnum.TWO, GameLogic.DOUBLE_PISTI);
+            GameLogic.getInstance().addScoreToPlayer(PlayerEnum.TWO, DOUBLE_PISTI);
             this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.TWO));
         } else {
             Rectangle r = GameLogic.getRectangleByCard(this.cardMappings, bluffed);
             this.setRectangleVisible(r);
             this.drawCardInsideRectangle(r, bluffed);
-            GameLogic.getInstance().addScoreToPlayer(PlayerEnum.ONE, GameLogic.DOUBLE_PISTI);
+            GameLogic.getInstance().addScoreToPlayer(PlayerEnum.ONE, DOUBLE_PISTI);
             this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.ONE));
             GameLogic.getInstance().getMiddle().push(candidate);
             GameLogic.getInstance().getMiddle().push(bluffed);
@@ -364,11 +363,9 @@ public class GameController implements Initializable {
     private void controlPlayer(Rectangle pressed) {
         midStack.getChildren().add(pressed.getParent());
         Card card = this.cardMappings.get(pressed);
-        if (GameLogic.getInstance().checkIfMatch(card, PlayerEnum.ONE)) {
+        if (GameLogic.getInstance().handleThrow(card, PlayerEnum.ONE)) {
             LOGGER.info("match - player one");
             midStack.getChildren().clear();
-        } else {
-            GameLogic.getInstance().getMiddle().add(card);
         }
         this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.ONE));
         currentCards.remove(pressed);
@@ -390,11 +387,9 @@ public class GameController implements Initializable {
             GameLogic.getInstance().getMiddle().add(opponentCard);
             bluffed = true;
         } else {
-            if (GameLogic.getInstance().checkIfMatch(opponentCard, PlayerEnum.TWO)) {
+            if (GameLogic.getInstance().handleThrow(opponentCard, PlayerEnum.TWO)) {
                 LOGGER.info("match - player two");
                 midStack.getChildren().clear();
-            } else {
-                GameLogic.getInstance().getMiddle().add(opponentCard);
             }
         }
         this.setEnemyScore(GameLogic.getInstance().getScores().get(PlayerEnum.TWO));
@@ -406,7 +401,7 @@ public class GameController implements Initializable {
         GameLogic.getInstance().getMiddle().clear();
         this.setMidCount();
         this.midStack.getChildren().clear();
-        GameLogic.getInstance().addScoreToPlayer(PlayerEnum.TWO, GameLogic.PISTI);
+        GameLogic.getInstance().addScoreToPlayer(PlayerEnum.TWO, PISTI);
         this.setEnemyScore(GameLogic.getInstance().getScores().get(PlayerEnum.TWO));
     }
 
