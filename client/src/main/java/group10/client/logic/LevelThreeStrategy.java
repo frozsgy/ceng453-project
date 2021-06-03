@@ -27,15 +27,18 @@ public class LevelThreeStrategy extends AiStrategy{
         int score = 0;
         Card bestCard = null;
         for (Card tested: cards) {
-
-            if (tested.getCard() == originalMiddle.peek().getCard() || tested.getCard() == Cards.JACK) {
-                GameLogic.getInstance().setMiddle((Stack<Card>) originalMiddle.clone());
-                GameLogic.getInstance().getMiddle().add(tested);
-                int testScore = GameLogic.getInstance().calculateStackScore();
-                if (testScore > score) {
-                    score = testScore;
-                    bestCard = tested;
+            try{
+                if (tested.getCard() == originalMiddle.peek().getCard() || tested.getCard() == Cards.JACK) {
+                    GameLogic.getInstance().setMiddle((Stack<Card>) originalMiddle.clone());
+                    GameLogic.getInstance().getMiddle().add(tested);
+                    int testScore = GameLogic.getInstance().calculateStackScore();
+                    if (testScore > score) {
+                        score = testScore;
+                        bestCard = tested;
+                    }
                 }
+            } catch (Exception exception) {
+                break;
             }
         }
         GameLogic.getInstance().setMiddle((Stack<Card>) originalMiddle.clone());
