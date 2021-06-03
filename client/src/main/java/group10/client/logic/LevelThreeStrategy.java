@@ -17,11 +17,13 @@ public class LevelThreeStrategy extends AiStrategy{
         if (this.middle.size() == 1) {
             Card cardOnTop = this.middle.peek();
             Random rand = new Random();
-            int bluf = rand.nextInt(5);
-            if (true) { // bluf == 2
+//            int bluf = rand.nextInt(2);
+            double bluf = Math.random();
+            double blufProb = 0.33;
+            if (bluf > 1-blufProb) { // do with 0.33 prob.
                 GameController._instance.getChallengeButton().setVisible(true);
                 int headTail = rand.nextInt(2);
-                if (false) { //headTail ==0
+                if (headTail == 0) { //headTail ==0 // do with 50% prob
                     // check if real pisti
                     for (Card tested: cards) {
                         if (tested.getCard() == cardOnTop.getCard()) {

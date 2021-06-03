@@ -267,7 +267,6 @@ public class GameController implements Initializable {
         if (round == LAST_ROUND && !thirdLevelScorePosted) {
             thirdLevelScorePosted = true;
             // TODO post score here in a seperate method!
-
         } else if (round < LAST_ROUND) {
             // TODO post score here in a seperate method!
             round++;
@@ -284,7 +283,6 @@ public class GameController implements Initializable {
             GameLogic.getInstance().setAiStrategy(round);
             this.setMidCount();
         }
-
     }
 
     private void setPlayerScore(int score) {
@@ -329,6 +327,7 @@ public class GameController implements Initializable {
             button.setOnAction(e -> this.setUpNextLevel());
             this.midStack.getChildren().add(button);
         } else if (this.round == LAST_ROUND) {
+            this.challengeButton.setVisible(false);
             Text gameOver = new Text("Game Over");
             // send score here.
             this.midStack.getChildren().add(gameOver);
@@ -338,24 +337,29 @@ public class GameController implements Initializable {
     @FXML
     private void acceptChallenge(ActionEvent e) {
         System.out.println("Challenge Accepted");
-        this.challengeButton.setVisible(false);
-        this.bluffed = false;
-        Card bluffed = GameLogic.getInstance().getMiddle().pop();
-        Card candidate = GameLogic.getInstance().getMiddle().pop();
+        this.challengeButton.setVisible(false); // destroy button.
+        this.bluffed = false; // handle flag.
+        Card bluffed = GameLogic.getInstance().getMiddle().pop(); // get closed card.
+        Card candidate = GameLogic.getInstance().getMiddle().pop(); // get prev card.
         if (candidate.getCard() == bluffed.getCard()) {
-            this.midStack.getChildren().clear();
-            GameLogic.getInstance().getMiddle().clear();
-            this.setMidCount();
-            GameLogic.getInstance().addScoreToPlayer(PlayerEnum.TWO, DOUBLE_PISTI);
-            this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.TWO));
+            // bluf was real
+            System.out.println("Bluf was real.");
+            this.midStack.getChildren().clear(); // clear mid view.
+            GameLogic.getInstance().getMiddle().clear(); // clear middle.
+            this.setMidCount(); // update mid count.
+            GameLogic.getInstance().addScoreToPlayer(PlayerEnum.TWO, GameConstants.DOUBLE_PISTI); // give points to ai.
+            this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.TWO)); // update ai score.
         } else {
-            Rectangle r = GameLogic.getRectangleByCard(this.cardMappings, bluffed);
-            this.setRectangleVisible(r);
-            this.drawCardInsideRectangle(r, bluffed);
-            GameLogic.getInstance().addScoreToPlayer(PlayerEnum.ONE, DOUBLE_PISTI);
-            this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.ONE));
-            GameLogic.getInstance().getMiddle().push(candidate);
-            GameLogic.getInstance().getMiddle().push(bluffed);
+            // bluf was fake.
+            System.out.println("Bluf was fake.");
+            Rectangle r = GameLogic.getRectangleByCard(this.cardMappings, bluffed); //get the rectangle of closed card.
+            this.midStack.getChildren().remove(r);
+            this.setRectangleVisible(r); // make rectangle visible.
+            this.drawCardInsideRectangle(r, bluffed); // put text to it.
+            this.midStack.getChildren().add(r.getParent());
+            GameLogic.getInstance().addScoreToPlayer(PlayerEnum.ONE, GameConstants.DOUBLE_PISTI); // give points to player.
+            this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.ONE)); // update player score view.
+            GameLogic.getInstance().getMiddle().push(candidate); // put things back to middle.
         }
 
     }
@@ -409,11 +413,6 @@ public class GameController implements Initializable {
 
     @FXML
     protected void throwCard(MouseEvent event) {
-        /**
-         * TODO
-         * implement game logic. This currently updates view for the playing player.
-         * We also need to make a connection between Rectangle and Cards
-         */
         try {
             if (this.bluffed) {
                 this.bluffed = false;
@@ -447,8 +446,6 @@ public class GameController implements Initializable {
                 // TODO -- send scores to server (gameId from GameLogic -> playerGameEntity :: gameId)
                 this.setUpNextLevelWrapper(); // adds button or text, then calls next level;
             }
-
-
         } catch (IllegalArgumentException ex) {
             LOGGER.warn("Already played");
         }
