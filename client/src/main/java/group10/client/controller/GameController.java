@@ -340,7 +340,7 @@ public class GameController implements Initializable {
                 } else {
                     PlayerEnum lastWinner = GameLogic.getInstance().getLastWinner();
                     // TODO -- give mid stack to lasstWinner
-                    LOGGER.info("end level");
+                    LOGGER.info("end level " + this.round);
                     // TODO -- send scores to server (gameId from GameLogic -> playerGameEntity :: gameId)
 //                    this.setUpNextLevel();
                 }
