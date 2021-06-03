@@ -381,22 +381,22 @@ public class GameController implements Initializable {
         Pair<Rectangle, Card> cardMap = GameLogic.getInstance().getAiStrategy().playAsComputer(cardMappings);
         Rectangle removed = cardMap.getKey();
         Card opponentCard = cardMap.getValue();
-        this.upperAnchorPane.getChildren().remove(removed);
-        this.cardMappings.remove(removed);
-        Rectangle opponentRectangle = createCardRectangle(challengeButton.isVisible());
-        this.cardMappings.put(opponentRectangle, opponentCard);
-        drawCardInsideRectangle(opponentRectangle, opponentCard);
-        midStack.getChildren().add(opponentRectangle.getParent());
+        this.upperAnchorPane.getChildren().remove(removed); // remove from view.
+        this.cardMappings.remove(removed); // remove the mapping.
+        Rectangle opponentRectangle = createCardRectangle(challengeButton.isVisible()); // generate new view.
+        this.cardMappings.put(opponentRectangle, opponentCard); // create new mapping.
+        drawCardInsideRectangle(opponentRectangle, opponentCard); // put text unless it is hidden.
+        midStack.getChildren().add(opponentRectangle.getParent()); // put it to mid.
         if (isCardHidden(opponentRectangle)) {
             // handle bluf
-            GameLogic.getInstance().getMiddle().add(opponentCard);
+            GameLogic.getInstance().getMiddle().add(opponentCard); // put card to bluf, do not make check.
             bluffed = true;
         } else {
-            if (GameLogic.getInstance().checkIfMatch(opponentCard, PlayerEnum.TWO)) {
+            if (GameLogic.getInstance().checkIfMatch(opponentCard, PlayerEnum.TWO)) { // no bluf, check if scored.
                 LOGGER.info("match - player two");
-                midStack.getChildren().clear();
+                midStack.getChildren().clear(); // scored, clear view.
             } else {
-                GameLogic.getInstance().getMiddle().add(opponentCard);
+                GameLogic.getInstance().getMiddle().add(opponentCard); // put it to middle.
             }
         }
         this.setEnemyScore(GameLogic.getInstance().getScores().get(PlayerEnum.TWO));
