@@ -313,6 +313,7 @@ public class GameController implements Initializable {
                 } else {
                     _instance.setUpNextLevel();
                 }
+                GameLogic.getInstance().sendScores(PlayerEnum.ONE);
             }
         }
     }
@@ -438,14 +439,14 @@ public class GameController implements Initializable {
                     this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.ONE));
                     this.setEnemyScore(GameLogic.getInstance().getScores().get(PlayerEnum.TWO));
                     LOGGER.info("end level " + this.round);
-                    // TODO -- send scores to server (gameId from GameLogic -> playerGameEntity :: gameId)
+                    GameLogic.getInstance().sendScores(PlayerEnum.ONE);
                     this.setUpNextLevelWrapper(); // adds button or text, then calls next level;
                 }
             } else if (GameLogic.getInstance().getScores().get(PlayerEnum.ONE) == MAX_SCORE) {
-                // TODO -- send scores to server (gameId from GameLogic -> playerGameEntity :: gameId)
+                GameLogic.getInstance().sendScores(PlayerEnum.ONE);
                 this.setUpNextLevelWrapper(); // adds button or text, then calls next level;
             } else if (GameLogic.getInstance().getScores().get(PlayerEnum.TWO) == MAX_SCORE) {
-                // TODO -- send scores to server (gameId from GameLogic -> playerGameEntity :: gameId)
+                GameLogic.getInstance().sendScores(PlayerEnum.ONE);
                 this.setUpNextLevelWrapper(); // adds button or text, then calls next level;
             }
         } catch (IllegalArgumentException ex) {

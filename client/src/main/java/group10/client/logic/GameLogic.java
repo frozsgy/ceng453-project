@@ -1,11 +1,13 @@
 package group10.client.logic;
 
+import group10.client.entity.Level;
 import group10.client.enums.Cards;
 import group10.client.enums.MatchType;
 import group10.client.enums.PlayerEnum;
 import group10.client.enums.Suits;
 import group10.client.model.Card;
 import group10.client.entity.PlayerGame;
+import group10.client.service.HTTPService;
 import javafx.scene.shape.Rectangle;
 
 import java.util.*;
@@ -223,5 +225,16 @@ public class GameLogic {
             this.scores.replace(PlayerEnum.TWO, this.scores.get(PlayerEnum.TWO) + 3);
         }
 
+    }
+
+    public void sendScores(PlayerEnum playerEnum) {
+        long gameId = this.playerGameEntity.getGame().getId();
+        long myScore = this.scores.get(playerEnum);
+        if (myScore >= -1) { // TODO -- UPDATE WITH 151
+            PlayerEnum opponent = playerEnum == PlayerEnum.ONE ? PlayerEnum.TWO : PlayerEnum.ONE;
+            long opponentScore = this.scores.get(opponent);
+            long levelScore = myScore - opponentScore;
+            HTTPService.getInstance().sendScores(new Level(gameId, levelScore));
+        }
     }
 }
