@@ -15,4 +15,8 @@ public class PasswordReset {
         this.resetCode = resetCode;
         this.username = username;
     }
+
+    public String getUsername() {
+        return username;
+    }
 }

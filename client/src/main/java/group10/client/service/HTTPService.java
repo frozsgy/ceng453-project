@@ -11,6 +11,8 @@ import group10.client.entity.Scoreboard;
 import group10.client.model.PasswordReset;
 import group10.client.model.Player;
 import group10.client.state.SessionStorage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,8 @@ import java.util.Map;
 
 @Service
 public class HTTPService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(HTTPService.class);
 
     @Value("${spring.application.api-address}")
     private String apiAddress;
@@ -40,6 +44,7 @@ public class HTTPService {
     public static HTTPService getInstance() {
         if (instance == null) {
             instance = new HTTPService();
+            LOGGER.info("Singleton HTTPService created");
         }
         return instance;
     }
@@ -71,11 +76,9 @@ public class HTTPService {
             String token = response.getBody(); // store it somewhere
             SessionStorage.getInstance().setToken(token);
             SessionStorage.getInstance().setUsername(player.getUsername());
-            System.out.println("Success!");
+            LOGGER.info("Successful login: " + player.getUsername());
         } catch (HttpServerErrorException e) {
-            // invalid credientials.
-            // debug data
-            System.out.println("Invalid credientials");
+            LOGGER.info("Unsuccessful login with invalid credentials: " + player.getUsername());
             return false;
         }
         return true;
@@ -87,8 +90,10 @@ public class HTTPService {
         try {
             String path = API + ServerFolders.REGISTER_PATH;
             ResponseEntity<String> response = restTemplate.exchange(path, HttpMethod.POST, entity, String.class);
+            LOGGER.info("Successful register: " + player.getUsername());
         } catch (HttpServerErrorException e) {
             Map<String, String> messagePair = gson.fromJson(e.getResponseBodyAsString(), Map.class);
+            LOGGER.info("Unsuccessful register: " + player.getUsername());
             return messagePair.get(SERVER_ERROR_MSG_KEY);
         }
         return UiInfoConstants.EMPTY_STRING;
@@ -102,11 +107,13 @@ public class HTTPService {
             ResponseEntity<Boolean> response = restTemplate.exchange(path, HttpMethod.POST, entity, Boolean.class);
             boolean body = response.getBody();
             if (!body) {
+                LOGGER.info("Error during password reset - user not found");
                 return UiInfoConstants.USER_NOT_FOUND;
             }
         } catch (HttpServerErrorException e) {
-            System.out.println("Error");
+            LOGGER.info("Error during password reset");
         }
+        LOGGER.info("Password reset request for " + emailContainer.getUsername());
         return UiInfoConstants.EMPTY_STRING;
     }
 
@@ -118,12 +125,15 @@ public class HTTPService {
             ResponseEntity<Boolean> response = restTemplate.exchange(path, HttpMethod.PUT, entity, Boolean.class);
             boolean body = response.getBody();
             if (!body) {
+                LOGGER.info("Error during password reset - code mismatch");
                 return UiInfoConstants.CODE_DONT_MATCH_MESSAGE;
             }
         } catch (HttpServerErrorException e) {
             Map<String, String> messagePair = gson.fromJson(e.getResponseBodyAsString(), Map.class);
+            LOGGER.info("Error during password reset");
             return messagePair.get(SERVER_ERROR_MSG_KEY);
         }
+        LOGGER.info("Password reset for " + resetForm.getUsername());
         return UiInfoConstants.EMPTY_STRING;
     }
 
@@ -148,6 +158,7 @@ public class HTTPService {
     }
 
     public String startNewGame() {
+        LOGGER.info("New Game request from " + SessionStorage.getInstance().getUsername());
         return this.getRequest(API + ServerFolders.NEW_GAME_PATH);
     }
 
@@ -156,6 +167,7 @@ public class HTTPService {
         HttpEntity<String> entity = initEntity(true, json);
         String path = API + ServerFolders.SEND_SCORE_PATH;
         ResponseEntity<PlayerGame> response = restTemplate.exchange(path, HttpMethod.POST, entity, PlayerGame.class);
+        LOGGER.info("Score submission from " + SessionStorage.getInstance().getUsername() + " - Game: " + level.getGame() + " - Score: " + level.getScore());
         return response.getBody();
     }
 
