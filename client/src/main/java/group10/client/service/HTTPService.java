@@ -126,6 +126,7 @@ public class HTTPService {
     }
 
     public String updatePassword(PasswordReset resetForm) {
+        resetForm.setPassword(this.getSHA256(resetForm.getPassword()));
         String json = gson.toJson(resetForm);
         HttpEntity<String> entity = initEntity(false, json);
         try {
