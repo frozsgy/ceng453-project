@@ -123,7 +123,7 @@ public class GameController implements Initializable {
             try{
                 bottomAnchorPane.getChildren().add(currentCards.get(i));
             } catch (IllegalArgumentException e) {
-                LOGGER.info("First initalization of card " + (i + 1));
+                LOGGER.info("First initialization of card " + (i + 1));
             }
             currentCards.get(i).setLayoutX(LEFTMOST_CARD_X + i * HORIZONTAL_CARD_SPACING);
             currentCards.get(i).setLayoutY(PLAYER_CARD_Y);
