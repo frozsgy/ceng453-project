@@ -1,6 +1,7 @@
 package group10.client.logic;
 
 import group10.client.enums.Cards;
+import group10.client.enums.MatchType;
 import group10.client.enums.PlayerEnum;
 import group10.client.enums.Suits;
 import group10.client.model.Card;
@@ -126,40 +127,45 @@ public class GameLogic {
         this.scores.replace(player, currentScore + score);
     }
 
-    public boolean checkIfMatch(Card candidateCard, PlayerEnum player) {
-        this.playerCards.get(player).remove(candidateCard);
+    public MatchType getMatchType(Card candidateCard) {
         if (this.middle.isEmpty()) {
-            return false;
+            return MatchType.NO;
         }
         Card topCard = this.middle.peek();
         System.out.println("check if match - " + candidateCard + " - top : " + topCard);
         if (this.middle.size() == 1 && candidateCard.getCard().equals(topCard.getCard())) {
             if (candidateCard.getCard() == Cards.JACK) {
-                // double pişti :: 20 points
-                this.addScoreToPlayer(player, DOUBLE_PISTI);
+                return MatchType.DOUBLE_PISTI;
             } else {
-                // pişti :: 10 points
-                this.middle.push(candidateCard);
-                int stackScore = this.calculateStackScore(); // pişti with aces, and other special cards
-                this.addScoreToPlayer(player, stackScore + PISTI);
+                return MatchType.PISTI;
             }
-            this.middle.clear();
-            System.out.println("score for " + player + ": " + this.scores.get(player));
-            this.lastWinner = player;
-            return true;
         } else if (candidateCard.getCard().equals(topCard.getCard()) || candidateCard.getCard() == Cards.JACK) {
-            // empty stack and calculate scores, and save scores
-            this.middle.push(candidateCard);
-            int stackScore = this.calculateStackScore();
-            this.addScoreToPlayer(player, stackScore);
-            this.middle.clear();
-            System.out.println("score for " + player + ": " + this.scores.get(player));
-            this.lastWinner = player;
-            return true;
+            return MatchType.REGULAR;
         } else {
-            return false;
+            return MatchType.NO;
         }
     }
+
+    public boolean handleThrow(Card candidateCard, PlayerEnum player) {
+        MatchType matchType = this.getMatchType(candidateCard);
+        this.middle.push(candidateCard);
+        if (matchType != MatchType.NO) {
+            this.lastWinner = player;
+            int stackScore = this.calculateStackScore();
+            if (matchType == MatchType.REGULAR) {
+                this.addScoreToPlayer(player, stackScore);
+            } else if (matchType == MatchType.PISTI) {
+                this.addScoreToPlayer(player, stackScore + PISTI);
+            } else {
+                this.addScoreToPlayer(player, DOUBLE_PISTI);
+            }
+            System.out.println("score for " + player + ": " + this.scores.get(player));
+            this.middle.clear();
+            return true;
+        }
+        return false;
+    }
+
 
     public int calculateStackScore() {
         // LevelThreeStrategy uses this method, be careful when changing it.
