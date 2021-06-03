@@ -457,7 +457,6 @@ public class GameController implements Initializable {
             Rectangle pressed = (Rectangle) ((Node) event.getTarget());
 
             this.controlPlayer(pressed);
-            // TODO -- add a pause to let the player thinks the AI is thinking
             GameLogic.getInstance().setCurrentPlayer(PlayerEnum.TWO);
             this.bluffed = this.controlOpponent();
             this.setMidCount();
