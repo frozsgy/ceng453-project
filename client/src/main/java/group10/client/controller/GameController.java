@@ -1,6 +1,5 @@
 package group10.client.controller;
 
-import com.google.gson.Gson;
 import group10.client.constants.GameConstants;
 import group10.client.constants.UiConstants;
 import group10.client.enums.Cards;
@@ -8,8 +7,6 @@ import group10.client.enums.PlayerEnum;
 import group10.client.enums.Suits;
 import group10.client.logic.GameLogic;
 import group10.client.model.Card;
-import group10.client.entity.PlayerGame;
-import group10.client.service.HTTPService;
 import group10.client.utility.UIUtility;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,7 +20,6 @@ import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.ImagePattern;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Text;
@@ -35,20 +31,15 @@ import org.springframework.stereotype.Component;
 import java.net.URL;
 import java.util.*;
 
-import static group10.client.constants.UiConstants.CARD_BACK_IMAGE;
+import static group10.client.constants.GameConstants.LAST_ROUND;
+import static group10.client.constants.GameConstants.MAX_SCORE;
+import static group10.client.constants.UiConstants.*;
 
 @Component
 public class GameController implements Initializable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GameController.class);
-    private static final double LEFTMOST_CARD_X = 81;
-    private static final double PLAYER_CARD_Y = 86;
-    private static final double ENEMY_CARD_Y = 0;
-    private static final double HORIZONTAL_CARD_SPACING = 174;
-    private static final int LAST_ROUND = 3;
-    private static final int MAX_SCORE = 151;
-    private static final Paint WHITE = Paint.valueOf("WHITE");
-    private static final Paint BLACK = Paint.valueOf("BLACK");
+
     @FXML
     private Text levelText;
     @FXML
@@ -109,10 +100,10 @@ public class GameController implements Initializable {
             try{
                 upperAnchorPane.getChildren().add(opponentCards.get(i));
             } catch (IllegalArgumentException e) {
-                LOGGER.info("First initalization of enemy card " + (i + 1));
+                LOGGER.info("First initialization of enemy card " + (i + 1));
             }
             opponentCards.get(i).setLayoutX(LEFTMOST_CARD_X + i * HORIZONTAL_CARD_SPACING);
-            opponentCards.get(i).setLayoutY(ENEMY_CARD_Y);
+            opponentCards.get(i).setLayoutY(UiConstants.ENEMY_CARD_Y);
         }
     }
 
@@ -358,10 +349,9 @@ public class GameController implements Initializable {
             GameLogic.getInstance().addScoreToPlayer(PlayerEnum.TWO, GameLogic.DOUBLE_PISTI);
             this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.TWO));
         } else {
-            Card hiddenCard = bluffed;
-            Rectangle r = GameLogic.getRectangleByCard(this.cardMappings, hiddenCard);
+            Rectangle r = GameLogic.getRectangleByCard(this.cardMappings, bluffed);
             this.setRectangleVisible(r);
-            this.drawCardInsideRectangle(r, hiddenCard);
+            this.drawCardInsideRectangle(r, bluffed);
             GameLogic.getInstance().addScoreToPlayer(PlayerEnum.ONE, GameLogic.DOUBLE_PISTI);
             this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.ONE));
             GameLogic.getInstance().getMiddle().push(candidate);
@@ -410,7 +400,7 @@ public class GameController implements Initializable {
         return bluffed;
     }
 
-    private void rejectBluf() {
+    private void rejectBluff() {
         this.challengeButton.setVisible(false);
         GameLogic.getInstance().getMiddle().clear();
         this.setMidCount();
@@ -429,7 +419,7 @@ public class GameController implements Initializable {
         try {
             if (this.bluffed) {
                 this.bluffed = false;
-                this.rejectBluf();
+                this.rejectBluff();
             }
             Rectangle pressed = (Rectangle) ((Node) event.getTarget());
             this.controlPlayer(pressed);
