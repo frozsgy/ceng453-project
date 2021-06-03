@@ -164,6 +164,7 @@ public class GameLogic {
         int score = 0;
         while (!this.middle.isEmpty()) {
             Card pop = this.middle.get(this.middle.size() - 1);
+            this.middle.remove(this.middle.size() - 1);
             Cards card = pop.getCard();
             Suits suit = pop.getSuit();
             if (card == Cards.JACK || card == Cards.ACE) {
@@ -197,6 +198,7 @@ public class GameLogic {
         List<Card> cards = this.playerCards.get(this.lastWinner);
         while (!this.middle.isEmpty()) {
             Card pop = this.middle.get(this.middle.size() - 1);
+            this.middle.remove(this.middle.size() - 1);
             cards.add(pop);
         }
         this.playerCards.replace(this.lastWinner, cards);
