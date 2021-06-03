@@ -254,20 +254,23 @@ public class GameController implements Initializable {
     }
 
     private void setUpNextLevel() {
-        round++;
-        GameLogic.getInstance().resetFields();
-        setLevelText();
-        this.bottomAnchorPane.getChildren().clear();
-        this.upperAnchorPane.getChildren().clear();
-        this.midStack.getChildren().clear();
-        this.setEnemyScore(0);
-        this.setPlayerScore(0);
-        this.initOpponentCards();
-        this.shuffleCards();
-        this.initPlayerCards();
-        this.initStack();
-        this.drawAllCards();
-        GameLogic.getInstance().setAiStrategy(round);
+        if (round < 3) {
+            round++;
+            GameLogic.getInstance().resetFields();
+            setLevelText();
+            this.bottomAnchorPane.getChildren().clear();
+            this.upperAnchorPane.getChildren().clear();
+            this.midStack.getChildren().clear();
+            this.setEnemyScore(0);
+            this.setPlayerScore(0);
+            this.initOpponentCards();
+            this.shuffleCards();
+            this.initPlayerCards();
+            this.initStack();
+            this.drawAllCards();
+            GameLogic.getInstance().setAiStrategy(round);
+        }
+
     }
 
     private void setPlayerScore(int score) {
