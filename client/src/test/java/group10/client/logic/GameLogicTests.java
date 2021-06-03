@@ -27,7 +27,7 @@ public class GameLogicTests {
     @DisplayName("Score Calculation - JACKS")
     @Order(1)
     void scoreTestJack() {
-        ArrayList<Card> middle = GameLogic.getInstance().getMiddle();
+        Stack<Card> middle = GameLogic.getInstance().getMiddle();
         middle.add(new Card(Cards.JACK, Suits.DIAMOND));
         middle.add(new Card(Cards.FIVE, Suits.DIAMOND));
         middle.add(new Card(Cards.JACK, Suits.CLUB));
@@ -40,10 +40,10 @@ public class GameLogicTests {
     @DisplayName("Score Calculation - ACES")
     @Order(2)
     void scoreTestAce() {
-        ArrayList<Card> middle = GameLogic.getInstance().getMiddle();
-        middle.add(new Card(Cards.ACE, Suits.DIAMOND));
-        middle.add(new Card(Cards.FIVE, Suits.DIAMOND));
-        middle.add(new Card(Cards.ACE, Suits.CLUB));
+        Stack<Card> middle = GameLogic.getInstance().getMiddle();
+        middle.push(new Card(Cards.ACE, Suits.DIAMOND));
+        middle.push(new Card(Cards.FIVE, Suits.DIAMOND));
+        middle.push(new Card(Cards.ACE, Suits.CLUB));
         GameLogic instance = GameLogic.getInstance();
         int scores = instance.calculateStackScore();
         assertEquals(scores, 2);
@@ -53,10 +53,10 @@ public class GameLogicTests {
     @DisplayName("Score Calculation - Two of Clubs")
     @Order(3)
     void scoreTestTwoOfClubs() {
-        ArrayList<Card> middle = GameLogic.getInstance().getMiddle();
-        middle.add(new Card(Cards.ACE, Suits.DIAMOND));
-        middle.add(new Card(Cards.FIVE, Suits.DIAMOND));
-        middle.add(new Card(Cards.TWO, Suits.CLUB));
+        Stack<Card> middle = GameLogic.getInstance().getMiddle();
+        middle.push(new Card(Cards.ACE, Suits.DIAMOND));
+        middle.push(new Card(Cards.FIVE, Suits.DIAMOND));
+        middle.push(new Card(Cards.TWO, Suits.CLUB));
         GameLogic instance = GameLogic.getInstance();
         int scores = instance.calculateStackScore();
         assertEquals(scores, 3);
@@ -66,10 +66,10 @@ public class GameLogicTests {
     @DisplayName("Score Calculation - Two of Clubs")
     @Order(4)
     void scoreTestTenOfDiamonds() {
-        ArrayList<Card> middle = GameLogic.getInstance().getMiddle();
-        middle.add(new Card(Cards.ACE, Suits.DIAMOND));
-        middle.add(new Card(Cards.TEN, Suits.DIAMOND));
-        middle.add(new Card(Cards.TWO, Suits.CLUB));
+        Stack<Card> middle = GameLogic.getInstance().getMiddle();
+        middle.push(new Card(Cards.ACE, Suits.DIAMOND));
+        middle.push(new Card(Cards.TEN, Suits.DIAMOND));
+        middle.push(new Card(Cards.TWO, Suits.CLUB));
         GameLogic instance = GameLogic.getInstance();
         int scores = instance.calculateStackScore();
         assertEquals(scores, 6);

@@ -11,7 +11,7 @@ import java.util.*;
 
 public class GameLogic {
 
-    private ArrayList<Card> middle;
+    private Stack<Card> middle;
     private PlayerEnum lastWinner = PlayerEnum.NULL;
     private Map<PlayerEnum, Integer> scores;
     private Map<PlayerEnum, List<Card>> playerCards;
@@ -30,7 +30,7 @@ public class GameLogic {
     }
 
     public void resetFields() {
-        this.middle = new ArrayList<>();
+        this.middle = new Stack<>();
         this.scores = new HashMap<>();
         this.scores.put(PlayerEnum.ONE, 0);
         this.scores.put(PlayerEnum.TWO, 0);
@@ -61,11 +61,11 @@ public class GameLogic {
         this.playerCards = playerCards;
     }
 
-    public ArrayList<Card> getMiddle() {
+    public Stack<Card> getMiddle() {
         return middle;
     }
 
-    public void setMiddle(ArrayList<Card> middle) {
+    public void setMiddle(Stack<Card> middle) {
         this.middle = middle;
     }
 
@@ -120,7 +120,7 @@ public class GameLogic {
         if (this.middle.isEmpty()) {
             return false;
         }
-        Card topCard = this.middle.get(this.middle.size() - 1);
+        Card topCard = this.middle.peek();
         Integer currentScore = this.scores.get(player);
         System.out.println("check if match - " + candidateCard + " - top : " + topCard);
         if (this.middle.size() == 1 && candidateCard.getCard().equals(topCard.getCard())) {
@@ -129,7 +129,7 @@ public class GameLogic {
                 this.scores.replace(player, currentScore + 20);
             } else {
                 // pişti :: 10 points
-                this.middle.add(candidateCard);
+                this.middle.push(candidateCard);
                 int stackScore = this.calculateStackScore(); // pişti with aces, and other special cards
                 this.scores.replace(player, currentScore + 10 + stackScore);
             }
@@ -139,7 +139,7 @@ public class GameLogic {
             return true;
         } else if (candidateCard.getCard().equals(topCard.getCard()) || candidateCard.getCard() == Cards.JACK) {
             // empty stack and calculate scores, and save scores
-            this.middle.add(candidateCard);
+            this.middle.push(candidateCard);
             int stackScore = this.calculateStackScore();
             this.scores.replace(player, currentScore + stackScore);
             this.middle.clear();
@@ -163,8 +163,7 @@ public class GameLogic {
         // double pisti -- 20
         int score = 0;
         while (!this.middle.isEmpty()) {
-            Card pop = this.middle.get(this.middle.size() - 1);
-            this.middle.remove(this.middle.size() - 1);
+            Card pop = this.middle.pop();
             Cards card = pop.getCard();
             Suits suit = pop.getSuit();
             if (card == Cards.JACK || card == Cards.ACE) {
@@ -197,8 +196,7 @@ public class GameLogic {
         int stackScore = this.calculateStackScore();
         List<Card> cards = this.playerCards.get(this.lastWinner);
         while (!this.middle.isEmpty()) {
-            Card pop = this.middle.get(this.middle.size() - 1);
-            this.middle.remove(this.middle.size() - 1);
+            Card pop = this.middle.pop();
             cards.add(pop);
         }
         this.playerCards.replace(this.lastWinner, cards);

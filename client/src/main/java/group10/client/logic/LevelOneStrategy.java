@@ -23,7 +23,7 @@ public class LevelOneStrategy extends AiStrategy{
         Pair<Rectangle, Card> pair = new Pair<>(r, card);
         return pair;
     }
-    public LevelOneStrategy(Map<PlayerEnum, List<Card>> playerCards, ArrayList<Card> middle) {
+    public LevelOneStrategy(Map<PlayerEnum, List<Card>> playerCards, Stack<Card> middle) {
         super(playerCards, middle);
     }
 }
