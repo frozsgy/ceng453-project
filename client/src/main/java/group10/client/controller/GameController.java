@@ -83,7 +83,7 @@ public class GameController implements Initializable {
         this.thirdLevelScorePosted = false;
         this.leaveButton.setFocusTraversable(false);
         this.round = 0;
-        this.setUpNextLevel(); // set up level 1
+        this.setUpNextLevel(false); // set up level 1
         this.bluffed = false;
     }
 
@@ -265,20 +265,46 @@ public class GameController implements Initializable {
         this.midStack.getChildren().clear();
     }
 
-    private void setUpNextLevel() {
+    private void setUpNextLevel(boolean continued) {
+        int playerScore = GameLogic.getInstance().getScores().get(PlayerEnum.ONE);
+        int enemyScore = GameLogic.getInstance().getScores().get(PlayerEnum.TWO);
         if (round == LAST_ROUND && !thirdLevelScorePosted) {
-            thirdLevelScorePosted = true;
-            GameLogic.getInstance().sendScores();
+            if (playerScore >= MAX_SCORE || enemyScore >= MAX_SCORE) {
+                thirdLevelScorePosted = true;
+                GameLogic.getInstance().sendScores();
+            } else {
+                GameLogic.getInstance().resetFields();
+                setLevelText();
+                this.clearView();
+                this.setEnemyScore(enemyScore);
+                    this.setPlayerScore(playerScore);
+
+                this.initOpponentCards();
+                this.shuffleCards();
+                this.initPlayerCards();
+                this.initStack();
+                this.drawAllCards();
+                GameLogic.getInstance().setAiStrategy(round);
+                this.setMidCount();
+            }
         } else if (round < LAST_ROUND) {
-            if (this.round != 0) {
+            if (this.round != 0 && !continued) {
                 GameLogic.getInstance().sendScores();
             }
-            round++;
+            if (!continued) {
+                round++;
+                GameLogic.getInstance().resetScores();
+            }
             GameLogic.getInstance().resetFields();
             setLevelText();
             this.clearView();
-            this.setEnemyScore(0);
-            this.setPlayerScore(0);
+            if (!continued) {
+                this.setEnemyScore(0);
+                this.setPlayerScore(0);
+            } else {
+                this.setEnemyScore(enemyScore);
+                this.setPlayerScore(playerScore);
+            }
             this.initOpponentCards();
             this.shuffleCards();
             this.initPlayerCards();
@@ -313,7 +339,7 @@ public class GameController implements Initializable {
                     GameLogic.getInstance().getMiddle().clear();
                     _instance.setMidCount();
                 } else {
-                    _instance.setUpNextLevel();
+                    _instance.setUpNextLevel(false);
                 }
             }
         }
@@ -328,7 +354,7 @@ public class GameController implements Initializable {
     private void setUpNextLevelWrapper() {
         if (this.round < LAST_ROUND) {
             Button button = new Button("Next Level");
-            button.setOnAction(e -> this.setUpNextLevel());
+            button.setOnAction(e -> this.setUpNextLevel(false));
             this.midStack.getChildren().add(button);
         } else if (this.round == LAST_ROUND) {
             this.challengeButton.setVisible(false);
@@ -437,10 +463,16 @@ public class GameController implements Initializable {
                     GameLogic.getInstance().giveMidStackCardsToLastWinner();
                     this.midStack.getChildren().clear();
                     this.setMidCount();
-                    this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.ONE));
-                    this.setEnemyScore(GameLogic.getInstance().getScores().get(PlayerEnum.TWO));
+                    int playerScore = GameLogic.getInstance().getScores().get(PlayerEnum.ONE);
+                    int enemyScore = GameLogic.getInstance().getScores().get(PlayerEnum.TWO);
+                    this.setPlayerScore(playerScore);
+                    this.setEnemyScore(enemyScore);
                     LOGGER.info("end level " + this.round);
-                    this.setUpNextLevelWrapper(); // adds button or text, then calls next level;
+                    if (playerScore < 151 && enemyScore < 151) {
+                        this.setUpNextLevel(true);
+                    } else {
+                        this.setUpNextLevelWrapper(); // adds button or text, then calls next level;
+                    }
                 }
             } else if (GameLogic.getInstance().getScores().get(PlayerEnum.ONE) == MAX_SCORE) {
                 this.setUpNextLevelWrapper(); // adds button or text, then calls next level;

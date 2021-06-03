@@ -38,14 +38,19 @@ public class GameLogic {
 
     public void resetFields() {
         this.middle = new Stack<>();
-        this.scores = new HashMap<>();
-        this.scores.put(PlayerEnum.ONE, 0);
-        this.scores.put(PlayerEnum.TWO, 0);
         this.playerCards = new HashMap<>();
         this.playerCards.put(PlayerEnum.ONE, new ArrayList<>());
         this.playerCards.put(PlayerEnum.TWO, new ArrayList<>());
     }
+
+    public void resetScores() {
+        this.scores = new HashMap<>();
+        this.scores.put(PlayerEnum.ONE, 0);
+        this.scores.put(PlayerEnum.TWO, 0);
+    }
+
     private GameLogic() {
+        this.resetScores();
         this.resetFields();
         this.setAiStrategy(1);
     }
