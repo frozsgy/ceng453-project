@@ -267,7 +267,6 @@ public class GameController implements Initializable {
         if (round == LAST_ROUND && !thirdLevelScorePosted) {
             thirdLevelScorePosted = true;
             // TODO post score here in a seperate method!
-
         } else if (round < LAST_ROUND) {
             // TODO post score here in a seperate method!
             round++;
@@ -284,7 +283,6 @@ public class GameController implements Initializable {
             GameLogic.getInstance().setAiStrategy(round);
             this.setMidCount();
         }
-
     }
 
     private void setPlayerScore(int score) {
@@ -414,11 +412,6 @@ public class GameController implements Initializable {
 
     @FXML
     protected void throwCard(MouseEvent event) {
-        /**
-         * TODO
-         * implement game logic. This currently updates view for the playing player.
-         * We also need to make a connection between Rectangle and Cards
-         */
         try {
             if (this.bluffed) {
                 this.bluffed = false;
@@ -452,8 +445,6 @@ public class GameController implements Initializable {
                 // TODO -- send scores to server (gameId from GameLogic -> playerGameEntity :: gameId)
                 this.setUpNextLevelWrapper(); // adds button or text, then calls next level;
             }
-
-
         } catch (IllegalArgumentException ex) {
             LOGGER.warn("Already played");
         }

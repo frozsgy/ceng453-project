@@ -36,7 +36,6 @@ public class HomeController implements Initializable {
     private Button buttonLogout;
     @FXML
     private Text helloText;
-
     @FXML
     private StackPane homeStackPane;
     @FXML
@@ -47,7 +46,6 @@ public class HomeController implements Initializable {
         String username = SessionStorage.getInstance().getUsername();
         this.helloText.setText("Hello, " + username + "!");
     }
-
 
     @FXML
     protected void navigateToNewGame(ActionEvent event) {
