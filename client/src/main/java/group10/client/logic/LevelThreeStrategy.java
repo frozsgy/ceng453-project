@@ -55,6 +55,7 @@ public class LevelThreeStrategy extends AiStrategy {
                 }
             }
         }
+        hasBluffed = false;
         Stack<Card> originalMiddle = (Stack<Card>) this.middle.clone();
         int score = 0;
         Card bestCard = null;

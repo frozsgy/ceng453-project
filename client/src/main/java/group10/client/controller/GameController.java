@@ -357,6 +357,23 @@ public class GameController implements Initializable {
         }
     }
 
+    private void handleRealBlufForPlayer(PlayerEnum bluffer, Card candidate) {
+        this.midStack.getChildren().clear(); // clear mid view.
+        GameLogic.getInstance().getMiddle().clear(); // clear middle.
+        this.setMidCount(); // update mid count.
+        if (candidate.getCard() == Cards.JACK) {
+            GameLogic.getInstance().addScoreToPlayer(bluffer, GameConstants.DOUBLE_PISTI); // double for jack
+        }
+        GameLogic.getInstance().addScoreToPlayer(bluffer, GameConstants.DOUBLE_PISTI); // give points to ai.
+        if (bluffer == PlayerEnum.ONE) {
+            LOGGER.info("Your bluff was real.");
+            this.setPlayerScore(GameLogic.getInstance().getScores().get(bluffer)); // update ai score.
+        } else {
+            LOGGER.info("AI bluff was real.");
+            this.setEnemyScore(GameLogic.getInstance().getScores().get(bluffer)); // update ai score.
+        }
+    }
+
     @FXML
     private void acceptChallenge(ActionEvent e) {
         LOGGER.info("Challenge accepted");
@@ -366,15 +383,7 @@ public class GameController implements Initializable {
         Card candidate = GameLogic.getInstance().getMiddle().pop(); // get prev card.
         if (candidate.getCard() == bluffed.getCard()) {
             // bluff was real
-            LOGGER.info("Bluff was real.");
-            this.midStack.getChildren().clear(); // clear mid view.
-            GameLogic.getInstance().getMiddle().clear(); // clear middle.
-            this.setMidCount(); // update mid count.
-            if (candidate.getCard() == Cards.JACK) {
-                GameLogic.getInstance().addScoreToPlayer(PlayerEnum.TWO, GameConstants.DOUBLE_PISTI); // double for jack
-            }
-            GameLogic.getInstance().addScoreToPlayer(PlayerEnum.TWO, GameConstants.DOUBLE_PISTI); // give points to ai.
-            this.setEnemyScore(GameLogic.getInstance().getScores().get(PlayerEnum.TWO)); // update ai score.
+            this.handleRealBlufForPlayer(PlayerEnum.TWO, candidate);
         } else {
             // bluff was fake.
             LOGGER.info("Bluff was fake.");
@@ -468,15 +477,7 @@ public class GameController implements Initializable {
                     Card candidate = GameLogic.getInstance().getMiddle().pop(); // get prev card.
                     if (candidate.getCard() == bluffed.getCard()) {
                         // bluff was real
-                        LOGGER.info("Your Bluff was real.");
-                        this.midStack.getChildren().clear(); // clear mid view.
-                        GameLogic.getInstance().getMiddle().clear(); // clear middle.
-                        this.setMidCount(); // update mid count.
-                        if (candidate.getCard() == Cards.JACK) {
-                            GameLogic.getInstance().addScoreToPlayer(PlayerEnum.ONE, GameConstants.DOUBLE_PISTI); // double for jack
-                        }
-                        GameLogic.getInstance().addScoreToPlayer(PlayerEnum.ONE, GameConstants.DOUBLE_PISTI); // give points to ai.
-                        this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.ONE)); // update ai score.
+                        this.handleRealBlufForPlayer(PlayerEnum.ONE, candidate);
                         this.controlOpponent();
                         this.setMidCount();
                         this.serveHand();
