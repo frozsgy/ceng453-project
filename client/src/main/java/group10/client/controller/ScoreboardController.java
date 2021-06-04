@@ -231,7 +231,7 @@ public class ScoreboardController implements Initializable {
         switch (radioId) {
             case "radio7" -> ScoreboardStorage.getInstance().setInterval(7);
             case "radio30" -> ScoreboardStorage.getInstance().setInterval(30);
-            default -> ScoreboardStorage.getInstance().setInterval(100 * 365); // TODO -- all time is a hundred years now
+            default -> ScoreboardStorage.getInstance().setInterval(100 * 365);
         }
         this.updateComboboxValues();
         pageCombo.getSelectionModel().select(0);
