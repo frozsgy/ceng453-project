@@ -70,9 +70,19 @@ We made use of the Singleton Pattern in our project on several occasions.
 * Minimizing overhead: Keeping only one copy of a class helped us with not having excess overhead due to creating and destroying the same objects over again and again.
 
 
-# Password Encryption
+# Password Encryption and Security
 
-TODO -- Specify which encryption technique you utilized in the general documentation.
+To ensure maximum security, we have used different encryption and hash technologies to store and transfer passwords of the users. We never transfer or store plaintext passwords within our system.
+
+## Frontend Client
+
+When a user tries to register or login using the frontend client, the password gets hashed through SHA-256 and then sent to the backend.
+
+## Backend Client
+
+When the backend receives a request with a hashed password, it encodes the hashed password with BCrypt and then stores it.
+
+
 
 # Documentation
 
