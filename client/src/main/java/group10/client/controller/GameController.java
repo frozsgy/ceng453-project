@@ -9,6 +9,8 @@ import group10.client.logic.GameLogic;
 import group10.client.model.Card;
 import group10.client.state.SessionStorage;
 import group10.client.utility.UIUtility;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -89,6 +91,18 @@ public class GameController implements Initializable {
         this.round = 0;
         this.setUpNextLevel(false); // set up level 1
         this.AiBluffed = false;
+        this.enableAutoScroll();
+    }
+
+    private void enableAutoScroll() {
+        logArea.textProperty().addListener(new ChangeListener<Object>() {
+            @Override
+            public void changed(ObservableValue<?> observable, Object oldValue,
+                                Object newValue) {
+                logArea.setScrollTop(Double.MAX_VALUE); //this will scroll to the bottom
+                //use Double.MIN_VALUE to scroll to the top
+            }
+        });
     }
 
     private void initOpponentCards() {
@@ -567,10 +581,8 @@ public class GameController implements Initializable {
     }
 
     private void logToScreen(String msg) {
-        Text t1 = new Text(msg + "\n");
         LOGGER.info(msg);
-        String currentLog = logArea.getText();
-        logArea.setText(currentLog + "\n" + msg);
+        logArea.appendText(msg + "\n");
     }
 
     public Button getChallengeButton() {
