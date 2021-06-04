@@ -56,8 +56,12 @@ public class UIUtility {
     }
 
     public static void logToScreen(String message, TextArea textArea, Logger LOGGER) {
-        LOGGER.info(message);
-        textArea.appendText(message + "\n");
+        if (LOGGER != null) {
+            LOGGER.info(message);
+        }
+        if (textArea != null) {
+            textArea.appendText(message + "\n");
+        }
     }
 
     public static void centerScene(double width, double height) {
