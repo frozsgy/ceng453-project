@@ -482,7 +482,7 @@ public class GameController implements Initializable {
                 // TODO -- bluff
                 Random rand = new Random();
                 int accepted = 0;
-                int headsTail = rand.nextInt();
+                int headsTail = rand.nextInt(2);
                 this.bottomAnchorPane.getChildren().remove(pressed.getParent());
                 currentCards.remove(pressed); // remove card from hand.
                 if (headsTail == accepted) {
