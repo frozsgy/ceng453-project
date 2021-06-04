@@ -16,6 +16,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.Array;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
@@ -97,6 +98,35 @@ public class GameLogicTests {
         scores = GameLogic.getInstance().getScores();
         assertEquals(scores.get(PlayerEnum.ONE), 15);
         assertEquals(scores.get(PlayerEnum.TWO), 22 + 3 + 6);
+    }
+
+    @Test
+    @DisplayName("Give No Points for Equal Number of Cards ")
+    @Order(6)
+    void equalNumberOfCards() {
+        Stack<Card> middle = GameLogic.getInstance().getMiddle();
+        GameLogic.getInstance().setLastWinner(PlayerEnum.TWO);
+        GameLogic.getInstance().setCurrentPlayer(PlayerEnum.TWO);
+        Map<PlayerEnum, Integer> scores = GameLogic.getInstance().getScores();
+        scores.replace(PlayerEnum.ONE, 15);
+        scores.replace(PlayerEnum.TWO, 22);
+        GameLogic.getInstance().setScores(scores);
+        middle.push(new Card(Cards.ACE, Suits.DIAMOND));
+        middle.push(new Card(Cards.TEN, Suits.DIAMOND));
+        middle.push(new Card(Cards.TWO, Suits.CLUB));
+        List<Card> playerCardsList = GameLogic.getInstance().getPlayerCards().get(PlayerEnum.ONE);
+        playerCardsList.add(new Card(Cards.FIVE, Suits.DIAMOND));
+        playerCardsList.add(new Card(Cards.FOUR, Suits.DIAMOND));
+        playerCardsList.add(new Card(Cards.SIX, Suits.DIAMOND));
+        Map<PlayerEnum, List<Card>> playerCards = GameLogic.getInstance().getPlayerCards();
+        playerCards.replace(PlayerEnum.ONE, playerCardsList);
+        Map<PlayerEnum, Integer> playerCardCounts = GameLogic.getInstance().getPlayerCardCounts();
+        playerCardCounts.replace(PlayerEnum.ONE, 3);
+        GameLogic.getInstance().setPlayerCards(playerCards);
+        GameLogic.getInstance().giveMidStackCardsToLastWinner();
+        scores = GameLogic.getInstance().getScores();
+        assertEquals(scores.get(PlayerEnum.ONE), 15);
+        assertEquals(scores.get(PlayerEnum.TWO), 22 + 6);
     }
 
 
