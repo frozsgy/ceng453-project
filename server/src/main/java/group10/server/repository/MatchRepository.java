@@ -35,6 +35,7 @@ public interface MatchRepository extends JpaRepository<Match, Long> {
      * @param pageable Pageable object for pagination
      * @return Page of Scoreboard
      */
+    // TODO -- union, views, stored procedure or function
     @Query(value = "SELECT (l1.Score + 2 * l2.Score + 3 * l3.Score + 10 * l4.Score) AS Score, r.player_id AS UserId, p.username AS Username, " +
             "l1.Score AS LevelOne, l2.Score AS LevelTwo, l3.Score AS LevelThree, l4.Score AS LevelFour " +
             "FROM rounds r " +
