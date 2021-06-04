@@ -531,7 +531,7 @@ public class GameController implements Initializable {
                 }
             }
         } catch (IllegalArgumentException ex) {
-            LOGGER.warn("Already played");
+            logToScreen("Already played");
         }
     }
 
@@ -576,7 +576,7 @@ public class GameController implements Initializable {
             this.setMidCount();
             this.serveHand();
         } catch (IllegalArgumentException ex) {
-            LOGGER.warn("Already played");
+            logToScreen("Already played");
         }
     }
 
