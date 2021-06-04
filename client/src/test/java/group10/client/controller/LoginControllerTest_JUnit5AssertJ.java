@@ -3,6 +3,7 @@ package group10.client.controller;
 import group10.client.constants.UiConstants;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.api.FxRobot;
@@ -21,8 +22,6 @@ import java.net.URL;
 @ExtendWith(ApplicationExtension.class)
 class LoginControllerTest_JUnit5AssertJ {
 
-    private Button button;
-
     /**
      * Will be called with {@code @Before} semantics, i. e. before each test method.
      *
@@ -38,36 +37,21 @@ class LoginControllerTest_JUnit5AssertJ {
         stage.show();
     }
 
-    /**
-     * @param robot - Will be injected by the test runner.
-     */
+
     @Test
-    void should_contain_button_with_text(FxRobot robot) {
+    @DisplayName("Login Page Button Texts")
+    void loginCheckButtonTexts(FxRobot robot) {
         Button login = robot.lookup("#buttonLogin").queryAs(Button.class);
         Assertions.assertThat(login).hasText("Log In");
-        // or (lookup by css id):
-//        Assertions.assertThat(robot.lookup("#myButton").queryAs(Button.class)).hasText("click me!");
-        // or (lookup by css class):
-//        Assertions.assertThat(robot.lookup(".button").queryAs(Button.class)).hasText("click me!");
-        // or (query specific type):
-//        Assertions.assertThat(robot.lookup(".button").queryButton()).hasText("click me!");
+        Button register = robot.lookup("#buttonRegister").queryAs(Button.class);;
+        Assertions.assertThat(register).hasText("Register");
     }
 
-    /**
-     * @param robot - Will be injected by the test runner.
-     */
+
 //    @Test
     void when_button_is_clicked_text_changes(FxRobot robot) {
         // when:
         robot.clickOn(".button");
 
-        // then:
-        Assertions.assertThat(button).hasText("clicked!");
-        // or (lookup by css id):
-        Assertions.assertThat(robot.lookup("#myButton").queryAs(Button.class)).hasText("clicked!");
-        // or (lookup by css class):
-        Assertions.assertThat(robot.lookup(".button").queryAs(Button.class)).hasText("clicked!");
-        // or (query specific type)
-        Assertions.assertThat(robot.lookup(".button").queryButton()).hasText("clicked!");
     }
 }
