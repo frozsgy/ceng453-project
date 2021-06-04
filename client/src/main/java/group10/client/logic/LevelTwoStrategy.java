@@ -12,9 +12,9 @@ import java.util.Random;
 import java.util.Stack;
 
 /**
- *  @author Alperen Caykus, Mustafa Ozan Alpay
- *  Concrete class that extends abstract AiStrategy
- *  Defines behavior of AI for second level.
+ * @author Alperen Caykus, Mustafa Ozan Alpay
+ * Concrete class that extends abstract AiStrategy
+ * Defines behavior of AI for second level.
  */
 public class LevelTwoStrategy extends AiStrategy {
     /**
@@ -24,6 +24,7 @@ public class LevelTwoStrategy extends AiStrategy {
      * If finds, throws it.
      * Otherwise, selects a random card.
      * Removes the played card from its list.
+     *
      * @param cardMappings Cards and their visual Rectangle representatives.
      * @return Pair of Played card and it is visual Rectangle representation.
      */

@@ -2,6 +2,10 @@ package group10.client.entity;
 
 import java.util.Date;
 
+/**
+ * @author Alperen Caykus, Mustafa Ozan Alpay
+ * Base entity for parsing JSON responses from the server
+ */
 public class Base {
 
     private long id;

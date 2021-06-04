@@ -10,17 +10,18 @@ import java.util.Map;
 import java.util.Stack;
 
 /**
- *  @author Alperen Caykus, Mustafa Ozan Alpay
- *  Concrete class that extends abstract AiStrategy
- *  Defines behavior of AI for first level.
+ * @author Alperen Caykus, Mustafa Ozan Alpay
+ * Concrete class that extends abstract AiStrategy
+ * Defines behavior of AI for first level.
  */
 public class LevelOneStrategy extends AiStrategy {
 
     /**
-     * Overriden method to define first level behavior.
+     * Overridden method to define first level behavior.
      * As it is first level, it behaves very simple.
      * Throws card in order.
      * Removes the played card from its list.
+     *
      * @param cardMappings Cards and their visual Rectangle representatives.
      * @return Pair of Played card and it is visual Rectangle representation.
      */
@@ -35,7 +36,7 @@ public class LevelOneStrategy extends AiStrategy {
     }
 
     /**
-     * @see AiStrategy#AiStrategy(Map, Stack) 
+     * @see AiStrategy#AiStrategy(Map, Stack)
      */
     public LevelOneStrategy(Map<PlayerEnum, List<Card>> playerCards, Stack<Card> middle) {
         super(playerCards, middle);

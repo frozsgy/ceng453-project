@@ -19,8 +19,8 @@ import static group10.client.constants.GameConstants.*;
 import static group10.client.utility.UIUtility.logToScreen;
 
 /**
- *  @author Alperen Caykus, Mustafa Ozan Alpay
- *  Singleton class that manages game logic
+ * @author Alperen Caykus, Mustafa Ozan Alpay
+ * Singleton class that manages game logic
  */
 public class GameLogic {
 
@@ -68,6 +68,7 @@ public class GameLogic {
 
     /**
      * Creates a new instance if it does not exist and assigns it to instance field
+     *
      * @return Singleton instance
      */
     public static GameLogic getInstance() {
@@ -112,6 +113,7 @@ public class GameLogic {
 
     /**
      * Sets ai strategy for strategy pattern
+     *
      * @param level Current level that AI must behave accordingly.
      */
     public void setAiStrategy(int level) {
@@ -126,6 +128,7 @@ public class GameLogic {
 
     /**
      * Gets all players' cards
+     *
      * @return Player and AI cards
      */
     public Map<PlayerEnum, List<Card>> getPlayerCards() {
@@ -134,6 +137,7 @@ public class GameLogic {
 
     /**
      * Sets player cards
+     *
      * @param playerCards Cards to be set
      */
     public void setPlayerCards(Map<PlayerEnum, List<Card>> playerCards) {
@@ -142,6 +146,7 @@ public class GameLogic {
 
     /**
      * Gets cards on middle
+     *
      * @return middle
      */
     public Stack<Card> getMiddle() {
@@ -150,6 +155,7 @@ public class GameLogic {
 
     /**
      * Sets middle
+     *
      * @param middle Middle to be set
      */
     public void setMiddle(Stack<Card> middle) {
@@ -158,6 +164,7 @@ public class GameLogic {
 
     /**
      * Gets last winner
+     *
      * @return Player who won the last score
      */
     public PlayerEnum getLastWinner() {
@@ -166,6 +173,7 @@ public class GameLogic {
 
     /**
      * Sets the last winner
+     *
      * @param lastWinner Winner to be set
      */
     public void setLastWinner(PlayerEnum lastWinner) {
@@ -174,6 +182,7 @@ public class GameLogic {
 
     /**
      * Gets scores
+     *
      * @return Scores
      */
     public Map<PlayerEnum, Integer> getScores() {
@@ -182,6 +191,7 @@ public class GameLogic {
 
     /**
      * Sets scores
+     *
      * @param scores Scores to be set
      */
     public void setScores(Map<PlayerEnum, Integer> scores) {
@@ -190,6 +200,7 @@ public class GameLogic {
 
     /**
      * Gets player that has the turn.
+     *
      * @return Current playing player
      */
     public PlayerEnum getCurrentPlayer() {
@@ -198,6 +209,7 @@ public class GameLogic {
 
     /**
      * Sets current player
+     *
      * @param currentPlayer Player to be set
      */
     public void setCurrentPlayer(PlayerEnum currentPlayer) {
@@ -206,6 +218,7 @@ public class GameLogic {
 
     /**
      * Gets player entity
+     *
      * @return Player game entity
      */
     public PlayerGame getPlayerGameEntity() {
@@ -214,6 +227,7 @@ public class GameLogic {
 
     /**
      * Sets player game entity
+     *
      * @param playerGameEntity Entity to be set
      */
     public void setPlayerGameEntity(PlayerGame playerGameEntity) {
@@ -222,6 +236,7 @@ public class GameLogic {
 
     /**
      * Gets AI strategy
+     *
      * @return AI's currently assigned strategy
      */
     public AiStrategy getAiStrategy() {
@@ -230,6 +245,7 @@ public class GameLogic {
 
     /**
      * Gets player card counts
+     *
      * @return All players' card counts.
      */
     public Map<PlayerEnum, Integer> getPlayerCardCounts() {
@@ -238,6 +254,7 @@ public class GameLogic {
 
     /**
      * Sets player card counts.
+     *
      * @param playerCardCounts Counts to be set
      */
     public void setPlayerCardCounts(Map<PlayerEnum, Integer> playerCardCounts) {
@@ -246,8 +263,9 @@ public class GameLogic {
 
     /**
      * Adds score to player
+     *
      * @param player Player that score will be added to
-     * @param score Score to be added
+     * @param score  Score to be added
      */
     public void addScoreToPlayer(PlayerEnum player, int score) {
         this.lastWinner = player;
@@ -258,8 +276,9 @@ public class GameLogic {
     /**
      * Given a card, checks the card on top of middle and returns the match type with the tested card.
      * Logs card placement to a text area on screen and to console.
+     *
      * @param candidateCard Card to be tested against card on top of mid
-     * @param logArea Text area that messages are logged to
+     * @param logArea       Text area that messages are logged to
      * @return Match type of the test.
      * @see MatchType
      */
@@ -285,9 +304,10 @@ public class GameLogic {
     /**
      * Checks match type of the thrown card and adds score to player accordingly.
      * Logs it operation to text area of screen and to console.
+     *
      * @param candidateCard Card that was thrown and to be tested
-     * @param player Player who has thrown the card
-     * @param logArea Text area that log is printed to
+     * @param player        Player who has thrown the card
+     * @param logArea       Text area that log is printed to
      * @return True if there was a match. False otherwise.
      */
     public boolean handleThrow(Card candidateCard, PlayerEnum player, TextArea logArea) {
@@ -316,6 +336,7 @@ public class GameLogic {
     /**
      * Calculates and returns the score of the middle stack.
      * Also clears middle stack while doing so.
+     *
      * @return Score of middle stack.
      */
     public int calculateStackScore() {
@@ -346,6 +367,7 @@ public class GameLogic {
 
     /**
      * Returns if second player's (AI) hand empty.
+     *
      * @return True if opponent has no cards. False otherwise.
      */
     public boolean isHandEmpty() {
@@ -355,8 +377,9 @@ public class GameLogic {
 
     /**
      * Given the card, returns the rectangle that maps to it.
+     *
      * @param cardMappings Card mapping that contains all Card-Rectangle mappings.
-     * @param card Card to be searched
+     * @param card         Card to be searched
      * @return null if matching rectangle not found. Found rectangle otherwise.
      */
     public static Rectangle getRectangleByCard(Map<Rectangle, Card> cardMappings, Card card) {
