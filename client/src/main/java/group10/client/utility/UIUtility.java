@@ -16,8 +16,21 @@ import org.springframework.core.io.Resource;
 import java.io.IOException;
 import java.net.URL;
 
+/**
+ * @author Alperen Caykus, Mustafa Ozan Alpay
+ * Utility class that containts UI related helper methods.
+ * */
 public class UIUtility {
 
+    /**
+     * Navigator method to change scenes.
+     * Loads the given resource, changes the current scene to that scene,
+     * sets screen titles and displays the stage.
+     * @param stage Primary Stage
+     * @param resource Resource URL to be loaded
+     * @param title Title to be set for window.
+     * @return new Scene that was created and navigated to
+     */
     public static Scene navigateTo(Stage stage, URL resource, String title) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(resource);
@@ -35,7 +48,15 @@ public class UIUtility {
         return null;
     }
 
-
+    /**
+     * Navigator method to change scenes.
+     * Changes the current scene to new scene by loading the URL of the resource,
+     * sets screen titles and displays the stage.
+     * @param stage Primary Stage
+     * @param resource Resource that contains URL
+     * @param title Title to be set for window.
+     * @return new Scene that was created and navigated to
+     */
     public static Scene navigateTo(Stage stage, Resource resource, String title) {
         try {
             return navigateTo(stage, resource.getURL(), title);
@@ -45,16 +66,25 @@ public class UIUtility {
         return null;
     }
 
-    public static Scene navigateTo(ActionEvent event, Resource resource, String title) {
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        return UIUtility.navigateTo(stage, resource, title);
-    }
-
+    /**
+     * Changes current scene to new scene by loading the resource.
+     * @param event Event that is attached to stage. Used to retrieve the stage.
+     * @param resource Resource URL to be loaded
+     * @param title Title to be set.
+     * @return new Scene that was created and navigated to
+     */
     public static Scene navigateTo(ActionEvent event, URL resource, String title) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         return UIUtility.navigateTo(stage, resource, title);
     }
 
+    /**
+     * Given a message, logs it to console by using logger.
+     * If textArea parameter provided as not null, also logs the same message there.
+     * @param message Message to be logged.
+     * @param textArea Text area that is logs to be written.
+     * @param LOGGER Logger instance that prints the message to console.
+     */
     public static void logToScreen(String message, TextArea textArea, Logger LOGGER) {
         if (LOGGER != null) {
             LOGGER.info(message);
@@ -64,6 +94,11 @@ public class UIUtility {
         }
     }
 
+    /**
+     * Centers the window.
+     * @param width Width of window.
+     * @param height Height of window.
+     */
     public static void centerScene(double width, double height) {
         if (Screen.getPrimary() != null) {
             Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
