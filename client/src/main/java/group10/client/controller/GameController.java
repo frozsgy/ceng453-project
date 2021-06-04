@@ -1,5 +1,6 @@
 package group10.client.controller;
 
+import group10.client.StageInitializer;
 import group10.client.constants.GameConstants;
 import group10.client.constants.UiConstants;
 import group10.client.enums.Cards;
@@ -8,6 +9,7 @@ import group10.client.enums.Suits;
 import group10.client.logic.GameLogic;
 import group10.client.model.Card;
 import group10.client.state.SessionStorage;
+import group10.client.utility.PropertiesLoader;
 import group10.client.utility.UIUtility;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
@@ -515,6 +517,10 @@ public class GameController implements Initializable {
     protected void navigateToHome(ActionEvent e) {
         URL resource = getClass().getResource(UiConstants.MENU_FXML);
         Scene menu = UIUtility.navigateTo(e, resource, null);
+        Properties properties = PropertiesLoader.getProperties();
+        double width = Double.parseDouble(properties.getProperty("width"));
+        double height = Double.parseDouble(properties.getProperty("height"));
+        centerScene(width, height);
     }
 
     /**
