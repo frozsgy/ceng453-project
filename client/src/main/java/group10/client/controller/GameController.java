@@ -448,17 +448,31 @@ public class GameController implements Initializable {
         if (event.getButton() == MouseButton.PRIMARY) {
             this.throwCard(event);
         } else if (event.getButton() == MouseButton.SECONDARY) {
-            if (GameLogic.getInstance().getMiddle().size() == 1 && this.round >= LAST_ROUND) {
+            this.doBluff(event);
+        }
+    }
+
+    protected void doBluff(MouseEvent event) {
+        try{
+            if (/*GameLogic.getInstance().getMiddle().size() == 1 &&*/ this.round >= LAST_ROUND) {
+                Rectangle pressed = (Rectangle) ((Node) event.getTarget());
                 // TODO -- bluff
                 Random rand = new Random();
                 int accepted = 0;
                 int headsTail = rand.nextInt();
-                if (headsTail == accepted) {
-                    // ai challenged us
+                if (/*headsTail == accepted */ false) {
+                    // ai accepted the challenge.
                 } else {
                     // ai rejected the bluff.
+                    LOGGER.info("AI rejected the bluff");
+                    GameLogic.getInstance().addScoreToPlayer(PlayerEnum.ONE, GameConstants.PISTI); // give score to second player.
+                    this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.ONE)); //update score view.
+                    this.bottomAnchorPane.getChildren().remove(pressed.getParent());
+                    currentCards.remove(pressed); // remove card from hand.
                 }
             }
+        } catch (IllegalArgumentException ex) {
+            LOGGER.warn("Already played");
         }
     }
 
