@@ -1,13 +1,11 @@
 package group10.client.logic;
 
 
-import group10.client.entity.Game;
 import group10.client.enums.Cards;
 import group10.client.enums.MatchType;
 import group10.client.enums.PlayerEnum;
 import group10.client.enums.Suits;
 import group10.client.model.Card;
-import javafx.scene.control.TextArea;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -22,6 +20,7 @@ import java.util.Stack;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@DisplayName("Game Logic Tests")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class GameLogicTests {
 
@@ -30,10 +29,95 @@ public class GameLogicTests {
         GameLogic.getInstance().resetScores();
     }
 
+    @Test
+    @DisplayName("Reset Fields")
+    @Order(1)
+    void resetFieldsTest() {
+        this.resetGameLogic();
+        Stack<Card> middle = GameLogic.getInstance().getMiddle();
+        middle.add(new Card(Cards.JACK, Suits.DIAMOND));
+        middle.add(new Card(Cards.FIVE, Suits.DIAMOND));
+        middle.add(new Card(Cards.JACK, Suits.CLUB));
+        GameLogic.getInstance().setLastWinner(PlayerEnum.TWO);
+        GameLogic.getInstance().setCurrentPlayer(PlayerEnum.TWO);
+        Map<PlayerEnum, Integer> scores = GameLogic.getInstance().getScores();
+        scores.replace(PlayerEnum.ONE, 15);
+        scores.replace(PlayerEnum.TWO, 22);
+        GameLogic.getInstance().setScores(scores);
+        middle.push(new Card(Cards.ACE, Suits.DIAMOND));
+        middle.push(new Card(Cards.TEN, Suits.DIAMOND));
+        middle.push(new Card(Cards.TWO, Suits.CLUB));
+        List<Card> playerCardsList = GameLogic.getInstance().getPlayerCards().get(PlayerEnum.ONE);
+        playerCardsList.add(new Card(Cards.FIVE, Suits.DIAMOND));
+        playerCardsList.add(new Card(Cards.FOUR, Suits.DIAMOND));
+        playerCardsList.add(new Card(Cards.SIX, Suits.DIAMOND));
+        Map<PlayerEnum, List<Card>> playerCards = GameLogic.getInstance().getPlayerCards();
+        playerCards.replace(PlayerEnum.ONE, playerCardsList);
+        playerCardsList.add(new Card(Cards.FIVE, Suits.SPADE));
+        playerCardsList.add(new Card(Cards.FOUR, Suits.SPADE));
+        playerCardsList.add(new Card(Cards.SIX, Suits.SPADE));
+        playerCards = GameLogic.getInstance().getPlayerCards();
+        playerCards.replace(PlayerEnum.TWO, playerCardsList);
+        Map<PlayerEnum, Integer> playerCardCounts = GameLogic.getInstance().getPlayerCardCounts();
+        playerCardCounts.replace(PlayerEnum.ONE, 3);
+        GameLogic.getInstance().setPlayerCards(playerCards);
+        GameLogic.getInstance().resetFields();
+        assertTrue(GameLogic.getInstance().getMiddle().isEmpty());
+        assertTrue(GameLogic.getInstance().getPlayerCards().get(PlayerEnum.ONE).isEmpty());
+        assertTrue(GameLogic.getInstance().getPlayerCards().get(PlayerEnum.TWO).isEmpty());
+        assertEquals(GameLogic.getInstance().getPlayerCardCounts().get(PlayerEnum.ONE), 0);
+        assertEquals(GameLogic.getInstance().getPlayerCardCounts().get(PlayerEnum.TWO), 0);
+        assertEquals(GameLogic.getInstance().getScores().get(PlayerEnum.ONE), 15);
+        assertEquals(GameLogic.getInstance().getScores().get(PlayerEnum.TWO), 22);
+    }
+
+    @Test
+    @DisplayName("Reset Scores")
+    @Order(2)
+    void resetScoresTest() {
+        this.resetGameLogic();
+        Stack<Card> middle = GameLogic.getInstance().getMiddle();
+        middle.add(new Card(Cards.JACK, Suits.DIAMOND));
+        middle.add(new Card(Cards.FIVE, Suits.DIAMOND));
+        middle.add(new Card(Cards.JACK, Suits.CLUB));
+        GameLogic.getInstance().setLastWinner(PlayerEnum.TWO);
+        GameLogic.getInstance().setCurrentPlayer(PlayerEnum.TWO);
+        Map<PlayerEnum, Integer> scores = GameLogic.getInstance().getScores();
+        scores.replace(PlayerEnum.ONE, 15);
+        scores.replace(PlayerEnum.TWO, 22);
+        GameLogic.getInstance().setScores(scores);
+        middle.push(new Card(Cards.ACE, Suits.DIAMOND));
+        middle.push(new Card(Cards.TEN, Suits.DIAMOND));
+        middle.push(new Card(Cards.TWO, Suits.CLUB));
+        List<Card> playerCardsList = GameLogic.getInstance().getPlayerCards().get(PlayerEnum.ONE);
+        playerCardsList.add(new Card(Cards.FIVE, Suits.DIAMOND));
+        playerCardsList.add(new Card(Cards.FOUR, Suits.DIAMOND));
+        playerCardsList.add(new Card(Cards.SIX, Suits.DIAMOND));
+        Map<PlayerEnum, List<Card>> playerCards = GameLogic.getInstance().getPlayerCards();
+        playerCardsList.add(new Card(Cards.FIVE, Suits.SPADE));
+        playerCardsList.add(new Card(Cards.FOUR, Suits.SPADE));
+        playerCardsList.add(new Card(Cards.SIX, Suits.SPADE));
+        playerCards = GameLogic.getInstance().getPlayerCards();
+        playerCards.replace(PlayerEnum.TWO, playerCardsList);
+        playerCards.replace(PlayerEnum.ONE, playerCardsList);
+        Map<PlayerEnum, Integer> playerCardCounts = GameLogic.getInstance().getPlayerCardCounts();
+        playerCardCounts.replace(PlayerEnum.ONE, 3);
+        GameLogic.getInstance().setPlayerCards(playerCards);
+        GameLogic.getInstance().resetScores();
+        assertEquals(GameLogic.getInstance().getScores().get(PlayerEnum.ONE), 0);
+        assertEquals(GameLogic.getInstance().getScores().get(PlayerEnum.TWO), 0);
+        assertFalse(GameLogic.getInstance().getMiddle().isEmpty());
+        assertFalse(GameLogic.getInstance().getPlayerCards().get(PlayerEnum.ONE).isEmpty());
+        assertFalse(GameLogic.getInstance().getPlayerCards().get(PlayerEnum.TWO).isEmpty());
+        assertEquals(GameLogic.getInstance().getPlayerCardCounts().get(PlayerEnum.ONE), 3);
+        assertEquals(GameLogic.getInstance().getPlayerCardCounts().get(PlayerEnum.TWO), 0);
+
+    }
+
 
     @Test
     @DisplayName("Score Calculation - JACKS")
-    @Order(1)
+    @Order(3)
     void scoreTestJack() {
         this.resetGameLogic();
         Stack<Card> middle = GameLogic.getInstance().getMiddle();
@@ -47,7 +131,7 @@ public class GameLogicTests {
 
     @Test
     @DisplayName("Score Calculation - ACES")
-    @Order(2)
+    @Order(4)
     void scoreTestAce() {
         this.resetGameLogic();
         Stack<Card> middle = GameLogic.getInstance().getMiddle();
@@ -61,7 +145,7 @@ public class GameLogicTests {
 
     @Test
     @DisplayName("Score Calculation - Two of Clubs")
-    @Order(3)
+    @Order(5)
     void scoreTestTwoOfClubs() {
         this.resetGameLogic();
         Stack<Card> middle = GameLogic.getInstance().getMiddle();
@@ -75,7 +159,7 @@ public class GameLogicTests {
 
     @Test
     @DisplayName("Score Calculation - Ten of Diamonds")
-    @Order(4)
+    @Order(6)
     void scoreTestTenOfDiamonds() {
         this.resetGameLogic();
         Stack<Card> middle = GameLogic.getInstance().getMiddle();
@@ -90,7 +174,7 @@ public class GameLogicTests {
 
     @Test
     @DisplayName("Give Middle Stack Cards to Last Winner ")
-    @Order(5)
+    @Order(7)
     void giveMiddleStackTest() {
         this.resetGameLogic();
         Stack<Card> middle = GameLogic.getInstance().getMiddle();
@@ -111,7 +195,7 @@ public class GameLogicTests {
 
     @Test
     @DisplayName("Give No Bonus Points for Equal Number of Cards")
-    @Order(6)
+    @Order(8)
     void equalNumberOfCards() {
         this.resetGameLogic();
         Stack<Card> middle = GameLogic.getInstance().getMiddle();
@@ -141,7 +225,7 @@ public class GameLogicTests {
 
     @Test
     @DisplayName("Give Bonus Points for Different Number of Cards")
-    @Order(7)
+    @Order(9)
     void moreNumberOfCards() {
         this.resetGameLogic();
         Stack<Card> middle = GameLogic.getInstance().getMiddle();
@@ -170,7 +254,7 @@ public class GameLogicTests {
 
     @Test
     @DisplayName("Match Type Test - No Match")
-    @Order(8)
+    @Order(10)
     void matchTypeNo() {
         this.resetGameLogic();
         GameLogic.getInstance().getMiddle().push(new Card(Cards.TWO, Suits.DIAMOND));
@@ -181,7 +265,7 @@ public class GameLogicTests {
 
     @Test
     @DisplayName("Match Type Test - Regular")
-    @Order(9)
+    @Order(11)
     void matchTypeRegular() {
         this.resetGameLogic();
         GameLogic.getInstance().getMiddle().push(new Card(Cards.TWO, Suits.DIAMOND));
@@ -194,7 +278,7 @@ public class GameLogicTests {
 
     @Test
     @DisplayName("Match Type Test - Pisti")
-    @Order(10)
+    @Order(12)
     void matchTypePisti() {
         this.resetGameLogic();
         GameLogic.getInstance().getMiddle().push(new Card(Cards.TWO, Suits.DIAMOND));
@@ -205,7 +289,7 @@ public class GameLogicTests {
 
     @Test
     @DisplayName("Match Type Test - Double Pisti")
-    @Order(11)
+    @Order(13)
     void matchTypeDoublePisti() {
         this.resetGameLogic();
         GameLogic.getInstance().getMiddle().push(new Card(Cards.JACK, Suits.DIAMOND));
@@ -216,7 +300,7 @@ public class GameLogicTests {
 
     @Test
     @DisplayName("Handle Throw Test - No Match")
-    @Order(12)
+    @Order(14)
     void throwNo() {
         this.resetGameLogic();
         GameLogic.getInstance().getMiddle().push(new Card(Cards.TWO, Suits.DIAMOND));
@@ -227,7 +311,7 @@ public class GameLogicTests {
 
     @Test
     @DisplayName("Handle Throw Test - Match")
-    @Order(13)
+    @Order(15)
     void throwYes() {
         this.resetGameLogic();
         GameLogic.getInstance().getMiddle().push(new Card(Cards.TWO, Suits.DIAMOND));
@@ -238,7 +322,7 @@ public class GameLogicTests {
 
     @Test
     @DisplayName("Add Score to Player")
-    @Order(14)
+    @Order(16)
     void addScoreToPlayerTest() {
         this.resetGameLogic();
         Map<PlayerEnum, Integer> scores = GameLogic.getInstance().getScores();
@@ -251,7 +335,7 @@ public class GameLogicTests {
 
     @Test
     @DisplayName("AI Strategy Test")
-    @Order(15)
+    @Order(17)
     void aiStrategyTest() {
         this.resetGameLogic();
         GameLogic.getInstance().setAiStrategy(1);
@@ -264,8 +348,6 @@ public class GameLogicTests {
         AiStrategy aiStrategyThree = GameLogic.getInstance().getAiStrategy();
         assertTrue(aiStrategyThree instanceof LevelThreeStrategy);
     }
-
-
 
 
 }
