@@ -196,7 +196,7 @@ class GameControllerTest_JUnit5AssertJ {
     }
 
     @Test
-    @DisplayName("Player Player Card")
+    @DisplayName("Play Player Card")
     @Order(15)
     void playerCardPlay(FxRobot robot) {
         AnchorPane ap = robot.lookup("#bottomAnchorPane").queryAs(AnchorPane.class);
