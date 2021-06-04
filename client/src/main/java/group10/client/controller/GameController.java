@@ -595,7 +595,7 @@ public class GameController implements Initializable {
             this.handleRealBluffForPlayer(PlayerEnum.TWO, candidate);
         } else {
             // bluff was fake.
-            logToScreen("Bluff was fake.", this.logArea, LOGGER);
+            //logToScreen("Bluff was fake.", this.logArea, LOGGER);
             Rectangle r = GameLogic.getRectangleByCard(this.cardMappings, bluffed); //get the rectangle of closed card.
             this.midStack.getChildren().remove(r);
             this.setRectangleVisible(r); // make rectangle visible.
