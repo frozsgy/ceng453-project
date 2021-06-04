@@ -32,8 +32,7 @@ public class LevelOneStrategy extends AiStrategy {
         Card card = cards.get(0);
         this.removePlayedCard(card);
         Rectangle r = GameLogic.getRectangleByCard(cardMappings, card);
-        Pair<Rectangle, Card> pair = new Pair<>(r, card);
-        return pair;
+        return new Pair<>(r, card);
     }
 
     /**

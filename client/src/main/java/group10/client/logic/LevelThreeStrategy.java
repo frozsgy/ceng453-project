@@ -38,7 +38,6 @@ public class LevelThreeStrategy extends AiStrategy {
         if (this.middle.size() == 1) {
             Card cardOnTop = this.middle.peek();
             Random rand = new Random();
-//            int bluf = rand.nextInt(2);
             double bluff = Math.random();
             double bluffProb = 0.33;
             double whenGreaterThan = 1 - bluffProb;

@@ -36,18 +36,6 @@ import static group10.client.utility.UIUtility.centerScene;
 @Component
 public class ForgotController implements Initializable, FormView {
 
-    /**
-     * Button text constant to display Send Email
-     */
-    private final static String BUTTON_EMAIL_TEXT = "Send Email";
-    /**
-     * Button text constant to display Change Password
-     */
-    private final static String BUTTON_RESET_TEXT = "Change Password";
-    /**
-     * Variable that denotes if email has been submitted.
-     * Used to differentiate states.
-     */
     private boolean isEmailSubmitted;
 
     /**
@@ -122,7 +110,7 @@ public class ForgotController implements Initializable, FormView {
      * Upon submitting the email, sets up the scene to send reset code, username and new password.
      */
     private void makeStateTransition() {
-        this.forgotSendEmailButton.setText(BUTTON_RESET_TEXT);
+        this.forgotSendEmailButton.setText(UiInfoConstants.BUTTON_RESET_TEXT);
         this.forgotEmail.setDisable(true);
         this.forgotCode.setDisable(false);
         this.forgotUsername.setDisable(false);
