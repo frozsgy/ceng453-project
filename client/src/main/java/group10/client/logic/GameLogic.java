@@ -134,6 +134,7 @@ public class GameLogic {
     }
 
     public void addScoreToPlayer(PlayerEnum player, int score) {
+        this.lastWinner = player;
         Integer currentScore = this.scores.get(player);
         this.scores.replace(player, currentScore + score);
     }

@@ -469,10 +469,42 @@ public class GameController implements Initializable {
                     this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.ONE)); //update score view.
                     this.bottomAnchorPane.getChildren().remove(pressed.getParent());
                     currentCards.remove(pressed); // remove card from hand.
+                    this.controlOpponent();
+                    this.setMidCount();
+                    this.serveHand();
                 }
             }
         } catch (IllegalArgumentException ex) {
             LOGGER.warn("Already played");
+        }
+    }
+
+    private void serveHand() {
+        if (GameLogic.getInstance().isHandEmpty()) {
+            if (!this.allCards.isEmpty()) {
+                LOGGER.info("Cards dealt");
+                this.nextHand();
+            } else {
+                PlayerEnum lastWinner = GameLogic.getInstance().getLastWinner();
+                GameLogic.getInstance().giveMidStackCardsToLastWinner();
+                this.midStack.getChildren().clear();
+                this.setMidCount();
+                int playerScore = GameLogic.getInstance().getScores().get(PlayerEnum.ONE);
+                int enemyScore = GameLogic.getInstance().getScores().get(PlayerEnum.TWO);
+                this.setPlayerScore(playerScore);
+                this.setEnemyScore(enemyScore);
+                LOGGER.info("Deck consumed for level " + this.round);
+                if (playerScore < 151 && enemyScore < 151) {
+                    LOGGER.info("Redealing cards");
+                    this.setUpNextLevel(true);
+                } else {
+                    this.setUpNextLevelWrapper(); // adds button or text, then calls next level;
+                }
+            }
+        } else if (GameLogic.getInstance().getScores().get(PlayerEnum.ONE) == MAX_SCORE) {
+            this.setUpNextLevelWrapper(); // adds button or text, then calls next level;
+        } else if (GameLogic.getInstance().getScores().get(PlayerEnum.TWO) == MAX_SCORE) {
+            this.setUpNextLevelWrapper(); // adds button or text, then calls next level;
         }
     }
 
@@ -483,37 +515,11 @@ public class GameController implements Initializable {
                 this.rejectBluff();
             }
             Rectangle pressed = (Rectangle) ((Node) event.getTarget());
-
             this.controlPlayer(pressed);
             GameLogic.getInstance().setCurrentPlayer(PlayerEnum.TWO);
             this.AiBluffed = this.controlOpponent();
             this.setMidCount();
-            if (GameLogic.getInstance().isHandEmpty()) {
-                if (!this.allCards.isEmpty()) {
-                    LOGGER.info("Cards dealt");
-                    this.nextHand();
-                } else {
-                    PlayerEnum lastWinner = GameLogic.getInstance().getLastWinner();
-                    GameLogic.getInstance().giveMidStackCardsToLastWinner();
-                    this.midStack.getChildren().clear();
-                    this.setMidCount();
-                    int playerScore = GameLogic.getInstance().getScores().get(PlayerEnum.ONE);
-                    int enemyScore = GameLogic.getInstance().getScores().get(PlayerEnum.TWO);
-                    this.setPlayerScore(playerScore);
-                    this.setEnemyScore(enemyScore);
-                    LOGGER.info("Deck consumed for level " + this.round);
-                    if (playerScore < 151 && enemyScore < 151) {
-                        LOGGER.info("Redealing cards");
-                        this.setUpNextLevel(true);
-                    } else {
-                        this.setUpNextLevelWrapper(); // adds button or text, then calls next level;
-                    }
-                }
-            } else if (GameLogic.getInstance().getScores().get(PlayerEnum.ONE) == MAX_SCORE) {
-                this.setUpNextLevelWrapper(); // adds button or text, then calls next level;
-            } else if (GameLogic.getInstance().getScores().get(PlayerEnum.TWO) == MAX_SCORE) {
-                this.setUpNextLevelWrapper(); // adds button or text, then calls next level;
-            }
+            this.serveHand();
         } catch (IllegalArgumentException ex) {
             LOGGER.warn("Already played");
         }
