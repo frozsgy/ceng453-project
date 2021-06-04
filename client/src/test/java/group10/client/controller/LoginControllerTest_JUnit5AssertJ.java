@@ -7,6 +7,7 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -73,6 +74,16 @@ class LoginControllerTest_JUnit5AssertJ {
         Button login = robot.lookup("#buttonLogin").queryAs(Button.class);;
         assertEquals(login.isDefaultButton(), true);
     }
+
+    @Test
+    @DisplayName("Login Button Event")
+    void loginButtonEvent(FxRobot robot) {
+        Button login = robot.lookup("#buttonLogin").queryAs(Button.class);
+        Text err = robot.lookup("#loginErrMsg").queryAs(Text.class);
+        robot.clickOn(login);
+        assertNotEquals(err.getText(), "");
+    }
+
 
     @Test
     @DisplayName("Register Button Text")
