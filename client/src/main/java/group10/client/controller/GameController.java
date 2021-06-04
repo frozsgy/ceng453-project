@@ -339,6 +339,7 @@ public class GameController implements Initializable {
         KeyCombination ctrl9 = new KeyCodeCombination(KeyCode.DIGIT9, KeyCodeCombination.CONTROL_DOWN);
         if (ctrl9.match(event)) {
             if (_instance != null) {
+                logToScreen("Cheat activated!", _instance.logArea, LOGGER);
                 int resetEnemyScoreTo = 0;
                 GameLogic.getInstance().getScores().replace(PlayerEnum.ONE, MAX_SCORE);
                 GameLogic.getInstance().getScores().replace(PlayerEnum.TWO, resetEnemyScoreTo);
