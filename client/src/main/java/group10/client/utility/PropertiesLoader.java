@@ -6,8 +6,20 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
+/**
+ * TODO
+ * JAVADOC
+ * @author Alperen Caykus, Mustafa Ozan Alpay
+ * Property loader class for UI constants.
+ * */
 public class PropertiesLoader {
 
+    /**
+     * Given a resource file name, loads it properties and returns it.
+     * @param resourceFileName Name of the resource file.
+     * @return Properties that were loaded from the file.
+     * @throws IOException if input stream cannot be loaded to properties.
+     */
     private Properties loadProperties(String resourceFileName) throws IOException {
 
         Properties properties = new Properties();
@@ -20,6 +32,7 @@ public class PropertiesLoader {
         return properties;
 
     }
+
 
     private static PropertiesLoader instance;
     private static Properties properties;
