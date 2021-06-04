@@ -27,44 +27,100 @@ import java.util.ResourceBundle;
 
 import static group10.client.utility.UIUtility.centerScene;
 
+/**
+ * Controller class for Forget Password screen.
+ * Implements FormView interface
+ * @see FormView
+ * @author Alperen Caykus, Mustafa Ozan Alpay
+ */
 @Component
 public class ForgotController implements Initializable, FormView {
 
+    /**
+     * Button text constant to display Send Email
+     */
     private final static String BUTTON_EMAIL_TEXT = "Send Email";
+    /**
+     * Button text constant to display Change Password
+     */
     private final static String BUTTON_RESET_TEXT = "Change Password";
+    /**
+     * Variable that denotes if email has been submitted.
+     * Used to differentiate states.
+     */
     private boolean isEmailSubmitted;
 
+    /**
+     * Email input field
+     */
     @FXML
     private TextField forgotEmail;
+    /**
+     * Reset code input field
+     */
     @FXML
     private TextField forgotCode;
+    /**
+     * Username input field
+     */
     @FXML
     private TextField forgotUsername;
+    /**
+     * New password input field
+     */
     @FXML
     private PasswordField forgotNewPassword;
+    /**
+     * Send email button.
+     */
     @FXML
     private Button forgotSendEmailButton;
+    /**
+     * Message text field to inform user.
+     */
     @FXML
     private Text forgotInfoText;
+    /**
+     * Button to navigate back to login screen.
+     */
     @FXML
     private Button forgotBackButton;
+    /**
+     * Stack pane to attach Spinner.
+     * @see LoadingSpinner
+     */
     @FXML
     private StackPane forgotStackPane;
+    /**
+     * Root pane
+     */
     @FXML
     private BorderPane forgotBorderPane;
 
+    /**
+     * Initializes the scene
+     * @param url Address of this scene
+     * @param resourceBundle Resource bundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.isEmailSubmitted = false;
         centerScene(this.forgotBorderPane.getPrefWidth(), this.forgotBorderPane.getPrefHeight());
     }
 
+    /**
+     * Callback method attached to forgotBackButton. Navigates to login page.
+     * @param event Event caused by forgotBackButton.
+     */
     @FXML
     public void navigateToLogin(ActionEvent event) {
         URL resource = getClass().getResource(UiConstants.LOGIN_FXML);
         Scene login = UIUtility.navigateTo(event, resource, null);
     }
 
+    /**
+     * Upon submitting the email, sets up the scene to send reset code, username and new password.
+     */
     private void makeStateTransition() {
         this.forgotSendEmailButton.setText(BUTTON_RESET_TEXT);
         this.forgotEmail.setDisable(true);
@@ -73,6 +129,12 @@ public class ForgotController implements Initializable, FormView {
         this.forgotNewPassword.setDisable(false);
     }
 
+    /**
+     * Depending on the state, sends a reset code request, or reset code, username and new password.
+     * Enables spinner before sending the request and disables it after response.
+     * @param resetContainer Request body container.
+     * @see PasswordReset
+     */
     private void sendRequest(PasswordReset resetContainer) {
         LoadingSpinner spinner = new LoadingSpinner(forgotStackPane, forgotBorderPane);
         spinner.start();
@@ -107,6 +169,12 @@ public class ForgotController implements Initializable, FormView {
         new Thread(requestCodeTask).start();
     }
 
+    /**
+     * Callback method for forgotSendEmailButton.
+     * Sets up request body according to state and calls sendRequest method.
+     * @param event Event caused by forgotSendEmailButton
+     * @see ForgotController#sendRequest(PasswordReset) 
+     */
     @FXML
     public void submitForgot(ActionEvent event) {
         if (!this.validateForm()) {
@@ -123,23 +191,32 @@ public class ForgotController implements Initializable, FormView {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setErrorMessage(String msg) {
         this.forgotInfoText.setFill(Paint.valueOf(UiInfoConstants.RED_COLOR));
         this.forgotInfoText.setText(msg);
     }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setSuccessMessage(String msg) {
         this.forgotInfoText.setFill(Paint.valueOf(UiInfoConstants.GREEN_COLOR));
         this.forgotInfoText.setText(msg);
     }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void clearErrorMessage() {
         this.forgotInfoText.setText(UiInfoConstants.EMPTY_STRING);
     }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean validateForm() {
         if (!isEmailSubmitted) {

@@ -29,23 +29,50 @@ import java.util.ResourceBundle;
 
 import static group10.client.utility.UIUtility.centerScene;
 
-
+/**
+ * Controller class for Home screen.
+ * @author Alperen Caykus, Mustafa Ozan Alpay
+ */
 @Component
 public class HomeController implements Initializable {
 
+    /**
+     * Scoreboard button.
+     */
     @FXML
     private Button buttonScoreboard;
+    /**
+     * New game button.
+     */
     @FXML
     private Button buttonNewGame;
+    /**
+     * Log out button.
+     */
     @FXML
     private Button buttonLogout;
+    /**
+     * Hello message text field.
+     */
     @FXML
     private Text helloText;
+    /**
+     * Stack pane that spinner will be attached to.
+     * @see LoadingSpinner
+     */
     @FXML
     private StackPane homeStackPane;
+    /**
+     * Root border pane.
+     */
     @FXML
     private BorderPane homeBorderPane;
 
+    /**
+     * Initializes the scene
+     * @param url Address of this scene
+     * @param resourceBundle Resource bundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         String username = SessionStorage.getInstance().getUsername();
@@ -53,8 +80,12 @@ public class HomeController implements Initializable {
         centerScene(this.homeBorderPane.getPrefWidth(), this.homeBorderPane.getPrefHeight());
     }
 
-
-
+    /**
+     * Callback method attached to buttonNewGame. Opens up a new game.
+     * Starts and stops spinner when between HTTP request and response.
+     * @param event Event caused by buttonNewGame.
+     * @see HomeController#buttonNewGame
+     */
     @FXML
     protected void navigateToNewGame(ActionEvent event) {
         LoadingSpinner spinner = new LoadingSpinner(homeStackPane, homeBorderPane);
@@ -81,12 +112,23 @@ public class HomeController implements Initializable {
         new Thread(newGameTask).start();
     }
 
+    /**
+     * Callback method attached to buttonScoreboard. Sets up the scene to scoreboard.
+     * @param event Event caused by buttonScoreboard.
+     * @see HomeController#buttonScoreboard
+     */
     @FXML
     protected void navigateToScoreboard(ActionEvent event) {
         URL resource = getClass().getResource(UiConstants.SCOREBOARD_FXML);
         Scene scoreboard = UIUtility.navigateTo(event, resource, null);
     }
 
+    /**
+     * Callback method attached to buttonLogout.
+     * Clears session storage and navigates user to login page.
+     * @param event Event caused by buttonLogout.
+     * @see HomeController#buttonLogout
+     */
     @FXML
     protected void logout(ActionEvent event) {
         SessionStorage.getInstance().logout();

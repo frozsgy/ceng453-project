@@ -27,33 +27,75 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import static group10.client.utility.UIUtility.centerScene;
-
+/**
+ * Controller class for Login screen.
+ * Implements FormView interface
+ * @see FormView
+ * @author Alperen Caykus, Mustafa Ozan Alpay
+ */
 @Component
 public class LoginController implements Initializable, FormView {
 
+    /**
+     * Login button
+     */
     @FXML
     private Button buttonLogin;
+    /**
+     * Register button
+     */
     @FXML
     private Button buttonRegister;
+    /**
+     * Username input text field
+     */
     @FXML
     private TextField username;
+    /**
+     * Password input password field
+     */
     @FXML
     private PasswordField password;
+    /**
+     * Text message to display invalid login
+     */
     @FXML
     private Text loginErrMsg;
+    /**
+     * Stack pane that spinner is going to be attached.
+     */
     @FXML
     private StackPane loginStackPane;
+    /**
+     * Root border bane
+     */
     @FXML
     private BorderPane loginBorderPane;
+    /**
+     * Hyperlink to register screen.
+     */
     @FXML
     private Hyperlink forgetPwForwarder;
 
+    /**
+     * Initializes the scene
+     * @param url Address of this scene
+     * @param resourceBundle Resource bundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         buttonLogin.setDefaultButton(true);
         centerScene(this.loginBorderPane.getPrefWidth(), this.loginBorderPane.getPrefHeight());
     }
 
+    /**
+     * Callback method of buttonLogin.
+     * If form is valid, sends a login request to server and starts spinner.
+     * If login is successful, navigates to home page.
+     * Otherwise, displays error message.
+     * @param event Event caused by buttonLogin press.
+     * @see LoginController#buttonLogin
+     */
     @FXML
     protected void userLogIn(ActionEvent event) {
         if (validateForm()) {
@@ -88,6 +130,10 @@ public class LoginController implements Initializable, FormView {
         }
     }
 
+    /**
+     * Callback method for buttonRegister button. Navigates to register page.
+     * @param event Event caused by buttonRegister
+     */
     @FXML
     protected void navigateToRegister(ActionEvent event) {
         URL resource = getClass().getResource(UiConstants.REGISTER_FXML);
@@ -95,28 +141,42 @@ public class LoginController implements Initializable, FormView {
 
     }
 
+    /**
+     * Callback method for forgetPwForwarder hyperlink. Navigates to forgot password page.
+     * @param event Event caused by forgetPwForwarder hyperlink
+     */
     @FXML
     protected void navigateToForgot(ActionEvent event) {
         URL resource = getClass().getResource(UiConstants.FORGOT_FXML);
         Scene forgot = UIUtility.navigateTo(event, resource, null);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setErrorMessage(String msg) {
         this.loginErrMsg.setText(msg);
 
     }
-
+    /**
+     * Does not have success message as on success, it forwards user to home screen.
+     */
     @Override
     public void setSuccessMessage(String msg) {
 
     }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void clearErrorMessage() {
         this.loginErrMsg.setText(UiInfoConstants.EMPTY_STRING);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean validateForm() {
         return !username.getText().isEmpty() && !password.getText().isEmpty();
