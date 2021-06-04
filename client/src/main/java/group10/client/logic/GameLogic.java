@@ -8,6 +8,7 @@ import group10.client.enums.PlayerEnum;
 import group10.client.enums.Suits;
 import group10.client.model.Card;
 import group10.client.service.HTTPService;
+import javafx.scene.control.TextArea;
 import javafx.scene.shape.Rectangle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 
 import static group10.client.constants.GameConstants.*;
+import static group10.client.utility.UIUtility.logToScreen;
 
 public class GameLogic {
 
@@ -139,12 +141,12 @@ public class GameLogic {
         this.scores.replace(player, currentScore + score);
     }
 
-    public MatchType getMatchType(Card candidateCard) {
+    public MatchType getMatchType(Card candidateCard, TextArea logArea) {
         if (this.middle.isEmpty()) {
             return MatchType.NO;
         }
         Card topCard = this.middle.peek();
-        LOGGER.info("Placed " + candidateCard + " on top of " + topCard);
+        logToScreen("Placed " + candidateCard + " on top of " + topCard, logArea, LOGGER);
         if (this.middle.size() == 1 && candidateCard.getCard().equals(topCard.getCard())) {
             if (candidateCard.getCard() == Cards.JACK) {
                 return MatchType.DOUBLE_PISTI;
@@ -158,8 +160,8 @@ public class GameLogic {
         }
     }
 
-    public boolean handleThrow(Card candidateCard, PlayerEnum player) {
-        MatchType matchType = this.getMatchType(candidateCard);
+    public boolean handleThrow(Card candidateCard, PlayerEnum player, TextArea logArea) {
+        MatchType matchType = this.getMatchType(candidateCard, logArea);
         this.middle.push(candidateCard);
         if (matchType != MatchType.NO) {
             this.lastWinner = player;
@@ -167,13 +169,13 @@ public class GameLogic {
             if (matchType == MatchType.REGULAR) {
                 this.addScoreToPlayer(player, stackScore);
             } else if (matchType == MatchType.PISTI) {
-                LOGGER.info("Player " + player + " scored a Pisti!");
+                logToScreen("Player " + player + " scored a Pisti!", logArea, LOGGER);
                 this.addScoreToPlayer(player, stackScore + PISTI);
             } else {
-                LOGGER.info("Player " + player + " scored a Double Pisti!");
+                logToScreen("Player " + player + " scored a Double Pisti!", logArea, LOGGER);
                 this.addScoreToPlayer(player, DOUBLE_PISTI);
             }
-            LOGGER.info("Score for " + player + ": " + this.scores.get(player));
+            logToScreen("Score for " + player + ": " + this.scores.get(player), logArea, LOGGER);
             this.middle.clear();
             return true;
         }

@@ -5,7 +5,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
+import org.slf4j.Logger;
 import org.springframework.core.io.Resource;
 
 import java.io.IOException;
@@ -48,5 +50,10 @@ public class UIUtility {
     public static Scene navigateTo(ActionEvent event, URL resource, String title) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         return UIUtility.navigateTo(stage, resource, title);
+    }
+
+    public static void logToScreen(String message, TextArea textArea, Logger LOGGER) {
+        LOGGER.info(message);
+        textArea.appendText(message + "\n");
     }
 }
