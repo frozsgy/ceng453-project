@@ -39,7 +39,7 @@ For a detailed explanation of the rules, you may refer to [http://catsatcards.co
 
 ![Bluff Screen at Level 3](docs/img/ai_bluff.png)
 
-When received a bluff, you can either challenge it or accept it. 
+When received a bluff, you can either challenge it or reject it. 
 
 # AI Strategies by Level
 
