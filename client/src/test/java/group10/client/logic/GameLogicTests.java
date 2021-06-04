@@ -1,13 +1,11 @@
 package group10.client.logic;
 
 
-import group10.client.entity.Game;
 import group10.client.enums.Cards;
 import group10.client.enums.MatchType;
 import group10.client.enums.PlayerEnum;
 import group10.client.enums.Suits;
 import group10.client.model.Card;
-import javafx.scene.control.TextArea;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -22,6 +20,7 @@ import java.util.Stack;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@DisplayName("Game Logic Tests")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class GameLogicTests {
 
@@ -114,7 +113,6 @@ public class GameLogicTests {
         assertEquals(GameLogic.getInstance().getPlayerCardCounts().get(PlayerEnum.TWO), 0);
 
     }
-
 
 
     @Test
@@ -350,8 +348,6 @@ public class GameLogicTests {
         AiStrategy aiStrategyThree = GameLogic.getInstance().getAiStrategy();
         assertTrue(aiStrategyThree instanceof LevelThreeStrategy);
     }
-
-
 
 
 }
