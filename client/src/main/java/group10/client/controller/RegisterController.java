@@ -29,8 +29,9 @@ import static group10.client.utility.UIUtility.centerScene;
 /**
  * Controller class for Register screen.
  * Implements FormView interface
- * @see FormView
+ *
  * @author Alperen Caykus, Mustafa Ozan Alpay
+ * @see FormView
  */
 public class RegisterController implements Initializable, FormView {
 
@@ -76,6 +77,7 @@ public class RegisterController implements Initializable, FormView {
     private BorderPane registerBorderPane;
     /**
      * Stackpane to attach loading spinner.
+     *
      * @see LoadingSpinner
      */
     @FXML
@@ -83,7 +85,8 @@ public class RegisterController implements Initializable, FormView {
 
     /**
      * Initializes the scene
-     * @param url Address of this scene
+     *
+     * @param url            Address of this scene
      * @param resourceBundle Resource bundle
      */
     @Override
@@ -97,6 +100,7 @@ public class RegisterController implements Initializable, FormView {
      * If the form is valid, submits form to server and starts spinner. Stops it when receives answer.
      * If successful register, fires buttonBackRegister event and navigates back to login.
      * If not successful, displays error message.
+     *
      * @param event
      * @see RegisterController#navigateToLogin(ActionEvent)
      */
@@ -107,7 +111,7 @@ public class RegisterController implements Initializable, FormView {
             this.clearErrorMessage();
             Player player = new Player(username.getText(), password.getText(), email.getText());
             spinner.start();
-            Task registerTask = new Task<String>() {
+            Task<String> registerTask = new Task<>() {
                 @Override
                 public String call() {
                     return HTTPService.getInstance().register(player);
@@ -131,6 +135,7 @@ public class RegisterController implements Initializable, FormView {
 
     /**
      * Callback method for buttonBackRegister button. Navigates to login page.
+     *
      * @param event Event caused by buttonBackRegister
      */
     @FXML
@@ -144,11 +149,9 @@ public class RegisterController implements Initializable, FormView {
      */
     @Override
     public boolean validateForm() {
-        if (username.getText().isEmpty() || password.getText().isEmpty() || email.getText().isEmpty()) {
-            return false;
-        }
-        return true;
+        return !username.getText().isEmpty() && !password.getText().isEmpty() && !email.getText().isEmpty();
     }
+
     /**
      * {@inheritDoc}
      */
@@ -163,6 +166,7 @@ public class RegisterController implements Initializable, FormView {
     @Override
     public void setSuccessMessage(String msg) {
     }
+
     /**
      * {@inheritDoc}
      */
