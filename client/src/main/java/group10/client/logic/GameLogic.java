@@ -30,6 +30,7 @@ public class GameLogic {
     private int hand = 1;
     private PlayerGame playerGameEntity;
     private AiStrategy strategy;
+    private Map<PlayerEnum, Integer> playerCardCounts;
 
 
     private static GameLogic instance;
@@ -46,6 +47,9 @@ public class GameLogic {
         this.playerCards = new HashMap<>();
         this.playerCards.put(PlayerEnum.ONE, new ArrayList<>());
         this.playerCards.put(PlayerEnum.TWO, new ArrayList<>());
+        this.playerCardCounts = new HashMap<>();
+        this.playerCardCounts.put(PlayerEnum.ONE, 0);
+        this.playerCardCounts.put(PlayerEnum.TWO, 0);
     }
 
     public void resetScores() {
@@ -130,9 +134,16 @@ public class GameLogic {
         this.playerGameEntity = playerGameEntity;
     }
 
-
     public AiStrategy getAiStrategy() {
         return this.strategy;
+    }
+
+    public Map<PlayerEnum, Integer> getPlayerCardCounts() {
+        return playerCardCounts;
+    }
+
+    public void setPlayerCardCounts(Map<PlayerEnum, Integer> playerCardCounts) {
+        this.playerCardCounts = playerCardCounts;
     }
 
     public void addScoreToPlayer(PlayerEnum player, int score) {
@@ -176,6 +187,7 @@ public class GameLogic {
                 this.addScoreToPlayer(player, DOUBLE_PISTI);
             }
             logToScreen("Score for " + player + ": " + this.scores.get(player), logArea, LOGGER);
+            playerCardCounts.replace(player, playerCardCounts.get(player) + this.middle.size());
             this.middle.clear();
             return true;
         }
@@ -225,17 +237,19 @@ public class GameLogic {
     }
 
     public void giveMidStackCardsToLastWinner() {
+        int stackSize = this.middle.size();
         int stackScore = this.calculateStackScore();
         List<Card> cards = this.playerCards.get(this.lastWinner);
+        this.playerCardCounts.replace(this.lastWinner, this.playerCardCounts.get(this.lastWinner) + stackSize);
         while (!this.middle.isEmpty()) {
             Card pop = this.middle.pop();
             cards.add(pop);
         }
         this.playerCards.replace(this.lastWinner, cards);
         this.scores.replace(this.lastWinner, this.scores.get(this.lastWinner) + stackScore);
-        if (this.scores.get(PlayerEnum.ONE) > this.scores.get(PlayerEnum.TWO)) {
+        if (this.playerCardCounts.get(PlayerEnum.ONE) > this.playerCardCounts.get(PlayerEnum.TWO)) {
             this.scores.replace(PlayerEnum.ONE, this.scores.get(PlayerEnum.ONE) + 3);
-        } else if (this.scores.get(PlayerEnum.ONE) < this.scores.get(PlayerEnum.TWO)) {
+        } else if (this.playerCardCounts.get(PlayerEnum.ONE) < this.playerCardCounts.get(PlayerEnum.TWO)) {
             this.scores.replace(PlayerEnum.TWO, this.scores.get(PlayerEnum.TWO) + 3);
         }
 
