@@ -30,8 +30,6 @@ import static group10.client.utility.UIUtility.centerScene;
 @Component
 public class ForgotController implements Initializable, FormView {
 
-    private final static String BUTTON_EMAIL_TEXT = "Send Email";
-    private final static String BUTTON_RESET_TEXT = "Change Password";
     private boolean isEmailSubmitted;
 
     @FXML
@@ -66,7 +64,7 @@ public class ForgotController implements Initializable, FormView {
     }
 
     private void makeStateTransition() {
-        this.forgotSendEmailButton.setText(BUTTON_RESET_TEXT);
+        this.forgotSendEmailButton.setText(UiInfoConstants.BUTTON_RESET_TEXT);
         this.forgotEmail.setDisable(true);
         this.forgotCode.setDisable(false);
         this.forgotUsername.setDisable(false);

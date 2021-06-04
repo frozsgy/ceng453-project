@@ -42,4 +42,12 @@ public class UiInfoConstants {
      * Green color to make success texts green
      */
     public final static String GREEN_COLOR = "#00ab36";
+    /**
+     * Button text for change password
+     */
+    public final static String BUTTON_RESET_TEXT = "Change Password";
+    /**
+     * Button text for send email
+     */
+    private final static String BUTTON_EMAIL_TEXT = "Send Email";
 }
