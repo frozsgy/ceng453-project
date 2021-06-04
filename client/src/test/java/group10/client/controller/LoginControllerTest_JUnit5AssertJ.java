@@ -41,13 +41,26 @@ class LoginControllerTest_JUnit5AssertJ {
     void loginButtonText(FxRobot robot) {
         Button login = robot.lookup("#buttonLogin").queryAs(Button.class);
         Assertions.assertThat(login).hasText("Log In");
-        Button register = robot.lookup("#buttonRegister").queryAs(Button.class);;
-        Assertions.assertThat(register).hasText("Register");
+
+    }
+
+    @Test
+    @DisplayName("Login Button Visibility")
+    void loginButtonVisibility(FxRobot robot) {
+        Button login = robot.lookup("#buttonLogin").queryAs(Button.class);;
+        assertEquals(login.isVisible(), true);
     }
 
     @Test
     @DisplayName("Register Button Text")
     void registerButtonText(FxRobot robot) {
+        Button register = robot.lookup("#buttonRegister").queryAs(Button.class);;
+        Assertions.assertThat(register).hasText("Register");
+    }
+
+    @Test
+    @DisplayName("Register Button Visibility")
+    void registerButtonVisibility(FxRobot robot) {
         Button register = robot.lookup("#buttonRegister").queryAs(Button.class);;
         assertEquals(register.isVisible(), true);
     }
