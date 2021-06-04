@@ -485,7 +485,7 @@ public class GameController implements Initializable {
                 int headsTail = rand.nextInt();
                 this.bottomAnchorPane.getChildren().remove(pressed.getParent());
                 currentCards.remove(pressed); // remove card from hand.
-                if (/*headsTail == accepted */ true) {
+                if (headsTail == accepted) {
                     // ai accepted the challenge.
                     Card bluffed = this.cardMappings.get(pressed);
                     Card candidate = GameLogic.getInstance().getMiddle().pop(); // get prev card.
