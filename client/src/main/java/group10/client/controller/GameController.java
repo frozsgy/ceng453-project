@@ -445,13 +445,15 @@ public class GameController implements Initializable {
         if (round == LAST_ROUND && !thirdLevelScorePosted) {
             if (playerScore >= MAX_SCORE || enemyScore >= MAX_SCORE) {
                 thirdLevelScorePosted = true;
-                GameLogic.getInstance().sendScores();
+                GameLogic.getInstance().sendScores(logArea);
+                logToScreen("---- Round Ended ----", logArea, LOGGER);
             } else {
                 this.nextLevelCleanup(true, playerScore, enemyScore);
             }
         } else if (round < LAST_ROUND) {
             if (this.round != 0 && !continued) {
-                GameLogic.getInstance().sendScores();
+                GameLogic.getInstance().sendScores(logArea);
+                logToScreen("---- Round Ended ----", logArea, LOGGER);
             }
             if (!continued) {
                 playerScore = 0;
@@ -535,7 +537,8 @@ public class GameController implements Initializable {
             this.challengeButton.setVisible(false);
             Text gameOver = new Text("Game Over");
             thirdLevelScorePosted = true;
-            GameLogic.getInstance().sendScores();
+            logToScreen("---- Round Ended ----", logArea, LOGGER);
+            GameLogic.getInstance().sendScores(logArea);
             this.midStack.getChildren().add(gameOver);
         }
     }
@@ -815,7 +818,7 @@ public class GameController implements Initializable {
         GameLogic.getInstance().getScores().replace(PlayerEnum.TWO, 0);
         GameLogic.getInstance().getMiddle().clear();
         for (int i = this.round; i <= LAST_ROUND; i++) {
-            GameLogic.getInstance().sendScores();
+            GameLogic.getInstance().sendScores(logArea);
         }
         this.navigateToHome(e);
     }

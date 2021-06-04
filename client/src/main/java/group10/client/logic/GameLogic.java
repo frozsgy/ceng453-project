@@ -419,12 +419,16 @@ public class GameLogic {
 
     /**
      * POSTs the scores to server via HTTP.
+     * @param logArea log area to print logs
      */
-    public void sendScores() {
+    public void sendScores(TextArea logArea) {
         long gameId = this.playerGameEntity.getGame().getId();
         long myScore = this.scores.get(PlayerEnum.ONE);
+        long opponentScore = this.scores.get(PlayerEnum.TWO);
+        logToScreen("---- Round Ended ----", logArea, LOGGER);
+        logToScreen("Player score: " + myScore, logArea, LOGGER);
+        logToScreen("Opponent score: " + opponentScore, logArea, LOGGER);
         if (myScore >= MAX_SCORE) {
-            long opponentScore = this.scores.get(PlayerEnum.TWO);
             long levelScore = myScore - opponentScore;
             HTTPService.getInstance().sendScores(new Level(gameId, levelScore));
         }
