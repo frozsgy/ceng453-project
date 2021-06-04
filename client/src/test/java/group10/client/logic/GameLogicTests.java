@@ -53,10 +53,10 @@ public class GameLogicTests {
         playerCardsList.add(new Card(Cards.SIX, Suits.DIAMOND));
         Map<PlayerEnum, List<Card>> playerCards = GameLogic.getInstance().getPlayerCards();
         playerCards.replace(PlayerEnum.ONE, playerCardsList);
+        playerCardsList = GameLogic.getInstance().getPlayerCards().get(PlayerEnum.TWO);
         playerCardsList.add(new Card(Cards.FIVE, Suits.SPADE));
         playerCardsList.add(new Card(Cards.FOUR, Suits.SPADE));
         playerCardsList.add(new Card(Cards.SIX, Suits.SPADE));
-        playerCards = GameLogic.getInstance().getPlayerCards();
         playerCards.replace(PlayerEnum.TWO, playerCardsList);
         Map<PlayerEnum, Integer> playerCardCounts = GameLogic.getInstance().getPlayerCardCounts();
         playerCardCounts.replace(PlayerEnum.ONE, 3);
@@ -93,11 +93,11 @@ public class GameLogicTests {
         playerCardsList.add(new Card(Cards.FIVE, Suits.DIAMOND));
         playerCardsList.add(new Card(Cards.FOUR, Suits.DIAMOND));
         playerCardsList.add(new Card(Cards.SIX, Suits.DIAMOND));
-        Map<PlayerEnum, List<Card>> playerCards = GameLogic.getInstance().getPlayerCards();
+        playerCardsList = GameLogic.getInstance().getPlayerCards().get(PlayerEnum.TWO);
         playerCardsList.add(new Card(Cards.FIVE, Suits.SPADE));
         playerCardsList.add(new Card(Cards.FOUR, Suits.SPADE));
         playerCardsList.add(new Card(Cards.SIX, Suits.SPADE));
-        playerCards = GameLogic.getInstance().getPlayerCards();
+        Map<PlayerEnum, List<Card>> playerCards = GameLogic.getInstance().getPlayerCards();
         playerCards.replace(PlayerEnum.TWO, playerCardsList);
         playerCards.replace(PlayerEnum.ONE, playerCardsList);
         Map<PlayerEnum, Integer> playerCardCounts = GameLogic.getInstance().getPlayerCardCounts();
