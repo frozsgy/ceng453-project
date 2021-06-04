@@ -1,10 +1,13 @@
 package group10.client.logic;
 
 
+import group10.client.entity.Game;
 import group10.client.enums.Cards;
+import group10.client.enums.MatchType;
 import group10.client.enums.PlayerEnum;
 import group10.client.enums.Suits;
 import group10.client.model.Card;
+import javafx.scene.control.TextArea;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -12,10 +15,6 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.annotation.Order;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.sql.Array;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
@@ -168,6 +167,53 @@ public class GameLogicTests {
         assertEquals(scores.get(PlayerEnum.ONE), 15 + 3);
         assertEquals(scores.get(PlayerEnum.TWO), 22 + 4);
     }
+
+    @Test
+    @DisplayName("Match Type Test - No Match")
+    @Order(8)
+    void matchTypeNo() {
+        this.resetGameLogic();
+        GameLogic.getInstance().getMiddle().push(new Card(Cards.TWO, Suits.DIAMOND));
+        Card candidateCard = new Card(Cards.FIVE, Suits.SPADE);
+        MatchType matchType = GameLogic.getInstance().getMatchType(candidateCard, null);
+        assertEquals(matchType, MatchType.NO);
+    }
+
+    @Test
+    @DisplayName("Match Type Test - Regular")
+    @Order(9)
+    void matchTypeRegular() {
+        this.resetGameLogic();
+        GameLogic.getInstance().getMiddle().push(new Card(Cards.TWO, Suits.DIAMOND));
+        GameLogic.getInstance().getMiddle().push(new Card(Cards.FIVE, Suits.DIAMOND));
+        Card candidateCard = new Card(Cards.FIVE, Suits.SPADE);
+        MatchType matchType = GameLogic.getInstance().getMatchType(candidateCard, null);
+        assertEquals(matchType, MatchType.REGULAR);
+    }
+
+
+    @Test
+    @DisplayName("Match Type Test - Pisti")
+    @Order(10)
+    void matchTypePisti() {
+        this.resetGameLogic();
+        GameLogic.getInstance().getMiddle().push(new Card(Cards.TWO, Suits.DIAMOND));
+        Card candidateCard = new Card(Cards.TWO, Suits.SPADE);
+        MatchType matchType = GameLogic.getInstance().getMatchType(candidateCard, null);
+        assertEquals(matchType, MatchType.PISTI);
+    }
+
+    @Test
+    @DisplayName("Match Type Test - Double Pisti")
+    @Order(11)
+    void matchTypeDoublePisti() {
+        this.resetGameLogic();
+        GameLogic.getInstance().getMiddle().push(new Card(Cards.JACK, Suits.DIAMOND));
+        Card candidateCard = new Card(Cards.JACK, Suits.SPADE);
+        MatchType matchType = GameLogic.getInstance().getMatchType(candidateCard, null);
+        assertEquals(matchType, MatchType.DOUBLE_PISTI);
+    }
+
 
 
 
