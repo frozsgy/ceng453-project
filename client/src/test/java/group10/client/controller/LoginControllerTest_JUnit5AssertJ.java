@@ -1,5 +1,8 @@
-package group10.client.logic;
+package group10.client.controller;
 
+import group10.client.constants.UiConstants;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.api.FxRobot;
@@ -12,8 +15,11 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+import java.net.URL;
+
 @ExtendWith(ApplicationExtension.class)
-class ClickableButtonTest_JUnit5AssertJ {
+class LoginControllerTest_JUnit5AssertJ {
 
     private Button button;
 
@@ -23,11 +29,12 @@ class ClickableButtonTest_JUnit5AssertJ {
      * @param stage - Will be injected by the test runner.
      */
     @Start
-    private void start(Stage stage) {
-        button = new Button("click me!");
-        button.setId("myButton");
-        button.setOnAction(actionEvent -> button.setText("clicked!"));
-        stage.setScene(new Scene(new StackPane(button), 100, 100));
+    private void start(Stage stage) throws IOException {
+        URL resource = getClass().getResource(UiConstants.LOGIN_FXML);
+        FXMLLoader fxmlLoader = new FXMLLoader(resource);
+        Parent loginScreen = fxmlLoader.load();
+        Scene scene = new Scene(loginScreen);
+        stage.setScene(scene);
         stage.show();
     }
 
@@ -36,19 +43,20 @@ class ClickableButtonTest_JUnit5AssertJ {
      */
     @Test
     void should_contain_button_with_text(FxRobot robot) {
-        Assertions.assertThat(button).hasText("click me!");
+        Button login = robot.lookup("#buttonLogin").queryAs(Button.class);
+        Assertions.assertThat(login).hasText("Log In");
         // or (lookup by css id):
-        Assertions.assertThat(robot.lookup("#myButton").queryAs(Button.class)).hasText("click me!");
+//        Assertions.assertThat(robot.lookup("#myButton").queryAs(Button.class)).hasText("click me!");
         // or (lookup by css class):
-        Assertions.assertThat(robot.lookup(".button").queryAs(Button.class)).hasText("click me!");
+//        Assertions.assertThat(robot.lookup(".button").queryAs(Button.class)).hasText("click me!");
         // or (query specific type):
-        Assertions.assertThat(robot.lookup(".button").queryButton()).hasText("click me!");
+//        Assertions.assertThat(robot.lookup(".button").queryButton()).hasText("click me!");
     }
 
     /**
      * @param robot - Will be injected by the test runner.
      */
-    @Test
+//    @Test
     void when_button_is_clicked_text_changes(FxRobot robot) {
         // when:
         robot.clickOn(".button");
