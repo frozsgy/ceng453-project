@@ -32,10 +32,6 @@ public class UiConstants {
      */
     public static final String SCOREBOARD_FXML = FXML_DIR_PATH + "scoreboard.fxml";
     /**
-     * Path of ui.fxml, which is a dummy page.
-     */
-    public static final String DUMMY_PAGE_FXML = FXML_DIR_PATH + "ui.fxml";
-    /**
      * Path of forgot.fxml
      */
     public static final String FORGOT_FXML = FXML_DIR_PATH + "forgot.fxml";
