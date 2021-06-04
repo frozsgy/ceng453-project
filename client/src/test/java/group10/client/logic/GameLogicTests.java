@@ -19,8 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -234,7 +233,7 @@ public class GameLogicTests {
         GameLogic.getInstance().getMiddle().push(new Card(Cards.TWO, Suits.DIAMOND));
         Card candidateCard = new Card(Cards.TWO, Suits.SPADE);
         boolean handleThrow = GameLogic.getInstance().handleThrow(candidateCard, PlayerEnum.ONE, null);
-        assert(handleThrow);
+        assertTrue(handleThrow);
     }
 
     @Test
@@ -248,6 +247,22 @@ public class GameLogicTests {
         GameLogic.getInstance().addScoreToPlayer(PlayerEnum.TWO, 30);
         assertEquals(GameLogic.getInstance().getScores().get(PlayerEnum.ONE), 10);
         assertEquals(GameLogic.getInstance().getScores().get(PlayerEnum.TWO), 42);
+    }
+
+    @Test
+    @DisplayName("AI Strategy Test")
+    @Order(15)
+    void aiStrategyTest() {
+        this.resetGameLogic();
+        GameLogic.getInstance().setAiStrategy(1);
+        AiStrategy aiStrategy = GameLogic.getInstance().getAiStrategy();
+        assertTrue(aiStrategy instanceof LevelOneStrategy);
+        GameLogic.getInstance().setAiStrategy(2);
+        AiStrategy aiStrategyTwo = GameLogic.getInstance().getAiStrategy();
+        assertTrue(aiStrategyTwo instanceof LevelTwoStrategy);
+        GameLogic.getInstance().setAiStrategy(3);
+        AiStrategy aiStrategyThree = GameLogic.getInstance().getAiStrategy();
+        assertTrue(aiStrategyThree instanceof LevelThreeStrategy);
     }
 
 
