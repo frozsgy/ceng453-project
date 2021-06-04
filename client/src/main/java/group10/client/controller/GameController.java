@@ -374,6 +374,21 @@ public class GameController implements Initializable {
         }
     }
 
+    private void handleFakeBluffForPlayer(PlayerEnum bluffer, Card candidate, Card bluffed, Rectangle added) {
+        if (bluffer == PlayerEnum.ONE) {
+            LOGGER.info("Your bluff was fake.");
+            GameLogic.getInstance().addScoreToPlayer(PlayerEnum.TWO, GameConstants.DOUBLE_PISTI); // give points to player.
+            this.setEnemyScore(GameLogic.getInstance().getScores().get(PlayerEnum.TWO));
+        } else {
+            LOGGER.info("AI bluff was fake.");
+            GameLogic.getInstance().addScoreToPlayer(PlayerEnum.ONE, GameConstants.DOUBLE_PISTI); // give points to player.
+            this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.ONE)); // update player score view.
+        }
+        this.midStack.getChildren().add(added.getParent());
+        GameLogic.getInstance().getMiddle().push(candidate); // put things back to middle.
+        GameLogic.getInstance().getMiddle().push(bluffed); // put things back to middle.
+    }
+
     @FXML
     private void acceptChallenge(ActionEvent e) {
         LOGGER.info("Challenge accepted");
@@ -391,11 +406,7 @@ public class GameController implements Initializable {
             this.midStack.getChildren().remove(r);
             this.setRectangleVisible(r); // make rectangle visible.
             this.drawCardInsideRectangle(r, bluffed); // put text to it.
-            this.midStack.getChildren().add(r.getParent());
-            GameLogic.getInstance().addScoreToPlayer(PlayerEnum.ONE, GameConstants.DOUBLE_PISTI); // give points to player.
-            this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.ONE)); // update player score view.
-            GameLogic.getInstance().getMiddle().push(candidate); // put things back to middle.
-            GameLogic.getInstance().getMiddle().push(bluffed); // put things back to middle.
+            this.handleFakeBluffForPlayer(PlayerEnum.TWO, candidate, bluffed, r);
         }
     }
 
@@ -484,6 +495,10 @@ public class GameController implements Initializable {
                     } else {
                         // bluff was fake.
                         LOGGER.info("Your Bluff was fake.");
+                        this.handleFakeBluffForPlayer(PlayerEnum.ONE, candidate, bluffed, pressed);
+                        this.controlOpponent();
+                        this.setMidCount();
+                        this.serveHand();
                     }
 
                 } else {
