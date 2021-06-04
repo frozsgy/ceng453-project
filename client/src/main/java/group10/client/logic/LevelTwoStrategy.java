@@ -19,7 +19,7 @@ import java.util.Stack;
  */
 public class LevelTwoStrategy extends AiStrategy {
     /**
-     * Overriden method to define first level behavior.
+     * Overridden method to define first level behavior.
      * It checks the middle stack. If middle stack is empty, it plays a random card.
      * If not empty, then checks the cards at its hands and tries to find a matching card.
      * If finds, throws it.
