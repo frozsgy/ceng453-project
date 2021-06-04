@@ -1,6 +1,7 @@
 package group10.client.service;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import group10.client.constants.APIConstants;
 import group10.client.constants.UiInfoConstants;
 import group10.client.entity.Level;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -51,6 +53,11 @@ public class HTTPService {
     private static HTTPService instance;
 
     /**
+     * A type instance of Map of two Strings to be read from JSON files as error messages.
+     */
+    private Type errorMap;
+
+    /**
      * Helper method to hash Strings with SHA-256.
      * Used for hashing passwords before sending them over network.
      * However, works on any String instance.
@@ -76,6 +83,8 @@ public class HTTPService {
     private HTTPService() {
         this.restTemplate = new RestTemplate();
         this.gson = new Gson();
+        this.errorMap = new TypeToken<Map<String, String>>() {
+        }.getType();
     }
 
     /**
@@ -158,7 +167,7 @@ public class HTTPService {
             ResponseEntity<String> response = restTemplate.exchange(path, HttpMethod.POST, entity, String.class);
             LOGGER.info("Successful register: " + player.getUsername());
         } catch (HttpServerErrorException e) {
-            Map<String, String> messagePair = gson.fromJson(e.getResponseBodyAsString(), Map.class);
+            Map<String, String> messagePair = gson.fromJson(e.getResponseBodyAsString(), this.errorMap);
             LOGGER.info("Unsuccessful register: " + player.getUsername());
             return messagePair.get(SERVER_ERROR_MSG_KEY);
         }
@@ -213,7 +222,7 @@ public class HTTPService {
                 return UiInfoConstants.CODE_DONT_MATCH_MESSAGE;
             }
         } catch (HttpServerErrorException e) {
-            Map<String, String> messagePair = gson.fromJson(e.getResponseBodyAsString(), Map.class);
+            Map<String, String> messagePair = gson.fromJson(e.getResponseBodyAsString(), this.errorMap);
             LOGGER.info("Error during password reset");
             return messagePair.get(SERVER_ERROR_MSG_KEY);
         }
@@ -234,7 +243,7 @@ public class HTTPService {
             return response.getBody();
         } catch (HttpServerErrorException e) {
             String errorKey = "error";
-            Map<String, String> messagePair = gson.fromJson(e.getResponseBodyAsString(), Map.class);
+            Map<String, String> messagePair = gson.fromJson(e.getResponseBodyAsString(), this.errorMap);
             return messagePair.get(errorKey);
         }
     }

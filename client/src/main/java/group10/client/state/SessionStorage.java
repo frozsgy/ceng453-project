@@ -2,9 +2,9 @@ package group10.client.state;
 
 
 /**
- *  @author Alperen Caykus, Mustafa Ozan Alpay
- *  Singleton class to hold session information
- *  of the logged in user.
+ * @author Alperen Caykus, Mustafa Ozan Alpay
+ * Singleton class to hold session information
+ * of the logged in user.
  */
 public class SessionStorage {
 
@@ -24,6 +24,7 @@ public class SessionStorage {
 
     /**
      * Creates an instance, assigns it to instance field and returns it.
+     *
      * @return SessionStorage instance.
      */
     public static SessionStorage getInstance() {
@@ -35,6 +36,7 @@ public class SessionStorage {
 
     /**
      * Gets the username
+     *
      * @return Username
      */
     public String getUsername() {
@@ -43,6 +45,7 @@ public class SessionStorage {
 
     /**
      * Sets the username
+     *
      * @param username Username to be set.
      */
     public void setUsername(String username) {
@@ -51,6 +54,7 @@ public class SessionStorage {
 
     /**
      * Gets the token.
+     *
      * @return Token
      */
     public String getToken() {
@@ -59,6 +63,7 @@ public class SessionStorage {
 
     /**
      * Sets the token.
+     *
      * @param token Token to be set.
      */
     public void setToken(String token) {

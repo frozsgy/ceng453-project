@@ -1,8 +1,8 @@
 package group10.client.model;
 
 /**
- *  @author Alperen Caykus, Mustafa Ozan Alpay
- *  Registering and logging-in player model to log in and sign up
+ * @author Alperen Caykus, Mustafa Ozan Alpay
+ * Registering and logging-in player model to log in and sign up
  */
 public class Player {
 
@@ -22,6 +22,7 @@ public class Player {
 
     /**
      * Constructor for Player when logging in
+     *
      * @param username Username
      * @param password Password
      */
@@ -32,9 +33,10 @@ public class Player {
 
     /**
      * Constructor for Player when registering
+     *
      * @param username Username
      * @param password Password
-     * @param email Email
+     * @param email    Email
      */
     public Player(String username, String password, String email) {
         this.username = username;
@@ -44,6 +46,7 @@ public class Player {
 
     /**
      * Gets the username
+     *
      * @return username
      */
     public String getUsername() {
@@ -52,6 +55,7 @@ public class Player {
 
     /**
      * Sets the username
+     *
      * @param username Username to be set
      */
     public void setUsername(String username) {
@@ -60,6 +64,7 @@ public class Player {
 
     /**
      * Gets the password
+     *
      * @return password
      */
     public String getPassword() {
@@ -68,6 +73,7 @@ public class Player {
 
     /**
      * Sets the password
+     *
      * @param password Password to be set
      */
     public void setPassword(String password) {
@@ -76,6 +82,7 @@ public class Player {
 
     /**
      * Gets the email
+     *
      * @return email
      */
     public String getEmail() {
@@ -84,6 +91,7 @@ public class Player {
 
     /**
      * Sets the email
+     *
      * @param email Email to be set
      */
     public void setEmail(String email) {

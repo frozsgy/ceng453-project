@@ -82,6 +82,7 @@ public class UiConstants {
      * Creates and gets the singleton instance
      * Loads properties from application.yaml.
      * Then, loads title property to WINDOW_TITLE
+     *
      * @return Singleton instance.
      */
     public static UiConstants getInstance() {
@@ -95,6 +96,7 @@ public class UiConstants {
 
     /**
      * Gets the WINDOW_TITLE
+     *
      * @return Title of window.
      */
     public String getWindowTitle() {

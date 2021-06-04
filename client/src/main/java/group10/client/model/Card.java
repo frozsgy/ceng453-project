@@ -6,24 +6,27 @@ import group10.client.enums.Suits;
 import java.util.Objects;
 
 /**
- *  @author Alperen Caykus, Mustafa Ozan Alpay
- *  Card class that represents a card object.
+ * @author Alperen Caykus, Mustafa Ozan Alpay
+ * Card class that represents a card object.
  */
 public class Card {
 
     /**
      * Number of the card, such as K, J, Q, 1, 10, etc.
+     *
      * @see Cards
      */
     private Cards card;
     /**
      * Suit of the card such as Diamond
+     *
      * @see Suits
      */
     private Suits suit;
 
     /**
      * Constructor for card
+     *
      * @param card Number of the card
      * @param suit Suit of the card.
      */
@@ -34,6 +37,7 @@ public class Card {
 
     /**
      * Gets the number of the card
+     *
      * @return Number of the card
      * @see Cards
      */
@@ -43,6 +47,7 @@ public class Card {
 
     /**
      * Sets the number of the card
+     *
      * @param card Card number to be set.
      * @see Cards
      */
@@ -52,6 +57,7 @@ public class Card {
 
     /**
      * Gets the suit of this card
+     *
      * @return Suit of this card
      * @see Suits
      */
@@ -61,6 +67,7 @@ public class Card {
 
     /**
      * Sets the suit of this card
+     *
      * @param suit Suit to be set
      * @see Suits
      */
@@ -69,10 +76,11 @@ public class Card {
     }
 
     /**
-     * Overriden equals method.
+     * Overridden equals method.
+     *
      * @param o Object to be tested
      * @return False if class of o is not type Card or suit and number of o does not match this object's number and suit.
-     *          True if object is this object or has same number and suit.
+     * True if object is this object or has same number and suit.
      */
     @Override
     public boolean equals(Object o) {
@@ -83,7 +91,8 @@ public class Card {
     }
 
     /**
-     * Overriden hashcode method.
+     * Overridden hashcode method.
+     *
      * @return Hashcode of this object with card number and suit.
      */
     @Override
@@ -92,7 +101,8 @@ public class Card {
     }
 
     /**
-     * Overriden to string method.
+     * Overridden to string method.
+     *
      * @return This card in string form with format number-suit
      */
     @Override

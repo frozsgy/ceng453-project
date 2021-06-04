@@ -11,7 +11,6 @@ import javafx.scene.control.TextArea;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
-import org.springframework.core.io.Resource;
 
 import java.io.IOException;
 import java.net.URL;
@@ -19,16 +18,17 @@ import java.net.URL;
 /**
  * @author Alperen Caykus, Mustafa Ozan Alpay
  * Utility class that containts UI related helper methods.
- * */
+ */
 public class UIUtility {
 
     /**
      * Navigator method to change scenes.
      * Loads the given resource, changes the current scene to that scene,
      * sets screen titles and displays the stage.
-     * @param stage Primary Stage
+     *
+     * @param stage    Primary Stage
      * @param resource Resource URL to be loaded
-     * @param title Title to be set for window.
+     * @param title    Title to be set for window.
      * @return new Scene that was created and navigated to
      */
     public static Scene navigateTo(Stage stage, URL resource, String title) {
@@ -49,28 +49,11 @@ public class UIUtility {
     }
 
     /**
-     * Navigator method to change scenes.
-     * Changes the current scene to new scene by loading the URL of the resource,
-     * sets screen titles and displays the stage.
-     * @param stage Primary Stage
-     * @param resource Resource that contains URL
-     * @param title Title to be set for window.
-     * @return new Scene that was created and navigated to
-     */
-    public static Scene navigateTo(Stage stage, Resource resource, String title) {
-        try {
-            return navigateTo(stage, resource.getURL(), title);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /**
      * Changes current scene to new scene by loading the resource.
-     * @param event Event that is attached to stage. Used to retrieve the stage.
+     *
+     * @param event    Event that is attached to stage. Used to retrieve the stage.
      * @param resource Resource URL to be loaded
-     * @param title Title to be set.
+     * @param title    Title to be set.
      * @return new Scene that was created and navigated to
      */
     public static Scene navigateTo(ActionEvent event, URL resource, String title) {
@@ -81,9 +64,10 @@ public class UIUtility {
     /**
      * Given a message, logs it to console by using logger.
      * If textArea parameter provided as not null, also logs the same message there.
-     * @param message Message to be logged.
+     *
+     * @param message  Message to be logged.
      * @param textArea Text area that is logs to be written.
-     * @param LOGGER Logger instance that prints the message to console.
+     * @param LOGGER   Logger instance that prints the message to console.
      */
     public static void logToScreen(String message, TextArea textArea, Logger LOGGER) {
         if (LOGGER != null) {
@@ -96,7 +80,8 @@ public class UIUtility {
 
     /**
      * Centers the window.
-     * @param width Width of window.
+     *
+     * @param width  Width of window.
      * @param height Height of window.
      */
     public static void centerScene(double width, double height) {

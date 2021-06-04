@@ -1,8 +1,8 @@
 package group10.client.enums;
 
 /**
- *  @author Alperen Caykus, Mustafa Ozan Alpay
- *  Enumarator for card types. Holds card names(numbers) and points associated with them.
+ * @author Alperen Caykus, Mustafa Ozan Alpay
+ * Enumarator for card types. Holds card names(numbers) and points associated with them.
  */
 public enum Cards {
     /**
@@ -20,43 +20,43 @@ public enum Cards {
     /**
      * FOUR: name: 4, points, 0
      */
-    FOUR("4",0),
+    FOUR("4", 0),
     /**
      * FIVE: name: 5, points 0
      */
-    FIVE("5",0),
+    FIVE("5", 0),
     /**
      * SIX: name: 6, points 0
      */
-    SIX("6",0),
+    SIX("6", 0),
     /**
      * SEVEN: name: 7, points 0
      */
-    SEVEN("7",0),
+    SEVEN("7", 0),
     /**
      * EIGHT: name: 8, points 0
      */
-    EIGHT("8",0),
+    EIGHT("8", 0),
     /**
      * NINE: name: 9, points 0
      */
-    NINE("9",0),
+    NINE("9", 0),
     /**
      * TEN: name: 10, points 0
      */
-    TEN("10",0),
+    TEN("10", 0),
     /**
      * JACK: name: J, points: 1
      */
-    JACK("J",1),
+    JACK("J", 1),
     /**
      * QUEEN: name: Q, points 0
      */
-    QUEEN("Q",0),
+    QUEEN("Q", 0),
     /**
      * KING: name: K, points 0
      */
-    KING("K",0);
+    KING("K", 0);
 
     /**
      * Name(number) of this card.
@@ -70,7 +70,8 @@ public enum Cards {
 
     /**
      * Constructor for card
-     * @param name Name(number) of the card
+     *
+     * @param name   Name(number) of the card
      * @param points Points that player gets upon capturing this card.
      */
     Cards(String name, int points) {
@@ -80,6 +81,7 @@ public enum Cards {
 
     /**
      * Gets the points
+     *
      * @return points
      */
     public int getPoints() {
@@ -88,10 +90,11 @@ public enum Cards {
 
     /**
      * Overriden to string method
+     *
      * @return Name(Number) of this card.
      */
     @Override
-    public String toString(){
+    public String toString() {
         return name;
     }
 }
