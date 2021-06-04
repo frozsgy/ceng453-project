@@ -24,6 +24,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,6 +68,8 @@ public class GameController implements Initializable {
     private AnchorPane upperAnchorPane;
     @FXML
     private StackPane midStack;
+    @FXML
+    private TextFlow logs;
     private int round = 1;
     public static GameController _instance;
     private Stack<Card> allCards;
@@ -101,7 +104,7 @@ public class GameController implements Initializable {
             try {
                 upperAnchorPane.getChildren().add(opponentCards.get(i));
             } catch (IllegalArgumentException e) {
-                LOGGER.info("First initialization of enemy card " + (i + 1));
+                logToScreen("First initialization of enemy card " + (i + 1));
             }
             opponentCards.get(i).setLayoutX(LEFTMOST_CARD_X + i * HORIZONTAL_CARD_SPACING);
             opponentCards.get(i).setLayoutY(UiConstants.ENEMY_CARD_Y);
@@ -122,7 +125,7 @@ public class GameController implements Initializable {
             try {
                 bottomAnchorPane.getChildren().add(currentCards.get(i));
             } catch (IllegalArgumentException e) {
-                LOGGER.info("First initialization of card " + (i + 1));
+                logToScreen("First initialization of card " + (i + 1));
             }
             currentCards.get(i).setLayoutX(LEFTMOST_CARD_X + i * HORIZONTAL_CARD_SPACING);
             currentCards.get(i).setLayoutY(PLAYER_CARD_Y);
@@ -167,7 +170,7 @@ public class GameController implements Initializable {
             }
             this.cardMappings.put(rec, card);
         }
-        LOGGER.info("Cards were dealt for middle stack");
+        logToScreen("Cards were dealt for middle stack");
     }
 
     private void drawAllCards() {
@@ -183,13 +186,13 @@ public class GameController implements Initializable {
             drawCardForPlayer(r, top);
             this.cardMappings.put(r, top);
         }
-        LOGGER.info("Cards were dealt for Player One");
+        logToScreen("Cards were dealt for Player One");
         for (int i = 0; i < GameConstants.CARD_PER_HAND; i++) {
             Card top = allCards.pop();
             cardsTwo.add(top);
             this.cardMappings.put(opponentCards.get(i), top);
         }
-        LOGGER.info("Cards were dealt for Player Two");
+        logToScreen("Cards were dealt for Player Two");
         GameLogic.getInstance().setPlayerCards(playerCards);
     }
 
@@ -366,21 +369,21 @@ public class GameController implements Initializable {
         }
         GameLogic.getInstance().addScoreToPlayer(bluffer, GameConstants.DOUBLE_PISTI); // give points to ai.
         if (bluffer == PlayerEnum.ONE) {
-            LOGGER.info("Your bluff was real.");
+            logToScreen("Your bluff was real.");
             this.setPlayerScore(GameLogic.getInstance().getScores().get(bluffer)); // update ai score.
         } else {
-            LOGGER.info("AI bluff was real.");
+            logToScreen("AI bluff was real.");
             this.setEnemyScore(GameLogic.getInstance().getScores().get(bluffer)); // update ai score.
         }
     }
 
     private void handleFakeBluffForPlayer(PlayerEnum bluffer, Card candidate, Card bluffed, Rectangle added) {
         if (bluffer == PlayerEnum.ONE) {
-            LOGGER.info("Your bluff was fake.");
+            logToScreen("Your bluff was fake.");
             GameLogic.getInstance().addScoreToPlayer(PlayerEnum.TWO, GameConstants.DOUBLE_PISTI); // give points to player.
             this.setEnemyScore(GameLogic.getInstance().getScores().get(PlayerEnum.TWO));
         } else {
-            LOGGER.info("AI bluff was fake.");
+            logToScreen("AI bluff was fake.");
             GameLogic.getInstance().addScoreToPlayer(PlayerEnum.ONE, GameConstants.DOUBLE_PISTI); // give points to player.
             this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.ONE)); // update player score view.
         }
@@ -391,7 +394,7 @@ public class GameController implements Initializable {
 
     @FXML
     private void acceptChallenge(ActionEvent e) {
-        LOGGER.info("Challenge accepted");
+        logToScreen("Challenge accepted");
         this.challengeButton.setVisible(false); // destroy button.
         this.AiBluffed = false; // handle flag.
         Card bluffed = GameLogic.getInstance().getMiddle().pop(); // get closed card.
@@ -401,7 +404,7 @@ public class GameController implements Initializable {
             this.handleRealBlufForPlayer(PlayerEnum.TWO, candidate);
         } else {
             // bluff was fake.
-            LOGGER.info("Bluff was fake.");
+            logToScreen("Bluff was fake.");
             Rectangle r = GameLogic.getRectangleByCard(this.cardMappings, bluffed); //get the rectangle of closed card.
             this.midStack.getChildren().remove(r);
             this.setRectangleVisible(r); // make rectangle visible.
@@ -414,10 +417,10 @@ public class GameController implements Initializable {
         midStack.getChildren().add(pressed.getParent()); // add to middle.
         Card card = this.cardMappings.get(pressed); // get pressed card.
         if (GameLogic.getInstance().getMiddle().isEmpty()) {
-            LOGGER.info("Player One threw " + card + " on an empty stack");
+            logToScreen("Player One threw " + card + " on an empty stack");
         }
         if (GameLogic.getInstance().handleThrow(card, PlayerEnum.ONE)) { // check if matched
-            LOGGER.info("Cards match for Player One");
+            logToScreen("Cards match for Player One");
             midStack.getChildren().clear(); // match, clear middle view.
         }
         this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.ONE));
@@ -443,10 +446,10 @@ public class GameController implements Initializable {
             GameLogic.getInstance().getMiddle().add(opponentCard); // put card to bluff, do not make check.
         } else {
             if (GameLogic.getInstance().getMiddle().isEmpty()) {
-                LOGGER.info("Player Two threw " + opponentCard + " on an empty stack");
+                logToScreen("Player Two threw " + opponentCard + " on an empty stack");
             }
             if (GameLogic.getInstance().handleThrow(opponentCard, PlayerEnum.TWO)) { // no bluff, check if scored.
-                LOGGER.info("Cards match for Player Two");
+                logToScreen("Cards match for Player Two");
                 midStack.getChildren().clear();
             }
         }
@@ -479,10 +482,10 @@ public class GameController implements Initializable {
                 // TODO -- bluff
                 Random rand = new Random();
                 int accepted = 0;
-                int headsTail = rand.nextInt();
+                int headsTail = rand.nextInt(2);
                 this.bottomAnchorPane.getChildren().remove(pressed.getParent());
                 currentCards.remove(pressed); // remove card from hand.
-                if (/*headsTail == accepted */ true) {
+                if (headsTail == accepted) {
                     // ai accepted the challenge.
                     Card bluffed = this.cardMappings.get(pressed);
                     Card candidate = GameLogic.getInstance().getMiddle().pop(); // get prev card.
@@ -494,7 +497,6 @@ public class GameController implements Initializable {
                         this.serveHand();
                     } else {
                         // bluff was fake.
-                        LOGGER.info("Your Bluff was fake.");
                         this.handleFakeBluffForPlayer(PlayerEnum.ONE, candidate, bluffed, pressed);
                         this.controlOpponent();
                         this.setMidCount();
@@ -503,7 +505,7 @@ public class GameController implements Initializable {
 
                 } else {
                     // ai rejected the bluff.
-                    LOGGER.info("AI rejected the bluff");
+                    logToScreen("AI rejected the bluff");
                     this.midStack.getChildren().clear(); // clear mid view.
                     GameLogic.getInstance().getMiddle().clear(); // clear mid.
                     GameLogic.getInstance().addScoreToPlayer(PlayerEnum.ONE, GameConstants.PISTI); // give score to first player.
@@ -521,7 +523,7 @@ public class GameController implements Initializable {
     private void serveHand() {
         if (GameLogic.getInstance().isHandEmpty()) {
             if (!this.allCards.isEmpty()) {
-                LOGGER.info("Cards dealt");
+                logToScreen("Cards dealt");
                 this.nextHand();
             } else {
                 GameLogic.getInstance().giveMidStackCardsToLastWinner();
@@ -531,9 +533,9 @@ public class GameController implements Initializable {
                 int enemyScore = GameLogic.getInstance().getScores().get(PlayerEnum.TWO);
                 this.setPlayerScore(playerScore);
                 this.setEnemyScore(enemyScore);
-                LOGGER.info("Deck consumed for level " + this.round);
+                logToScreen("Deck consumed for level " + this.round);
                 if (playerScore < 151 && enemyScore < 151) {
-                    LOGGER.info("Redealing cards");
+                    logToScreen("Redealing cards");
                     this.setUpNextLevel(true);
                 } else {
                     this.setUpNextLevelWrapper(); // adds button or text, then calls next level;
@@ -563,13 +565,19 @@ public class GameController implements Initializable {
         }
     }
 
+    private void logToScreen(String msg) {
+        Text t1 = new Text(msg + "\n");
+        LOGGER.info(msg);
+        logs.getChildren().add(t1);
+    }
+
     public Button getChallengeButton() {
         return challengeButton;
     }
 
     @FXML
     public void leaveGame(ActionEvent e) {
-        LOGGER.info("Player " + SessionStorage.getInstance().getUsername() + " has left the game");
+        logToScreen("Player " + SessionStorage.getInstance().getUsername() + " has left the game");
         GameLogic.getInstance().getScores().replace(PlayerEnum.ONE, 0);
         GameLogic.getInstance().getScores().replace(PlayerEnum.TWO, 0);
         GameLogic.getInstance().getMiddle().clear();
