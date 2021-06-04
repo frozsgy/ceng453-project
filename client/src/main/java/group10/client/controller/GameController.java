@@ -171,7 +171,9 @@ public class GameController implements Initializable {
         });
     }
 
-
+    /**
+     * Initializes opponent cards' rectangles
+     */
     private void initOpponentCards() {
         this.opponentCards = new ArrayList<>();
         Rectangle opponentCard1 = createCardRectangle(true);
@@ -193,6 +195,9 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     * Initializes player cards' rectangles
+     */
     private void initPlayerCards() {
         this.currentCards = new ArrayList<>();
         Rectangle selfCard1 = createCardRectangle(false);
@@ -214,12 +219,21 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     * Prepares the scene for next hand
+     */
     private void nextHand() {
         this.initOpponentCards();
         this.initPlayerCards();
         this.drawAllCards();
     }
 
+    /**
+     * Creates a card Rectangle
+     *
+     * @param hasImage if the card is viewed from the back or front
+     * @return Rectangle for a card
+     */
     private Rectangle createCardRectangle(boolean hasImage) {
         Rectangle card = new Rectangle();
         card.setArcHeight(5.0);
@@ -236,6 +250,9 @@ public class GameController implements Initializable {
         return card;
     }
 
+    /**
+     * Initializes the middle stack
+     */
     private void initStack() {
         Image img = new Image(CARD_BACK_IMAGE);
         midStack.getChildren().clear();
@@ -255,6 +272,9 @@ public class GameController implements Initializable {
         logToScreen("Cards were dealt for middle stack", this.logArea, LOGGER);
     }
 
+    /**
+     * Deals cards for both of the players.
+     */
     private void drawAllCards() {
         Map<PlayerEnum, List<Card>> playerCards = GameLogic.getInstance().getPlayerCards();
         List<Card> cardsOne = playerCards.get(PlayerEnum.ONE);
@@ -278,14 +298,32 @@ public class GameController implements Initializable {
         GameLogic.getInstance().setPlayerCards(playerCards);
     }
 
+    /**
+     * Checks if the card is hidden or not
+     *
+     * @param r Rectangle to check
+     * @return boolean
+     */
     private boolean isCardHidden(Rectangle r) {
         return !r.getFill().equals(WHITE);
     }
 
+    /**
+     * Sets the rectangle visible
+     *
+     * @param r Rectangle
+     */
     private void setRectangleVisible(Rectangle r) {
         r.setFill(WHITE);
     }
 
+    /**
+     * Draws a card inside the given rectangle
+     *
+     * @param r          Rectangle to draw a card inside
+     * @param cardToDraw card to draw
+     * @return StackPane of the card
+     */
     private StackPane drawCardInsideRectangle(Rectangle r, Card cardToDraw) {
         String margin = " ";
         Suits suit = cardToDraw.getSuit();
@@ -313,11 +351,20 @@ public class GameController implements Initializable {
         return stack;
     }
 
+    /**
+     * Draws a card for the player
+     *
+     * @param r          Rectangle of the card
+     * @param cardToDraw Card to draw
+     */
     private void drawCardForPlayer(Rectangle r, Card cardToDraw) {
         StackPane stack = this.drawCardInsideRectangle(r, cardToDraw);
         bottomAnchorPane.getChildren().add(stack);
     }
 
+    /**
+     * Shuffles the cards before dealing them.
+     */
     private void shuffleCards() {
         this.allCards = new Stack<>();
         this.cardMappings = new HashMap<>();
@@ -334,22 +381,38 @@ public class GameController implements Initializable {
         Collections.shuffle(allCards);
     }
 
+    /**
+     * Sets level text
+     */
     private void setLevelText() {
         String levelStr = "Level ";
         levelText.setText(levelStr + round);
     }
 
+    /**
+     * Sets middle stack count
+     */
     private void setMidCount() {
         String text = "Mid Count: ";
         midCartCount.setText(text + GameLogic.getInstance().getMiddle().size());
     }
 
+    /**
+     * Clears the view
+     */
     private void clearView() {
         this.bottomAnchorPane.getChildren().clear();
         this.upperAnchorPane.getChildren().clear();
         this.midStack.getChildren().clear();
     }
 
+    /**
+     * Prepares the view for the next level
+     *
+     * @param continued   flag to check if the deal is happening in the same level or not
+     * @param playerScore player score
+     * @param enemyScore  enemy score
+     */
     private void nextLevelCleanup(boolean continued, int playerScore, int enemyScore) {
         if (!continued) {
             round++;
@@ -369,6 +432,11 @@ public class GameController implements Initializable {
         this.setMidCount();
     }
 
+    /**
+     * Sets up the next level
+     *
+     * @param continued flag to check if the deal is happening in the same level or not
+     */
     private void setUpNextLevel(boolean continued) {
         int playerScore = GameLogic.getInstance().getScores().get(PlayerEnum.ONE);
         int enemyScore = GameLogic.getInstance().getScores().get(PlayerEnum.TWO);
@@ -391,16 +459,31 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     * Sets the player score
+     *
+     * @param score new score
+     */
     private void setPlayerScore(int score) {
         String text = "Your Score: ";
         this.yourScore.setText(text + score);
     }
 
+    /**
+     * Sets the enemy score
+     *
+     * @param score new score
+     */
     private void setEnemyScore(int score) {
         String text = "Opponent Score: ";
         this.enemyScore.setText(text + score);
     }
 
+    /**
+     * Method to check if the cheat keys have been pressed
+     *
+     * @param event key event
+     */
     protected static void keyPressEvent(KeyEvent event) {
         KeyCombination ctrl9 = new KeyCodeCombination(KeyCode.DIGIT9, KeyCodeCombination.CONTROL_DOWN);
         if (ctrl9.match(event)) {
@@ -423,12 +506,20 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     * Navigates to home
+     *
+     * @param e action event
+     */
     @FXML
     protected void navigateToHome(ActionEvent e) {
         URL resource = getClass().getResource(UiConstants.MENU_FXML);
         Scene menu = UIUtility.navigateTo(e, resource, null);
     }
 
+    /**
+     * Wrapper for setting up the next level
+     */
     private void setUpNextLevelWrapper() {
         if (this.round < LAST_ROUND) {
             Button button = new Button("Next Level");
@@ -443,6 +534,12 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     * Handles real bluff for player
+     *
+     * @param bluffer   bluffing player
+     * @param candidate candidate card
+     */
     private void handleRealBluffForPlayer(PlayerEnum bluffer, Card candidate) {
         this.midStack.getChildren().clear(); // clear mid view.
         GameLogic.getInstance().getMiddle().clear(); // clear middle.
@@ -460,6 +557,12 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     * Handles fake bluff for player
+     *
+     * @param bluffer   bluffing player
+     * @param candidate candidate card
+     */
     private void handleFakeBluffForPlayer(PlayerEnum bluffer, Card candidate, Card bluffed, Rectangle added) {
         if (bluffer == PlayerEnum.ONE) {
             logToScreen("Your bluff was fake.", this.logArea, LOGGER);
@@ -475,6 +578,11 @@ public class GameController implements Initializable {
         GameLogic.getInstance().getMiddle().push(bluffed); // put things back to middle.
     }
 
+    /**
+     * Accepts challenge
+     *
+     * @param e action event
+     */
     @FXML
     private void acceptChallenge(ActionEvent e) {
         logToScreen("Challenge accepted", this.logArea, LOGGER);
@@ -496,6 +604,11 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     * Handles pressing on the rectangles of the cards
+     *
+     * @param pressed rectangle that was pressed
+     */
     private void controlPlayer(Rectangle pressed) {
         midStack.getChildren().add(pressed.getParent()); // add to middle.
         Card card = this.cardMappings.get(pressed); // get pressed card.
@@ -511,6 +624,11 @@ public class GameController implements Initializable {
         pressed.setOnMouseClicked(null); // make unclickable.
     }
 
+    /**
+     * Controls the actions of the opponent
+     *
+     * @return bluffed status
+     */
     private boolean controlOpponent() {
         Pair<Rectangle, Card> cardMap = GameLogic.getInstance().getAiStrategy().playAsComputer(cardMappings);
         boolean bluffed = GameLogic.getInstance().getAiStrategy().getHasBluffed();
@@ -539,6 +657,9 @@ public class GameController implements Initializable {
         return bluffed;
     }
 
+    /**
+     * Rejects bluff
+     */
     private void rejectBluff() {
         this.challengeButton.setVisible(false); // destroy button.
         GameLogic.getInstance().getMiddle().clear(); //clear middle, ai got all cards.
@@ -548,6 +669,11 @@ public class GameController implements Initializable {
         this.setEnemyScore(GameLogic.getInstance().getScores().get(PlayerEnum.TWO)); //update score view.
     }
 
+    /**
+     * Handler for mouse clicks
+     *
+     * @param event mouse event
+     */
     @FXML
     protected void mouseClickHandler(MouseEvent event) {
         if (event.getButton() == MouseButton.PRIMARY) {
@@ -557,6 +683,11 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     * Method that allows the player to bluff
+     *
+     * @param event mouse event
+     */
     private void doBluff(MouseEvent event) {
         try {
             if (GameLogic.getInstance().getMiddle().size() == 1 && this.round >= LAST_ROUND) {
@@ -603,6 +734,9 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     * Handles serving hands until one party reaches MAX_SCORE
+     */
     private void serveHand() {
         if (GameLogic.getInstance().isHandEmpty()) {
             if (!this.allCards.isEmpty()) {
@@ -617,7 +751,7 @@ public class GameController implements Initializable {
                 this.setPlayerScore(playerScore);
                 this.setEnemyScore(enemyScore);
                 logToScreen("Deck consumed for level " + this.round, this.logArea, LOGGER);
-                if (playerScore < 151 && enemyScore < 151) {
+                if (playerScore < MAX_SCORE && enemyScore < MAX_SCORE) {
                     logToScreen("Redealing cards", this.logArea, LOGGER);
                     this.setUpNextLevel(true);
                 } else {
@@ -631,6 +765,11 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     * Handles throwing card for player
+     *
+     * @param event mouse event
+     */
     private void throwCard(MouseEvent event) {
         try {
             if (this.AiBluffed) {
@@ -649,10 +788,20 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     * Gets challenge button
+     *
+     * @return challenge button
+     */
     public Button getChallengeButton() {
         return challengeButton;
     }
 
+    /**
+     * Handler for leaving the game early
+     *
+     * @param e action event
+     */
     @FXML
     public void leaveGame(ActionEvent e) {
         logToScreen("Player " + SessionStorage.getInstance().getUsername() + " has left the game", this.logArea, LOGGER);
