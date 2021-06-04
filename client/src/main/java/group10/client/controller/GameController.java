@@ -452,6 +452,14 @@ public class GameController implements Initializable {
         } else if (event.getButton() == MouseButton.SECONDARY) {
             if (GameLogic.getInstance().getMiddle().size() == 1 && this.round >= LAST_ROUND) {
                 // TODO -- bluff
+                Random rand = new Random();
+                int accepted = 0;
+                int headsTail = rand.nextInt();
+                if (headsTail == accepted) {
+                    // ai challenged us
+                } else {
+                    // ai rejected the bluff.
+                }
             }
         }
     }
