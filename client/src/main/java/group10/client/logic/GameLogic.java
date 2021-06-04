@@ -19,8 +19,9 @@ import static group10.client.constants.GameConstants.*;
 import static group10.client.utility.UIUtility.logToScreen;
 
 /**
- * @author Alperen Caykus, Mustafa Ozan Alpay
  * Singleton class that manages game logic
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 public class GameLogic {
 

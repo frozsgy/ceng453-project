@@ -1,8 +1,9 @@
 package group10.client.model;
 
 /**
- * @author Alperen Caykus, Mustafa Ozan Alpay
  * Registering and logging-in player model to log in and sign up
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 public class Player {
 

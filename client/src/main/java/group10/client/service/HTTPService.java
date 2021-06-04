@@ -23,9 +23,10 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
 /**
- * @author Alperen Caykus, Mustafa Ozan Alpay
  * Singleton Service class that is responsible of sending
  * HTTP requests to server. Acts as a wrapper class.
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 @Service
 public class HTTPService {

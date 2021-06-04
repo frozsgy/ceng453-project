@@ -1,8 +1,9 @@
 package group10.client.enums;
 
 /**
- * @author Alperen Caykus, Mustafa Ozan Alpay
  * Enumarator for card types. Holds card names(numbers) and points associated with them.
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 public enum Cards {
     /**

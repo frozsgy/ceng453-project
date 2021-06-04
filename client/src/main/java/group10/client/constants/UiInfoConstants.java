@@ -1,8 +1,9 @@
 package group10.client.constants;
 
 /**
- * @author Alperen Caykus, Mustafa Ozan Alpay
  * Holds UI messages to inform user about an event
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 public class UiInfoConstants {
     /**

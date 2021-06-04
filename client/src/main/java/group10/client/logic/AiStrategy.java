@@ -10,9 +10,10 @@ import java.util.Map;
 import java.util.Stack;
 
 /**
- *  @author Alperen Caykus, Mustafa Ozan Alpay
- *  Abstract class for AI behavior.
- *  Used to implement strategy pattern.
+ * Abstract class for AI behavior.
+ * Used to implement strategy pattern.
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 public abstract class AiStrategy {
     /**
@@ -31,6 +32,7 @@ public abstract class AiStrategy {
     /**
      * Abstract method that defines the behavior of AI.
      * Used to implement strategy pattern.
+     *
      * @param cardMappings Cards and their visual Rectangle representatives.
      * @return Pair of played card and its representative Rectangle.
      */
@@ -38,8 +40,9 @@ public abstract class AiStrategy {
 
     /**
      * Constructor for AI strategy
+     *
      * @param playerCards List of player cards that players currently own.
-     * @param middle Stack of cards standing on middle.
+     * @param middle      Stack of cards standing on middle.
      */
     public AiStrategy(Map<PlayerEnum, List<Card>> playerCards, Stack<Card> middle) {
         this.playerCards = playerCards;
@@ -50,6 +53,7 @@ public abstract class AiStrategy {
     /**
      * Method to remove the played card from the cards that AI
      * currently owns.
+     *
      * @param card Card to be removed
      */
     protected void removePlayedCard(Card card) {
@@ -60,6 +64,7 @@ public abstract class AiStrategy {
 
     /**
      * Gets if the AI has bluffed.
+     *
      * @return hasBluffed
      */
     public boolean getHasBluffed() {

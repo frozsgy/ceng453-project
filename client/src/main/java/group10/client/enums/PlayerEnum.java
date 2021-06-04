@@ -1,9 +1,10 @@
 package group10.client.enums;
 
 /**
- * @author Alperen Caykus, Mustafa Ozan Alpay
- * Enumarator for player types.
+ * Enumerator for player types.
  * Denotes the player's associated number.
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 public enum PlayerEnum {
     /**

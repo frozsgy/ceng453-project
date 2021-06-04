@@ -6,8 +6,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 
 /**
- * @author Alperen Caykus, Mustafa Ozan Alpay
  * Spinner class to render loading spinner for network requests.
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 public class LoadingSpinner {
 

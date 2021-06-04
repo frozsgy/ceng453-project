@@ -16,8 +16,9 @@ import java.io.IOException;
 import java.net.URL;
 
 /**
- * @author Alperen Caykus, Mustafa Ozan Alpay
  * Utility class that containts UI related helper methods.
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 public class UIUtility {
 

@@ -2,9 +2,10 @@ package group10.client.state;
 
 
 /**
- * @author Alperen Caykus, Mustafa Ozan Alpay
  * Singleton class to hold session information
  * of the logged in user.
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 public class SessionStorage {
 

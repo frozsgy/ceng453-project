@@ -1,9 +1,10 @@
 package group10.client.enums;
 
 /**
- * @author Alperen Caykus, Mustafa Ozan Alpay
- * Enumarator for game types.
+ * Enumerator for game types.
  * Denotes against who this game is being played to.
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 public enum GameTypes {
     /**

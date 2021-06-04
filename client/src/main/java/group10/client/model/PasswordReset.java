@@ -1,9 +1,10 @@
 package group10.client.model;
 
 /**
- * @author Alperen Caykus, Mustafa Ozan Alpay
  * Password reset class that is converted to Json and
  * sent to server when doing password update.
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 public class PasswordReset {
 

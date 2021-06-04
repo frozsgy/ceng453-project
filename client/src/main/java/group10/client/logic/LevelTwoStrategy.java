@@ -12,9 +12,10 @@ import java.util.Random;
 import java.util.Stack;
 
 /**
- * @author Alperen Caykus, Mustafa Ozan Alpay
  * Concrete class that extends abstract AiStrategy
  * Defines behavior of AI for second level.
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 public class LevelTwoStrategy extends AiStrategy {
     /**

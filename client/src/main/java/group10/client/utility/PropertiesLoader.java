@@ -7,8 +7,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
 /**
- * @author Alperen Caykus, Mustafa Ozan Alpay
  * Property loader class for UI constants.
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 public class PropertiesLoader {
 

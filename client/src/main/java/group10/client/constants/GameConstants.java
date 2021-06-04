@@ -1,8 +1,9 @@
 package group10.client.constants;
 
 /**
- * @author Alperen Caykus, Mustafa Ozan Alpay
  * Holds game related constants.
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 public class GameConstants {
 

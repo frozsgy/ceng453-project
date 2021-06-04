@@ -4,8 +4,9 @@ import group10.client.entity.PagedEntity;
 import group10.client.entity.Scoreboard;
 
 /**
- * @author Alperen Caykus, Mustafa Ozan Alpay
  * Singleton storage class for scoreboard data.
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 public class ScoreboardStorage {
 

@@ -6,8 +6,9 @@ import group10.client.enums.Suits;
 import java.util.Objects;
 
 /**
- * @author Alperen Caykus, Mustafa Ozan Alpay
  * Card class that represents a card object.
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 public class Card {
 

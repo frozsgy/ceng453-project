@@ -6,8 +6,9 @@ import javafx.scene.paint.Paint;
 import java.util.Properties;
 
 /**
- * @author Alperen Caykus, Mustafa Ozan Alpay
  * Holds UI related constants
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 public class UiConstants {
 
