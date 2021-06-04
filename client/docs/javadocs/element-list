@@ -1,0 +1,10 @@
+group10.client
+group10.client.constants
+group10.client.controller
+group10.client.entity
+group10.client.enums
+group10.client.logic
+group10.client.model
+group10.client.service
+group10.client.state
+group10.client.utility
