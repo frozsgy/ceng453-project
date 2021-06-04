@@ -133,6 +133,15 @@ class LoginControllerTest_JUnit5AssertJ {
     }
 
     @Test
+    @DisplayName("Hyperlink Navigation")
+    void hyperlinkEvent(FxRobot robot) {
+        Hyperlink hp = robot.lookup("#forgetPwForwarder").queryAs(Hyperlink.class);;
+        robot.clickOn(hp);
+        Scene forgotScene = stage.getScene();
+        assertNotEquals(forgotScene, loginScene);
+    }
+
+    @Test
     @DisplayName("Username Textbox Enabled")
     void unameEnabled(FxRobot robot) {
         TextField txt = robot.lookup("#username").queryAs(TextField.class);;
