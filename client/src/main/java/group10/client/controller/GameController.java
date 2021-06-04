@@ -409,11 +409,13 @@ public class GameController implements Initializable {
     private boolean controlOpponent() {
         boolean bluffed = false;
         Pair<Rectangle, Card> cardMap = GameLogic.getInstance().getAiStrategy().playAsComputer(cardMappings);
+        bluffed = GameLogic.getInstance().getAiStrategy().getHasBluffed();
+        GameController._instance.getChallengeButton().setVisible(bluffed);
         Rectangle removed = cardMap.getKey();
         Card opponentCard = cardMap.getValue();
         this.upperAnchorPane.getChildren().remove(removed); // remove from view.
         this.cardMappings.remove(removed); // remove the mapping.
-        Rectangle opponentRectangle = createCardRectangle(challengeButton.isVisible()); // generate new view.
+        Rectangle opponentRectangle = createCardRectangle(bluffed); // generate new view.
         this.cardMappings.put(opponentRectangle, opponentCard); // create new mapping.
         drawCardInsideRectangle(opponentRectangle, opponentCard); // put text unless it is hidden.
         midStack.getChildren().add(opponentRectangle.getParent()); // put it to mid.
