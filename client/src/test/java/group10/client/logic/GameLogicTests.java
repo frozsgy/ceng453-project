@@ -26,11 +26,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class GameLogicTests {
 
+    private void resetGameLogic() {
+        GameLogic.getInstance().resetFields();
+        GameLogic.getInstance().resetScores();
+    }
+
 
     @Test
     @DisplayName("Score Calculation - JACKS")
     @Order(1)
     void scoreTestJack() {
+        this.resetGameLogic();
         Stack<Card> middle = GameLogic.getInstance().getMiddle();
         middle.add(new Card(Cards.JACK, Suits.DIAMOND));
         middle.add(new Card(Cards.FIVE, Suits.DIAMOND));
@@ -44,6 +50,7 @@ public class GameLogicTests {
     @DisplayName("Score Calculation - ACES")
     @Order(2)
     void scoreTestAce() {
+        this.resetGameLogic();
         Stack<Card> middle = GameLogic.getInstance().getMiddle();
         middle.push(new Card(Cards.ACE, Suits.DIAMOND));
         middle.push(new Card(Cards.FIVE, Suits.DIAMOND));
@@ -57,6 +64,7 @@ public class GameLogicTests {
     @DisplayName("Score Calculation - Two of Clubs")
     @Order(3)
     void scoreTestTwoOfClubs() {
+        this.resetGameLogic();
         Stack<Card> middle = GameLogic.getInstance().getMiddle();
         middle.push(new Card(Cards.ACE, Suits.DIAMOND));
         middle.push(new Card(Cards.FIVE, Suits.DIAMOND));
@@ -70,6 +78,7 @@ public class GameLogicTests {
     @DisplayName("Score Calculation - Ten of Diamonds")
     @Order(4)
     void scoreTestTenOfDiamonds() {
+        this.resetGameLogic();
         Stack<Card> middle = GameLogic.getInstance().getMiddle();
         middle.push(new Card(Cards.ACE, Suits.DIAMOND));
         middle.push(new Card(Cards.TEN, Suits.DIAMOND));
@@ -84,6 +93,7 @@ public class GameLogicTests {
     @DisplayName("Give Middle Stack Cards to Last Winner ")
     @Order(5)
     void giveMiddleStackTest() {
+        this.resetGameLogic();
         Stack<Card> middle = GameLogic.getInstance().getMiddle();
         GameLogic.getInstance().setLastWinner(PlayerEnum.TWO);
         GameLogic.getInstance().setCurrentPlayer(PlayerEnum.TWO);
@@ -101,9 +111,10 @@ public class GameLogicTests {
     }
 
     @Test
-    @DisplayName("Give No Points for Equal Number of Cards ")
+    @DisplayName("Give No Bonus Points for Equal Number of Cards")
     @Order(6)
     void equalNumberOfCards() {
+        this.resetGameLogic();
         Stack<Card> middle = GameLogic.getInstance().getMiddle();
         GameLogic.getInstance().setLastWinner(PlayerEnum.TWO);
         GameLogic.getInstance().setCurrentPlayer(PlayerEnum.TWO);
@@ -127,6 +138,35 @@ public class GameLogicTests {
         scores = GameLogic.getInstance().getScores();
         assertEquals(scores.get(PlayerEnum.ONE), 15);
         assertEquals(scores.get(PlayerEnum.TWO), 22 + 6);
+    }
+
+    @Test
+    @DisplayName("Give Bonus Points for Different Number of Cards")
+    @Order(7)
+    void moreNumberOfCards() {
+        this.resetGameLogic();
+        Stack<Card> middle = GameLogic.getInstance().getMiddle();
+        GameLogic.getInstance().setLastWinner(PlayerEnum.TWO);
+        GameLogic.getInstance().setCurrentPlayer(PlayerEnum.TWO);
+        Map<PlayerEnum, Integer> scores = GameLogic.getInstance().getScores();
+        scores.replace(PlayerEnum.ONE, 15);
+        scores.replace(PlayerEnum.TWO, 22);
+        GameLogic.getInstance().setScores(scores);
+        middle.push(new Card(Cards.ACE, Suits.DIAMOND));
+        middle.push(new Card(Cards.TEN, Suits.DIAMOND));
+        List<Card> playerCardsList = GameLogic.getInstance().getPlayerCards().get(PlayerEnum.ONE);
+        playerCardsList.add(new Card(Cards.FIVE, Suits.DIAMOND));
+        playerCardsList.add(new Card(Cards.FOUR, Suits.DIAMOND));
+        playerCardsList.add(new Card(Cards.SIX, Suits.DIAMOND));
+        Map<PlayerEnum, List<Card>> playerCards = GameLogic.getInstance().getPlayerCards();
+        playerCards.replace(PlayerEnum.ONE, playerCardsList);
+        Map<PlayerEnum, Integer> playerCardCounts = GameLogic.getInstance().getPlayerCardCounts();
+        playerCardCounts.replace(PlayerEnum.ONE, 3);
+        GameLogic.getInstance().setPlayerCards(playerCards);
+        GameLogic.getInstance().giveMidStackCardsToLastWinner();
+        scores = GameLogic.getInstance().getScores();
+        assertEquals(scores.get(PlayerEnum.ONE), 15 + 3);
+        assertEquals(scores.get(PlayerEnum.TWO), 22 + 4);
     }
 
 
