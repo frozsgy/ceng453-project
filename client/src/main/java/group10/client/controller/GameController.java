@@ -386,8 +386,8 @@ public class GameController implements Initializable {
             GameLogic.getInstance().addScoreToPlayer(PlayerEnum.ONE, GameConstants.DOUBLE_PISTI); // give points to player.
             this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.ONE)); // update player score view.
             GameLogic.getInstance().getMiddle().push(candidate); // put things back to middle.
+            GameLogic.getInstance().getMiddle().push(bluffed); // put things back to middle.
         }
-
     }
 
     private void controlPlayer(Rectangle pressed) {
@@ -452,7 +452,7 @@ public class GameController implements Initializable {
         }
     }
 
-    protected void doBluff(MouseEvent event) {
+    private void doBluff(MouseEvent event) {
         try{
             if (/*GameLogic.getInstance().getMiddle().size() == 1 &&*/ this.round >= LAST_ROUND) {
                 Rectangle pressed = (Rectangle) ((Node) event.getTarget());
@@ -460,12 +460,16 @@ public class GameController implements Initializable {
                 Random rand = new Random();
                 int accepted = 0;
                 int headsTail = rand.nextInt();
-                if (/*headsTail == accepted */ false) {
+                if (/*headsTail == accepted */ true) {
                     // ai accepted the challenge.
+
+
                 } else {
                     // ai rejected the bluff.
                     LOGGER.info("AI rejected the bluff");
-                    GameLogic.getInstance().addScoreToPlayer(PlayerEnum.ONE, GameConstants.PISTI); // give score to second player.
+                    this.midStack.getChildren().clear(); // clear mid view.
+                    GameLogic.getInstance().getMiddle().clear(); // clear mid.
+                    GameLogic.getInstance().addScoreToPlayer(PlayerEnum.ONE, GameConstants.PISTI); // give score to first player.
                     this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.ONE)); //update score view.
                     this.bottomAnchorPane.getChildren().remove(pressed.getParent());
                     currentCards.remove(pressed); // remove card from hand.
@@ -485,7 +489,6 @@ public class GameController implements Initializable {
                 LOGGER.info("Cards dealt");
                 this.nextHand();
             } else {
-                PlayerEnum lastWinner = GameLogic.getInstance().getLastWinner();
                 GameLogic.getInstance().giveMidStackCardsToLastWinner();
                 this.midStack.getChildren().clear();
                 this.setMidCount();
@@ -508,7 +511,7 @@ public class GameController implements Initializable {
         }
     }
 
-    protected void throwCard(MouseEvent event) {
+    private void throwCard(MouseEvent event) {
         try {
             if (this.AiBluffed) {
                 this.AiBluffed = false;
