@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @ExtendWith(ApplicationExtension.class)
-class ForgotControllerTest_JUnit5AssertJ {
+class ForgotControllerTest {
 
     Scene forgotScene;
     Stage stage;

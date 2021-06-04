@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @ExtendWith(ApplicationExtension.class)
-class LoginControllerTest_JUnit5AssertJ {
+class LoginControllerTest {
 
     Scene loginScene;
     Stage stage;

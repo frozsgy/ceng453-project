@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @ExtendWith(ApplicationExtension.class)
-class RegisterControllerTest_JUnit5AssertJ {
+class RegisterControllerTest {
 
     Scene registerScene;
     Stage stage;

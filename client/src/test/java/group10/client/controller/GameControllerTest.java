@@ -27,7 +27,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(ApplicationExtension.class)
-class GameControllerTest_JUnit5AssertJ {
+class GameControllerTest {
 
     Scene gameScene;
     Stage stage;
