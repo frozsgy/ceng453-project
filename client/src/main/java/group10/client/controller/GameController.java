@@ -74,7 +74,7 @@ public class GameController implements Initializable {
     private List<Rectangle> opponentCards;
     private Map<Rectangle, Card> cardMappings;
     private boolean thirdLevelScorePosted;
-    private boolean bluffed;
+    private boolean AiBluffed;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -84,7 +84,7 @@ public class GameController implements Initializable {
         this.leaveButton.setFocusTraversable(false);
         this.round = 0;
         this.setUpNextLevel(false); // set up level 1
-        this.bluffed = false;
+        this.AiBluffed = false;
     }
 
     private void initOpponentCards() {
@@ -361,7 +361,7 @@ public class GameController implements Initializable {
     private void acceptChallenge(ActionEvent e) {
         LOGGER.info("Challenge accepted");
         this.challengeButton.setVisible(false); // destroy button.
-        this.bluffed = false; // handle flag.
+        this.AiBluffed = false; // handle flag.
         Card bluffed = GameLogic.getInstance().getMiddle().pop(); // get closed card.
         Card candidate = GameLogic.getInstance().getMiddle().pop(); // get prev card.
         if (candidate.getCard() == bluffed.getCard()) {
@@ -407,9 +407,8 @@ public class GameController implements Initializable {
     }
 
     private boolean controlOpponent() {
-        boolean bluffed = false;
         Pair<Rectangle, Card> cardMap = GameLogic.getInstance().getAiStrategy().playAsComputer(cardMappings);
-        bluffed = GameLogic.getInstance().getAiStrategy().getHasBluffed();
+        boolean bluffed = GameLogic.getInstance().getAiStrategy().getHasBluffed();
         GameController._instance.getChallengeButton().setVisible(bluffed);
         Rectangle removed = cardMap.getKey();
         Card opponentCard = cardMap.getValue();
@@ -419,10 +418,9 @@ public class GameController implements Initializable {
         this.cardMappings.put(opponentRectangle, opponentCard); // create new mapping.
         drawCardInsideRectangle(opponentRectangle, opponentCard); // put text unless it is hidden.
         midStack.getChildren().add(opponentRectangle.getParent()); // put it to mid.
-        if (isCardHidden(opponentRectangle)) {
+        if (bluffed) {
             // handle bluff
             GameLogic.getInstance().getMiddle().add(opponentCard); // put card to bluff, do not make check.
-            bluffed = true;
         } else {
             if (GameLogic.getInstance().getMiddle().isEmpty()) {
                 LOGGER.info("Player Two threw " + opponentCard + " on an empty stack");
@@ -466,15 +464,15 @@ public class GameController implements Initializable {
 
     protected void throwCard(MouseEvent event) {
         try {
-            if (this.bluffed) {
-                this.bluffed = false;
+            if (this.AiBluffed) {
+                this.AiBluffed = false;
                 this.rejectBluff();
             }
             Rectangle pressed = (Rectangle) ((Node) event.getTarget());
 
             this.controlPlayer(pressed);
             GameLogic.getInstance().setCurrentPlayer(PlayerEnum.TWO);
-            this.bluffed = this.controlOpponent();
+            this.AiBluffed = this.controlOpponent();
             this.setMidCount();
             if (GameLogic.getInstance().isHandEmpty()) {
                 if (!this.allCards.isEmpty()) {
