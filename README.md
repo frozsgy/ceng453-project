@@ -9,5 +9,5 @@
 
 ## Repository Structure
 
-* client: contains client code
-* server: contains server code
+* client: Contains client code and detailed documentation. For further information, please refer to [README](client/README.md) of that folder.
+* server: Contains server code and detailed documentation. For further information, please refer to [README](server/README.md) of that folder.
