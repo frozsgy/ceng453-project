@@ -19,13 +19,13 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-@DisplayName("Level One Strategy Tests")
+@DisplayName("Level Two Strategy Tests")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class LevelOneStrategyTests {
+public class LevelTwoStrategyTests {
 
     List<Card> cardList;
 
-    private List<Card> initCards() {
+    private List<Card> initCards(boolean match) {
         this.cardList = new ArrayList<>();
         cardList.add(new Card(Cards.FIVE, Suits.DIAMOND));
         cardList.add(new Card(Cards.FOUR, Suits.DIAMOND));
@@ -35,12 +35,16 @@ public class LevelOneStrategyTests {
         cardList.add(new Card(Cards.FOUR, Suits.SPADE));
         cardList.add(new Card(Cards.SIX, Suits.SPADE));
         cardList.add(new Card(Cards.SEVEN, Suits.SPADE));
-        cardList.add(new Card(Cards.FIVE, Suits.CLUB));
+        if (match) {
+            cardList.add(new Card(Cards.SIX, Suits.CLUB));
+        } else {
+            cardList.add(new Card(Cards.NINE, Suits.CLUB));
+        }
         return this.cardList;
     }
 
-    private Map<Rectangle, Card> init() {
-        final List<Card> cards = this.initCards();
+    private Map<Rectangle, Card> init(boolean match) {
+        final List<Card> cards = this.initCards(match);
         Map<PlayerEnum, List<Card>> playerCards = GameLogic.getInstance().getPlayerCards();
         List<Card> playerCardsList = playerCards.get(PlayerEnum.ONE);
         for (int i = 0; i < 4; i++) {
@@ -64,13 +68,22 @@ public class LevelOneStrategyTests {
     }
 
     @Test
-    @DisplayName("Play as Computer - Throw First Card")
+    @DisplayName("Play as Computer - Throw Matching Card")
     @Order(1)
     void playAsComputerTest() {
-        Map<Rectangle, Card> mockMap = this.init();
-        LevelOneStrategy strategy = new LevelOneStrategy(GameLogic.getInstance().getPlayerCards(), GameLogic.getInstance().getMiddle());
+        Map<Rectangle, Card> mockMap = this.init(true);
+        LevelTwoStrategy strategy = new LevelTwoStrategy(GameLogic.getInstance().getPlayerCards(), GameLogic.getInstance().getMiddle());
         Pair<Rectangle, Card> rectangleCardPair = strategy.playAsComputer(mockMap);
-        assertEquals(rectangleCardPair.getValue(), this.cardList.get(4));
+        assertEquals(rectangleCardPair.getValue(), this.cardList.get(6));
+    }
 
+    @Test
+    @DisplayName("Play as Computer - Throw First Card")
+    @Order(2)
+    void playAsComputerNoMatchTest() {
+        Map<Rectangle, Card> mockMap = this.init(false);
+        LevelTwoStrategy strategy = new LevelTwoStrategy(GameLogic.getInstance().getPlayerCards(), GameLogic.getInstance().getMiddle());
+        Pair<Rectangle, Card> rectangleCardPair = strategy.playAsComputer(mockMap);
+        assert((rectangleCardPair.getValue() == this.cardList.get(4)) || (rectangleCardPair.getValue() == this.cardList.get(5)) || (rectangleCardPair.getValue() == this.cardList.get(6)) || (rectangleCardPair.getValue() == this.cardList.get(7)));
     }
 }
