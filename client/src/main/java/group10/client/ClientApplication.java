@@ -11,6 +11,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class ClientApplication {
 
+    /**
+     * Entry point for the application
+     *
+     * @param args argument list
+     */
     public static void main(String[] args) {
         Application.launch(UiApplication.class, args);
     }

@@ -106,6 +106,8 @@ public class LevelThreeStrategy extends AiStrategy {
     }
 
     /**
+     * @param playerCards map of player cards
+     * @param middle      middle stack
      * @see AiStrategy#AiStrategy(Map, Stack)
      */
     public LevelThreeStrategy(Map<PlayerEnum, List<Card>> playerCards, Stack<Card> middle) {

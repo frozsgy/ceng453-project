@@ -44,6 +44,10 @@ public class Scoreboard {
 
     /**
      * Three parameters constructor
+     *
+     * @param score    score
+     * @param userId   user id
+     * @param username username
      */
     public Scoreboard(long score, long userId, String username) {
         this.score = score;
@@ -53,6 +57,14 @@ public class Scoreboard {
 
     /**
      * Full parameters constructor
+     *
+     * @param score      score
+     * @param userId     user id
+     * @param username   username
+     * @param levelOne   level one score
+     * @param levelTwo   level two score
+     * @param levelThree level three score
+     * @param levelFour  level four score
      */
     public Scoreboard(long score, long userId, String username, long levelOne, long levelTwo, long levelThree, long levelFour) {
         this.score = score;

@@ -48,10 +48,20 @@ public class UiApplication extends Application {
      * Static method that sets the stage ready
      */
     static class StageReadyEvent extends ApplicationEvent {
+        /**
+         * Stage ready event
+         *
+         * @param stage stage
+         */
         public StageReadyEvent(Stage stage) {
             super(stage);
         }
 
+        /**
+         * Gets stage
+         *
+         * @return stage
+         */
         public Stage getStage() {
             return ((Stage) getSource());
         }

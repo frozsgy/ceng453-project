@@ -35,6 +35,7 @@ public enum PlayerEnum {
      * Constructor for this
      *
      * @param id id associated with enum.
+     * @param name name of the enum
      */
     PlayerEnum(int id, String name) {
         this.id = id;

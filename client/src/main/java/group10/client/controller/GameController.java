@@ -1,6 +1,5 @@
 package group10.client.controller;
 
-import group10.client.StageInitializer;
 import group10.client.constants.GameConstants;
 import group10.client.constants.UiConstants;
 import group10.client.enums.Cards;
@@ -571,6 +570,8 @@ public class GameController implements Initializable {
      *
      * @param bluffer   bluffing player
      * @param candidate candidate card
+     * @param bluffed   bluffed card
+     * @param added     added rectangle
      */
     private void handleFakeBluffForPlayer(PlayerEnum bluffer, Card candidate, Card bluffed, Rectangle added) {
         if (bluffer == PlayerEnum.ONE) {

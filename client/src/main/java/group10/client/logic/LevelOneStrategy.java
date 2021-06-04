@@ -36,6 +36,8 @@ public class LevelOneStrategy extends AiStrategy {
     }
 
     /**
+     * @param playerCards map of player cards
+     * @param middle      middle stack
      * @see AiStrategy#AiStrategy(Map, Stack)
      */
     public LevelOneStrategy(Map<PlayerEnum, List<Card>> playerCards, Stack<Card> middle) {

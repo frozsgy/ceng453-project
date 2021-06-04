@@ -37,6 +37,9 @@ import static group10.client.utility.UIUtility.centerScene;
 @Component
 public class ForgotController implements Initializable, FormView {
 
+    /**
+     * Flag to check if email is submitted
+     */
     private boolean isEmailSubmitted;
 
     /**

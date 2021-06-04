@@ -25,6 +25,9 @@ public class Level {
 
     /**
      * Two parameters constructor
+     *
+     * @param game  game id
+     * @param score score
      */
     public Level(long game, long score) {
         this.game = game;

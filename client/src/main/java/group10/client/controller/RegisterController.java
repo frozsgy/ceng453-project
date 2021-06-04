@@ -101,7 +101,7 @@ public class RegisterController implements Initializable, FormView {
      * If successful register, fires buttonBackRegister event and navigates back to login.
      * If not successful, displays error message.
      *
-     * @param event
+     * @param event action event
      * @see RegisterController#navigateToLogin(ActionEvent)
      */
     @FXML
