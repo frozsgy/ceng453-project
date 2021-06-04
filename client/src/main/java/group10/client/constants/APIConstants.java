@@ -4,15 +4,20 @@ package group10.client.constants;
  *  @author Alperen Caykus, Mustafa Ozan Alpay
  *  Holds server REST endpoints.
  */
-public class ServerFolders {
+public class APIConstants {
+
+    /**
+     * API Root URL.
+     */
+    private final static String API = "http://localhost:8080/api";
     /**
      * User folder for server.
      */
-    private final static String USER = "/user/";
+    private final static String USER = API + "/user/";
     /**
      * Game folder for server.
      */
-    private final static String GAME = "/game/";
+    private final static String GAME = API + "/game/";
     /**
      * Login path to send login requests
      */

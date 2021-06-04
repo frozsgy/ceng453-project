@@ -1,7 +1,7 @@
 package group10.client.service;
 
 import com.google.gson.Gson;
-import group10.client.constants.ServerFolders;
+import group10.client.constants.APIConstants;
 import group10.client.constants.UiInfoConstants;
 import group10.client.entity.Level;
 import group10.client.entity.PlayerGame;
@@ -10,7 +10,6 @@ import group10.client.model.Player;
 import group10.client.state.SessionStorage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpServerErrorException;
@@ -22,9 +21,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
 /**
- *  @author Alperen Caykus, Mustafa Ozan Alpay
- *  Singleton Service class that is responsible of sending
- *  HTTP requests to server. Acts as a wrapper class.
+ * @author Alperen Caykus, Mustafa Ozan Alpay
+ * Singleton Service class that is responsible of sending
+ * HTTP requests to server. Acts as a wrapper class.
  */
 @Service
 public class HTTPService {
@@ -43,10 +42,6 @@ public class HTTPService {
      */
     private Gson gson;
     /**
-     * Constant server API adress.
-     */
-    private final static String API = "http://localhost:8080/api";
-    /**
      * Constant JSON key to access server error messages.
      */
     private final static String SERVER_ERROR_MSG_KEY = "error";
@@ -59,6 +54,7 @@ public class HTTPService {
      * Helper method to hash Strings with SHA-256.
      * Used for hashing passwords before sending them over network.
      * However, works on any String instance.
+     *
      * @param pw Password to be hashed with SHA-256
      * @return SHA-256 Hash string of given password.
      */
@@ -85,6 +81,7 @@ public class HTTPService {
     /**
      * Creates a new HTTPService instance and assigns it to instance field.
      * Used for singleton access.
+     *
      * @return instance
      */
     public static HTTPService getInstance() {
@@ -97,8 +94,9 @@ public class HTTPService {
 
     /**
      * Initializes a new HttpEntity and returns it.
+     *
      * @param withToken Flag to add token header or not. Add if true, don't if false.
-     * @param json Json body to attach to created HttpEntity.
+     * @param json      Json body to attach to created HttpEntity.
      * @return newly created HttpEntity.
      */
     private HttpEntity<String> initEntity(boolean withToken, String json) {
@@ -119,6 +117,7 @@ public class HTTPService {
      * and populates SessionStorage fields on successful login.
      * Also logs if the operation was successful or not to console.
      * Hashes the password with SHA-256 before sending it
+     *
      * @param player Player to be logged in.
      * @return True if login is successful, false otherwise.
      * @see Player
@@ -128,7 +127,7 @@ public class HTTPService {
         String json = gson.toJson(player);
         HttpEntity<String> entity = initEntity(false, json);
         try {
-            String path = API + ServerFolders.LOGIN_PATH;
+            String path = APIConstants.LOGIN_PATH;
             ResponseEntity<String> response = restTemplate.exchange(path, HttpMethod.POST, entity, String.class);
             String token = response.getBody(); // store it somewhere
             SessionStorage.getInstance().setToken(token);
@@ -145,6 +144,7 @@ public class HTTPService {
      * Registers the given player by sending HTTP request.
      * Logs if the operation was successful or not to console.
      * Hashes the password with SHA-256 before sending it
+     *
      * @param player Player to be registered.
      * @return Empty string on success, Server error message on error.
      * @see Player
@@ -154,7 +154,7 @@ public class HTTPService {
         String json = gson.toJson(player);
         HttpEntity<String> entity = initEntity(false, json);
         try {
-            String path = API + ServerFolders.REGISTER_PATH;
+            String path = APIConstants.REGISTER_PATH;
             ResponseEntity<String> response = restTemplate.exchange(path, HttpMethod.POST, entity, String.class);
             LOGGER.info("Successful register: " + player.getUsername());
         } catch (HttpServerErrorException e) {
@@ -168,6 +168,7 @@ public class HTTPService {
     /**
      * Sends a HTTP request to server to request a password reset code
      * to given email address. Logs the success of operation to console.
+     *
      * @param emailContainer Object that wraps email.
      * @return Error message if operation failed, Empty string if operation was successful.
      * @see PasswordReset
@@ -176,7 +177,7 @@ public class HTTPService {
         String json = gson.toJson(emailContainer);
         HttpEntity<String> entity = initEntity(false, json);
         try {
-            String path = API + ServerFolders.REQUEST_CODE_PATH;
+            String path = APIConstants.REQUEST_CODE_PATH;
             ResponseEntity<Boolean> response = restTemplate.exchange(path, HttpMethod.POST, entity, Boolean.class);
             boolean body = response.getBody();
             if (!body) {
@@ -194,6 +195,7 @@ public class HTTPService {
      * Updates the password by sending a HTTP request to server.
      * Logs the operation success status to console.
      * Hashes the password with SHA-256 before sending it
+     *
      * @param resetForm Form that holds reset code, username and new password.
      * @return Empty string if operation was successful, error message otherwise.
      * @see PasswordReset
@@ -203,7 +205,7 @@ public class HTTPService {
         String json = gson.toJson(resetForm);
         HttpEntity<String> entity = initEntity(false, json);
         try {
-            String path = API + ServerFolders.UPDATE_PW_PATH;
+            String path = APIConstants.UPDATE_PW_PATH;
             ResponseEntity<Boolean> response = restTemplate.exchange(path, HttpMethod.PUT, entity, Boolean.class);
             boolean body = response.getBody();
             if (!body) {
@@ -221,6 +223,7 @@ public class HTTPService {
 
     /**
      * Sends a get request to given URL with empty body and with token.
+     *
      * @param url URL that the request is sent to.
      * @return Server response.
      */
@@ -238,27 +241,30 @@ public class HTTPService {
 
     /**
      * Gets the scoreboard for last n days with paging
+     *
      * @param days Last n days
      * @param page Requested page number.
      * @return Server message.
      */
     public String getScoreboard(long days, long page) {
-        return this.getRequest(API + ServerFolders.SCOREBOARD_PATH + "/" + days + "?pageNumber=" + page);
+        return this.getRequest(APIConstants.SCOREBOARD_PATH + "/" + days + "?pageNumber=" + page);
     }
 
     /**
      * Starts a new game by sending a GET request to ServerFolders.NEW_GAME_PATH.
      * Logs the username of the user who requested the new game to console.
+     *
      * @return Server message
      */
     public String startNewGame() {
         LOGGER.info("New Game request from " + SessionStorage.getInstance().getUsername());
-        return this.getRequest(API + ServerFolders.NEW_GAME_PATH);
+        return this.getRequest(APIConstants.NEW_GAME_PATH);
     }
 
     /**
      * POSTs score of the level to server.
      * Logs username, game and score to console.
+     *
      * @param level Level that score was calculated for.
      * @return Server Response that contains player, game, level and score.
      * @see PlayerGame
@@ -266,7 +272,7 @@ public class HTTPService {
     public PlayerGame sendScores(Level level) {
         String json = gson.toJson(level);
         HttpEntity<String> entity = initEntity(true, json);
-        String path = API + ServerFolders.SEND_SCORE_PATH;
+        String path = APIConstants.SEND_SCORE_PATH;
         ResponseEntity<PlayerGame> response = restTemplate.exchange(path, HttpMethod.POST, entity, PlayerGame.class);
         LOGGER.info("Score submission from " + SessionStorage.getInstance().getUsername() + " - Game: " + level.getGame() + " - Score: " + level.getScore());
         return response.getBody();
