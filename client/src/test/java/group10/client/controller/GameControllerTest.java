@@ -85,7 +85,7 @@ class GameControllerTest {
     }
 
     @Test
-    @DisplayName("Mid Count")
+    @DisplayName("Mid Count Text")
     @Order(5)
     void midView(FxRobot robot) {
         Text t = robot.lookup("#midCartCount").queryAs(Text.class);
