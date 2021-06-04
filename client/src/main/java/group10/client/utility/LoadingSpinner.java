@@ -8,7 +8,7 @@ import javafx.scene.layout.StackPane;
 /**
  * @author Alperen Caykus, Mustafa Ozan Alpay
  * Spinner class to render loading spinner for network requests.
- * */
+ */
 public class LoadingSpinner {
 
     /**
@@ -22,7 +22,8 @@ public class LoadingSpinner {
 
     /**
      * Constructor for spinner.
-     * @param stackPane StackPane instance that spinner will be attached to.
+     *
+     * @param stackPane          StackPane instance that spinner will be attached to.
      * @param registerBorderPane Border pane that is the root of the scene.
      */
     public LoadingSpinner(StackPane stackPane, BorderPane registerBorderPane) {

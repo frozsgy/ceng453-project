@@ -26,6 +26,7 @@ public class ScoreboardStorage {
 
     /**
      * Creates an instance, assigns it to instance field and returns it.
+     *
      * @return ScoreboardStorage instance.
      */
     public static ScoreboardStorage getInstance() {
@@ -43,6 +44,7 @@ public class ScoreboardStorage {
 
     /**
      * Gets the data
+     *
      * @return Paged scoreboard data.
      */
     public PagedEntity<Scoreboard> getData() {
@@ -51,6 +53,7 @@ public class ScoreboardStorage {
 
     /**
      * Sets the data
+     *
      * @param data data to be set.
      */
     public void setData(PagedEntity<Scoreboard> data) {
@@ -59,6 +62,7 @@ public class ScoreboardStorage {
 
     /**
      * Gets the interval
+     *
      * @return interval
      */
     public int getInterval() {
@@ -67,6 +71,7 @@ public class ScoreboardStorage {
 
     /**
      * Sets the interval
+     *
      * @param interval interval to be set
      */
     public void setInterval(int interval) {
