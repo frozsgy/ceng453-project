@@ -3,6 +3,10 @@ package group10.client.controller;
 import group10.client.constants.UiConstants;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.StackPane;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -52,6 +56,20 @@ class LoginControllerTest_JUnit5AssertJ {
     }
 
     @Test
+    @DisplayName("Login Button Active")
+    void loginButtonActive(FxRobot robot) {
+        Button login = robot.lookup("#buttonLogin").queryAs(Button.class);;
+        assertEquals(login.isDisabled(), false);
+    }
+
+    @Test
+    @DisplayName("Login Button Check Is Default")
+    void loginButtonDefault(FxRobot robot) {
+        Button login = robot.lookup("#buttonLogin").queryAs(Button.class);;
+        assertEquals(login.isDefaultButton(), true);
+    }
+
+    @Test
     @DisplayName("Register Button Text")
     void registerButtonText(FxRobot robot) {
         Button register = robot.lookup("#buttonRegister").queryAs(Button.class);;
@@ -63,6 +81,69 @@ class LoginControllerTest_JUnit5AssertJ {
     void registerButtonVisibility(FxRobot robot) {
         Button register = robot.lookup("#buttonRegister").queryAs(Button.class);;
         assertEquals(register.isVisible(), true);
+    }
+
+    @Test
+    @DisplayName("Register Button Active")
+    void registerButtonActive(FxRobot robot) {
+        Button register = robot.lookup("#buttonRegister").queryAs(Button.class);;
+        assertEquals(register.isDisabled(), false);
+    }
+
+    @Test
+    @DisplayName("Stack Pane Disabled")
+    void stackPaneDisabled(FxRobot robot) {
+        StackPane sp = robot.lookup("#loginStackPane").queryAs(StackPane.class);;
+        assertEquals(sp.isDisabled(), true);
+    }
+
+    @Test
+    @DisplayName("Stack Pane Visible")
+    void stackPaneVisible(FxRobot robot) {
+        StackPane sp = robot.lookup("#loginStackPane").queryAs(StackPane.class);;
+        assertEquals(sp.isVisible(), true);
+    }
+
+    @Test
+    @DisplayName("Hyperlink Visible")
+    void hyperlinkVisible(FxRobot robot) {
+        Hyperlink hp = robot.lookup("#forgetPwForwarder").queryAs(Hyperlink.class);;
+        assertEquals(hp.isVisible(), true);
+    }
+
+    @Test
+    @DisplayName("Hyperlink Enabled")
+    void hyperlinkEnabled(FxRobot robot) {
+        Hyperlink hp = robot.lookup("#forgetPwForwarder").queryAs(Hyperlink.class);;
+        assertEquals(hp.isDisabled(), false);
+    }
+
+    @Test
+    @DisplayName("Username Textbox Enabled")
+    void unameEnabled(FxRobot robot) {
+        TextField txt = robot.lookup("#username").queryAs(TextField.class);;
+        assertEquals(txt.isDisabled(), false);
+    }
+
+    @Test
+    @DisplayName("Username Textbox Visible")
+    void unameVisible(FxRobot robot) {
+        TextField txt = robot.lookup("#username").queryAs(TextField.class);;
+        assertEquals(txt.isVisible(), true);
+    }
+
+    @Test
+    @DisplayName("Password Textbox Enabled")
+    void pwEnabled(FxRobot robot) {
+        PasswordField pw = robot.lookup("#password").queryAs(PasswordField.class);;
+        assertEquals(pw.isDisabled(), false);
+    }
+
+    @Test
+    @DisplayName("Password Textbox Visible")
+    void pwVisible(FxRobot robot) {
+        PasswordField pw = robot.lookup("#password").queryAs(PasswordField.class);;
+        assertEquals(pw.isVisible(), true);
     }
 
 
