@@ -1,11 +1,14 @@
 package group10.client.utility;
 
+import group10.client.StageInitializer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.springframework.core.io.Resource;
@@ -55,5 +58,15 @@ public class UIUtility {
     public static void logToScreen(String message, TextArea textArea, Logger LOGGER) {
         LOGGER.info(message);
         textArea.appendText(message + "\n");
+    }
+
+    public static void centerScene(double width, double height) {
+        if (Screen.getPrimary() != null) {
+            Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
+            if (StageInitializer.stage != null) {
+                StageInitializer.stage.setX((primScreenBounds.getWidth() - width) / 2);
+                StageInitializer.stage.setY((primScreenBounds.getHeight() - height) / 2);
+            }
+        }
     }
 }

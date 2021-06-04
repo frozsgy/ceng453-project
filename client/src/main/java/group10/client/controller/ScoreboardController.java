@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static group10.client.constants.UiConstants.MENU_FXML;
+import static group10.client.utility.UIUtility.centerScene;
 
 @Component
 public class ScoreboardController implements Initializable {
@@ -77,6 +78,7 @@ public class ScoreboardController implements Initializable {
         ScoreboardStorage.getInstance().setData(pagedEntity);
         ScoreboardStorage.getInstance().setInterval(30);
         this.updateComboboxValues();
+        centerScene(this.scoreboardBorderPane.getPrefWidth(), this.scoreboardBorderPane.getPrefHeight());
     }
 
     private void updateItemNumbers() {

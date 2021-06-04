@@ -1,5 +1,6 @@
 package group10.client.controller;
 
+import group10.client.StageInitializer;
 import group10.client.constants.GameConstants;
 import group10.client.constants.UiConstants;
 import group10.client.enums.Cards;
@@ -15,6 +16,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -28,6 +30,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import javafx.stage.Screen;
 import javafx.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +42,7 @@ import java.util.*;
 import static group10.client.constants.GameConstants.LAST_ROUND;
 import static group10.client.constants.GameConstants.MAX_SCORE;
 import static group10.client.constants.UiConstants.*;
+import static group10.client.utility.UIUtility.centerScene;
 import static group10.client.utility.UIUtility.logToScreen;
 
 @Component
@@ -74,6 +78,8 @@ public class GameController implements Initializable {
     private StackPane midStack;
     @FXML
     private TextArea logArea;
+    @FXML
+    private AnchorPane gameMainAnchor;
     private int round = 1;
     public static GameController _instance;
     private Stack<Card> allCards;
@@ -93,6 +99,7 @@ public class GameController implements Initializable {
         this.setUpNextLevel(false); // set up level 1
         this.AiBluffed = false;
         this.enableAutoScroll();
+        centerScene(this.gameMainAnchor.getPrefWidth(), this.gameMainAnchor.getPrefHeight());
     }
 
     private void enableAutoScroll() {
@@ -105,6 +112,7 @@ public class GameController implements Initializable {
             }
         });
     }
+
 
     private void initOpponentCards() {
         this.opponentCards = new ArrayList<>();

@@ -25,6 +25,8 @@ import org.springframework.stereotype.Component;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static group10.client.utility.UIUtility.centerScene;
+
 @Component
 public class ForgotController implements Initializable, FormView {
 
@@ -54,6 +56,7 @@ public class ForgotController implements Initializable, FormView {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.isEmailSubmitted = false;
+        centerScene(this.forgotBorderPane.getPrefWidth(), this.forgotBorderPane.getPrefHeight());
     }
 
     @FXML

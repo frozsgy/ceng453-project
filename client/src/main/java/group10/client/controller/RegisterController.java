@@ -24,6 +24,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import static group10.client.constants.UiConstants.LOGIN_FXML;
+import static group10.client.utility.UIUtility.centerScene;
 
 public class RegisterController implements Initializable, FormView {
 
@@ -50,6 +51,7 @@ public class RegisterController implements Initializable, FormView {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         buttonRegister.setDefaultButton(true);
+        centerScene(this.registerBorderPane.getPrefWidth(), this.registerBorderPane.getPrefHeight());
     }
 
     @FXML

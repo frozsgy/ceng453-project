@@ -26,6 +26,8 @@ import org.springframework.stereotype.Component;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static group10.client.utility.UIUtility.centerScene;
+
 @Component
 public class LoginController implements Initializable, FormView {
 
@@ -49,6 +51,7 @@ public class LoginController implements Initializable, FormView {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         buttonLogin.setDefaultButton(true);
+        centerScene(this.loginBorderPane.getPrefWidth(), this.loginBorderPane.getPrefHeight());
     }
 
     @FXML

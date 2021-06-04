@@ -1,6 +1,7 @@
 package group10.client.controller;
 
 import com.google.gson.Gson;
+import group10.client.StageInitializer;
 import group10.client.constants.UiConstants;
 import group10.client.entity.PlayerGame;
 import group10.client.logic.GameLogic;
@@ -14,15 +15,19 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import javafx.stage.Screen;
 import org.springframework.stereotype.Component;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import static group10.client.utility.UIUtility.centerScene;
 
 
 @Component
@@ -45,7 +50,10 @@ public class HomeController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         String username = SessionStorage.getInstance().getUsername();
         this.helloText.setText("Hello, " + username + "!");
+        centerScene(this.homeBorderPane.getPrefWidth(), this.homeBorderPane.getPrefHeight());
     }
+
+
 
     @FXML
     protected void navigateToNewGame(ActionEvent event) {
