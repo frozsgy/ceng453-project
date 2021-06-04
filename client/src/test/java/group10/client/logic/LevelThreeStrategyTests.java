@@ -27,6 +27,8 @@ public class LevelThreeStrategyTests {
     List<Card> cardList;
 
     private List<Card> initCards(boolean match) {
+        GameLogic.getInstance().resetScores();
+        GameLogic.getInstance().resetFields();
         this.cardList = new ArrayList<>();
         cardList.add(new Card(Cards.FIVE, Suits.DIAMOND));
         cardList.add(new Card(Cards.FOUR, Suits.DIAMOND));
