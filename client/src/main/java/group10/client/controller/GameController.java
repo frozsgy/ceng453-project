@@ -24,6 +24,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,6 +68,8 @@ public class GameController implements Initializable {
     private AnchorPane upperAnchorPane;
     @FXML
     private StackPane midStack;
+    @FXML
+    private TextFlow logs;
     private int round = 1;
     public static GameController _instance;
     private Stack<Card> allCards;
@@ -494,7 +497,6 @@ public class GameController implements Initializable {
                         this.serveHand();
                     } else {
                         // bluff was fake.
-                        LOGGER.info("Your Bluff was fake.");
                         this.handleFakeBluffForPlayer(PlayerEnum.ONE, candidate, bluffed, pressed);
                         this.controlOpponent();
                         this.setMidCount();
@@ -547,6 +549,8 @@ public class GameController implements Initializable {
     }
 
     private void throwCard(MouseEvent event) {
+        Text t1 = new Text("My name is Josh!\n");
+        logs.getChildren().add(t1);
         try {
             if (this.AiBluffed) {
                 this.AiBluffed = false;
