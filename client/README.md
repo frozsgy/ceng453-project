@@ -1,6 +1,6 @@
 # CENG453 Pişti Game - Frontend Client
 
-This folder contains the frontend client application for the CENG453 Project, Pişti. It was developed using Spring Boot, JavaFX and Apache Tomcat. 
+This folder contains the frontend client application for the CENG453 Project, Pişti. It was developed using Spring Boot and JavaFX. 
 
 # Getting Started
 
