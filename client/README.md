@@ -91,14 +91,19 @@ The JavaDoc files are available under the [docs/javadocs](docs/javadocs) folder.
  
 # Tests
 
-For the testing of the project, we have developed unit tests. Further details about them can be found below.
+For the testing of the project, we have developed unit and GUI tests. Further details about them can be found below.
 
-## Unit Tests
+## Unit and GUI Tests
 
-The unit tests for the project are available under the `test` folder. The tests can be run through either an IDE, or during `mvn package`. 
+The unit and GUI tests for the project are available under the `test` folder. The tests can be run through either an IDE, or during `mvn package`. 
 
 * **GameLogicTests**: Tests of the Game Logic.
 * **LevelOneStrategyTests**: Tests of the Level One Strategy.
 * **LevelTwoStrategyTests**: Tests of the Level Two Strategy.
 * **LevelThreeStrategyTests**: Tests of the Level Three Strategy.
+* **GameControllerTests**: Tests of the Game Screen GUI.
+* **ForgotControllerTests**: Tests of the Reset Password Screen GUI.
+* **HomeControllerTests**: Tests of the Home Screen GUI.
+* **LoginControllerTests**: Tests of the Login Screen GUI.
+* **RegisterControllerTests**: Tests of the Register Screen GUI.
 
