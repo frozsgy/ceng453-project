@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
+import static group10.client.utility.UIUtility.centerScene;
+
 @Component
 public class StageInitializer implements ApplicationListener<UiApplication.StageReadyEvent> {
     @Value("classpath:/fxml/login.fxml")
@@ -41,6 +43,7 @@ public class StageInitializer implements ApplicationListener<UiApplication.Stage
             stage.setScene(new Scene(parent, windowWidth, windowHeight));
             stage.setTitle(applicationTitle);
             stage.show();
+            centerScene(windowWidth, windowHeight);
 
         } catch (IOException e) {
             throw new RuntimeException();
