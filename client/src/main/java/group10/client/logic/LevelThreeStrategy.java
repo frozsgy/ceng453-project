@@ -24,10 +24,11 @@ public class LevelThreeStrategy extends AiStrategy {
 //            int bluf = rand.nextInt(2);
             double bluff = Math.random();
             double bluffProb = 0.33;
-            if (bluff > 1 - bluffProb && !hasBluffed) { // do with 0.33 prob.
+            double whenGreaterThan = 1 - bluffProb;
+            if (bluff > whenGreaterThan && !hasBluffed) { // do with 0.33 prob.
                 hasBluffed = true;
                 int headTail = rand.nextInt(2);
-                if (headTail == 0) { //headTail ==0 // do with 50% prob
+                if (headTail == 0) {  // do with 50% prob
                     // check if real pisti
                     for (Card tested : cards) {
                         if (tested.getCard() == cardOnTop.getCard()) {
