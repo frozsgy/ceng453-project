@@ -31,6 +31,16 @@ This folder contains the frontend client application for the CENG453 Project, Pi
 
 For a detailed explanation of the rules, you may refer to [http://catsatcards.com/Games/Pisti.html](http://catsatcards.com/Games/Pisti.html).
 
+## Level 1 Play Screen
+
+![Level 1](docs/img/level1.png)
+
+## Level 3 AI Bluff Screen 
+
+![Bluff Screen at Level 3](docs/img/ai_bluff.png)
+
+When received a bluff, you can either challenge it or accept it. 
+
 # AI Strategies by Level
 
 ## Level One
