@@ -493,7 +493,7 @@ public class GameController implements Initializable {
 
     private void doBluff(MouseEvent event) {
         try{
-            logToScreen("You bluffed.");
+            logToScreen("You bluffed.", this.logArea, LOGGER);
             if (GameLogic.getInstance().getMiddle().size() == 1 && this.round >= LAST_ROUND) {
                 Rectangle pressed = (Rectangle) ((Node) event.getTarget());
                 // TODO -- bluff
@@ -503,7 +503,7 @@ public class GameController implements Initializable {
                 this.bottomAnchorPane.getChildren().remove(pressed.getParent());
                 currentCards.remove(pressed); // remove card from hand.
                 if (headsTail == accepted) {
-                    logToScreen("AI accepted the challenge");
+                    logToScreen("AI accepted the challenge", this.logArea, LOGGER);
                     // ai accepted the challenge.
                     Card bluffed = this.cardMappings.get(pressed);
                     Card candidate = GameLogic.getInstance().getMiddle().pop(); // get prev card.
@@ -534,7 +534,7 @@ public class GameController implements Initializable {
                 }
             }
         } catch (IllegalArgumentException ex) {
-            logToScreen("Already played");
+            logToScreen("Already played", this.logArea, LOGGER);
         }
     }
 
@@ -571,7 +571,7 @@ public class GameController implements Initializable {
             if (this.AiBluffed) {
                 this.AiBluffed = false;
                 this.rejectBluff();
-                logToScreen("You rejected the bluff.");
+                logToScreen("You rejected the bluff.", this.logArea, LOGGER);
             }
             Rectangle pressed = (Rectangle) ((Node) event.getTarget());
             this.controlPlayer(pressed);
@@ -580,7 +580,7 @@ public class GameController implements Initializable {
             this.setMidCount();
             this.serveHand();
         } catch (IllegalArgumentException ex) {
-            logToScreen("Already played");
+            logToScreen("Already played", this.logArea, LOGGER);
         }
     }
 
