@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -212,6 +212,57 @@ public class GameLogicTests {
         Card candidateCard = new Card(Cards.JACK, Suits.SPADE);
         MatchType matchType = GameLogic.getInstance().getMatchType(candidateCard, null);
         assertEquals(matchType, MatchType.DOUBLE_PISTI);
+    }
+
+    @Test
+    @DisplayName("Handle Throw Test - No Match")
+    @Order(12)
+    void throwNo() {
+        this.resetGameLogic();
+        GameLogic.getInstance().getMiddle().push(new Card(Cards.TWO, Suits.DIAMOND));
+        Card candidateCard = new Card(Cards.FIVE, Suits.SPADE);
+        boolean handleThrow = GameLogic.getInstance().handleThrow(candidateCard, PlayerEnum.ONE, null);
+        assertFalse(handleThrow);
+    }
+
+    @Test
+    @DisplayName("Handle Throw Test - Match")
+    @Order(13)
+    void throwYes() {
+        this.resetGameLogic();
+        GameLogic.getInstance().getMiddle().push(new Card(Cards.TWO, Suits.DIAMOND));
+        Card candidateCard = new Card(Cards.TWO, Suits.SPADE);
+        boolean handleThrow = GameLogic.getInstance().handleThrow(candidateCard, PlayerEnum.ONE, null);
+        assertTrue(handleThrow);
+    }
+
+    @Test
+    @DisplayName("Add Score to Player")
+    @Order(14)
+    void addScoreToPlayerTest() {
+        this.resetGameLogic();
+        Map<PlayerEnum, Integer> scores = GameLogic.getInstance().getScores();
+        scores.replace(PlayerEnum.ONE, 10);
+        scores.replace(PlayerEnum.TWO, 12);
+        GameLogic.getInstance().addScoreToPlayer(PlayerEnum.TWO, 30);
+        assertEquals(GameLogic.getInstance().getScores().get(PlayerEnum.ONE), 10);
+        assertEquals(GameLogic.getInstance().getScores().get(PlayerEnum.TWO), 42);
+    }
+
+    @Test
+    @DisplayName("AI Strategy Test")
+    @Order(15)
+    void aiStrategyTest() {
+        this.resetGameLogic();
+        GameLogic.getInstance().setAiStrategy(1);
+        AiStrategy aiStrategy = GameLogic.getInstance().getAiStrategy();
+        assertTrue(aiStrategy instanceof LevelOneStrategy);
+        GameLogic.getInstance().setAiStrategy(2);
+        AiStrategy aiStrategyTwo = GameLogic.getInstance().getAiStrategy();
+        assertTrue(aiStrategyTwo instanceof LevelTwoStrategy);
+        GameLogic.getInstance().setAiStrategy(3);
+        AiStrategy aiStrategyThree = GameLogic.getInstance().getAiStrategy();
+        assertTrue(aiStrategyThree instanceof LevelThreeStrategy);
     }
 
 
