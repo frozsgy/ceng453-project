@@ -478,7 +478,7 @@ public class GameController implements Initializable {
 
     private void doBluff(MouseEvent event) {
         try{
-            if (/*GameLogic.getInstance().getMiddle().size() == 1 &&*/ this.round >= LAST_ROUND) {
+            if (GameLogic.getInstance().getMiddle().size() == 1 && this.round >= LAST_ROUND) {
                 Rectangle pressed = (Rectangle) ((Node) event.getTarget());
                 // TODO -- bluff
                 Random rand = new Random();
