@@ -10,15 +10,15 @@ public enum PlayerEnum {
     /**
      * null player
      */
-    NULL(0),
+    NULL(0, "NULL"),
     /**
      * first player, player itself
      */
-    ONE(1),
+    ONE(1, "One"),
     /**
      * Second player, ai or human
      */
-    TWO(2);
+    TWO(2, "Two");
 
     /**
      * Id of this
@@ -26,11 +26,26 @@ public enum PlayerEnum {
     private int id;
 
     /**
+     * Name of this
+     */
+    private String name;
+
+
+    /**
      * Constructor for this
      *
      * @param id id associated with enum.
      */
-    PlayerEnum(int id) {
+    PlayerEnum(int id, String name) {
         this.id = id;
+        this.name = name;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return this.name;
     }
 }

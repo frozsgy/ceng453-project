@@ -219,15 +219,10 @@ public class ForgotController implements Initializable, FormView {
     public boolean validateForm() {
         if (!isEmailSubmitted) {
             // check email
-            if (this.forgotEmail.getText().isEmpty()) {
-                return false;
-            }
+            return !this.forgotEmail.getText().isEmpty();
         } else {
-            if (this.forgotCode.getText().isEmpty() || this.forgotUsername.getText().isEmpty() || this.forgotNewPassword.getText().isEmpty()) {
-                return false;
-            }
+            return !this.forgotCode.getText().isEmpty() && !this.forgotUsername.getText().isEmpty() && !this.forgotNewPassword.getText().isEmpty();
         }
-        return true;
     }
 
 

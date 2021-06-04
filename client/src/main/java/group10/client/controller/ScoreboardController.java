@@ -29,6 +29,7 @@ import static group10.client.utility.UIUtility.centerScene;
 
 /**
  * Controller class for Scoreboard screen.
+ *
  * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 @Component
@@ -108,7 +109,8 @@ public class ScoreboardController implements Initializable {
 
     /**
      * Initializes the scene
-     * @param url Address of this scene
+     *
+     * @param url            Address of this scene
      * @param resourceBundle Resource bundle
      */
     @Override
@@ -136,6 +138,7 @@ public class ScoreboardController implements Initializable {
 
     /**
      * Updates the combobox values and sets total entries text via updateItemNumbers
+     *
      * @see ScoreboardController#updateItemNumbers()
      */
     private void updateComboboxValues() {
@@ -149,6 +152,7 @@ public class ScoreboardController implements Initializable {
 
     /**
      * Gets scoreboard via sending HTTP request to server.
+     *
      * @param days Requested day interval, such as last 7 days
      * @param page Page number as Scoreboard supports server side pagination.
      * @return Scoreboard page
@@ -168,6 +172,7 @@ public class ScoreboardController implements Initializable {
 
     /**
      * Button callback function. Navigates to first page.
+     *
      * @param event Event caused by button.
      */
     @FXML
@@ -177,6 +182,7 @@ public class ScoreboardController implements Initializable {
 
     /**
      * Button callback function. Navigates to previous page.
+     *
      * @param event Event caused by button.
      */
     @FXML
@@ -185,8 +191,10 @@ public class ScoreboardController implements Initializable {
         long previousPage = currentPage == 0 ? 0 : currentPage - 1;
         pageCombo.getSelectionModel().select((int) previousPage);
     }
+
     /**
      * Button callback function. Navigates to next page.
+     *
      * @param event Event caused by button.
      */
     @FXML
@@ -198,6 +206,7 @@ public class ScoreboardController implements Initializable {
 
     /**
      * Button callback function. Navigates to last page.
+     *
      * @param event Event caused by button.
      */
     @FXML
@@ -208,6 +217,7 @@ public class ScoreboardController implements Initializable {
 
     /**
      * Button callback function. Navigates to selected page.
+     *
      * @param event Event caused by button.
      */
     @FXML
@@ -222,6 +232,7 @@ public class ScoreboardController implements Initializable {
      * Radio callback function.
      * Changes the requested number of days parameter of scoreboard and fetches the selected number of days
      * Supports 7 days, 30 days and all times.
+     *
      * @param event Event caused by radio.
      */
     @FXML
@@ -235,11 +246,11 @@ public class ScoreboardController implements Initializable {
         }
         this.updateComboboxValues();
         pageCombo.getSelectionModel().select(0);
-        //getScoreboard(ScoreboardStorage.getInstance().getInterval(), 0);
     }
 
     /**
      * Callback method for button. Navigates to home page.
+     *
      * @param event Event caused by radio.
      */
     @FXML

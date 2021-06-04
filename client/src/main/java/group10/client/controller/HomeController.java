@@ -1,7 +1,6 @@
 package group10.client.controller;
 
 import com.google.gson.Gson;
-import group10.client.StageInitializer;
 import group10.client.constants.UiConstants;
 import group10.client.entity.PlayerGame;
 import group10.client.logic.GameLogic;
@@ -15,13 +14,11 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
-import javafx.stage.Screen;
 import org.springframework.stereotype.Component;
 
 import java.net.URL;
@@ -31,6 +28,7 @@ import static group10.client.utility.UIUtility.centerScene;
 
 /**
  * Controller class for Home screen.
+ *
  * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 @Component
@@ -58,6 +56,7 @@ public class HomeController implements Initializable {
     private Text helloText;
     /**
      * Stack pane that spinner will be attached to.
+     *
      * @see LoadingSpinner
      */
     @FXML
@@ -70,7 +69,8 @@ public class HomeController implements Initializable {
 
     /**
      * Initializes the scene
-     * @param url Address of this scene
+     *
+     * @param url            Address of this scene
      * @param resourceBundle Resource bundle
      */
     @Override
@@ -83,6 +83,7 @@ public class HomeController implements Initializable {
     /**
      * Callback method attached to buttonNewGame. Opens up a new game.
      * Starts and stops spinner when between HTTP request and response.
+     *
      * @param event Event caused by buttonNewGame.
      * @see HomeController#buttonNewGame
      */
@@ -90,7 +91,7 @@ public class HomeController implements Initializable {
     protected void navigateToNewGame(ActionEvent event) {
         LoadingSpinner spinner = new LoadingSpinner(homeStackPane, homeBorderPane);
         spinner.start();
-        Task newGameTask = new Task<String>() {
+        Task<String> newGameTask = new Task<>() {
             @Override
             public String call() {
                 return HTTPService.getInstance().startNewGame();
@@ -106,7 +107,7 @@ public class HomeController implements Initializable {
                     URL resource = getClass().getResource(UiConstants.GAME_FXML);
                     Scene newGame = UIUtility.navigateTo(event, resource, null);
                     if (newGame != null) {
-                        newGame.setOnKeyPressed(e -> GameController.keyPressEvent(e));
+                        newGame.setOnKeyPressed(GameController::keyPressEvent);
                     }
                 });
         new Thread(newGameTask).start();
@@ -114,6 +115,7 @@ public class HomeController implements Initializable {
 
     /**
      * Callback method attached to buttonScoreboard. Sets up the scene to scoreboard.
+     *
      * @param event Event caused by buttonScoreboard.
      * @see HomeController#buttonScoreboard
      */
@@ -126,6 +128,7 @@ public class HomeController implements Initializable {
     /**
      * Callback method attached to buttonLogout.
      * Clears session storage and navigates user to login page.
+     *
      * @param event Event caused by buttonLogout.
      * @see HomeController#buttonLogout
      */

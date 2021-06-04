@@ -1,6 +1,5 @@
 package group10.client.controller;
 
-import group10.client.StageInitializer;
 import group10.client.constants.GameConstants;
 import group10.client.constants.UiConstants;
 import group10.client.enums.Cards;
@@ -11,12 +10,10 @@ import group10.client.model.Card;
 import group10.client.state.SessionStorage;
 import group10.client.utility.UIUtility;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -29,8 +26,6 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
-import javafx.stage.Screen;
 import javafx.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,50 +40,115 @@ import static group10.client.constants.UiConstants.*;
 import static group10.client.utility.UIUtility.centerScene;
 import static group10.client.utility.UIUtility.logToScreen;
 
+/**
+ * Controller class for Game screen.
+ * Implements Initializable interface
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
+ * @see Initializable
+ */
 @Component
 public class GameController implements Initializable {
 
+    /**
+     * Logger to log messages
+     */
     private static final Logger LOGGER = LoggerFactory.getLogger(GameController.class);
 
+    /**
+     * Level text field
+     */
     @FXML
     private Text levelText;
+    /**
+     * Player one score field
+     */
     @FXML
     private Text yourScore;
+    /**
+     * Player two score field
+     */
     @FXML
     private Text enemyScore;
+    /**
+     * Middle stack card count field
+     */
     @FXML
     private Text midCartCount;
+    /**
+     * Leave game button
+     */
     @FXML
     private Button leaveButton;
+    /**
+     * Challenge button for bluff
+     */
     @FXML
     private Button challengeButton;
-    private Rectangle selfCard1;
-    private Rectangle selfCard2;
-    private Rectangle selfCard3;
-    private Rectangle selfCard4;
-    private Rectangle opponentCard1;
-    private Rectangle opponentCard2;
-    private Rectangle opponentCard3;
-    private Rectangle opponentCard4;
+    /**
+     * Anchor pane for bottom
+     */
     @FXML
     private AnchorPane bottomAnchorPane;
+    /**
+     * Anchor pane for top
+     */
     @FXML
     private AnchorPane upperAnchorPane;
+    /**
+     * Stack pane for middle stack cards
+     */
     @FXML
     private StackPane midStack;
+    /**
+     * Text area for game logs
+     */
     @FXML
     private TextArea logArea;
+    /**
+     * Anchor pane for the game
+     */
     @FXML
     private AnchorPane gameMainAnchor;
+    /**
+     * Field for round value
+     */
     private int round = 1;
+    /**
+     * Static instance to access from static methods
+     */
     public static GameController _instance;
+    /**
+     * Stack of all cards
+     */
     private Stack<Card> allCards;
+    /**
+     * List of Rectangles of Cards of Player One
+     */
     private List<Rectangle> currentCards;
+    /**
+     * List of Rectangles of Cards of Player Two
+     */
     private List<Rectangle> opponentCards;
+    /**
+     * Map of Rectangles and Cards
+     */
     private Map<Rectangle, Card> cardMappings;
+    /**
+     * Flag to check if third level score was posted
+     */
     private boolean thirdLevelScorePosted;
+    /**
+     * Flag to check if the AI bluffed
+     */
     private boolean AiBluffed;
 
+    /**
+     * Initializes the scene
+     *
+     * @param url            Address of this scene
+     * @param resourceBundle Resource bundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         GameLogic.getInstance();
@@ -102,24 +162,22 @@ public class GameController implements Initializable {
         centerScene(this.gameMainAnchor.getPrefWidth(), this.gameMainAnchor.getPrefHeight());
     }
 
+    /**
+     * Utility method to scroll the game log to the bottom automatically
+     */
     private void enableAutoScroll() {
-        logArea.textProperty().addListener(new ChangeListener<Object>() {
-            @Override
-            public void changed(ObservableValue<?> observable, Object oldValue,
-                                Object newValue) {
-                logArea.setScrollTop(Double.MAX_VALUE); //this will scroll to the bottom
-                //use Double.MIN_VALUE to scroll to the top
-            }
+        logArea.textProperty().addListener((ChangeListener<Object>) (observable, oldValue, newValue) -> {
+            logArea.setScrollTop(Double.MAX_VALUE);
         });
     }
 
 
     private void initOpponentCards() {
         this.opponentCards = new ArrayList<>();
-        this.opponentCard1 = createCardRectangle(true);
-        this.opponentCard2 = createCardRectangle(true);
-        this.opponentCard3 = createCardRectangle(true);
-        this.opponentCard4 = createCardRectangle(true);
+        Rectangle opponentCard1 = createCardRectangle(true);
+        Rectangle opponentCard2 = createCardRectangle(true);
+        Rectangle opponentCard3 = createCardRectangle(true);
+        Rectangle opponentCard4 = createCardRectangle(true);
         this.opponentCards.add(opponentCard1);
         this.opponentCards.add(opponentCard2);
         this.opponentCards.add(opponentCard3);
@@ -137,10 +195,10 @@ public class GameController implements Initializable {
 
     private void initPlayerCards() {
         this.currentCards = new ArrayList<>();
-        selfCard1 = createCardRectangle(false);
-        selfCard2 = createCardRectangle(false);
-        selfCard3 = createCardRectangle(false);
-        selfCard4 = createCardRectangle(false);
+        Rectangle selfCard1 = createCardRectangle(false);
+        Rectangle selfCard2 = createCardRectangle(false);
+        Rectangle selfCard3 = createCardRectangle(false);
+        Rectangle selfCard4 = createCardRectangle(false);
         this.currentCards.add(selfCard1);
         this.currentCards.add(selfCard2);
         this.currentCards.add(selfCard3);
@@ -385,7 +443,7 @@ public class GameController implements Initializable {
         }
     }
 
-    private void handleRealBlufForPlayer(PlayerEnum bluffer, Card candidate) {
+    private void handleRealBluffForPlayer(PlayerEnum bluffer, Card candidate) {
         this.midStack.getChildren().clear(); // clear mid view.
         GameLogic.getInstance().getMiddle().clear(); // clear middle.
         this.setMidCount(); // update mid count.
@@ -426,7 +484,7 @@ public class GameController implements Initializable {
         Card candidate = GameLogic.getInstance().getMiddle().pop(); // get prev card.
         if (candidate.getCard() == bluffed.getCard()) {
             // bluff was real
-            this.handleRealBlufForPlayer(PlayerEnum.TWO, candidate);
+            this.handleRealBluffForPlayer(PlayerEnum.TWO, candidate);
         } else {
             // bluff was fake.
             logToScreen("Bluff was fake.", this.logArea, LOGGER);
@@ -450,7 +508,6 @@ public class GameController implements Initializable {
         }
         this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.ONE));
         currentCards.remove(pressed); // remove card from hand.
-        // disable clickable
         pressed.setOnMouseClicked(null); // make unclickable.
     }
 
@@ -501,11 +558,10 @@ public class GameController implements Initializable {
     }
 
     private void doBluff(MouseEvent event) {
-        try{
-            logToScreen("You bluffed.", this.logArea, LOGGER);
+        try {
             if (GameLogic.getInstance().getMiddle().size() == 1 && this.round >= LAST_ROUND) {
+                logToScreen("You bluffed.", this.logArea, LOGGER);
                 Rectangle pressed = (Rectangle) ((Node) event.getTarget());
-                // TODO -- bluff
                 Random rand = new Random();
                 int accepted = 0;
                 int headsTail = rand.nextInt(2);
@@ -518,7 +574,7 @@ public class GameController implements Initializable {
                     Card candidate = GameLogic.getInstance().getMiddle().pop(); // get prev card.
                     if (candidate.getCard() == bluffed.getCard()) {
                         // bluff was real
-                        this.handleRealBlufForPlayer(PlayerEnum.ONE, candidate);
+                        this.handleRealBluffForPlayer(PlayerEnum.ONE, candidate);
                         this.controlOpponent();
                         this.setMidCount();
                         this.serveHand();

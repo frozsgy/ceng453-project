@@ -27,11 +27,13 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import static group10.client.utility.UIUtility.centerScene;
+
 /**
  * Controller class for Login screen.
  * Implements FormView interface
- * @see FormView
+ *
  * @author Alperen Caykus, Mustafa Ozan Alpay
+ * @see FormView
  */
 @Component
 public class LoginController implements Initializable, FormView {
@@ -79,7 +81,8 @@ public class LoginController implements Initializable, FormView {
 
     /**
      * Initializes the scene
-     * @param url Address of this scene
+     *
+     * @param url            Address of this scene
      * @param resourceBundle Resource bundle
      */
     @Override
@@ -93,6 +96,7 @@ public class LoginController implements Initializable, FormView {
      * If form is valid, sends a login request to server and starts spinner.
      * If login is successful, navigates to home page.
      * Otherwise, displays error message.
+     *
      * @param event Event caused by buttonLogin press.
      * @see LoginController#buttonLogin
      */
@@ -103,7 +107,7 @@ public class LoginController implements Initializable, FormView {
             this.clearErrorMessage();
             Player player = new Player(username.getText(), password.getText());
             spinner.start();
-            Task loginTask = new Task<Boolean>() {
+            Task<Boolean> loginTask = new Task<>() {
                 @Override
                 public Boolean call() {
                     return HTTPService.getInstance().login(player);
@@ -132,6 +136,7 @@ public class LoginController implements Initializable, FormView {
 
     /**
      * Callback method for buttonRegister button. Navigates to register page.
+     *
      * @param event Event caused by buttonRegister
      */
     @FXML
@@ -143,6 +148,7 @@ public class LoginController implements Initializable, FormView {
 
     /**
      * Callback method for forgetPwForwarder hyperlink. Navigates to forgot password page.
+     *
      * @param event Event caused by forgetPwForwarder hyperlink
      */
     @FXML
@@ -159,6 +165,7 @@ public class LoginController implements Initializable, FormView {
         this.loginErrMsg.setText(msg);
 
     }
+
     /**
      * Does not have success message as on success, it forwards user to home screen.
      */
@@ -166,6 +173,7 @@ public class LoginController implements Initializable, FormView {
     public void setSuccessMessage(String msg) {
 
     }
+
     /**
      * {@inheritDoc}
      */
