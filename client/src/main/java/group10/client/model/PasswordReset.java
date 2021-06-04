@@ -1,9 +1,9 @@
 package group10.client.model;
 
 /**
- *  @author Alperen Caykus, Mustafa Ozan Alpay
- *  Password reset class that is converted to Json and
- *  sent to server when doing password update.
+ * @author Alperen Caykus, Mustafa Ozan Alpay
+ * Password reset class that is converted to Json and
+ * sent to server when doing password update.
  */
 public class PasswordReset {
 
@@ -29,6 +29,7 @@ public class PasswordReset {
     /**
      * Constructor for PasswordReset.
      * This is used when acquiring the reset code.
+     *
      * @param email Email that the reset code will be sent to.
      */
     public PasswordReset(String email) {
@@ -38,11 +39,12 @@ public class PasswordReset {
     /**
      * Constructor for PasswordReset.
      * This is used after acquiring the reset code and sending the new password.
-     * @param username Username of the account whose password is being changed.
+     *
+     * @param username  Username of the account whose password is being changed.
      * @param resetCode Resetcode that is sent to email.
-     * @param password New password to be set.
+     * @param password  New password to be set.
      */
-    public PasswordReset (String username, String resetCode, String password) {
+    public PasswordReset(String username, String resetCode, String password) {
         this.password = password;
         this.resetCode = resetCode;
         this.username = username;
@@ -50,6 +52,7 @@ public class PasswordReset {
 
     /**
      * Gets the username
+     *
      * @return username
      */
     public String getUsername() {
@@ -58,6 +61,7 @@ public class PasswordReset {
 
     /**
      * Gets the password
+     *
      * @return password
      */
     public String getPassword() {
@@ -66,6 +70,7 @@ public class PasswordReset {
 
     /**
      * Sets password
+     *
      * @param password password to be set
      */
     public void setPassword(String password) {

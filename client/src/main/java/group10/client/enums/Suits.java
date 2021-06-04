@@ -1,8 +1,8 @@
 package group10.client.enums;
 
 /**
- *  @author Alperen Caykus, Mustafa Ozan Alpay
- *  Enumarator for player suit types.
+ * @author Alperen Caykus, Mustafa Ozan Alpay
+ * Enumarator for player suit types.
  */
 public enum Suits {
     /**
