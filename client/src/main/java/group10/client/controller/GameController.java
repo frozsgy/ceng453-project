@@ -460,9 +460,30 @@ public class GameController implements Initializable {
                 Random rand = new Random();
                 int accepted = 0;
                 int headsTail = rand.nextInt();
+                this.bottomAnchorPane.getChildren().remove(pressed.getParent());
+                currentCards.remove(pressed); // remove card from hand.
                 if (/*headsTail == accepted */ true) {
                     // ai accepted the challenge.
-
+                    Card bluffed = this.cardMappings.get(pressed);
+                    Card candidate = GameLogic.getInstance().getMiddle().pop(); // get prev card.
+                    if (candidate.getCard() == bluffed.getCard()) {
+                        // bluff was real
+                        LOGGER.info("Your Bluff was real.");
+                        this.midStack.getChildren().clear(); // clear mid view.
+                        GameLogic.getInstance().getMiddle().clear(); // clear middle.
+                        this.setMidCount(); // update mid count.
+                        if (candidate.getCard() == Cards.JACK) {
+                            GameLogic.getInstance().addScoreToPlayer(PlayerEnum.ONE, GameConstants.DOUBLE_PISTI); // double for jack
+                        }
+                        GameLogic.getInstance().addScoreToPlayer(PlayerEnum.ONE, GameConstants.DOUBLE_PISTI); // give points to ai.
+                        this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.ONE)); // update ai score.
+                        this.controlOpponent();
+                        this.setMidCount();
+                        this.serveHand();
+                    } else {
+                        // bluff was fake.
+                        LOGGER.info("Your Bluff was fake.");
+                    }
 
                 } else {
                     // ai rejected the bluff.
@@ -471,8 +492,6 @@ public class GameController implements Initializable {
                     GameLogic.getInstance().getMiddle().clear(); // clear mid.
                     GameLogic.getInstance().addScoreToPlayer(PlayerEnum.ONE, GameConstants.PISTI); // give score to first player.
                     this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.ONE)); //update score view.
-                    this.bottomAnchorPane.getChildren().remove(pressed.getParent());
-                    currentCards.remove(pressed); // remove card from hand.
                     this.controlOpponent();
                     this.setMidCount();
                     this.serveHand();
