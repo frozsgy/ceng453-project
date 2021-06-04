@@ -398,7 +398,6 @@ public class GameLogic {
      * who won the last scores. Clears middle and adds score to corresponding player.
      */
     public void giveMidStackCardsToLastWinner() {
-        // TODO
         int stackSize = this.middle.size();
         int stackScore = this.calculateStackScore();
         List<Card> cards = this.playerCards.get(this.lastWinner);

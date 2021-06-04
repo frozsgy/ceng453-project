@@ -118,7 +118,6 @@ public class LoginController implements Initializable, FormView {
                         spinner.stop();
                         boolean result = (Boolean) loginTask.getValue();
                         if (result) {
-                            // TODO navigation
                             URL resource = getClass().getResource(UiConstants.MENU_FXML);
                             String username = SessionStorage.getInstance().getUsername();
                             String title = UiConstants.getInstance().getWindowTitle();
