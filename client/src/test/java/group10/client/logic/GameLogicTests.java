@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.Stack;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -212,6 +213,28 @@ public class GameLogicTests {
         Card candidateCard = new Card(Cards.JACK, Suits.SPADE);
         MatchType matchType = GameLogic.getInstance().getMatchType(candidateCard, null);
         assertEquals(matchType, MatchType.DOUBLE_PISTI);
+    }
+
+    @Test
+    @DisplayName("Handle Throw Test - No Match")
+    @Order(12)
+    void throwNo() {
+        this.resetGameLogic();
+        GameLogic.getInstance().getMiddle().push(new Card(Cards.TWO, Suits.DIAMOND));
+        Card candidateCard = new Card(Cards.FIVE, Suits.SPADE);
+        boolean handleThrow = GameLogic.getInstance().handleThrow(candidateCard, PlayerEnum.ONE, null);
+        assertFalse(handleThrow);
+    }
+
+    @Test
+    @DisplayName("Handle Throw Test - Match")
+    @Order(13)
+    void throwYes() {
+        this.resetGameLogic();
+        GameLogic.getInstance().getMiddle().push(new Card(Cards.TWO, Suits.DIAMOND));
+        Card candidateCard = new Card(Cards.TWO, Suits.SPADE);
+        boolean handleThrow = GameLogic.getInstance().handleThrow(candidateCard, PlayerEnum.ONE, null);
+        assert(handleThrow);
     }
 
 
