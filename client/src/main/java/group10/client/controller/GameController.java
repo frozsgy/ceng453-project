@@ -16,6 +16,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
@@ -69,7 +70,7 @@ public class GameController implements Initializable {
     @FXML
     private StackPane midStack;
     @FXML
-    private TextFlow logs;
+    private TextArea logArea;
     private int round = 1;
     public static GameController _instance;
     private Stack<Card> allCards;
@@ -568,7 +569,8 @@ public class GameController implements Initializable {
     private void logToScreen(String msg) {
         Text t1 = new Text(msg + "\n");
         LOGGER.info(msg);
-        logs.getChildren().add(t1);
+        String currentLog = logArea.getText();
+        logArea.setText(currentLog + "\n" + msg);
     }
 
     public Button getChallengeButton() {
