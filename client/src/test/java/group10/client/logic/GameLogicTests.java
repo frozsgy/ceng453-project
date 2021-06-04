@@ -237,6 +237,19 @@ public class GameLogicTests {
         assert(handleThrow);
     }
 
+    @Test
+    @DisplayName("Add Score to Player")
+    @Order(14)
+    void addScoreToPlayerTest() {
+        this.resetGameLogic();
+        Map<PlayerEnum, Integer> scores = GameLogic.getInstance().getScores();
+        scores.replace(PlayerEnum.ONE, 10);
+        scores.replace(PlayerEnum.TWO, 12);
+        GameLogic.getInstance().addScoreToPlayer(PlayerEnum.TWO, 30);
+        assertEquals(GameLogic.getInstance().getScores().get(PlayerEnum.ONE), 10);
+        assertEquals(GameLogic.getInstance().getScores().get(PlayerEnum.TWO), 42);
+    }
+
 
 
 
