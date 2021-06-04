@@ -20,10 +20,13 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @ExtendWith(ApplicationExtension.class)
 class LoginControllerTest_JUnit5AssertJ {
 
+    Scene loginScene;
+    Stage stage;
     /**
      * Will be called with {@code @Before} semantics, i. e. before each test method.
      *
@@ -35,6 +38,8 @@ class LoginControllerTest_JUnit5AssertJ {
         FXMLLoader fxmlLoader = new FXMLLoader(resource);
         Parent loginScreen = fxmlLoader.load();
         Scene scene = new Scene(loginScreen);
+        this.loginScene = scene;
+        this.stage = stage;
         stage.setScene(scene);
         stage.show();
     }
@@ -88,6 +93,15 @@ class LoginControllerTest_JUnit5AssertJ {
     void registerButtonActive(FxRobot robot) {
         Button register = robot.lookup("#buttonRegister").queryAs(Button.class);;
         assertEquals(register.isDisabled(), false);
+    }
+
+    @Test
+    @DisplayName("Register Button Navigation")
+    void registerButtonEvent(FxRobot robot) {
+        Button register = robot.lookup("#buttonRegister").queryAs(Button.class);
+        robot.clickOn(register);
+        Scene registerScene = stage.getScene();
+        assertNotEquals(registerScene, loginScene);
     }
 
     @Test
