@@ -10,14 +10,12 @@ import org.testfx.api.FxRobot;
 import org.testfx.assertions.api.Assertions;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
-
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URL;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(ApplicationExtension.class)
 class LoginControllerTest_JUnit5AssertJ {
@@ -39,19 +37,20 @@ class LoginControllerTest_JUnit5AssertJ {
 
 
     @Test
-    @DisplayName("Login Page Button Texts")
-    void loginCheckButtonTexts(FxRobot robot) {
+    @DisplayName("Login Button Text")
+    void loginButtonText(FxRobot robot) {
         Button login = robot.lookup("#buttonLogin").queryAs(Button.class);
         Assertions.assertThat(login).hasText("Log In");
         Button register = robot.lookup("#buttonRegister").queryAs(Button.class);;
         Assertions.assertThat(register).hasText("Register");
     }
 
-
-//    @Test
-    void when_button_is_clicked_text_changes(FxRobot robot) {
-        // when:
-        robot.clickOn(".button");
-
+    @Test
+    @DisplayName("Register Button Text")
+    void registerButtonText(FxRobot robot) {
+        Button register = robot.lookup("#buttonRegister").queryAs(Button.class);;
+        assertEquals(register.isVisible(), true);
     }
+
+
 }
