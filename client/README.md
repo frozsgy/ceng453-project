@@ -29,6 +29,8 @@ This folder contains the frontend client application for the CENG453 Project, Pi
 8. If you want to exit the game, you can always use the Leave button.
 9. Enjoy!
 
+For a detailed explanation of the rules, you may refer to [http://catsatcards.com/Games/Pisti.html](http://catsatcards.com/Games/Pisti.html).
+
 # AI Strategies by Level
 
 ## Level One
