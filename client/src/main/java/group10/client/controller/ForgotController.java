@@ -30,8 +30,9 @@ import static group10.client.utility.UIUtility.centerScene;
 /**
  * Controller class for Forget Password screen.
  * Implements FormView interface
- * @see FormView
+ *
  * @author Alperen Caykus, Mustafa Ozan Alpay
+ * @see FormView
  */
 @Component
 public class ForgotController implements Initializable, FormView {
@@ -75,6 +76,7 @@ public class ForgotController implements Initializable, FormView {
     private Button forgotBackButton;
     /**
      * Stack pane to attach Spinner.
+     *
      * @see LoadingSpinner
      */
     @FXML
@@ -87,17 +89,20 @@ public class ForgotController implements Initializable, FormView {
 
     /**
      * Initializes the scene
-     * @param url Address of this scene
+     *
+     * @param url            Address of this scene
      * @param resourceBundle Resource bundle
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.isEmailSubmitted = false;
+        forgotSendEmailButton.setDefaultButton(true);
         centerScene(this.forgotBorderPane.getPrefWidth(), this.forgotBorderPane.getPrefHeight());
     }
 
     /**
      * Callback method attached to forgotBackButton. Navigates to login page.
+     *
      * @param event Event caused by forgotBackButton.
      */
     @FXML
@@ -120,13 +125,14 @@ public class ForgotController implements Initializable, FormView {
     /**
      * Depending on the state, sends a reset code request, or reset code, username and new password.
      * Enables spinner before sending the request and disables it after response.
+     *
      * @param resetContainer Request body container.
      * @see PasswordReset
      */
     private void sendRequest(PasswordReset resetContainer) {
         LoadingSpinner spinner = new LoadingSpinner(forgotStackPane, forgotBorderPane);
         spinner.start();
-        Task requestCodeTask = new Task<String>() {
+        Task<String> requestCodeTask = new Task<>() {
             @Override
             public String call() {
                 if (!isEmailSubmitted) {
@@ -160,8 +166,9 @@ public class ForgotController implements Initializable, FormView {
     /**
      * Callback method for forgotSendEmailButton.
      * Sets up request body according to state and calls sendRequest method.
+     *
      * @param event Event caused by forgotSendEmailButton
-     * @see ForgotController#sendRequest(PasswordReset) 
+     * @see ForgotController#sendRequest(PasswordReset)
      */
     @FXML
     public void submitForgot(ActionEvent event) {
@@ -187,6 +194,7 @@ public class ForgotController implements Initializable, FormView {
         this.forgotInfoText.setFill(Paint.valueOf(UiInfoConstants.RED_COLOR));
         this.forgotInfoText.setText(msg);
     }
+
     /**
      * {@inheritDoc}
      */
@@ -195,6 +203,7 @@ public class ForgotController implements Initializable, FormView {
         this.forgotInfoText.setFill(Paint.valueOf(UiInfoConstants.GREEN_COLOR));
         this.forgotInfoText.setText(msg);
     }
+
     /**
      * {@inheritDoc}
      */
@@ -202,6 +211,7 @@ public class ForgotController implements Initializable, FormView {
     public void clearErrorMessage() {
         this.forgotInfoText.setText(UiInfoConstants.EMPTY_STRING);
     }
+
     /**
      * {@inheritDoc}
      */
