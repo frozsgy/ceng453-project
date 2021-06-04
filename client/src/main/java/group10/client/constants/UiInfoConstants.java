@@ -6,7 +6,7 @@ package group10.client.constants;
  */
 public class UiInfoConstants {
     /**
-     * Message for invalid login credientials.
+     * Message for invalid login credentials.
      */
     public final static String LOGIN_ERROR_MESSAGE = "Wrong credentials!";
     /**
