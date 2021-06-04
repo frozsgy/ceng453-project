@@ -40,6 +40,8 @@ public class LevelOneStrategyTests {
     }
 
     private Map<Rectangle, Card> init() {
+        GameLogic.getInstance().resetFields();
+        GameLogic.getInstance().resetScores();
         final List<Card> cards = this.initCards();
         Map<PlayerEnum, List<Card>> playerCards = GameLogic.getInstance().getPlayerCards();
         List<Card> playerCardsList = playerCards.get(PlayerEnum.ONE);
