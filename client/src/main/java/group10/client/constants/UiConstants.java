@@ -69,6 +69,10 @@ public class UiConstants {
      */
     public static final double CARD_HEIGHT = 152.0;
     /**
+     * Mid stack shift for each card.
+     */
+    public static final double MID_STACK_SHIFT = 15.0;
+    /**
      * White color
      */
     public static final Paint WHITE = Paint.valueOf("WHITE");

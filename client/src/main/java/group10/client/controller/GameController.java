@@ -143,6 +143,10 @@ public class GameController implements Initializable {
      * Flag to check if the AI bluffed
      */
     private boolean AiBluffed;
+    /**
+     * Keeps the total shift count for the mid stack.
+     */
+    private int midStackShift = 0;
 
     /**
      * Initializes the scene
@@ -253,7 +257,7 @@ public class GameController implements Initializable {
             Card card = allCards.pop();
             GameLogic.getInstance().getMiddle().add(card);
             Rectangle rec = createCardRectangle(false, card);
-            rec.setLayoutX(i * 10.);
+            rec.setLayoutX(midStackShift++ * MID_STACK_SHIFT);
             if (i + 1 != CARD_PER_HAND) {
                 rec.setFill(new ImagePattern(img));
                 midStack.getChildren().add(rec);
@@ -319,33 +323,13 @@ public class GameController implements Initializable {
      * @return StackPane of the card
      */
     private StackPane drawCardInsideRectangle(Rectangle r, Card cardToDraw) {
-        /*String margin = " ";
-        Suits suit = cardToDraw.getSuit();
-        Cards card = cardToDraw.getCard();
-        String suitName = "";
-        String cardName = "";
-        if (!isCardHidden(r)) {
-            // if not white, hide details.
-            suitName = suit.name();
-            cardName = margin + card.toString();
-        }
-        final Text text = new Text(suitName);*/
         final StackPane stack = new StackPane();
-        /*final Text text2 = new Text(cardName);
-        final StackPane stack2 = new StackPane();
-        stack2.setAlignment(Pos.TOP_LEFT);
-        stack2.getChildren().add(text2);*/
-        //stack.getChildren().addAll(r, text, stack2);
         Image img = new Image(cardToDraw.getImage());
         r.setFill(new ImagePattern(img));
-
         stack.setLayoutX(r.getLayoutX());
         stack.setLayoutY(r.getLayoutY());
         stack.getChildren().add(r);
-        /*stack2.setLayoutX(r.getLayoutX());
-        stack2.setLayoutY(r.getLayoutY());*/
-        stack.setPickOnBounds(true);
-       // stack2.setPickOnBounds(false);
+        stack.setPickOnBounds(false);
         return stack;
     }
 
@@ -401,6 +385,7 @@ public class GameController implements Initializable {
     private void clearView() {
         this.bottomAnchorPane.getChildren().clear();
         this.upperAnchorPane.getChildren().clear();
+        this.midStackShift = 0;
         this.midStack.getChildren().clear();
     }
 
@@ -546,6 +531,7 @@ public class GameController implements Initializable {
      * @param candidate candidate card
      */
     private void handleRealBluffForPlayer(PlayerEnum bluffer, Card candidate) {
+        this.midStackShift = 0;
         this.midStack.getChildren().clear(); // clear mid view.
         GameLogic.getInstance().getMiddle().clear(); // clear middle.
         this.setMidCount(); // update mid count.
@@ -617,6 +603,7 @@ public class GameController implements Initializable {
      * @param pressed rectangle that was pressed
      */
     private void controlPlayer(Rectangle pressed) {
+        pressed.setLayoutX(midStackShift++ * MID_STACK_SHIFT);
         midStack.getChildren().add(pressed); // add to middle.
         Card card = this.cardMappings.get(pressed); // get pressed card.
         if (GameLogic.getInstance().getMiddle().isEmpty()) {
@@ -624,6 +611,7 @@ public class GameController implements Initializable {
         }
         if (GameLogic.getInstance().handleThrow(card, PlayerEnum.ONE, this.logArea)) { // check if matched
             logToScreen("Cards match for Player One", this.logArea, LOGGER);
+            this.midStackShift = 0;
             midStack.getChildren().clear(); // match, clear middle view.
         }
         this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.ONE));
@@ -645,6 +633,7 @@ public class GameController implements Initializable {
         this.upperAnchorPane.getChildren().remove(removed); // remove from view.
         this.cardMappings.remove(removed); // remove the mapping.
         Rectangle opponentRectangle = createCardRectangle(bluffed, opponentCard); // generate new view.
+        opponentRectangle.setLayoutX(midStackShift++ * MID_STACK_SHIFT);
         this.cardMappings.put(opponentRectangle, opponentCard); // create new mapping.
         drawCardInsideRectangle(opponentRectangle, opponentCard); // put text unless it is hidden.
         midStack.getChildren().add(opponentRectangle); // put it to mid.
@@ -657,6 +646,7 @@ public class GameController implements Initializable {
             }
             if (GameLogic.getInstance().handleThrow(opponentCard, PlayerEnum.TWO, this.logArea)) { // no bluff, check if scored.
                 logToScreen("Cards match for Player Two", this.logArea, LOGGER);
+                this.midStackShift = 0;
                 midStack.getChildren().clear();
             }
         }
@@ -671,6 +661,7 @@ public class GameController implements Initializable {
         this.challengeButton.setVisible(false); // destroy button.
         GameLogic.getInstance().getMiddle().clear(); //clear middle, ai got all cards.
         this.setMidCount(); // reset mid count.
+        this.midStackShift = 0;
         this.midStack.getChildren().clear(); // remove cards from view.
         GameLogic.getInstance().addScoreToPlayer(PlayerEnum.TWO, GameConstants.PISTI); // give score to second player.
         this.setEnemyScore(GameLogic.getInstance().getScores().get(PlayerEnum.TWO)); //update score view.
@@ -727,6 +718,7 @@ public class GameController implements Initializable {
                 } else {
                     // ai rejected the bluff.
                     logToScreen("AI rejected the bluff", this.logArea, LOGGER);
+                    this.midStackShift = 0;
                     this.midStack.getChildren().clear(); // clear mid view.
                     GameLogic.getInstance().getMiddle().clear(); // clear mid.
                     GameLogic.getInstance().addScoreToPlayer(PlayerEnum.ONE, GameConstants.PISTI); // give score to first player.
@@ -751,6 +743,7 @@ public class GameController implements Initializable {
                 this.nextHand();
             } else {
                 GameLogic.getInstance().giveMidStackCardsToLastWinner();
+                this.midStackShift = 0;
                 this.midStack.getChildren().clear();
                 this.setMidCount();
                 int playerScore = GameLogic.getInstance().getScores().get(PlayerEnum.ONE);

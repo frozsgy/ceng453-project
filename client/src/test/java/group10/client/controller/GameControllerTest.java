@@ -5,12 +5,15 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.*;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,19 +21,19 @@ import org.springframework.core.annotation.Order;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.net.URL;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import static group10.client.constants.UiConstants.CARD_BACK_IMAGE;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(ApplicationExtension.class)
 class GameControllerTest {
 
     Scene gameScene;
     Stage stage;
+
     /**
      * Will be called with {@code @Before} semantics, i. e. before each test method.
      *
@@ -137,7 +140,7 @@ class GameControllerTest {
     @DisplayName("Mid Card View")
     @Order(10)
     void midCardView(FxRobot robot) {
-        StackPane s = robot.lookup("#midStack").queryAs(StackPane.class);
+        AnchorPane s = robot.lookup("#midStack").queryAs(AnchorPane.class);
         assertEquals(s.isVisible(), true);
     }
 
@@ -145,7 +148,7 @@ class GameControllerTest {
     @DisplayName("Mid Card Count")
     @Order(11)
     void midCardCount(FxRobot robot) {
-        StackPane s = robot.lookup("#midStack").queryAs(StackPane.class);
+        AnchorPane s = robot.lookup("#midStack").queryAs(AnchorPane.class);
         assertEquals(s.getChildren().size(), 4);
     }
 
@@ -164,7 +167,7 @@ class GameControllerTest {
         AnchorPane ap = robot.lookup("#upperAnchorPane").queryAs(AnchorPane.class);
         ObservableList<?> cards = ap.getChildren();
         for (Node node : ap.getChildrenUnmodifiable()) {
-            boolean isRect = node instanceof  Rectangle;
+            boolean isRect = node instanceof Rectangle;
             assertTrue(isRect);
             Rectangle r = (Rectangle) node;
             boolean hasImage = r.getFill() instanceof ImagePattern;
@@ -177,14 +180,15 @@ class GameControllerTest {
     @Order(14)
     void playerCardNotHidden(FxRobot robot) {
         AnchorPane ap = robot.lookup("#bottomAnchorPane").queryAs(AnchorPane.class);
-        ObservableList<?> cards = ap.getChildren();
         for (Node node : ap.getChildrenUnmodifiable()) {
             StackPane sp = (StackPane) node;
             for (Node child : sp.getChildrenUnmodifiable()) {
                 if (child instanceof Rectangle) {
                     Rectangle r = (Rectangle) child;
                     boolean hasImage = r.getFill() instanceof ImagePattern;
-                    assertFalse(hasImage);
+                    assertTrue(hasImage);
+                    ImagePattern imagePattern = (ImagePattern) r.getFill();
+                    assertFalse(imagePattern.getImage().getUrl().contains(CARD_BACK_IMAGE));
                 }
             }
         }
@@ -195,14 +199,13 @@ class GameControllerTest {
     @Order(15)
     void playerCardPlay(FxRobot robot) {
         AnchorPane ap = robot.lookup("#bottomAnchorPane").queryAs(AnchorPane.class);
-        ObservableList<?> cards = ap.getChildren();
         for (Node node : ap.getChildrenUnmodifiable()) {
             StackPane sp = (StackPane) node;
             for (Node child : sp.getChildrenUnmodifiable()) {
                 if (child instanceof Rectangle) {
                     Rectangle r = (Rectangle) child;
                     robot.clickOn(r);
-                    assertEquals(sp.getChildren().size(), 3);
+                    assertEquals(sp.getChildren().size(), 0);
                     break;
                 }
             }
