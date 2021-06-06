@@ -1,6 +1,7 @@
 package group10.client.utility;
 
 import group10.client.StageInitializer;
+import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -16,7 +17,7 @@ import java.io.IOException;
 import java.net.URL;
 
 /**
- * Utility class that containts UI related helper methods.
+ * Utility class that contains UI related helper methods.
  *
  * @author Alperen Caykus, Mustafa Ozan Alpay
  */
@@ -93,5 +94,16 @@ public class UIUtility {
                 StageInitializer.stage.setY((primScreenBounds.getHeight() - height) / 2);
             }
         }
+    }
+
+    /**
+     * Utility method to scroll the game log to the bottom automatically
+     *
+     * @param textArea textArea to enable autoscroll
+     */
+    public static void enableAutoScroll(TextArea textArea) {
+        textArea.textProperty().addListener((ChangeListener<Object>) (observable, oldValue, newValue) -> {
+            textArea.setScrollTop(Double.MAX_VALUE);
+        });
     }
 }

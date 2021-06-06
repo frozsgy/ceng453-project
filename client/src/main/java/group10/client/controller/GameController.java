@@ -38,8 +38,7 @@ import java.util.*;
 import static group10.client.constants.GameConstants.LAST_ROUND;
 import static group10.client.constants.GameConstants.MAX_SCORE;
 import static group10.client.constants.UiConstants.*;
-import static group10.client.utility.UIUtility.centerScene;
-import static group10.client.utility.UIUtility.logToScreen;
+import static group10.client.utility.UIUtility.*;
 
 /**
  * Controller class for Game screen.
@@ -159,18 +158,11 @@ public class GameController implements Initializable {
         this.round = 0;
         this.setUpNextLevel(false); // set up level 1
         this.AiBluffed = false;
-        this.enableAutoScroll();
+        enableAutoScroll(this.logArea);
         centerScene(this.gameMainAnchor.getPrefWidth(), this.gameMainAnchor.getPrefHeight());
     }
 
-    /**
-     * Utility method to scroll the game log to the bottom automatically
-     */
-    private void enableAutoScroll() {
-        logArea.textProperty().addListener((ChangeListener<Object>) (observable, oldValue, newValue) -> {
-            logArea.setScrollTop(Double.MAX_VALUE);
-        });
-    }
+    
 
     /**
      * Initializes opponent cards' rectangles
