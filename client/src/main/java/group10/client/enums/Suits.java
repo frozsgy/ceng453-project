@@ -9,17 +9,40 @@ public enum Suits {
     /**
      * Club suit
      */
-    CLUB,
+    CLUB("C"),
     /**
      * Diamond suit
      */
-    DIAMOND,
+    DIAMOND("D"),
     /**
      * Heart suit
      */
-    HEART,
+    HEART("H"),
     /**
      * Spade suit
      */
-    SPADE
+    SPADE("S");
+
+    /**
+     * Initials of the suit
+     */
+    private String initials;
+
+    /**
+     * Default constructor
+     *
+     * @param initials initials
+     */
+    Suits(String initials) {
+        this.initials = initials;
+    }
+
+    /**
+     * Gets initials
+     *
+     * @return initials
+     */
+    public String getInitials() {
+        return initials;
+    }
 }
