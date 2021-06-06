@@ -10,13 +10,10 @@ import group10.client.model.Card;
 import group10.client.state.SessionStorage;
 import group10.client.utility.PropertiesLoader;
 import group10.client.utility.UIUtility;
-import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -32,7 +29,6 @@ import javafx.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.w3c.dom.css.Rect;
 
 import java.net.URL;
 import java.util.*;
@@ -262,7 +258,7 @@ public class GameController implements Initializable {
                 rec.setFill(new ImagePattern(img));
                 midStack.getChildren().add(rec);
             } else {
-                StackPane stackPane = drawCardInsideRectangle(rec, card);
+                StackPane stackPane = drawCardInsideRectangle(rec, card, false);
                 midStack.getChildren().add(stackPane);
             }
             this.cardMappings.put(rec, card);
@@ -320,12 +316,15 @@ public class GameController implements Initializable {
      *
      * @param r          Rectangle to draw a card inside
      * @param cardToDraw card to draw
+     * @param isHidden
      * @return StackPane of the card
      */
-    private StackPane drawCardInsideRectangle(Rectangle r, Card cardToDraw) {
+    private StackPane drawCardInsideRectangle(Rectangle r, Card cardToDraw, boolean isHidden) {
         final StackPane stack = new StackPane();
-        Image img = new Image(cardToDraw.getImage());
-        r.setFill(new ImagePattern(img));
+        if (!isHidden) {
+            Image img = new Image(cardToDraw.getImage());
+            r.setFill(new ImagePattern(img));
+        }
         stack.setLayoutX(r.getLayoutX());
         stack.setLayoutY(r.getLayoutY());
         stack.getChildren().add(r);
@@ -340,7 +339,7 @@ public class GameController implements Initializable {
      * @param cardToDraw Card to draw
      */
     private void drawCardForPlayer(Rectangle r, Card cardToDraw) {
-        StackPane stack = this.drawCardInsideRectangle(r, cardToDraw);
+        StackPane stack = this.drawCardInsideRectangle(r, cardToDraw, false);
         bottomAnchorPane.getChildren().add(stack);
     }
 
@@ -592,7 +591,7 @@ public class GameController implements Initializable {
             Rectangle r = GameLogic.getRectangleByCard(this.cardMappings, bluffed); //get the rectangle of closed card.
             this.midStack.getChildren().remove(r);
             this.setRectangleVisible(r); // make rectangle visible.
-            this.drawCardInsideRectangle(r, bluffed); // put text to it.
+            this.drawCardInsideRectangle(r, bluffed, false); // put text to it.
             this.handleFakeBluffForPlayer(PlayerEnum.TWO, candidate, bluffed, r);
         }
     }
@@ -635,7 +634,7 @@ public class GameController implements Initializable {
         Rectangle opponentRectangle = createCardRectangle(bluffed, opponentCard); // generate new view.
         opponentRectangle.setLayoutX(midStackShift++ * MID_STACK_SHIFT);
         this.cardMappings.put(opponentRectangle, opponentCard); // create new mapping.
-        drawCardInsideRectangle(opponentRectangle, opponentCard); // put text unless it is hidden.
+        drawCardInsideRectangle(opponentRectangle, opponentCard, true); // put text unless it is hidden.
         midStack.getChildren().add(opponentRectangle); // put it to mid.
         if (bluffed) {
             // handle bluff
