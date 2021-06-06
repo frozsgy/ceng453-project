@@ -69,6 +69,10 @@ public class UiConstants {
      */
     public static final double CARD_HEIGHT = 152.0;
     /**
+     * Arc value for cards
+     */
+    public static final double CARD_ARC = 18.0;
+    /**
      * Mid stack shift for each card.
      */
     public static final double MID_STACK_SHIFT = 15.0;

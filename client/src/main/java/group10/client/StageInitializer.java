@@ -3,6 +3,8 @@ package group10.client;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
@@ -74,7 +76,11 @@ public class StageInitializer implements ApplicationListener<UiApplication.Stage
             Parent parent = fxmlLoader.load();
 
             stage = stageReadyEvent.getStage();
-            stage.setScene(new Scene(parent, windowWidth, windowHeight));
+            //new Scene(parent, windowWidth, windowHeight, )
+            //stage.setScene(new Scene(parent, windowWidth, windowHeight, Paint.valueOf("#cccc00")));
+            Scene scene = new Scene(parent, windowWidth, windowHeight);
+            scene.setFill(Color.TRANSPARENT);
+            stage.setScene(scene);
             stage.setTitle(applicationTitle);
             stage.show();
             centerScene(windowWidth, windowHeight);

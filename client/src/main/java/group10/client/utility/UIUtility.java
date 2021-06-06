@@ -4,11 +4,16 @@ import group10.client.StageInitializer;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.paint.Paint;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
@@ -105,5 +110,9 @@ public class UIUtility {
         textArea.textProperty().addListener((ChangeListener<Object>) (observable, oldValue, newValue) -> {
             textArea.setScrollTop(Double.MAX_VALUE);
         });
+    }
+
+    public static Background getBackground() {
+        return new Background(new BackgroundFill(Paint.valueOf("#1c4a23"), CornerRadii.EMPTY , Insets.EMPTY));
     }
 }

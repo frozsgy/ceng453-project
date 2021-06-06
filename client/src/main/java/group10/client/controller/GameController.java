@@ -20,6 +20,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
@@ -160,6 +162,8 @@ public class GameController implements Initializable {
         this.setUpNextLevel(false); // set up level 1
         this.AiBluffed = false;
         enableAutoScroll(this.logArea);
+        //Background background = new Background(new BackgroundImage(new Image("/static/bg2.jpg"), null, null, null, null));
+        this.gameMainAnchor.setBackground(UIUtility.getBackground());
         centerScene(this.gameMainAnchor.getPrefWidth(), this.gameMainAnchor.getPrefHeight());
     }
 
@@ -222,8 +226,8 @@ public class GameController implements Initializable {
      */
     private Rectangle createCardRectangle(boolean isHidden, Card cardValue) {
         Rectangle card = new Rectangle();
-        card.setArcHeight(5.0);
-        card.setArcWidth(5.0);
+        card.setArcHeight(CARD_ARC);
+        card.setArcWidth(CARD_ARC);
         card.setHeight(CARD_HEIGHT);
         card.setWidth(CARD_WIDTH);
         card.setStroke(BLACK);
@@ -516,6 +520,7 @@ public class GameController implements Initializable {
         } else if (this.round == LAST_ROUND) {
             this.challengeButton.setVisible(false);
             Text gameOver = new Text("Game Over");
+            gameOver.setFill(WHITE);
             thirdLevelScorePosted = true;
             logToScreen("---- Round Ended ----", logArea, LOGGER);
             GameLogic.getInstance().sendScores(logArea);

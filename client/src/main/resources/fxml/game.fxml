@@ -7,14 +7,14 @@
 
 <AnchorPane fx:id="gameMainAnchor" prefHeight="600.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group10.client.controller.GameController">
    <children>
-      <Text fx:id="levelText" layoutX="8.0" layoutY="279.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Level:" wrappingWidth="99.7294921875" />
-      <AnchorPane fx:id="upperAnchorPane" layoutX="24.0" prefHeight="200.0" prefWidth="793.0" />
-      <AnchorPane fx:id="midStack" layoutX="351.0" layoutY="217.0" prefHeight="114.0" prefWidth="116.0" />
-      <AnchorPane fx:id="bottomAnchorPane" layoutX="12.0" layoutY="400.0" prefHeight="200.0" prefWidth="793.0" />
-      <Text fx:id="yourScore" layoutX="9.0" layoutY="313.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your Score:" wrappingWidth="123.7294921875" />
-      <Text fx:id="enemyScore" layoutX="8.0" layoutY="248.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Opponent Score:" wrappingWidth="175.0" />
-      <Text fx:id="midCartCount" layoutX="674.0" layoutY="271.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mid Count: " wrappingWidth="108.3310546875" />
-      <Button fx:id="leaveButton" layoutX="8.0" layoutY="331.0" mnemonicParsing="false" onAction="#leaveGame" prefHeight="24.0" prefWidth="63.0" text="Leave" />
+      <Text fx:id="levelText" fill="WHITE" layoutX="8.0" layoutY="279.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Level:" wrappingWidth="99.7294921875" />
+      <AnchorPane fx:id="upperAnchorPane" layoutX="24.0" prefHeight="180.0" prefWidth="793.0" />
+      <AnchorPane fx:id="midStack" layoutX="351.0" layoutY="200.0" prefHeight="114.0" prefWidth="116.0" />
+      <AnchorPane fx:id="bottomAnchorPane" layoutX="12.0" layoutY="360.0" prefHeight="180.0" prefWidth="793.0" />
+      <Text fx:id="yourScore" fill="WHITE" layoutX="9.0" layoutY="313.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your Score:" wrappingWidth="123.7294921875" />
+      <Text fx:id="enemyScore" fill="WHITE" layoutX="8.0" layoutY="248.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Opponent Score:" wrappingWidth="175.0" />
+      <Text fx:id="midCartCount" fill="WHITE" layoutX="674.0" layoutY="271.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mid Count: " wrappingWidth="108.3310546875" />
+      <Button fx:id="leaveButton" cancelButton="true" layoutX="8.0" layoutY="331.0" mnemonicParsing="false" onAction="#leaveGame" prefHeight="24.0" prefWidth="63.0" text="Leave" />
       <Button fx:id="challengeButton" layoutX="368.0" layoutY="362.0" mnemonicParsing="false" onAction="#acceptChallenge" text="Challenge" visible="false" />
       <TextArea fx:id="logArea" editable="false" layoutX="842.0" prefHeight="600.0" prefWidth="438.0" wrapText="true">
       </TextArea>

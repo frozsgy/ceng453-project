@@ -17,8 +17,8 @@
       <AnchorPane fx:id="homeAnchor" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <Text fx:id="helloText" layoutX="288.0" layoutY="35.0" textAlignment="CENTER" wrappingWidth="184.20947265625" />
-            <Button fx:id="buttonNewGame" layoutX="320.0" layoutY="155.0" mnemonicParsing="false" onAction="#navigateToNewGame" prefHeight="32.0" prefWidth="120.0" text="New Game" />
-            <Button fx:id="buttonScoreboard" layoutX="324.0" layoutY="300.0" mnemonicParsing="false" onAction="#navigateToScoreboard" prefHeight="32.0" prefWidth="120.0" text="Scoreboard" />
+            <Button fx:id="buttonNewGame" layoutX="340.0" layoutY="155.0" mnemonicParsing="false" onAction="#navigateToNewGame" prefHeight="32.0" prefWidth="120.0" text="New Game" />
+            <Button fx:id="buttonScoreboard" layoutX="340.0" layoutY="300.0" mnemonicParsing="false" onAction="#navigateToScoreboard" prefHeight="32.0" prefWidth="120.0" text="Scoreboard" />
             <Button fx:id="buttonLogout" layoutX="2.0" layoutY="14.0" mnemonicParsing="false" onAction="#logout" prefHeight="32.0" prefWidth="120.0" text="Logout" />
 
             <StackPane fx:id="homeStackPane" disable="true" layoutX="2.0" prefHeight="600.0" prefWidth="759.0" />
