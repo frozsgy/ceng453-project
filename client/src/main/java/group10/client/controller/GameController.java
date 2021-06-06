@@ -16,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -31,12 +32,12 @@ import javafx.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.w3c.dom.css.Rect;
 
 import java.net.URL;
 import java.util.*;
 
-import static group10.client.constants.GameConstants.LAST_ROUND;
-import static group10.client.constants.GameConstants.MAX_SCORE;
+import static group10.client.constants.GameConstants.*;
 import static group10.client.constants.UiConstants.*;
 import static group10.client.utility.UIUtility.*;
 
@@ -96,10 +97,10 @@ public class GameController implements Initializable {
     @FXML
     private AnchorPane upperAnchorPane;
     /**
-     * Stack pane for middle stack cards
+     * Anchor pane for middle stack cards
      */
     @FXML
-    private StackPane midStack;
+    private AnchorPane midStack;
     /**
      * Text area for game logs
      */
@@ -162,54 +163,46 @@ public class GameController implements Initializable {
         centerScene(this.gameMainAnchor.getPrefWidth(), this.gameMainAnchor.getPrefHeight());
     }
 
-    
+    /**
+     * Initializes card rectangles
+     */
+    private void initCards(AnchorPane pane, String name, double yLocation) {
+        List<Rectangle> cardList = null;
+        boolean isHidden = false;
+        if (name.equals("enemy ")) {
+            this.opponentCards = new ArrayList<>();
+            isHidden = true;
+            cardList = this.opponentCards;
+        } else {
+            this.currentCards = new ArrayList<>();
+            cardList = this.currentCards;
+        }
+        for (int i = 0; i < CARD_PER_HAND; i++) {
+            Rectangle card = createCardRectangle(isHidden, null);
+            cardList.add(card);
+            try {
+                pane.getChildren().add(cardList.get(i));
+            } catch (IllegalArgumentException e) {
+                logToScreen("First initialization of " + name + "card " + (i + 1), this.logArea, LOGGER);
+            }
+            cardList.get(i).setLayoutX(LEFTMOST_CARD_X + i * HORIZONTAL_CARD_SPACING);
+            cardList.get(i).setLayoutY(yLocation);
+        }
+    }
+
 
     /**
      * Initializes opponent cards' rectangles
      */
     private void initOpponentCards() {
-        this.opponentCards = new ArrayList<>();
-        Rectangle opponentCard1 = createCardRectangle(true);
-        Rectangle opponentCard2 = createCardRectangle(true);
-        Rectangle opponentCard3 = createCardRectangle(true);
-        Rectangle opponentCard4 = createCardRectangle(true);
-        this.opponentCards.add(opponentCard1);
-        this.opponentCards.add(opponentCard2);
-        this.opponentCards.add(opponentCard3);
-        this.opponentCards.add(opponentCard4);
-        for (int i = 0; i < opponentCards.size(); i++) {
-            try {
-                upperAnchorPane.getChildren().add(opponentCards.get(i));
-            } catch (IllegalArgumentException e) {
-                logToScreen("First initialization of enemy card " + (i + 1), this.logArea, LOGGER);
-            }
-            opponentCards.get(i).setLayoutX(LEFTMOST_CARD_X + i * HORIZONTAL_CARD_SPACING);
-            opponentCards.get(i).setLayoutY(UiConstants.ENEMY_CARD_Y);
-        }
+        initCards(this.upperAnchorPane, "enemy ", ENEMY_CARD_Y);
     }
 
     /**
      * Initializes player cards' rectangles
      */
     private void initPlayerCards() {
-        this.currentCards = new ArrayList<>();
-        Rectangle selfCard1 = createCardRectangle(false);
-        Rectangle selfCard2 = createCardRectangle(false);
-        Rectangle selfCard3 = createCardRectangle(false);
-        Rectangle selfCard4 = createCardRectangle(false);
-        this.currentCards.add(selfCard1);
-        this.currentCards.add(selfCard2);
-        this.currentCards.add(selfCard3);
-        this.currentCards.add(selfCard4);
-        for (int i = 0; i < currentCards.size(); i++) {
-            try {
-                bottomAnchorPane.getChildren().add(currentCards.get(i));
-            } catch (IllegalArgumentException e) {
-                logToScreen("First initialization of card " + (i + 1), this.logArea, LOGGER);
-            }
-            currentCards.get(i).setLayoutX(LEFTMOST_CARD_X + i * HORIZONTAL_CARD_SPACING);
-            currentCards.get(i).setLayoutY(PLAYER_CARD_Y);
-        }
+        initCards(this.bottomAnchorPane, "", PLAYER_CARD_Y);
     }
 
     /**
@@ -224,21 +217,28 @@ public class GameController implements Initializable {
     /**
      * Creates a card Rectangle
      *
-     * @param hasImage if the card is viewed from the back or front
+     * @param isHidden if the card is viewed from the back or front
      * @return Rectangle for a card
      */
-    private Rectangle createCardRectangle(boolean hasImage) {
+    private Rectangle createCardRectangle(boolean isHidden, Card cardValue) {
         Rectangle card = new Rectangle();
         card.setArcHeight(5.0);
         card.setArcWidth(5.0);
-        card.setHeight(114.0);
-        card.setWidth(117.0);
+        card.setHeight(CARD_HEIGHT);
+        card.setWidth(CARD_WIDTH);
         card.setStroke(BLACK);
         card.setStrokeType(StrokeType.valueOf("INSIDE"));
         card.setFill(WHITE);
-        if (hasImage) {
-            Image img = new Image(CARD_BACK_IMAGE);
-            card.setFill(new ImagePattern(img));
+        Image img = null;
+        if (isHidden) {
+            img = new Image(CARD_BACK_IMAGE);
+        } else {
+            if (cardValue != null) {
+                img = new Image(cardValue.getImage());    
+            }
+        }
+        if (img != null) {
+            card.setFill(new ImagePattern(img));    
         }
         return card;
     }
@@ -249,11 +249,12 @@ public class GameController implements Initializable {
     private void initStack() {
         Image img = new Image(CARD_BACK_IMAGE);
         midStack.getChildren().clear();
-        for (int i = 0; i < GameConstants.CARD_PER_HAND; i++) {
+        for (int i = 0; i < CARD_PER_HAND; i++) {
             Card card = allCards.pop();
             GameLogic.getInstance().getMiddle().add(card);
-            Rectangle rec = createCardRectangle(false);
-            if (i + 1 != GameConstants.CARD_PER_HAND) {
+            Rectangle rec = createCardRectangle(false, card);
+            rec.setLayoutX(i * 10.);
+            if (i + 1 != CARD_PER_HAND) {
                 rec.setFill(new ImagePattern(img));
                 midStack.getChildren().add(rec);
             } else {
@@ -282,7 +283,7 @@ public class GameController implements Initializable {
             this.cardMappings.put(r, top);
         }
         logToScreen("Cards were dealt for Player One", this.logArea, LOGGER);
-        for (int i = 0; i < GameConstants.CARD_PER_HAND; i++) {
+        for (int i = 0; i < CARD_PER_HAND; i++) {
             Card top = allCards.pop();
             cardsTwo.add(top);
             this.cardMappings.put(opponentCards.get(i), top);
@@ -639,7 +640,7 @@ public class GameController implements Initializable {
         Card opponentCard = cardMap.getValue();
         this.upperAnchorPane.getChildren().remove(removed); // remove from view.
         this.cardMappings.remove(removed); // remove the mapping.
-        Rectangle opponentRectangle = createCardRectangle(bluffed); // generate new view.
+        Rectangle opponentRectangle = createCardRectangle(bluffed, opponentCard); // generate new view.
         this.cardMappings.put(opponentRectangle, opponentCard); // create new mapping.
         drawCardInsideRectangle(opponentRectangle, opponentCard); // put text unless it is hidden.
         midStack.getChildren().add(opponentRectangle.getParent()); // put it to mid.

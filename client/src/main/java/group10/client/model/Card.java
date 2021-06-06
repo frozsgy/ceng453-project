@@ -77,6 +77,14 @@ public class Card {
     }
 
     /**
+     * Gets the image location for the card.
+     * @return png location as a String.
+     */
+    public String getImage() {
+        return "/static/deck/" + this.card + this.suit.getInitials() + ".png";
+    }
+
+    /**
      * Overridden equals method.
      *
      * @param o Object to be tested

@@ -61,6 +61,14 @@ public class UiConstants {
      */
     public static final double HORIZONTAL_CARD_SPACING = 174;
     /**
+     * Width of the card rectangles.
+     */
+    public static final double CARD_WIDTH = 100.0;
+    /**
+     * Height of the card rectangles
+     */
+    public static final double CARD_HEIGHT = 152.0;
+    /**
      * White color
      */
     public static final Paint WHITE = Paint.valueOf("WHITE");
