@@ -319,7 +319,7 @@ public class GameController implements Initializable {
      * @return StackPane of the card
      */
     private StackPane drawCardInsideRectangle(Rectangle r, Card cardToDraw) {
-        String margin = " ";
+        /*String margin = " ";
         Suits suit = cardToDraw.getSuit();
         Cards card = cardToDraw.getCard();
         String suitName = "";
@@ -329,19 +329,23 @@ public class GameController implements Initializable {
             suitName = suit.name();
             cardName = margin + card.toString();
         }
-        final Text text = new Text(suitName);
+        final Text text = new Text(suitName);*/
         final StackPane stack = new StackPane();
-        final Text text2 = new Text(cardName);
+        /*final Text text2 = new Text(cardName);
         final StackPane stack2 = new StackPane();
         stack2.setAlignment(Pos.TOP_LEFT);
-        stack2.getChildren().add(text2);
-        stack.getChildren().addAll(r, text, stack2);
+        stack2.getChildren().add(text2);*/
+        //stack.getChildren().addAll(r, text, stack2);
+        Image img = new Image(cardToDraw.getImage());
+        r.setFill(new ImagePattern(img));
+
         stack.setLayoutX(r.getLayoutX());
         stack.setLayoutY(r.getLayoutY());
-        stack2.setLayoutX(r.getLayoutX());
-        stack2.setLayoutY(r.getLayoutY());
-        stack.setPickOnBounds(false);
-        stack2.setPickOnBounds(false);
+        stack.getChildren().add(r);
+        /*stack2.setLayoutX(r.getLayoutX());
+        stack2.setLayoutY(r.getLayoutY());*/
+        stack.setPickOnBounds(true);
+       // stack2.setPickOnBounds(false);
         return stack;
     }
 
@@ -613,7 +617,7 @@ public class GameController implements Initializable {
      * @param pressed rectangle that was pressed
      */
     private void controlPlayer(Rectangle pressed) {
-        midStack.getChildren().add(pressed.getParent()); // add to middle.
+        midStack.getChildren().add(pressed); // add to middle.
         Card card = this.cardMappings.get(pressed); // get pressed card.
         if (GameLogic.getInstance().getMiddle().isEmpty()) {
             logToScreen("Player One threw " + card + " on an empty stack", this.logArea, LOGGER);
@@ -643,7 +647,7 @@ public class GameController implements Initializable {
         Rectangle opponentRectangle = createCardRectangle(bluffed, opponentCard); // generate new view.
         this.cardMappings.put(opponentRectangle, opponentCard); // create new mapping.
         drawCardInsideRectangle(opponentRectangle, opponentCard); // put text unless it is hidden.
-        midStack.getChildren().add(opponentRectangle.getParent()); // put it to mid.
+        midStack.getChildren().add(opponentRectangle); // put it to mid.
         if (bluffed) {
             // handle bluff
             GameLogic.getInstance().getMiddle().add(opponentCard); // put card to bluff, do not make check.
