@@ -572,6 +572,7 @@ public class GameController implements Initializable {
             GameLogic.getInstance().addScoreToPlayer(PlayerEnum.ONE, GameConstants.DOUBLE_PISTI); // give points to player.
             this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.ONE)); // update player score view.
         }
+        added.setLayoutX(midStackShift++ * MID_STACK_SHIFT);
         this.midStack.getChildren().add(added);
         GameLogic.getInstance().getMiddle().push(candidate); // put things back to middle.
         GameLogic.getInstance().getMiddle().push(bluffed); // put things back to middle.
@@ -598,6 +599,7 @@ public class GameController implements Initializable {
             Rectangle r = GameLogic.getRectangleByCard(this.cardMappings, bluffed); //get the rectangle of closed card.
             this.midStack.getChildren().remove(r);
             this.setRectangleVisible(r); // make rectangle visible.
+            this.midStackShift--;
             this.drawCardInsideRectangle(r, bluffed, false); // put text to it.
             this.handleFakeBluffForPlayer(PlayerEnum.TWO, candidate, bluffed, r);
         }
