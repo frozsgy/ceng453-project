@@ -84,6 +84,10 @@ public class UiConstants {
      * Black color
      */
     public static final Paint BLACK = Paint.valueOf("BLACK");
+    /**
+     * Green color for the game display
+     */
+    public static final Paint GAME_GREEN = Paint.valueOf("#1c4a23");
 
     /**
      * Title of the window

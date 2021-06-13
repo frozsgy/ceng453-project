@@ -14,14 +14,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
@@ -169,9 +166,13 @@ public class GameController implements Initializable {
 
     /**
      * Initializes card rectangles
+     *
+     * @param pane      AnchorPane to place the card onto
+     * @param name      name of the card
+     * @param yLocation y-location of the card
      */
     private void initCards(AnchorPane pane, String name, double yLocation) {
-        List<Rectangle> cardList = null;
+        List<Rectangle> cardList;
         boolean isHidden = false;
         if (name.equals("enemy ")) {
             this.opponentCards = new ArrayList<>();
@@ -221,7 +222,8 @@ public class GameController implements Initializable {
     /**
      * Creates a card Rectangle
      *
-     * @param isHidden if the card is viewed from the back or front
+     * @param isHidden  if the card is viewed from the back or front
+     * @param cardValue card value for the rectangle
      * @return Rectangle for a card
      */
     private Rectangle createCardRectangle(boolean isHidden, Card cardValue) {
@@ -238,11 +240,11 @@ public class GameController implements Initializable {
             img = new Image(CARD_BACK_IMAGE);
         } else {
             if (cardValue != null) {
-                img = new Image(cardValue.getImage());    
+                img = new Image(cardValue.getImage());
             }
         }
         if (img != null) {
-            card.setFill(new ImagePattern(img));    
+            card.setFill(new ImagePattern(img));
         }
         return card;
     }
@@ -320,7 +322,7 @@ public class GameController implements Initializable {
      *
      * @param r          Rectangle to draw a card inside
      * @param cardToDraw card to draw
-     * @param isHidden
+     * @param isHidden   if the card is inverted or not
      * @return StackPane of the card
      */
     private StackPane drawCardInsideRectangle(Rectangle r, Card cardToDraw, boolean isHidden) {
@@ -502,7 +504,7 @@ public class GameController implements Initializable {
     @FXML
     protected void navigateToHome(ActionEvent e) {
         URL resource = getClass().getResource(UiConstants.MENU_FXML);
-        Scene menu = UIUtility.navigateTo(e, resource, null);
+        UIUtility.navigateTo(e, resource, null);
         Properties properties = PropertiesLoader.getProperties();
         double width = Double.parseDouble(properties.getProperty("width"));
         double height = Double.parseDouble(properties.getProperty("height"));
@@ -570,7 +572,7 @@ public class GameController implements Initializable {
             GameLogic.getInstance().addScoreToPlayer(PlayerEnum.ONE, GameConstants.DOUBLE_PISTI); // give points to player.
             this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.ONE)); // update player score view.
         }
-        this.midStack.getChildren().add(added.getParent());
+        this.midStack.getChildren().add(added);
         GameLogic.getInstance().getMiddle().push(candidate); // put things back to middle.
         GameLogic.getInstance().getMiddle().push(bluffed); // put things back to middle.
     }

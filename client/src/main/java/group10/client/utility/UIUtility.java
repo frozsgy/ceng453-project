@@ -13,13 +13,14 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
-import javafx.scene.paint.Paint;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 
 import java.io.IOException;
 import java.net.URL;
+
+import static group10.client.constants.UiConstants.GAME_GREEN;
 
 /**
  * Utility class that contains UI related helper methods.
@@ -112,7 +113,12 @@ public class UIUtility {
         });
     }
 
+    /**
+     * Utility method to get the background fill for game screens
+     *
+     * @return new Background as the background color
+     */
     public static Background getBackground() {
-        return new Background(new BackgroundFill(Paint.valueOf("#1c4a23"), CornerRadii.EMPTY , Insets.EMPTY));
+        return new Background(new BackgroundFill(GAME_GREEN, CornerRadii.EMPTY, Insets.EMPTY));
     }
 }
