@@ -2,15 +2,10 @@ package group10.server.model;
 
 public class MatchMakingDTO {
 
-    private long game;
     private String ip;
     private String port;
     private long player;
     private String userName;
-
-    public long getGame() {
-        return game;
-    }
 
     public String getIp() {
         return ip;
@@ -22,10 +17,6 @@ public class MatchMakingDTO {
 
     public long getPlayer() {
         return player;
-    }
-
-    public void setGame(long game) {
-        this.game = game;
     }
 
     public void setIp(String ip) {
