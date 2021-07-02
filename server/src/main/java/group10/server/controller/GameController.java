@@ -4,6 +4,7 @@ import group10.server.entity.Game;
 import group10.server.entity.Match;
 import group10.server.entity.Player;
 import group10.server.model.MatchDTO;
+import group10.server.model.MatchMakingDTO;
 import group10.server.repository.Scoreboard;
 import group10.server.service.GameService;
 import group10.server.service.MatchService;
@@ -96,7 +97,7 @@ public class GameController {
      */
     @GetMapping("/match")
     @ResponseBody
-    public ResponseEntity<?> isMatched() {
+    public ResponseEntity<?> getOpponent(MatchMakingDTO playerNetworkInfo) {
         // TODO - stub left for concurrency
         return ResponseEntity.ok(false);
     }

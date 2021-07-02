@@ -4,6 +4,7 @@ import group10.server.entity.Game;
 import group10.server.entity.Match;
 import group10.server.entity.Player;
 import group10.server.enums.GameTypes;
+import group10.server.model.MatchMakingDTO;
 import group10.server.repository.GameRepository;
 import group10.server.repository.MatchRepository;
 import group10.server.repository.Scoreboard;
@@ -12,7 +13,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedList;
 import java.util.Optional;
+import java.util.Queue;
+import java.util.Stack;
 
 /**
  * @author Alperen Caykus, Mustafa Ozan Alpay
@@ -30,6 +34,8 @@ public class GameService {
      */
     private MatchRepository matchRepository;
 
+    private Queue<MatchMakingDTO> queue;
+
     /**
      * Constructor for GameService
      * @param gameRepository Autowired game repository
@@ -39,6 +45,7 @@ public class GameService {
     public GameService(GameRepository gameRepository, MatchRepository matchRepository) {
         this.gameRepository = gameRepository;
         this.matchRepository = matchRepository;
+        this.queue = new LinkedList<>();
     }
 
     /**
@@ -114,6 +121,16 @@ public class GameService {
      */
     public Page<Scoreboard> getScoreboard(int days, Pageable pageable) {
         return matchRepository.getScoreboard(-days, pageable);
+    }
+
+    public MatchMakingDTO getOpponent(MatchMakingDTO playerNetworkInfo) {
+        try{
+            MatchMakingDTO opponentInfo = this.queue.remove();
+            return opponentInfo;
+        } catch (IllegalStateException ex) {
+            this.queue.add(playerNetworkInfo);
+        }
+        return null;
     }
 
 }
