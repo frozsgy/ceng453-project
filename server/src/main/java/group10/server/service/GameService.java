@@ -124,10 +124,12 @@ public class GameService {
     }
 
     public MatchMakingDTO getOpponent(MatchMakingDTO playerNetworkInfo) {
+        System.out.println("SO far");
         try{
             MatchMakingDTO opponentInfo = this.queue.remove();
             return opponentInfo;
-        } catch (IllegalStateException ex) {
+        } catch (Exception ex) {
+            System.out.println("Exception");
             this.queue.add(playerNetworkInfo);
         }
         return null;

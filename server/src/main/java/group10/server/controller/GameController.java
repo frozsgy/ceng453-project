@@ -91,15 +91,17 @@ public class GameController {
     }
 
     /**
-     * HTTP GET requests to /match path are served by this method.
+     * HTTP POST requests to /match path are served by this method.
      * Stub code left empty to implement later when handling concurrency.
      * @return HTTP200 false
      */
-    @GetMapping("/match")
+    @PostMapping("/match")
     @ResponseBody
-    public ResponseEntity<?> getOpponent(MatchMakingDTO playerNetworkInfo) {
+    public ResponseEntity<?> getOpponent(@RequestBody MatchMakingDTO playerNetworkInfo) {
         // TODO - stub left for concurrency
-        return ResponseEntity.ok(false);
+        Player player = playerService.getLoggedInPlayer();
+        MatchMakingDTO opponentNetworkInfo = gameService.getOpponent(playerNetworkInfo);
+        return ResponseEntity.ok(opponentNetworkInfo);
     }
 
     /**
