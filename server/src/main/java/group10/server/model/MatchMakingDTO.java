@@ -6,6 +6,7 @@ public class MatchMakingDTO {
     private String ip;
     private String port;
     private long player;
+    private String userName;
 
     public long getGame() {
         return game;
@@ -37,5 +38,13 @@ public class MatchMakingDTO {
 
     public void setPlayer(long player) {
         this.player = player;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

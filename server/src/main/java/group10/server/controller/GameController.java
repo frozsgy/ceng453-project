@@ -100,6 +100,8 @@ public class GameController {
     public ResponseEntity<?> getOpponent(@RequestBody MatchMakingDTO playerNetworkInfo) {
         // TODO - stub left for concurrency
         Player player = playerService.getLoggedInPlayer();
+        playerNetworkInfo.setPlayer(player.getId());
+        playerNetworkInfo.setUserName(player.getUsername());
         MatchMakingDTO opponentNetworkInfo = gameService.getOpponent(playerNetworkInfo);
         return ResponseEntity.ok(opponentNetworkInfo);
     }
