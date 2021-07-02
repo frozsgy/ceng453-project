@@ -124,15 +124,15 @@ public class GameService {
     }
 
     public MatchMakingDTO getOpponent(MatchMakingDTO playerNetworkInfo) {
-        System.out.println("SO far");
-        try{
-            MatchMakingDTO opponentInfo = this.queue.remove();
-            return opponentInfo;
-        } catch (Exception ex) {
-            System.out.println("Exception");
-            this.queue.add(playerNetworkInfo);
+        synchronized(this.queue) {
+            try{
+                MatchMakingDTO opponentInfo = this.queue.remove();
+                return opponentInfo;
+            } catch (Exception ex) {
+                this.queue.add(playerNetworkInfo);
+            }
+            return null;
         }
-        return null;
     }
 
 }
