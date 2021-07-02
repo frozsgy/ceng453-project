@@ -107,6 +107,11 @@ public class GameController {
             playerNetworkInfo.setPlayer(player.getId());
             playerNetworkInfo.setUserName(player.getUsername());
             MatchMakingDTO opponentNetworkInfo = gameService.getOpponent(playerNetworkInfo);
+            if (opponentNetworkInfo != null) {
+                LOGGER.info(player.getId() + " matched with " + opponentNetworkInfo.getPlayer());
+            } else {
+                LOGGER.info(player.getId() + " is queued");
+            }
             return ResponseEntity.ok(opponentNetworkInfo);
         } catch (NullPointerException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
