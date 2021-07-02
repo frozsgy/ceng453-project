@@ -32,9 +32,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.net.InetAddress;
-import java.net.URL;
-import java.net.UnknownHostException;
+import java.io.IOException;
+import java.net.*;
 import java.util.*;
 
 import static group10.client.constants.GameConstants.*;
@@ -147,13 +146,17 @@ public class GameController implements Initializable {
      * Keeps the total shift count for the mid stack.
      */
     private int midStackShift = 0;
-
     /**
      * Initializes the scene
      *
      * @param url            Address of this scene
      * @param resourceBundle Resource bundle
      */
+
+    private ServerSocket serverSocket;
+    private Socket socket;
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         GameLogic.getInstance();
@@ -533,15 +536,25 @@ public class GameController implements Initializable {
             return;
         }
         OpponentInfo found = HTTPService.getInstance().getOpponent(new OpponentInfo(ip, port));
-        // TODO open sockets and implement multiplayer
-        if (found != null) {
-            // found
-            System.out.println("FOUND");
-            txt.setText("Your opponent is: " + found.getUserName());
-        } else {
-            txt.setText("You are in queue. Please wait...");
-            // not found. Open a socket and wait for connections.
+        // TODO accept method stops drawing. We need to create a seperate thread inside mouseClickHandler.
+        try {
+            if (found != null) {
+                // found. connect to socket.
+                socket = new Socket(found.getIp(), Integer.parseInt(found.getPort()));
+                LOGGER.info("Host socket accepted the connection");
+                System.out.println("FOUND");
+                txt.setText("Your opponent is: " + found.getUserName());
+            } else {
+                // not found. Open a socket and wait for connections.
+                txt.setText("You are in queue. Please wait...");
+                serverSocket = new ServerSocket(Integer.parseInt(port));
+                socket = serverSocket.accept();
+                LOGGER.info("Opponent is connected");
+            }
+        } catch (IOException ex) {
+            LOGGER.warn("Socket creation failed");
         }
+
     }
 
     /**
