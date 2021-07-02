@@ -14,7 +14,7 @@ public class OpponentInfo {
     /**
      * Port that opponent client program is running on.
      */
-    private String port;
+    private int port;
     /**
      * Id of the opponent player
      */
@@ -28,7 +28,7 @@ public class OpponentInfo {
     public OpponentInfo() {
 
     }
-    public OpponentInfo(String ip, String port){
+    public OpponentInfo(String ip, int port){
         this.ip = ip;
         this.port = port;
     }
@@ -45,7 +45,7 @@ public class OpponentInfo {
      * Gets the port
      * @return Port number
      */
-    public String getPort() {
+    public int getPort() {
         return port;
     }
 
@@ -69,7 +69,7 @@ public class OpponentInfo {
      * Sets the port
      * @param port Port to be set
      */
-    public void setPort(String port) {
+    public void setPort(int port) {
         this.port = port;
     }
 

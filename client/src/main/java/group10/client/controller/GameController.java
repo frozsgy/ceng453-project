@@ -527,7 +527,7 @@ public class GameController implements Initializable {
         stackPane.setAlignment(txt, Pos.TOP_CENTER); //set it to the Center Left(by default it's on the center)
         stackPane.getChildren().add(txt);
         this.upperAnchorPane.getChildren().add(stackPane);
-        String port = "5858";
+        int port = 5858;
         String ip = "";
         try {
             ip = InetAddress.getLocalHost().getHostAddress();
@@ -540,14 +540,14 @@ public class GameController implements Initializable {
         try {
             if (found != null) {
                 // found. connect to socket.
-                socket = new Socket(found.getIp(), Integer.parseInt(found.getPort()));
+                socket = new Socket(found.getIp(), found.getPort());
                 LOGGER.info("Host socket accepted the connection");
                 System.out.println("FOUND");
                 txt.setText("Your opponent is: " + found.getUserName());
             } else {
                 // not found. Open a socket and wait for connections.
                 txt.setText("You are in queue. Please wait...");
-                serverSocket = new ServerSocket(Integer.parseInt(port));
+                serverSocket = new ServerSocket(port);
                 socket = serverSocket.accept();
                 LOGGER.info("Opponent is connected");
             }
