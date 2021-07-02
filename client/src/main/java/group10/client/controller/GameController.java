@@ -534,12 +534,13 @@ public class GameController implements Initializable {
             this.midStack.getChildren().add(button);
         } else if (this.round == LAST_ROUND) {
             // TODO check this.round > LAST_ROUND logic
+            thirdLevelScorePosted = true; // TODO is this correct?
             this.initMultiLevel();
         } else if (this.round > LAST_ROUND) {
             this.challengeButton.setVisible(false);
             Text gameOver = new Text("Game Over");
             gameOver.setFill(WHITE);
-            thirdLevelScorePosted = true;
+            thirdLevelScorePosted = true; // TODO remove this?
             logToScreen("---- Round Ended ----", logArea, LOGGER);
             GameLogic.getInstance().sendScores(logArea);
             this.midStack.getChildren().add(gameOver);
