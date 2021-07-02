@@ -41,7 +41,7 @@ class GameControllerTests {
     private static int scorePerMatch = 42;
     private static long userId = -1;
     private final static String IP = "localhost";
-    private final static String PORT = "5858";
+    private final static int PORT = 5858;
 
 
     @Autowired

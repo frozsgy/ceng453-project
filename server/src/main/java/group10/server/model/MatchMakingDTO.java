@@ -16,7 +16,7 @@ public class MatchMakingDTO {
     /**
      * Port that client program is running on.
      */
-    private String port;
+    private int port;
     /**
      * Id of the player that requested the opponent information.
      * Populated by using the token of the user.
@@ -41,7 +41,7 @@ public class MatchMakingDTO {
      * Gets the port
      * @return Port number
      */
-    public String getPort() {
+    public int getPort() {
         return port;
     }
 
@@ -65,7 +65,7 @@ public class MatchMakingDTO {
      * Sets the port
      * @param port Port to be set
      */
-    public void setPort(String port) {
+    public void setPort(int port) {
         this.port = port;
     }
 

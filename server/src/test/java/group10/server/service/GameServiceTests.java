@@ -32,7 +32,7 @@ public class GameServiceTests {
     private static Player player = null;
     private static Match match = null;
     private final static String IP = "localhost";
-    private final static String PORT = "5858";
+    private final static int PORT = 5858;
     @Autowired
     private PlayerService playerService;
 
