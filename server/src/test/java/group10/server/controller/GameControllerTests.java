@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import group10.server.entity.Player;
 import group10.server.model.LoginDTO;
 import group10.server.model.MatchDTO;
+import group10.server.model.MatchMakingDTO;
 import group10.server.model.PlayerDTO;
 import group10.server.service.PlayerService;
 import org.json.JSONArray;
@@ -39,6 +40,9 @@ class GameControllerTests {
     private static long gameId = -1;
     private static int scorePerMatch = 42;
     private static long userId = -1;
+    private final static String IP = "localhost";
+    private final static String PORT = "5858";
+
 
     @Autowired
     private PlayerService playerService;
@@ -161,4 +165,58 @@ class GameControllerTests {
         assertEquals(scoreboardOne.getLong("score"), 54 * scorePerMatch);
     }
 
+    @Test
+    @DisplayName("Request Queueing Player For Multiplayer Level")
+    @Order(6)
+    void testQueuePlayer() throws Exception {
+        MatchMakingDTO mmDTO = new MatchMakingDTO();
+        mmDTO.setIp(IP);
+        mmDTO.setPort(PORT);
+        String json = objectMapper.writeValueAsString(mmDTO);
+        String authorization = this.mvc.perform(post("/api/game/match").contentType(MediaType.APPLICATION_JSON)
+                .content(json)
+                .header("Authorization", "Bearer " + token)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        assertEquals(authorization, "");
+    }
+
+    @Test
+    @DisplayName("Request Dequeueing(Matching) Player For Multiplayer Level")
+    @Order(7)
+    void testGetOpponent() throws Exception {
+        MatchMakingDTO mmDTO = new MatchMakingDTO();
+        mmDTO.setIp(IP);
+        mmDTO.setPort(PORT);
+        String json = objectMapper.writeValueAsString(mmDTO);
+        String authorization = this.mvc.perform(post("/api/game/match").contentType(MediaType.APPLICATION_JSON)
+                .content(json)
+                .header("Authorization", "Bearer " + token)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        JSONObject jsonResponse = new JSONObject(authorization);
+        assertEquals(jsonResponse.get("ip"), IP);
+        assertEquals(jsonResponse.get("port"), PORT);
+        assertEquals(jsonResponse.get("player"), (int)userId);
+        assertEquals(jsonResponse.get("userName"), testUsername);
+
+    }
+
+    @Test
+    @DisplayName("Unauthorized Request for Match Making")
+    @Order(8)
+    void testMatchMakingBadRequest() throws Exception {
+        MatchMakingDTO mmDTO = new MatchMakingDTO();
+        mmDTO.setIp(IP);
+        mmDTO.setPort(PORT);
+        String json = objectMapper.writeValueAsString(mmDTO);
+        String authorization = this.mvc.perform(post("/api/game/match").contentType(MediaType.APPLICATION_JSON)
+                .content(json)
+                .header("Authorization", "Bearer " + token + "xd")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized())
+                .andReturn().getResponse().getContentAsString();
+    }
 }
