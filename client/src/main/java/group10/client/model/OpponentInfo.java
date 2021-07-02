@@ -25,6 +25,9 @@ public class OpponentInfo {
      */
     private String userName;
 
+    public OpponentInfo() {
+
+    }
     public OpponentInfo(String ip, String port){
         this.ip = ip;
         this.port = port;

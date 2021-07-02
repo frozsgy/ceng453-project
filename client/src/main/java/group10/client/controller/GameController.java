@@ -32,7 +32,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.net.InetAddress;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.*;
 
 import static group10.client.constants.GameConstants.*;
@@ -514,6 +516,7 @@ public class GameController implements Initializable {
         centerScene(width, height);
     }
 
+    // TODO JAVADOC
     private void initMultiLevel() {
         StackPane stackPane = new StackPane();
         Text txt = new Text("Looking for players...");
@@ -521,7 +524,24 @@ public class GameController implements Initializable {
         stackPane.setAlignment(txt, Pos.TOP_CENTER); //set it to the Center Left(by default it's on the center)
         stackPane.getChildren().add(txt);
         this.upperAnchorPane.getChildren().add(stackPane);
-        HTTPService.getInstance().getOpponent(new OpponentInfo("localhost", "5858"));
+        String port = "5858";
+        String ip = "";
+        try {
+            ip = InetAddress.getLocalHost().getHostAddress();
+        } catch (UnknownHostException e) {
+            LOGGER.warn("IP could not be grabbed. Aborting");
+            return;
+        }
+        OpponentInfo found = HTTPService.getInstance().getOpponent(new OpponentInfo(ip, port));
+        // TODO open sockets and implement multiplayer
+        if (found != null) {
+            // found
+            System.out.println("FOUND");
+            txt.setText("Your opponent is: " + found.getUserName());
+        } else {
+            txt.setText("You are in queue. Please wait...");
+            // not found. Open a socket and wait for connections.
+        }
     }
 
     /**
