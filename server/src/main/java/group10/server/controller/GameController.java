@@ -92,18 +92,25 @@ public class GameController {
 
     /**
      * HTTP POST requests to /match path are served by this method.
-     * Stub code left empty to implement later when handling concurrency.
-     * @return HTTP200 false
+     * Gets the opponent network information for the multiplayer level.
+     * If there is no opponent, user is placed into queue.
+     * @param playerNetworkInfo Server and IP of the player that requested opponent.
+     *                          This parameter is modified inside the method in a way that
+     *                          playerId and userName fields are populated using the token of the user.
+     * @return HTTP200 Opponent network information as HTTP response.
      */
     @PostMapping("/match")
     @ResponseBody
     public ResponseEntity<?> getOpponent(@RequestBody MatchMakingDTO playerNetworkInfo) {
-        // TODO - stub left for concurrency
-        Player player = playerService.getLoggedInPlayer();
-        playerNetworkInfo.setPlayer(player.getId());
-        playerNetworkInfo.setUserName(player.getUsername());
-        MatchMakingDTO opponentNetworkInfo = gameService.getOpponent(playerNetworkInfo);
-        return ResponseEntity.ok(opponentNetworkInfo);
+        try {
+            Player player = playerService.getLoggedInPlayer();
+            playerNetworkInfo.setPlayer(player.getId());
+            playerNetworkInfo.setUserName(player.getUsername());
+            MatchMakingDTO opponentNetworkInfo = gameService.getOpponent(playerNetworkInfo);
+            return ResponseEntity.ok(opponentNetworkInfo);
+        } catch (NullPointerException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     /**

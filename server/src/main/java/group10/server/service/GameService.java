@@ -123,6 +123,12 @@ public class GameService {
         return matchRepository.getScoreboard(-days, pageable);
     }
 
+    /**
+     * Thread safe method that finds opponent for multiplayer level.
+     * If no opponent is found, requesting player is placed to queue.
+     * @param playerNetworkInfo Network information of the requesting player where player and userName fields are populated by the caller.
+     * @return Opponent data if found, else null.
+     */
     public MatchMakingDTO getOpponent(MatchMakingDTO playerNetworkInfo) {
         synchronized(this.queue) {
             try{
