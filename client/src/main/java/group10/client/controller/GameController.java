@@ -13,6 +13,7 @@ import group10.client.utility.UIUtility;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -511,6 +512,15 @@ public class GameController implements Initializable {
         centerScene(width, height);
     }
 
+    private void initMultiLevel() {
+        StackPane stackPane = new StackPane();
+        Text txt = new Text("Looking for players...");
+        txt.setFill(WHITE);
+        stackPane.setAlignment(txt, Pos.TOP_CENTER); //set it to the Center Left(by default it's on the center)
+        stackPane.getChildren().add(txt);
+        this.upperAnchorPane.getChildren().add(stackPane);
+    }
+
     /**
      * Wrapper for setting up the next level
      */
@@ -520,6 +530,9 @@ public class GameController implements Initializable {
             button.setOnAction(e -> this.setUpNextLevel(false));
             this.midStack.getChildren().add(button);
         } else if (this.round == LAST_ROUND) {
+            // TODO check this.round > LAST_ROUND logic
+            this.initMultiLevel();
+        } else if (this.round > LAST_ROUND) {
             this.challengeButton.setVisible(false);
             Text gameOver = new Text("Game Over");
             gameOver.setFill(WHITE);
