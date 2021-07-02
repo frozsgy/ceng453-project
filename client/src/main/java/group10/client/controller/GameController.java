@@ -7,6 +7,8 @@ import group10.client.enums.PlayerEnum;
 import group10.client.enums.Suits;
 import group10.client.logic.GameLogic;
 import group10.client.model.Card;
+import group10.client.model.OpponentInfo;
+import group10.client.service.HTTPService;
 import group10.client.state.SessionStorage;
 import group10.client.utility.PropertiesLoader;
 import group10.client.utility.UIUtility;
@@ -519,6 +521,7 @@ public class GameController implements Initializable {
         stackPane.setAlignment(txt, Pos.TOP_CENTER); //set it to the Center Left(by default it's on the center)
         stackPane.getChildren().add(txt);
         this.upperAnchorPane.getChildren().add(stackPane);
+        HTTPService.getInstance().getOpponent(new OpponentInfo("localhost", "5858"));
     }
 
     /**

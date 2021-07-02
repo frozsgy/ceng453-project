@@ -6,6 +6,7 @@ import group10.client.constants.APIConstants;
 import group10.client.constants.UiInfoConstants;
 import group10.client.entity.Level;
 import group10.client.entity.PlayerGame;
+import group10.client.model.OpponentInfo;
 import group10.client.model.PasswordReset;
 import group10.client.model.Player;
 import group10.client.state.SessionStorage;
@@ -287,5 +288,22 @@ public class HTTPService {
         LOGGER.info("Score submission from " + SessionStorage.getInstance().getUsername() + " - Game: " + level.getGame() + " - Score: " + level.getScore());
         return response.getBody();
     }
+
+    /**
+     * Requests the opponent information.
+     * If an opponent is found, it returns their network and player information.
+     * If an opponent is not found, this player whose information provided as parameter is queued.
+     * @param selfInformation This player's information to queue if an opponent is not found.
+     * @return null if an opponent is not found. Opponent information otherwise.
+     */
+    public OpponentInfo getOpponent(OpponentInfo selfInformation) {
+        String json = gson.toJson(selfInformation);
+        HttpEntity<String> entity = initEntity(true, json);
+        String path = APIConstants.FIND_OPPONENT_PATH;
+        ResponseEntity<OpponentInfo> response = restTemplate.exchange(path, HttpMethod.POST, entity, OpponentInfo.class);
+        System.out.println(response.getBody());
+        return response.getBody();
+    }
+
 
 }

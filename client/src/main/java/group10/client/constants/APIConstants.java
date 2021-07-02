@@ -48,4 +48,9 @@ public class APIConstants {
      */
     public final static String SEND_SCORE_PATH = GAME + "next";
 
+    /**
+     * Endpoint to find opponent or get in the queue.
+     */
+    public final static String FIND_OPPONENT_PATH = GAME + "match";
+
 }
