@@ -3,6 +3,7 @@ package group10.server.service;
 
 import group10.server.entity.Match;
 import group10.server.entity.Player;
+import group10.server.model.MatchMakingDTO;
 import group10.server.model.PlayerDTO;
 import group10.server.repository.Scoreboard;
 import org.junit.jupiter.api.*;
@@ -30,7 +31,8 @@ public class GameServiceTests {
     private static int scorePerMatch = 42;
     private static Player player = null;
     private static Match match = null;
-
+    private final static String IP = "localhost";
+    private final static String PORT = "5858";
     @Autowired
     private PlayerService playerService;
 
@@ -83,5 +85,42 @@ public class GameServiceTests {
         Pageable pageable = PageRequest.of(0, 10);
         Page<Scoreboard> scoreboard = gameService.getScoreboard(30, pageable);
         assertFalse(scoreboard.getContent().isEmpty());
+    }
+
+    @Test
+    @DisplayName("Queue Player For Matchmaking")
+    @Order(5)
+    void testQueuePlayer() {
+        MatchMakingDTO mmDTO = new MatchMakingDTO();
+        mmDTO.setIp(IP);
+        mmDTO.setPort(PORT);
+        MatchMakingDTO found = gameService.getOpponent(mmDTO);
+        assertEquals(found, null);
+    }
+
+    @Test
+    @DisplayName("Check Queue Size After Queueing")
+    @Order(6)
+    void testQueueSize() {
+        assertEquals(gameService.getQueue().size(), 1);
+    }
+
+    @Test
+    @DisplayName("Get Opponent Player For Matchmaking")
+    @Order(7)
+    void testFindPlayer() {
+        MatchMakingDTO mmDTO = new MatchMakingDTO();
+        mmDTO.setIp(IP);
+        mmDTO.setPort(PORT);
+        MatchMakingDTO found = gameService.getOpponent(mmDTO);
+        assertEquals(found.getIp(), IP);
+        assertEquals(found.getPort(), PORT);
+    }
+
+    @Test
+    @DisplayName("Check Queue Size After Dequeueing")
+    @Order(8)
+    void testQueueSizeAfterFound() {
+        assertEquals(gameService.getQueue().size(), 0);
     }
 }

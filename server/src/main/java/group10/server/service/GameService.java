@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import java.util.LinkedList;
 import java.util.Optional;
 import java.util.Queue;
-import java.util.Stack;
 
 /**
  * @author Alperen Caykus, Mustafa Ozan Alpay
@@ -139,6 +138,10 @@ public class GameService {
             }
             return null;
         }
+    }
+
+    public Queue getQueue() {
+        return queue;
     }
 
 }
