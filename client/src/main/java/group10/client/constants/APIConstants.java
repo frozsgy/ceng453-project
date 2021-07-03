@@ -10,7 +10,7 @@ public class APIConstants {
     /**
      * API Root URL.
      */
-    private final static String API = "http://localhost:8080/api";
+    private final static String API = "http://localhost:8083/api";
     /**
      * User folder for server.
      */

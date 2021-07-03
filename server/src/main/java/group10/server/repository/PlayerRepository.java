@@ -10,8 +10,9 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 /**
- * @author Alperen Caykus, Mustafa Ozan Alpay
  * Repository that is used by PlayerService. Allows communication with the database.
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 @Repository
 public interface PlayerRepository extends JpaRepository<Player, Long> {

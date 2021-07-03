@@ -9,8 +9,9 @@ import javax.persistence.Table;
 import java.util.List;
 
 /**
- * @author Alperen Caykus, Mustafa Ozan Alpay
  * Entity for Role objects.
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 @Entity
 @Table(name = "role")

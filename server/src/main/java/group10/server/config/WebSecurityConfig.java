@@ -8,8 +8,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
- * @author Alperen Caykus, Mustafa Ozan Alpay
  * Config class that is responsible of Spring Security.
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 @EnableWebSecurity
 @Configuration
@@ -35,6 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * Spring Security Filter for Authentication.
+     *
      * @param http - HttpSecurity
      * @throws Exception depending on the HttpSecurity type.
      */

@@ -8,8 +8,9 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 /**
- * @author Alperen Caykus, Mustafa Ozan Alpay
  * Config class that is responsible of the Role logic of Players.
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 @Component
 public class DataLoader implements ApplicationRunner {
@@ -22,6 +23,7 @@ public class DataLoader implements ApplicationRunner {
 
     /**
      * Creates the role mechanism during run.
+     *
      * @param args - Application arguments of Spring
      * @throws Exception - gets thrown if an exception happens at role repository
      */

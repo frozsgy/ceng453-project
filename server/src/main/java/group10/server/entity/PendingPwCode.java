@@ -9,8 +9,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- * @author Alperen Caykus, Mustafa Ozan Alpay
  * Entity for Password Reset objects.
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 @Entity
 @Table(name = "pending_pw_code")

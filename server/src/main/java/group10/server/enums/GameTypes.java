@@ -1,8 +1,9 @@
 package group10.server.enums;
 
 /**
- * @author Alperen Caykus, Mustafa Ozan Alpay
  * Enum to keep track of GameTypes.
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 public enum GameTypes {
     /**

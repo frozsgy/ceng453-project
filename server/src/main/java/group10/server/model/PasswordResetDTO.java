@@ -4,10 +4,11 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 /**
- * @author Alperen Caykus, Mustafa Ozan Alpay
  * Data transfer object that is received from client.
  * Carries password reset information, which are password,
  * reset code and username
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 public class PasswordResetDTO {
 
@@ -31,6 +32,7 @@ public class PasswordResetDTO {
 
     /**
      * Gets the password
+     *
      * @return password
      */
     public String getPassword() {
@@ -39,6 +41,7 @@ public class PasswordResetDTO {
 
     /**
      * Gets the reset code
+     *
      * @return resetCode
      */
     public String getResetCode() {
@@ -47,6 +50,7 @@ public class PasswordResetDTO {
 
     /**
      * Gets the username
+     *
      * @return username
      */
     public String getUsername() {
@@ -55,6 +59,7 @@ public class PasswordResetDTO {
 
     /**
      * Sets the password
+     *
      * @param password password that is going to be set
      */
     public void setPassword(String password) {
@@ -63,6 +68,7 @@ public class PasswordResetDTO {
 
     /**
      * Sets the reset code
+     *
      * @param resetCode reset code that is going to be set
      */
     public void setResetCode(String resetCode) {
@@ -71,6 +77,7 @@ public class PasswordResetDTO {
 
     /**
      * Sets the username
+     *
      * @param username reset code that is going to be set
      */
     public void setUsername(String username) {

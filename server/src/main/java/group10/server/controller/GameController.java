@@ -21,16 +21,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * @author Alperen Caykus, Mustafa Ozan Alpay
  * REST Endpoint class for Games.
  * All requests that are sent to /api/game is handled by
  * this class
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 @RestController
 @RequestMapping("/api/game")
@@ -42,16 +42,19 @@ public class GameController {
     private ApplicationContext context;
     /**
      * Autowired service responsible of games.
+     *
      * @see GameService
      */
     private GameService gameService;
     /**
      * Autowired service responsible of matches (levels)
+     *
      * @see MatchService
      */
     private MatchService matchService;
     /**
      * Autowired service responsible of players
+     *
      * @see PlayerService
      */
     private PlayerService playerService;
@@ -63,9 +66,10 @@ public class GameController {
 
     /**
      * Constructor for game controller.
-     * @param context Autowired application context
-     * @param gameService Autowired game service
-     * @param matchService Autowired match service
+     *
+     * @param context       Autowired application context
+     * @param gameService   Autowired game service
+     * @param matchService  Autowired match service
      * @param playerService Autowired player service
      */
     @Autowired
@@ -80,6 +84,7 @@ public class GameController {
      * HTTP GET requests to /new path are served by this method.
      * Gets a new game and logs the username of the player
      * that sent the request.
+     *
      * @return HTTP200 New game as response.
      */
     @GetMapping("/new")
@@ -94,6 +99,7 @@ public class GameController {
      * HTTP POST requests to /match path are served by this method.
      * Gets the opponent network information for the multiplayer level.
      * If there is no opponent, user is placed into queue.
+     *
      * @param playerNetworkInfo Server and IP of the player that requested opponent.
      *                          This parameter is modified inside the method in a way that
      *                          playerId and userName fields are populated using the token of the user.
@@ -121,6 +127,7 @@ public class GameController {
     /**
      * HTTP POST requests to /next path are served by this method.
      * Logs the username of the user that sent the request to standard out.
+     *
      * @param dto HTTP Request body that contains level information.
      * @return HTTP200 with next level if request is valid, else HTTP 400 Bad request
      */
@@ -142,8 +149,9 @@ public class GameController {
 
     /**
      * HTTP GET requests to /scoreboard/{day} path are served by this method.
-     * @param day Scoreboard of last 'day' days
-     * @param pageSize Number of score entries to be retrieved
+     *
+     * @param day        Scoreboard of last 'day' days
+     * @param pageSize   Number of score entries to be retrieved
      * @param pageNumber Page number of wanted scores. Used for paging the data.
      * @return HTTP200 scoreboard
      */
@@ -159,6 +167,7 @@ public class GameController {
 
     /**
      * HTTP GET requests to /scoreboard/game/{id} path are served by this method.
+     *
      * @param id ID of the game
      * @return HTTP200 Scoreboard related to this game
      */

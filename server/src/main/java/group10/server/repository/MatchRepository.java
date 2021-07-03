@@ -13,8 +13,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * @author Alperen Caykus, Mustafa Ozan Alpay
  * Repository that is used by MatchService. Allows communication with the database.
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 @Repository
 public interface MatchRepository extends JpaRepository<Match, Long> {
@@ -39,7 +40,7 @@ public interface MatchRepository extends JpaRepository<Match, Long> {
     @Query(value = "SELECT (l1.Score + 2 * l2.Score + 3 * l3.Score + 10 * l4.Score) AS Score, r.player_id AS UserId, p.username AS Username, " +
             "l1.Score AS LevelOne, l2.Score AS LevelTwo, l3.Score AS LevelThree, l4.Score AS LevelFour " +
             "FROM rounds r " +
-            "JOIN player p ON r.player_id = p.id "+
+            "JOIN player p ON r.player_id = p.id " +
             "JOIN  " +
             "(SELECT SUM(r.score) AS Score, r.player_id AS UserId " +
             "FROM rounds r  " +

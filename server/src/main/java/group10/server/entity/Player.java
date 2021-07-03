@@ -8,8 +8,9 @@ import java.util.List;
 
 
 /**
- * @author Alperen Caykus, Mustafa Ozan Alpay
  * Entity for Player objects.
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 @Entity
 @Table(name = "player")

@@ -1,9 +1,10 @@
 package group10.server.config;
 
 /**
- * @author Alperen Caykus, Mustafa Ozan Alpay
  * JWT Helper class that contains constants that is used by
  * JWT authentication system.
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 public class JWTConstants {
     /**

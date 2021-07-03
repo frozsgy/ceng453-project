@@ -3,9 +3,10 @@ package group10.server.util;
 import java.util.Random;
 
 /**
- * @author Alperen Caykus, Mustafa Ozan Alpay
  * Utility class that generates password reset code, which is a
  * random string
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 public class RandomStringGenerator {
 
@@ -36,6 +37,7 @@ public class RandomStringGenerator {
 
     /**
      * Static method to generate password reset code.
+     *
      * @return Password reset code.
      */
     public static String generate() {

@@ -9,15 +9,18 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+
 /**
- * @author Alperen Caykus, Mustafa Ozan Alpay
  * JWT Utility class that generates JWT token.
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 public class JWTUtil {
     /**
      * Static method that returns token string for the given username and userid
+     *
      * @param username username of the user that token belongs to.
-     * @param userId userid of the user that token belongs to.
+     * @param userId   userid of the user that token belongs to.
      * @return token string
      */
     public static String getJWTToken(String username, long userId) {

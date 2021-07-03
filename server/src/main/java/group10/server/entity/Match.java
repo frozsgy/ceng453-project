@@ -7,8 +7,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- * @author Alperen Caykus, Mustafa Ozan Alpay
  * Entity for Match objects.
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 @Entity
 @Table(name = "rounds")

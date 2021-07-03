@@ -8,8 +8,9 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 /**
- * @author Alperen Caykus, Mustafa Ozan Alpay
  * Entity for Game objects.
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 @Entity
 @Table(name = "game")

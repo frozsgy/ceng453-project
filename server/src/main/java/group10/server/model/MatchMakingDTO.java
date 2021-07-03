@@ -1,11 +1,12 @@
 package group10.server.model;
 
 /**
- * @author Alperen Caykus, Mustafa Ozan Alpay
  * Data transfer object that is received from client and sent to client as response to matchmaking requests.
  * Carries network information for player.
  * Player and userName fields are auto-populated from the token. They are not by sent player.
  * Even if the player tries to send them, server will overwrite them with the data extracted from the user's token.
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 public class MatchMakingDTO {
 
@@ -31,6 +32,7 @@ public class MatchMakingDTO {
 
     /**
      * Gets the IP address
+     *
      * @return IP address
      */
     public String getIp() {
@@ -39,6 +41,7 @@ public class MatchMakingDTO {
 
     /**
      * Gets the port
+     *
      * @return Port number
      */
     public int getPort() {
@@ -47,6 +50,7 @@ public class MatchMakingDTO {
 
     /**
      * Gets the player id
+     *
      * @return Id of the player
      */
     public long getPlayer() {
@@ -55,6 +59,7 @@ public class MatchMakingDTO {
 
     /**
      * Sets the IP address
+     *
      * @param ip IP to be set
      */
     public void setIp(String ip) {
@@ -63,6 +68,7 @@ public class MatchMakingDTO {
 
     /**
      * Sets the port
+     *
      * @param port Port to be set
      */
     public void setPort(int port) {
@@ -71,6 +77,7 @@ public class MatchMakingDTO {
 
     /**
      * Sets the player id
+     *
      * @param player Player id to be set
      */
     public void setPlayer(long player) {
@@ -79,6 +86,7 @@ public class MatchMakingDTO {
 
     /**
      * Gets the username
+     *
      * @return Username of the player
      */
     public String getUserName() {
@@ -87,6 +95,7 @@ public class MatchMakingDTO {
 
     /**
      * Sets the username
+     *
      * @param userName Username to be set
      */
     public void setUserName(String userName) {

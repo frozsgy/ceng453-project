@@ -18,8 +18,9 @@ import java.util.Optional;
 import java.util.Queue;
 
 /**
- * @author Alperen Caykus, Mustafa Ozan Alpay
  * Service class that is responsible of Games.
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 @Service
 public class GameService {
@@ -33,11 +34,15 @@ public class GameService {
      */
     private MatchRepository matchRepository;
 
+    /**
+     * Queue of players waiting for a match.
+     */
     private Queue<MatchMakingDTO> queue;
 
     /**
      * Constructor for GameService
-     * @param gameRepository Autowired game repository
+     *
+     * @param gameRepository  Autowired game repository
      * @param matchRepository Autowired match repository
      */
     @Autowired
@@ -49,6 +54,7 @@ public class GameService {
 
     /**
      * Starts a new game against AI for the given player.
+     *
      * @param player Player who is going to play the game.
      * @return New match
      * @see Match
@@ -66,8 +72,9 @@ public class GameService {
 
     /**
      * Gets the next level.
+     *
      * @param oldLevel last played level
-     * @param score score of old level.
+     * @param score    score of old level.
      * @return The next level
      * @see Match
      */
@@ -87,8 +94,9 @@ public class GameService {
     /**
      * Mark the given level as played. If old level is 3,
      * it also sets the next level as against Human rather than AI.
+     *
      * @param oldLevel last level that is played.
-     * @param score score of last level.
+     * @param score    score of last level.
      */
     protected void finishMatch(Match oldLevel, int score) {
         Game game = oldLevel.getGame();
@@ -102,6 +110,7 @@ public class GameService {
 
     /**
      * Gets the game by id.
+     *
      * @param id id of the game
      * @return Game if found else null
      * @see Game
@@ -113,7 +122,8 @@ public class GameService {
 
     /**
      * Gets the scoreboard with paging.
-     * @param days Last n days
+     *
+     * @param days     Last n days
      * @param pageable Pageable object that is used for paging.
      * @return A page of scoreboard
      * @see Scoreboard
@@ -125,12 +135,13 @@ public class GameService {
     /**
      * Thread safe method that finds opponent for multiplayer level.
      * If no opponent is found, requesting player is placed to queue.
+     *
      * @param playerNetworkInfo Network information of the requesting player where player and userName fields are populated by the caller.
      * @return Opponent data if found, else null.
      */
     public MatchMakingDTO getOpponent(MatchMakingDTO playerNetworkInfo) {
-        synchronized(this.queue) {
-            try{
+        synchronized (this.queue) {
+            try {
                 MatchMakingDTO opponentInfo = this.queue.remove();
                 return opponentInfo;
             } catch (Exception ex) {
@@ -140,8 +151,12 @@ public class GameService {
         }
     }
 
-    public Queue getQueue() {
+    /**
+     * Gets the queue.
+     *
+     * @return current queue.
+     */
+    public Queue<MatchMakingDTO> getQueue() {
         return queue;
     }
-
 }

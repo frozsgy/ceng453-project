@@ -5,8 +5,9 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * @author Alperen Caykus, Mustafa Ozan Alpay
  * Entity Base that is used by all entities, and contains common fields.
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 @MappedSuperclass
 public class EntityBase implements Serializable {

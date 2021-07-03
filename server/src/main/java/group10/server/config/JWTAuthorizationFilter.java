@@ -15,8 +15,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * @author Alperen Caykus, Mustafa Ozan Alpay
  * {@inheritDoc}
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
@@ -45,6 +46,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
     /**
      * Given HTTP Request, extracts the Bearer token.
+     *
      * @param request HTTP request that the token is going to be extracted
      * @return Claims that token carries
      */
@@ -56,6 +58,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
     /**
      * Authentication method in Spring flow.
      * Authenticates or does not authenticate the token with the given Claims
+     *
      * @param claims Claims that the token carries.
      */
     private void setUpSpringAuthentication(Claims claims) {
@@ -70,6 +73,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
     /**
      * Given a request checks if Bearer token header exists.
+     *
      * @param request HTTP request that the token is investigated
      * @return True Bearer header exists, false otherwise
      */

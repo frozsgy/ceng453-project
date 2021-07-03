@@ -27,8 +27,9 @@ import java.util.Arrays;
 import java.util.Optional;
 
 /**
- * @author Alperen Caykus, Mustafa Ozan Alpay
  * Service class that is responsible of Player.
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 @Service
 public class PlayerService {
@@ -59,10 +60,11 @@ public class PlayerService {
 
     /**
      * Constructor for player service.
-     * @param playerRepository Autowired player repository
-     * @param roleRepository Autowired role repository.
-     * @param bCryptPasswordEncoder Autowired password encoder.
-     * @param javaMailSender Autowired mail sender.
+     *
+     * @param playerRepository        Autowired player repository
+     * @param roleRepository          Autowired role repository.
+     * @param bCryptPasswordEncoder   Autowired password encoder.
+     * @param javaMailSender          Autowired mail sender.
      * @param pendingPwCodeRepository Autowired pending pw code repository.
      */
     @Autowired
@@ -78,6 +80,7 @@ public class PlayerService {
 
     /**
      * Registers (adds) a user to Player table.
+     *
      * @param dto DTO object that registered player is created from.
      * @return Registered player
      * @throws IllegalArgumentException if any of the dto fields is invalid.
@@ -94,8 +97,8 @@ public class PlayerService {
     }
 
     /**
-     *
      * Logs in a registered player.
+     *
      * @param loginData DTO object that contains username and password.
      * @return Token string
      * @throws IllegalArgumentException if username and password do not match.
@@ -114,25 +117,26 @@ public class PlayerService {
     /**
      * Given an email address, if it is registered, creates a password reset code, mails it and
      * saves it to pending_pw_code table.
+     *
      * @param emailJSON JSON object that contains the password that the mail is going to be sent.
      * @return true if user is found and mail is sent successfully, false otherwise.
      */
     public boolean requestPwCode(JSONObject emailJSON) {
-        try{
+        try {
             String email = emailJSON.getString("email");
             Optional<Player> optUser = playerRepository.findByEmail(email);
             if (optUser.isPresent()) {
                 Player player = optUser.get();
                 String code = RandomStringGenerator.generate();
                 SimpleMailMessage msg = EmailComposer.composeMail(email, code);
-                try{
+                try {
                     javaMailSender.send(msg);
                     PendingPwCode inserted = new PendingPwCode();
                     inserted.setPlayer(player);
                     inserted.setCode(code);
                     pendingPwCodeRepository.save(inserted);
                     return true;
-                } catch(MailException e) {
+                } catch (MailException e) {
                     return false;
                 }
             } else {
@@ -146,6 +150,7 @@ public class PlayerService {
     /**
      * Given username, password reset code and a new password, if credentials are valid, sets the user's password
      * to new password.
+     *
      * @param passwordResetDTO DTO that contains, username, new password and password reset code.
      * @return true if password is updated successfully, false otherwise.
      */
@@ -169,6 +174,7 @@ public class PlayerService {
 
     /**
      * Given token, gets the Player
+     *
      * @return Logged in player
      */
     public Player getLoggedInPlayer() {

@@ -3,9 +3,10 @@ package group10.server.util;
 import org.springframework.mail.SimpleMailMessage;
 
 /**
- * @author Alperen Caykus, Mustafa Ozan Alpay
  * Utility class that composes password reset code.
  * It does not implement mail sending.
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 public class EmailComposer {
 
@@ -21,8 +22,9 @@ public class EmailComposer {
     /**
      * Static function that composes mail that contains password reset code
      * for the given email.
+     *
      * @param email Email address that is going to receive the reset code.
-     * @param code Pre-generated reset code that is going to be mailed.
+     * @param code  Pre-generated reset code that is going to be mailed.
      * @return Mail that is going to be sent.
      */
     public static SimpleMailMessage composeMail(String email, String code) {

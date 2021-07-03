@@ -5,8 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- * @author Alperen Caykus, Mustafa Ozan Alpay
  * Repository that is used by Roles and PlayerService. Allows communication with the database.
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {

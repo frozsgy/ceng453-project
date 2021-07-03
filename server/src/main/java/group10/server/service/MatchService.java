@@ -10,8 +10,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @author Alperen Caykus, Mustafa Ozan Alpay
  * Service class that is responsible of Match service. Each level of game is a match
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 @Service
 public class MatchService {
@@ -23,6 +24,7 @@ public class MatchService {
 
     /**
      * Constructor for match service.
+     *
      * @param matchRepository Autowired match repository.
      */
     @Autowired
@@ -32,8 +34,9 @@ public class MatchService {
 
     /**
      * Gets the next match (i.e, next level).
+     *
      * @param player Player that plays the game.
-     * @param game Game being played.
+     * @param game   Game being played.
      * @return Next level
      * @see Match
      */
@@ -43,6 +46,7 @@ public class MatchService {
 
     /**
      * Gets all the played levels of the given game.
+     *
      * @param game Game whose levels are searched
      * @return List of matches (levels) of a game.
      */

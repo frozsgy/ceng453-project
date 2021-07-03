@@ -18,8 +18,9 @@ import java.util.Map;
 
 
 /**
- * @author Alperen Caykus, Mustafa Ozan Alpay
  * Global Exception Handler that is responsible of handling various types of exceptions throughout the application.
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -31,8 +32,9 @@ public class GlobalExceptionHandler {
 
     /**
      * Handler for ArihmeticException
+     *
      * @param request Incoming HttpServletRequest
-     * @param t Exception object
+     * @param t       Exception object
      * @return Internal Server Error
      */
     @ExceptionHandler(ArithmeticException.class)
@@ -45,8 +47,9 @@ public class GlobalExceptionHandler {
 
     /**
      * Handler for IllegalArgumentException
+     *
      * @param request Incoming HttpServletRequest
-     * @param t Exception object
+     * @param t       Exception object
      * @return Internal Server Error
      */
     @ExceptionHandler(IllegalArgumentException.class)
@@ -59,8 +62,9 @@ public class GlobalExceptionHandler {
 
     /**
      * Handler for MethodArgumentNotValidException
+     *
      * @param request Incoming HttpServletRequest
-     * @param t Exception object
+     * @param t       Exception object
      * @return Internal Server Error
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -81,8 +85,9 @@ public class GlobalExceptionHandler {
 
     /**
      * Handler for DataIntegrityViolationException
+     *
      * @param request Incoming HttpServletRequest
-     * @param t Exception object
+     * @param t       Exception object
      * @return Internal Server Error
      */
     @ExceptionHandler(DataIntegrityViolationException.class)
@@ -95,8 +100,9 @@ public class GlobalExceptionHandler {
 
     /**
      * Handler for Throwable
+     *
      * @param request Incoming HttpServletRequest
-     * @param t Exception object
+     * @param t       Exception object
      * @return Internal Server Error
      */
     @ExceptionHandler(Throwable.class)

@@ -1,8 +1,9 @@
 package group10.server.repository;
 
 /**
- * @author Alperen Caykus, Mustafa Ozan Alpay
  * Interface that is used by MatchRepository while returning Scoreboard objects.
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 public interface Scoreboard {
 

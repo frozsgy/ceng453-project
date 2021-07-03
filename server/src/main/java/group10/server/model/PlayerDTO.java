@@ -5,9 +5,10 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 /**
- * @author Alperen Caykus, Mustafa Ozan Alpay
  * Data transfer object that is received from client.
  * Carries player information to register
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 public class PlayerDTO {
 
@@ -30,11 +31,12 @@ public class PlayerDTO {
      */
     @NotBlank
     @Size(max = 255, min = 3, message = "Please enter a valid email")
-    @Email(message="Please enter a valid email")
+    @Email(message = "Please enter a valid email")
     private String email;
 
     /**
      * Gets the username
+     *
      * @return username
      */
     public String getUsername() {
@@ -43,6 +45,7 @@ public class PlayerDTO {
 
     /**
      * Sets the username
+     *
      * @param username username to be set
      */
     public void setUsername(String username) {
@@ -51,6 +54,7 @@ public class PlayerDTO {
 
     /**
      * Gets the password
+     *
      * @return password
      */
     public String getPassword() {
@@ -59,6 +63,7 @@ public class PlayerDTO {
 
     /**
      * Sets the password
+     *
      * @param password password to be set
      */
     public void setPassword(String password) {
@@ -67,6 +72,7 @@ public class PlayerDTO {
 
     /**
      * Gets the email
+     *
      * @return email
      */
     public String getEmail() {
@@ -75,6 +81,7 @@ public class PlayerDTO {
 
     /**
      * Sets the email
+     *
      * @param email email to be set
      */
     public void setEmail(String email) {
