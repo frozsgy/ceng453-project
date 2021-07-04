@@ -150,21 +150,30 @@ public class GameController implements Initializable {
      * Keeps the total shift count for the mid stack.
      */
     private int midStackShift = 0;
+
+    /**
+     * Socket server for multiplayer level
+     */
+    private SocketServer socketServer;
+    /**
+     * Socket client for multiplayer level
+     */
+    private SocketClient socketClient;
+    /**
+     * Thread of opponent
+     */
+    private Thread otherPlayerThread;
+    /**
+     * Reentrant lock to synchronize threads
+     */
+    public static final ReentrantLock gameSynchronizer = new ReentrantLock();
+
     /**
      * Initializes the scene
      *
      * @param url            Address of this scene
      * @param resourceBundle Resource bundle
      */
-
-    private SocketServer socketServer;
-    private SocketClient socketClient;
-
-    private Thread otherPlayerThread;
-
-    public static final ReentrantLock gameSynchronizer = new ReentrantLock();
-
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         GameLogic.getInstance();
@@ -846,6 +855,11 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     * Plays as the opponent
+     *
+     * @param updateAiBluffed flag to check if bluffing active
+     */
     public void playAsOpponent(boolean updateAiBluffed) {
         boolean bluffed = this.controlOpponent();
         if (updateAiBluffed) {
@@ -853,11 +867,19 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     * Handles table actions after opponent plays
+     */
     public void doTableActions() {
         this.setMidCount();
         this.serveHand();
     }
 
+    /**
+     * Toggles clickable setting of player cards
+     *
+     * @param clickable true for clickable, otherwise false
+     */
     public void toggleClickable(boolean clickable) {
         if (clickable) {
             this.currentCards.forEach(e -> e.setOnMouseClicked(this::mouseClickHandler));
