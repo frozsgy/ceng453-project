@@ -14,6 +14,8 @@ import group10.client.service.SocketServer;
 import group10.client.state.SessionStorage;
 import group10.client.utility.PropertiesLoader;
 import group10.client.utility.UIUtility;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -37,6 +39,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.net.*;
 import java.util.*;
+import java.util.concurrent.locks.ReentrantLock;
 
 import static group10.client.constants.GameConstants.*;
 import static group10.client.constants.UiConstants.*;
@@ -157,6 +160,12 @@ public class GameController implements Initializable {
 
     private SocketServer socketServer;
     private SocketClient socketClient;
+
+    public PlayerEnum currentPlayerGui;
+
+    private Thread otherPlayerThread;
+
+    public static final ReentrantLock gameSynchronizer = new ReentrantLock();
 
 
     @Override
@@ -744,6 +753,8 @@ public class GameController implements Initializable {
      */
     private void doBluff(MouseEvent event) {
         try {
+            gameSynchronizer.lock();
+            this.otherPlayerThread = new Thread(new OpponentController(false));
             if (GameLogic.getInstance().getMiddle().size() == 1 && this.round >= LAST_ROUND) {
                 logToScreen("You bluffed.", this.logArea, LOGGER);
                 Rectangle pressed = (Rectangle) ((Node) event.getTarget());
@@ -760,15 +771,13 @@ public class GameController implements Initializable {
                     if (candidate.getCard() == bluffed.getCard()) {
                         // bluff was real
                         this.handleRealBluffForPlayer(PlayerEnum.ONE, candidate);
-                        this.controlOpponent();
-                        this.setMidCount();
-                        this.serveHand();
+                        this.otherPlayerThread.start();
+                        gameSynchronizer.unlock();
                     } else {
                         // bluff was fake.
                         this.handleFakeBluffForPlayer(PlayerEnum.ONE, candidate, bluffed, pressed);
-                        this.controlOpponent();
-                        this.setMidCount();
-                        this.serveHand();
+                        this.otherPlayerThread.start();
+                        gameSynchronizer.unlock();
                     }
 
                 } else {
@@ -779,9 +788,8 @@ public class GameController implements Initializable {
                     GameLogic.getInstance().getMiddle().clear(); // clear mid.
                     GameLogic.getInstance().addScoreToPlayer(PlayerEnum.ONE, GameConstants.PISTI); // give score to first player.
                     this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.ONE)); //update score view.
-                    this.controlOpponent();
-                    this.setMidCount();
-                    this.serveHand();
+                    this.otherPlayerThread.start();
+                    gameSynchronizer.unlock();
                 }
             }
         } catch (IllegalArgumentException ex) {
@@ -828,6 +836,8 @@ public class GameController implements Initializable {
      */
     private void throwCard(MouseEvent event) {
         try {
+            this.otherPlayerThread = new Thread(new OpponentController(false));
+            gameSynchronizer.lock();
             if (this.AiBluffed) {
                 this.AiBluffed = false;
                 this.rejectBluff();
@@ -836,12 +846,23 @@ public class GameController implements Initializable {
             Rectangle pressed = (Rectangle) ((Node) event.getTarget());
             this.controlPlayer(pressed);
             GameLogic.getInstance().setCurrentPlayer(PlayerEnum.TWO);
-            this.AiBluffed = this.controlOpponent();
-            this.setMidCount();
-            this.serveHand();
+            this.otherPlayerThread.start();
+            gameSynchronizer.unlock();
         } catch (IllegalArgumentException ex) {
             logToScreen("Already played", this.logArea, LOGGER);
         }
+    }
+
+    public void playAsOpponent(boolean updateAiBluffed) {
+        boolean bluffed = this.controlOpponent();
+        if (updateAiBluffed) {
+            this.AiBluffed = bluffed;
+        }
+    }
+
+    public void doTableActions() {
+        this.setMidCount();
+        this.serveHand();
     }
 
     /**
