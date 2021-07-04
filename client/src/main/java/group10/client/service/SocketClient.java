@@ -24,17 +24,18 @@ public class SocketClient extends SocketBase {
         try {
             this.socket = new Socket(ip, port);
             LOGGER.info("Connected to socket server");
+            try {
+                this.out = new ObjectOutputStream(socket.getOutputStream());
+                this.in = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
+                LOGGER.info("Ready for transmitting data");
+            } catch (IOException e) {
+                LOGGER.error("Error while setting up the socket for transmitting data");
+            }
         } catch (IOException e) {
             LOGGER.error("Error while connecting to socket server");
         }
 
-        try {
-            this.out = new ObjectOutputStream(socket.getOutputStream());
-            this.in = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
-            LOGGER.info("Ready for transmitting data");
-        } catch (IOException e) {
-            LOGGER.error("Error while setting up the socket for transmitting data");
-        }
+
 
     }
 }

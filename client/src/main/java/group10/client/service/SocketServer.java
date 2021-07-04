@@ -26,17 +26,18 @@ public class SocketServer extends SocketBase {
         try {
             this.server = new ServerSocket(port);
             LOGGER.info("Socket server started");
+            try {
+                this.socket = this.server.accept();
+                this.out = new ObjectOutputStream(this.socket.getOutputStream());
+                this.in = new ObjectInputStream(new BufferedInputStream(this.socket.getInputStream()));
+                LOGGER.info("Client connected");
+            } catch (IOException e) {
+                LOGGER.error("Error during client connection");
+            }
         } catch (IOException e) {
             LOGGER.error("Error creating socket");
         }
-        try {
-            this.socket = this.server.accept();
-            this.out = new ObjectOutputStream(this.socket.getOutputStream());
-            this.in = new ObjectInputStream(new BufferedInputStream(this.socket.getInputStream()));
-            LOGGER.info("Client connected");
-        } catch (IOException e) {
-            LOGGER.error("Error during client connection");
-        }
+
         this.sent = true;
     }
 
