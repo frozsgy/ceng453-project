@@ -18,8 +18,8 @@ public class GameState implements Serializable {
     private Map<PlayerEnum, Integer> scores;
     private Map<PlayerEnum, List<Card>> playerCards;
     private PlayerEnum currentPlayer;
-    private PlayerGame hostPlayerEntity;
     private Map<PlayerEnum, Integer> playerCardCounts;
+    private String hostPlayerName;
 
     private <T> Map<PlayerEnum,T> swapMapKeys(Map<PlayerEnum, T> map) {
         return map.entrySet().stream().collect(Collectors.toMap(
@@ -41,7 +41,63 @@ public class GameState implements Serializable {
         scores.put(PlayerEnum.TWO, gameLogicVariables.getScores().get(PlayerEnum.ONE));
         this.playerCards = this.swapMapKeys(gameLogicVariables.getPlayerCards());
         this.currentPlayer = gameLogicVariables.getCurrentPlayer() == PlayerEnum.ONE ? PlayerEnum.TWO : PlayerEnum.ONE;
-        this.hostPlayerEntity = gameLogicVariables.getPlayerGameEntity();
         this.playerCardCounts = this.swapMapKeys(gameLogicVariables.getPlayerCardCounts());
+        this.hostPlayerName =  gameLogicVariables.getPlayerGameEntity().getPlayer().getUsername();
+    }
+
+    public Stack<Card> getMiddle() {
+        return middle;
+    }
+
+    public void setMiddle(Stack<Card> middle) {
+        this.middle = middle;
+    }
+
+    public PlayerEnum getLastWinner() {
+        return lastWinner;
+    }
+
+    public void setLastWinner(PlayerEnum lastWinner) {
+        this.lastWinner = lastWinner;
+    }
+
+    public Map<PlayerEnum, Integer> getScores() {
+        return scores;
+    }
+
+    public void setScores(Map<PlayerEnum, Integer> scores) {
+        this.scores = scores;
+    }
+
+    public Map<PlayerEnum, List<Card>> getPlayerCards() {
+        return playerCards;
+    }
+
+    public void setPlayerCards(Map<PlayerEnum, List<Card>> playerCards) {
+        this.playerCards = playerCards;
+    }
+
+    public PlayerEnum getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public void setCurrentPlayer(PlayerEnum currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
+    public String getHostPlayerName() {
+        return hostPlayerName;
+    }
+
+    public void setHostPlayerName(String hostPlayerName) {
+        this.hostPlayerName = hostPlayerName;
+    }
+
+    public Map<PlayerEnum, Integer> getPlayerCardCounts() {
+        return playerCardCounts;
+    }
+
+    public void setPlayerCardCounts(Map<PlayerEnum, Integer> playerCardCounts) {
+        this.playerCardCounts = playerCardCounts;
     }
 }
