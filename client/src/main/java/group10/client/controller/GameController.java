@@ -543,27 +543,28 @@ public class GameController implements Initializable {
             return;
         }
         ip = "127.0.0.1"; // TODO -- solve this
-        OpponentInfo found = HTTPService.getInstance().getOpponent(new OpponentInfo(ip, port));
-        // TODO accept method stops drawing. We need to create a seperate thread inside mouseClickHandler.
 
-        if (found != null) {
-            // found. connect to socket.
-            System.out.println(found.getIp());
-            this.socketClient = new SocketClient(found.getIp(), found.getPort());
-            LOGGER.info("Host socket accepted the connection");
-            txt.setText("Your opponent is: " + found.getUserName());
-            this.socketClient.writeSocket(new GameState(GameLogic.getInstance()));
-        } else {
-            // not found. Open a socket and wait for connections.
-            txt.setText("You are in queue. Please wait...");
-            this.socketServer = new SocketServer(port);
-            LOGGER.info("Opponent is connected");
-            GameState gameState = (GameState) this.socketServer.readSocket();
-            if (gameState != null) {
-                String username = gameState.getHostPlayerName();
-                txt.setText("Your opponent is: " + username);
-            }
+        MultiplayerController multiplayerController = new MultiplayerController(ip, port, txt);
+        new Thread(multiplayerController).start();
+    }
+
+    public void createSocket(int port, Text txt) {
+        txt.setText("You are in queue. Please wait...");
+        this.socketServer = new SocketServer(port);
+        LOGGER.info("Opponent is connected");
+        GameState gameState = (GameState) this.socketServer.readSocket();
+        if (gameState != null) {
+            String username = gameState.getHostPlayerName();
+            txt.setText("Your opponent is: " + username);
         }
+    }
+
+    public void connectSocket(OpponentInfo found, Text txt) {
+        System.out.println(found.getIp());
+        this.socketClient = new SocketClient(found.getIp(), found.getPort());
+        LOGGER.info("Host socket accepted the connection");
+        txt.setText("Your opponent is: " + found.getUserName());
+        this.socketClient.writeSocket(new GameState(GameLogic.getInstance()));
     }
 
     /**

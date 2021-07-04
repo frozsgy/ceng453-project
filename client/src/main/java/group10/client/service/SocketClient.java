@@ -28,7 +28,7 @@ public class SocketClient extends SocketBase {
                 this.out = new ObjectOutputStream(socket.getOutputStream());
                 this.in = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
                 LOGGER.info("Ready for transmitting data");
-            } catch (IOException e) {
+            } catch (Exception e) {
                 LOGGER.error("Error while setting up the socket for transmitting data");
             }
         } catch (IOException e) {
