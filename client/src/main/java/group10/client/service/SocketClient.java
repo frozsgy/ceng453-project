@@ -1,11 +1,25 @@
 package group10.client.service;
 
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+/**
+ * Socket class for handling client behaviour.
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
+ */
 public class SocketClient extends SocketBase {
 
+    /**
+     * Constructor to connect to the server
+     *
+     * @param ip   ip address of the server
+     * @param port port of the server
+     */
     public SocketClient(String ip, int port) {
         try {
             this.socket = new Socket(ip, port);
