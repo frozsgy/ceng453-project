@@ -75,7 +75,7 @@ public class LevelTwoStrategyTests {
     void playAsComputerTest() {
         Map<Rectangle, Card> mockMap = this.init(true);
         LevelTwoStrategy strategy = new LevelTwoStrategy(GameLogic.getInstance().getPlayerCards(), GameLogic.getInstance().getMiddle());
-        Pair<Rectangle, Card> rectangleCardPair = strategy.playAsComputer(mockMap);
+        Pair<Rectangle, Card> rectangleCardPair = strategy.playAsOpponent(mockMap);
         assertEquals(rectangleCardPair.getValue(), this.cardList.get(6));
     }
 
@@ -85,7 +85,7 @@ public class LevelTwoStrategyTests {
     void playAsComputerNoMatchTest() {
         Map<Rectangle, Card> mockMap = this.init(false);
         LevelTwoStrategy strategy = new LevelTwoStrategy(GameLogic.getInstance().getPlayerCards(), GameLogic.getInstance().getMiddle());
-        Pair<Rectangle, Card> rectangleCardPair = strategy.playAsComputer(mockMap);
+        Pair<Rectangle, Card> rectangleCardPair = strategy.playAsOpponent(mockMap);
         assert((rectangleCardPair.getValue() == this.cardList.get(4)) || (rectangleCardPair.getValue() == this.cardList.get(5)) || (rectangleCardPair.getValue() == this.cardList.get(6)) || (rectangleCardPair.getValue() == this.cardList.get(7)));
     }
 }

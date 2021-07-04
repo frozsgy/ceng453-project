@@ -73,7 +73,7 @@ public class LevelOneStrategyTests {
     void playAsComputerTest() {
         Map<Rectangle, Card> mockMap = this.init();
         LevelOneStrategy strategy = new LevelOneStrategy(GameLogic.getInstance().getPlayerCards(), GameLogic.getInstance().getMiddle());
-        Pair<Rectangle, Card> rectangleCardPair = strategy.playAsComputer(mockMap);
+        Pair<Rectangle, Card> rectangleCardPair = strategy.playAsOpponent(mockMap);
         assertEquals(rectangleCardPair.getValue(), this.cardList.get(4));
 
     }

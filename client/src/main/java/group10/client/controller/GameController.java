@@ -682,7 +682,7 @@ public class GameController implements Initializable {
      * @return bluffed status
      */
     private boolean controlOpponent() {
-        Pair<Rectangle, Card> cardMap = GameLogic.getInstance().getAiStrategy().playAsComputer(cardMappings);
+        Pair<Rectangle, Card> cardMap = GameLogic.getInstance().getAiStrategy().playAsOpponent(cardMappings);
         boolean bluffed = GameLogic.getInstance().getAiStrategy().getHasBluffed();
         GameController._instance.getChallengeButton().setVisible(bluffed);
         Rectangle removed = cardMap.getKey();

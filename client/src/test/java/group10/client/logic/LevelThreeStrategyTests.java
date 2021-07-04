@@ -80,7 +80,7 @@ public class LevelThreeStrategyTests {
         while (true) {
             Map<Rectangle, Card> mockMap = this.init(true);
             LevelThreeStrategy strategy = new LevelThreeStrategy(GameLogic.getInstance().getPlayerCards(), GameLogic.getInstance().getMiddle());
-            rectangleCardPair = strategy.playAsComputer(mockMap);
+            rectangleCardPair = strategy.playAsOpponent(mockMap);
             if (!strategy.getHasBluffed()) {
                 break;
             }
@@ -97,7 +97,7 @@ public class LevelThreeStrategyTests {
         while (true) {
             Map<Rectangle, Card> mockMap = this.init(false);
             LevelThreeStrategy strategy = new LevelThreeStrategy(GameLogic.getInstance().getPlayerCards(), GameLogic.getInstance().getMiddle());
-            rectangleCardPair = strategy.playAsComputer(mockMap);
+            rectangleCardPair = strategy.playAsOpponent(mockMap);
             if (!strategy.getHasBluffed()) {
                 break;
             }
@@ -113,7 +113,7 @@ public class LevelThreeStrategyTests {
         for (int i = 0; i < 100; i++) {
             Map<Rectangle, Card> mockMap = this.init(false);
             LevelThreeStrategy strategy = new LevelThreeStrategy(GameLogic.getInstance().getPlayerCards(), GameLogic.getInstance().getMiddle());
-            Pair<Rectangle, Card> rectangleCardPair = strategy.playAsComputer(mockMap);
+            Pair<Rectangle, Card> rectangleCardPair = strategy.playAsOpponent(mockMap);
             assert((rectangleCardPair.getValue() == this.cardList.get(4)) || (rectangleCardPair.getValue() == this.cardList.get(5)) || (rectangleCardPair.getValue() == this.cardList.get(6)) || (rectangleCardPair.getValue() == this.cardList.get(7)));
             bluffed = strategy.getHasBluffed();
             if (bluffed) {

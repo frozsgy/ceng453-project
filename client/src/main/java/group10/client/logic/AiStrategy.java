@@ -36,7 +36,7 @@ public abstract class AiStrategy {
      * @param cardMappings Cards and their visual Rectangle representatives.
      * @return Pair of played card and its representative Rectangle.
      */
-    public abstract Pair<Rectangle, Card> playAsComputer(Map<Rectangle, Card> cardMappings);
+    public abstract Pair<Rectangle, Card> playAsOpponent(Map<Rectangle, Card> cardMappings);
 
     /**
      * Constructor for AI strategy

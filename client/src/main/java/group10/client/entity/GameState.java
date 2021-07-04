@@ -36,7 +36,7 @@ public class GameState implements Serializable {
     public GameState(GameLogic gameLogicVariables) {
         this.middle = gameLogicVariables.getMiddle();
         this.lastWinner = gameLogicVariables.getLastWinner();
-        this.scores = new HashMap();
+        this.scores = new HashMap<>();
         scores.put(PlayerEnum.ONE, gameLogicVariables.getScores().get(PlayerEnum.TWO));
         scores.put(PlayerEnum.TWO, gameLogicVariables.getScores().get(PlayerEnum.ONE));
         this.playerCards = this.swapMapKeys(gameLogicVariables.getPlayerCards());

@@ -30,7 +30,7 @@ public class LevelTwoStrategy extends AiStrategy {
      * @return Pair of Played card and it is visual Rectangle representation.
      */
     @Override
-    public Pair<Rectangle, Card> playAsComputer(Map<Rectangle, Card> cardMappings) {
+    public Pair<Rectangle, Card> playAsOpponent(Map<Rectangle, Card> cardMappings) {
         List<Card> cards = this.playerCards.get(PlayerEnum.TWO);
         if (this.middle.size() > 0) {
             Card cardOnTop = this.middle.peek();
