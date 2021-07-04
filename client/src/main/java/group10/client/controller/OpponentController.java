@@ -33,6 +33,7 @@ public class OpponentController implements Runnable {
         Platform.runLater(() -> {
             GameController._instance.playAsOpponent(updateBluff);
             GameController._instance.doTableActions();
+            GameController._instance.toggleClickable(true);
         });
     }
 }

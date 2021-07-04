@@ -838,6 +838,7 @@ public class GameController implements Initializable {
             Rectangle pressed = (Rectangle) ((Node) event.getTarget());
             this.controlPlayer(pressed);
             GameLogic.getInstance().setCurrentPlayer(PlayerEnum.TWO);
+            this.toggleClickable(false);
             this.otherPlayerThread.start();
             gameSynchronizer.unlock();
         } catch (IllegalArgumentException ex) {
@@ -855,6 +856,15 @@ public class GameController implements Initializable {
     public void doTableActions() {
         this.setMidCount();
         this.serveHand();
+    }
+
+    public void toggleClickable(boolean clickable) {
+        if (clickable) {
+            this.currentCards.forEach(e -> e.setOnMouseClicked(this::mouseClickHandler));
+        } else {
+            this.currentCards.forEach(e -> e.setOnMouseClicked(null));
+        }
+
     }
 
     /**
