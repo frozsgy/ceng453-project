@@ -291,6 +291,7 @@ public class GameController implements Initializable {
             } else {
                 StackPane stackPane = drawCardInsideRectangle(rec, card, false);
                 midStack.getChildren().add(stackPane);
+                midStackShift--;
             }
             this.cardMappings.put(rec, card);
         }
@@ -632,7 +633,7 @@ public class GameController implements Initializable {
             GameLogic.getInstance().addScoreToPlayer(PlayerEnum.ONE, GameConstants.DOUBLE_PISTI); // give points to player.
             this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.ONE)); // update player score view.
         }
-        added.setLayoutX(midStackShift++ * MID_STACK_SHIFT);
+        added.setLayoutX(midStackShift * MID_STACK_SHIFT);
         this.midStack.getChildren().add(added);
         GameLogic.getInstance().getMiddle().push(candidate); // put things back to middle.
         GameLogic.getInstance().getMiddle().push(bluffed); // put things back to middle.
@@ -671,7 +672,7 @@ public class GameController implements Initializable {
      * @param pressed rectangle that was pressed
      */
     private void controlPlayer(Rectangle pressed) {
-        pressed.setLayoutX(midStackShift++ * MID_STACK_SHIFT);
+        pressed.setLayoutX(midStackShift * MID_STACK_SHIFT);
         midStack.getChildren().add(pressed); // add to middle.
         Card card = this.cardMappings.get(pressed); // get pressed card.
         if (GameLogic.getInstance().getMiddle().isEmpty()) {
@@ -701,7 +702,7 @@ public class GameController implements Initializable {
         this.upperAnchorPane.getChildren().remove(removed); // remove from view.
         this.cardMappings.remove(removed); // remove the mapping.
         Rectangle opponentRectangle = createCardRectangle(bluffed, opponentCard); // generate new view.
-        opponentRectangle.setLayoutX(midStackShift++ * MID_STACK_SHIFT);
+        opponentRectangle.setLayoutX(midStackShift * MID_STACK_SHIFT);
         this.cardMappings.put(opponentRectangle, opponentCard); // create new mapping.
         drawCardInsideRectangle(opponentRectangle, opponentCard, true); // put text unless it is hidden.
         midStack.getChildren().add(opponentRectangle); // put it to mid.
@@ -850,6 +851,7 @@ public class GameController implements Initializable {
             this.controlPlayer(pressed);
             GameLogic.getInstance().setCurrentPlayer(PlayerEnum.TWO);
             this.toggleClickable(false);
+            this.setMidCount();
             this.otherPlayerThread.start();
             gameSynchronizer.unlock();
         } catch (IllegalArgumentException ex) {
