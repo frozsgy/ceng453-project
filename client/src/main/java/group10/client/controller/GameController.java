@@ -15,6 +15,7 @@ import group10.client.service.SocketServer;
 import group10.client.state.SessionStorage;
 import group10.client.utility.PropertiesLoader;
 import group10.client.utility.UIUtility;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -438,7 +439,7 @@ public class GameController implements Initializable {
 
     /**
      * Sets up the next level
-     *
+     * TODO check this
      * @param continued flag to check if the deal is happening in the same level or not
      */
     private void setUpNextLevel(boolean continued) {
@@ -530,6 +531,9 @@ public class GameController implements Initializable {
 
     // TODO JAVADOC
     private void initMultiLevel() {
+        GameLogic.getInstance().resetScores();
+        this.setEnemyScore(0);
+        this.setPlayerScore(0);
         StackPane stackPane = new StackPane();
         Text txt = new Text("Looking for players...");
         txt.setFill(WHITE);
@@ -557,19 +561,36 @@ public class GameController implements Initializable {
         GameState gameState = (GameState) this.socketServer.readSocket();
         if (gameState != null) {
             String username = gameState.getHostPlayerName();
-            txt.setText("Your opponent is: " + username);
+            txt.setText("Your opponent is: " + username + "\nGame will start in 3 seconds.");
         }
+        try{
+            Thread.sleep(MULTIPLAYER_IDLE_MS);
+        } catch (InterruptedException e) {
+            LOGGER.info("3s wait failed.");
+        }
+        Platform.runLater(() -> {
+            GameController._instance.setUpNextLevel(false);
+        });
     }
 
     public void connectSocket(OpponentInfo found, Text txt) {
         System.out.println(found.getIp());
         this.socketClient = new SocketClient(found.getIp(), found.getPort());
         LOGGER.info("Host socket accepted the connection");
-        txt.setText("Your opponent is: " + found.getUserName());
+        txt.setText("Your opponent is: " + found.getUserName() + "\nGame will start in 3 seconds.");
         this.socketClient.writeSocket(new GameState(GameLogic.getInstance()));
+        try{
+            Thread.sleep(MULTIPLAYER_IDLE_MS);
+        } catch (InterruptedException e) {
+            LOGGER.info("3s wait failed.");
+        }
+        Platform.runLater(() -> {
+            GameController._instance.setUpNextLevel(false);
+        });
     }
 
     /**
+     * TODO check this for score posting.
      * Wrapper for setting up the next level
      */
     private void setUpNextLevelWrapper() {
@@ -581,7 +602,7 @@ public class GameController implements Initializable {
             // TODO check this.round > LAST_ROUND logic
             thirdLevelScorePosted = true; // TODO is this correct?
             GameLogic.getInstance().sendScores(logArea);
-            this.initMultiLevel();
+            this.initMultiLevel(); // this one clears scores inside.
         } else {
             this.challengeButton.setVisible(false);
             Text gameOver = new Text("Game Over");

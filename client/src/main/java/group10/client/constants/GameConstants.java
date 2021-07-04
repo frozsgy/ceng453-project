@@ -30,4 +30,6 @@ public class GameConstants {
      * Defines double pisti points.
      */
     public final static int DOUBLE_PISTI = 2 * PISTI;
+
+    public final static int MULTIPLAYER_IDLE_MS = 3000;
 }
