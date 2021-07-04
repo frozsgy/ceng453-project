@@ -1,6 +1,8 @@
 package group10.client.controller;
 
 import javafx.application.Platform;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
@@ -16,6 +18,11 @@ public class OpponentController implements Runnable {
      * Flag to check if the bluff variable at the JavaFX Game controller needs update
      */
     private boolean updateBluff;
+
+    /**
+     * Constant logger instance to print messages to console
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(OpponentController.class);
 
     /**
      * One parameter constructor
@@ -37,7 +44,7 @@ public class OpponentController implements Runnable {
                 GameController.gameSynchronizer.unlock();
             }
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            LOGGER.error("User interrupt");
         }
     }
 
@@ -48,7 +55,7 @@ public class OpponentController implements Runnable {
         try {
             Thread.sleep(ThreadLocalRandom.current().nextInt(125, 1570));
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            LOGGER.error("User interrupt");
         }
         Platform.runLater(() -> {
             GameController._instance.playAsOpponent(updateBluff);
