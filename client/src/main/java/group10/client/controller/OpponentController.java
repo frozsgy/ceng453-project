@@ -53,7 +53,8 @@ public class OpponentController implements Runnable {
      */
     public void play() {
         try {
-            Thread.sleep(ThreadLocalRandom.current().nextInt(125, 1570));
+            // TODO -- enable sleep for realistic AI behaviour
+            Thread.sleep(ThreadLocalRandom.current().nextInt(125, 870));
         } catch (InterruptedException e) {
             LOGGER.error("User interrupt");
         }
