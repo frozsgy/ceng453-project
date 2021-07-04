@@ -16,9 +16,10 @@ public class OpponentController implements Runnable {
     @Override
     public void run() {
         try {
-            while (!GameController.gameSynchronizer.tryLock(1, TimeUnit.SECONDS)) ;
-            this.play();
-            GameController.gameSynchronizer.unlock();
+            if (GameController.gameSynchronizer.tryLock(10, TimeUnit.SECONDS)) {
+                this.play();
+                GameController.gameSynchronizer.unlock();
+            }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
