@@ -2,6 +2,7 @@ package group10.client.controller;
 
 import group10.client.constants.GameConstants;
 import group10.client.constants.UiConstants;
+import group10.client.entity.GameState;
 import group10.client.enums.Cards;
 import group10.client.enums.PlayerEnum;
 import group10.client.enums.Suits;
@@ -551,16 +552,16 @@ public class GameController implements Initializable {
             this.socketClient = new SocketClient(found.getIp(), found.getPort());
             LOGGER.info("Host socket accepted the connection");
             txt.setText("Your opponent is: " + found.getUserName());
-            this.socketClient.writeSocket("PlayerName:" + SessionStorage.getInstance().getUsername());
+            this.socketClient.writeSocket(new GameState(GameLogic.getInstance()));
         } else {
             // not found. Open a socket and wait for connections.
             txt.setText("You are in queue. Please wait...");
             this.socketServer = new SocketServer(port);
             LOGGER.info("Opponent is connected");
-            String username = (String) this.socketServer.readSocket();
-            if (username != null) {
-                String[] split = username.split("PlayerName:");
-                txt.setText("Your opponent is: " + split[1]);
+            GameState gameState = (GameState) this.socketServer.readSocket();
+            if (gameState != null) {
+                String username = gameState.getHostPlayerName();
+                txt.setText("Your opponent is: " + username);
             }
         }
     }
