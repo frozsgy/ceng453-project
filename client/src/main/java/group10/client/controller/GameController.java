@@ -542,17 +542,12 @@ public class GameController implements Initializable {
             txt.setText("You are in queue. Please wait...");
             this.socketServer = new SocketServer(port);
             LOGGER.info("Opponent is connected");
-            String username = null;
-           // do {
-                username = (String) this.socketServer.readSocket();
-             //   if (username != null)
-                System.out.println(username);
-           // } while (username == null || !username.contains("PlayerName:"));
-            String[] split = username.split("PlayerName:");
-            txt.setText("Your opponent is: " + split[1]);
+            String username = (String) this.socketServer.readSocket();
+            if (username != null) {
+                String[] split = username.split("PlayerName:");
+                txt.setText("Your opponent is: " + split[1]);
+            }
         }
-
-
     }
 
     /**
