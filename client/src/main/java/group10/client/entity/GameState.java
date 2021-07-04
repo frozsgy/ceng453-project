@@ -26,8 +26,10 @@ public class GameState implements Serializable {
                 key -> {
                     if (key.getKey() == PlayerEnum.ONE) {
                         return PlayerEnum.TWO;
+                    } else if (key.getKey() == PlayerEnum.TWO) {
+                        return PlayerEnum.ONE;
                     }
-                    return PlayerEnum.ONE;
+                    return PlayerEnum.NULL;
                 }, Map.Entry::getValue)); // deep copy
     }
 
