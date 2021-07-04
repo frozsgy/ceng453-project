@@ -1,11 +1,13 @@
 package group10.client.entity;
 
+import java.io.Serializable;
+
 /**
  * PlayerGame entity for parsing JSON responses from the server
  *
  * @author Alperen Caykus, Mustafa Ozan Alpay
  */
-public class PlayerGame extends Base {
+public class PlayerGame extends Base implements Serializable {
 
     /**
      * Field for storing Player

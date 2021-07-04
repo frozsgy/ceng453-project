@@ -3,6 +3,7 @@ package group10.client.model;
 import group10.client.enums.Cards;
 import group10.client.enums.Suits;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -10,7 +11,7 @@ import java.util.Objects;
  *
  * @author Alperen Caykus, Mustafa Ozan Alpay
  */
-public class Card {
+public class Card implements Serializable {
 
     /**
      * Number of the card, such as K, J, Q, 1, 10, etc.

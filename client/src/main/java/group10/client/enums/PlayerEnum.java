@@ -1,12 +1,14 @@
 package group10.client.enums;
 
+import java.io.Serializable;
+
 /**
  * Enumerator for player types.
  * Denotes the player's associated number.
  *
  * @author Alperen Caykus, Mustafa Ozan Alpay
  */
-public enum PlayerEnum {
+public enum PlayerEnum implements Serializable {
     /**
      * null player
      */
