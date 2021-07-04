@@ -660,7 +660,6 @@ public class GameController implements Initializable {
             Rectangle r = GameLogic.getRectangleByCard(this.cardMappings, bluffed); //get the rectangle of closed card.
             this.midStack.getChildren().remove(r);
             this.setRectangleVisible(r); // make rectangle visible.
-            this.midStackShift--;
             this.drawCardInsideRectangle(r, bluffed, false); // put text to it.
             this.handleFakeBluffForPlayer(PlayerEnum.TWO, candidate, bluffed, r);
         }
