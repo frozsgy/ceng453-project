@@ -3,37 +3,37 @@ package group10.client.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 
 public abstract class SocketBase {
     protected Socket socket;
-    protected DataInputStream in;
-    protected DataOutputStream out;
+    protected ObjectInputStream in;
+    protected ObjectOutputStream out;
     protected boolean sent = false;
 
     protected static final Logger LOGGER = LoggerFactory.getLogger(SocketBase.class);
 
-    public String readSocket() {
-        String line = null;
+    public Object readSocket() {
+        Object read = null;
         if (this.sent) {
             try {
-                line = this.in.readUTF();
+                read = this.in.readObject();
                 this.sent = false;
                 LOGGER.info("Read data from socket");
             } catch (IOException e) {
                 LOGGER.error("Error while reading from socket");
+            } catch (ClassNotFoundException e) {
+                LOGGER.error("Class not found.");
             }
         }
-        return line;
+        return read;
     }
 
-    public boolean writeSocket(String data) {
+    public boolean writeSocket(Object data) {
         if (!this.sent) {
             try {
-                this.out.writeUTF(data);
+                this.out.writeObject(data);
                 LOGGER.info("Data sent through socket");
             } catch (IOException e) {
                 LOGGER.error("Error while sending data through socket");

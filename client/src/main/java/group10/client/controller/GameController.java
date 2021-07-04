@@ -544,7 +544,7 @@ public class GameController implements Initializable {
             LOGGER.info("Opponent is connected");
             String username = null;
            // do {
-                username = this.socketServer.readSocket();
+                username = (String) this.socketServer.readSocket();
              //   if (username != null)
                 System.out.println(username);
            // } while (username == null || !username.contains("PlayerName:"));

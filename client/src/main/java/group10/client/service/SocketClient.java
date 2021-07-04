@@ -1,10 +1,7 @@
 package group10.client.service;
 
 
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 
 public class SocketClient extends SocketBase {
@@ -18,8 +15,8 @@ public class SocketClient extends SocketBase {
         }
 
         try {
-            this.out = new DataOutputStream(socket.getOutputStream());
-            this.in = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
+            this.out = new ObjectOutputStream(socket.getOutputStream());
+            this.in = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
             LOGGER.info("Ready for transmitting data");
         } catch (IOException e) {
             LOGGER.error("Error while setting up the socket for transmitting data");
