@@ -442,6 +442,7 @@ public class GameController implements Initializable {
      * @param continued flag to check if the deal is happening in the same level or not
      */
     private void setUpNextLevel(boolean continued) {
+        this.challengeButton.setVisible(false);
         int playerScore = GameLogic.getInstance().getScores().get(PlayerEnum.ONE);
         int enemyScore = GameLogic.getInstance().getScores().get(PlayerEnum.TWO);
         if (round == LAST_ROUND + 1 && !thirdLevelScorePosted) {
@@ -579,8 +580,8 @@ public class GameController implements Initializable {
         } else if (this.round == LAST_ROUND) {
             // TODO check this.round > LAST_ROUND logic
             thirdLevelScorePosted = true; // TODO is this correct?
+            GameLogic.getInstance().sendScores(logArea);
             this.initMultiLevel();
-            this.setUpNextLevel(false);
         } else {
             this.challengeButton.setVisible(false);
             Text gameOver = new Text("Game Over");
