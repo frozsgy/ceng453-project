@@ -14,8 +14,6 @@ import group10.client.service.SocketServer;
 import group10.client.state.SessionStorage;
 import group10.client.utility.PropertiesLoader;
 import group10.client.utility.UIUtility;
-import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -36,8 +34,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-import java.net.*;
+import java.net.InetAddress;
+import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.*;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -160,8 +159,6 @@ public class GameController implements Initializable {
 
     private SocketServer socketServer;
     private SocketClient socketClient;
-
-    public PlayerEnum currentPlayerGui;
 
     private Thread otherPlayerThread;
 

@@ -16,7 +16,7 @@ public class OpponentController implements Runnable {
     @Override
     public void run() {
         try {
-            while (!GameController.gameSynchronizer.tryLock(1, TimeUnit.SECONDS));
+            while (!GameController.gameSynchronizer.tryLock(1, TimeUnit.SECONDS)) ;
             this.play();
             GameController.gameSynchronizer.unlock();
         } catch (InterruptedException e) {
@@ -34,7 +34,5 @@ public class OpponentController implements Runnable {
             GameController._instance.playAsOpponent(updateBluff);
             GameController._instance.doTableActions();
         });
-
-
     }
 }
