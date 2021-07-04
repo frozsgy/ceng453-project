@@ -2,8 +2,9 @@ package group10.client.model;
 
 
 /**
- * @author Alperen Caykus, Mustafa Ozan Alpay
  * Carries network and player information of opponent player.
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 public class OpponentInfo {
 
@@ -28,13 +29,15 @@ public class OpponentInfo {
     public OpponentInfo() {
 
     }
-    public OpponentInfo(String ip, int port){
+
+    public OpponentInfo(String ip, int port) {
         this.ip = ip;
         this.port = port;
     }
 
     /**
      * Gets the IP address
+     *
      * @return IP address
      */
     public String getIp() {
@@ -43,6 +46,7 @@ public class OpponentInfo {
 
     /**
      * Gets the port
+     *
      * @return Port number
      */
     public int getPort() {
@@ -51,6 +55,7 @@ public class OpponentInfo {
 
     /**
      * Gets the player id
+     *
      * @return Id of the player
      */
     public long getPlayer() {
@@ -59,6 +64,7 @@ public class OpponentInfo {
 
     /**
      * Sets the IP address
+     *
      * @param ip IP to be set
      */
     public void setIp(String ip) {
@@ -67,6 +73,7 @@ public class OpponentInfo {
 
     /**
      * Sets the port
+     *
      * @param port Port to be set
      */
     public void setPort(int port) {
@@ -75,6 +82,7 @@ public class OpponentInfo {
 
     /**
      * Sets the player id
+     *
      * @param player Player id to be set
      */
     public void setPlayer(long player) {
@@ -83,6 +91,7 @@ public class OpponentInfo {
 
     /**
      * Gets the username
+     *
      * @return Username of the opponent
      */
     public String getUserName() {
@@ -91,6 +100,7 @@ public class OpponentInfo {
 
     /**
      * Sets the username
+     *
      * @param userName Username to be set
      */
     public void setUserName(String userName) {

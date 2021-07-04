@@ -4,6 +4,8 @@ import javafx.geometry.Pos;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Spinner class to render loading spinner for network requests.
@@ -11,6 +13,11 @@ import javafx.scene.layout.StackPane;
  * @author Alperen Caykus, Mustafa Ozan Alpay
  */
 public class LoadingSpinner {
+
+    /**
+     * Logger to log messages
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoadingSpinner.class);
 
     /**
      * StackPane instance that spinner will be attached to.
@@ -45,7 +52,7 @@ public class LoadingSpinner {
             stackPane.setAlignment(Pos.CENTER);
             stackPane.setDisable(false);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.warn("Exception at starting Spinner");
         }
     }
 
@@ -60,7 +67,7 @@ public class LoadingSpinner {
             stackPane.getChildren().clear();
             stackPane.setDisable(true);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.warn("Exception at stopping Spinner");
         }
     }
 }

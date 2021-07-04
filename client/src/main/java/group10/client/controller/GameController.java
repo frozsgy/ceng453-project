@@ -9,6 +9,8 @@ import group10.client.logic.GameLogic;
 import group10.client.model.Card;
 import group10.client.model.OpponentInfo;
 import group10.client.service.HTTPService;
+import group10.client.service.SocketClient;
+import group10.client.service.SocketServer;
 import group10.client.state.SessionStorage;
 import group10.client.utility.PropertiesLoader;
 import group10.client.utility.UIUtility;
@@ -153,8 +155,8 @@ public class GameController implements Initializable {
      * @param resourceBundle Resource bundle
      */
 
-    private ServerSocket serverSocket;
-    private Socket socket;
+    private SocketServer socketServer;
+    private SocketClient socketClient;
 
 
     @Override
@@ -167,7 +169,6 @@ public class GameController implements Initializable {
         this.setUpNextLevel(false); // set up level 1
         this.AiBluffed = false;
         enableAutoScroll(this.logArea);
-        //Background background = new Background(new BackgroundImage(new Image("/static/bg2.jpg"), null, null, null, null));
         this.gameMainAnchor.setBackground(UIUtility.getBackground());
         centerScene(this.gameMainAnchor.getPrefWidth(), this.gameMainAnchor.getPrefHeight());
     }
@@ -304,16 +305,6 @@ public class GameController implements Initializable {
         }
         logToScreen("Cards were dealt for Player Two", this.logArea, LOGGER);
         GameLogic.getInstance().setPlayerCards(playerCards);
-    }
-
-    /**
-     * Checks if the card is hidden or not
-     *
-     * @param r Rectangle to check
-     * @return boolean
-     */
-    private boolean isCardHidden(Rectangle r) {
-        return !r.getFill().equals(WHITE);
     }
 
     /**
@@ -535,25 +526,32 @@ public class GameController implements Initializable {
             LOGGER.warn("IP could not be grabbed. Aborting");
             return;
         }
+        ip = "127.0.0.1"; // TODO -- solve this
         OpponentInfo found = HTTPService.getInstance().getOpponent(new OpponentInfo(ip, port));
         // TODO accept method stops drawing. We need to create a seperate thread inside mouseClickHandler.
-        try {
-            if (found != null) {
-                // found. connect to socket.
-                socket = new Socket(found.getIp(), found.getPort());
-                LOGGER.info("Host socket accepted the connection");
-                System.out.println("FOUND");
-                txt.setText("Your opponent is: " + found.getUserName());
-            } else {
-                // not found. Open a socket and wait for connections.
-                txt.setText("You are in queue. Please wait...");
-                serverSocket = new ServerSocket(port);
-                socket = serverSocket.accept();
-                LOGGER.info("Opponent is connected");
-            }
-        } catch (IOException ex) {
-            LOGGER.warn("Socket creation failed");
+
+        if (found != null) {
+            // found. connect to socket.
+            System.out.println(found.getIp());
+            this.socketClient = new SocketClient(found.getIp(), found.getPort());
+            LOGGER.info("Host socket accepted the connection");
+            txt.setText("Your opponent is: " + found.getUserName());
+            this.socketClient.writeSocket("PlayerName:" + SessionStorage.getInstance().getUsername());
+        } else {
+            // not found. Open a socket and wait for connections.
+            txt.setText("You are in queue. Please wait...");
+            this.socketServer = new SocketServer(port);
+            LOGGER.info("Opponent is connected");
+            String username = null;
+           // do {
+                username = this.socketServer.readSocket();
+             //   if (username != null)
+                System.out.println(username);
+           // } while (username == null || !username.contains("PlayerName:"));
+            String[] split = username.split("PlayerName:");
+            txt.setText("Your opponent is: " + split[1]);
         }
+
 
     }
 
@@ -569,7 +567,7 @@ public class GameController implements Initializable {
             // TODO check this.round > LAST_ROUND logic
             thirdLevelScorePosted = true; // TODO is this correct?
             this.initMultiLevel();
-        } else if (this.round > LAST_ROUND) {
+        } else {
             this.challengeButton.setVisible(false);
             Text gameOver = new Text("Game Over");
             gameOver.setFill(WHITE);

@@ -23,7 +23,7 @@ public class GameConstants {
      */
     public static final int MAX_SCORE = 151;
     /**
-     * Defines how many points a pisti worths.
+     * Defines how many points a pisti worth.
      */
     public final static int PISTI = 10;
     /**
