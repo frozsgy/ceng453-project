@@ -29,7 +29,7 @@ public class SocketServer extends SocketBase {
             try {
                 this.socket = this.server.accept();
                 this.out = new ObjectOutputStream(this.socket.getOutputStream());
-                this.in = new ObjectInputStream(new BufferedInputStream(this.socket.getInputStream()));
+                this.in = new ObjectInputStream(this.socket.getInputStream());
                 LOGGER.info("Client connected");
             } catch (Exception e) {
                 LOGGER.error("Error during client connection");

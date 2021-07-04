@@ -569,7 +569,9 @@ public class GameController implements Initializable {
             LOGGER.info("3s wait failed.");
         }
         Platform.runLater(() -> {
-            GameController._instance.setUpNextLevel(false);
+            this.setUpNextLevel(false);
+            GameState initialState = new GameState(GameLogic.getInstance());
+            this.socketServer.writeSocket(initialState);
         });
     }
 
@@ -585,8 +587,12 @@ public class GameController implements Initializable {
             LOGGER.info("3s wait failed.");
         }
         Platform.runLater(() -> {
-            GameController._instance.setUpNextLevel(false);
+            this.setUpNextLevel(false);
+            System.out.println("@@@@@@@@@");
+            GameState initialState = (GameState) this.socketClient.readSocket();
+            System.out.println("asdasdsa");
         });
+
     }
 
     /**
