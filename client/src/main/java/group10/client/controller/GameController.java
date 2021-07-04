@@ -757,9 +757,9 @@ public class GameController implements Initializable {
      */
     private void doBluff(MouseEvent event) {
         try {
-            gameSynchronizer.lock();
-            this.otherPlayerThread = new Thread(new OpponentController(false));
             if (GameLogic.getInstance().getMiddle().size() == 1 && this.round >= LAST_ROUND) {
+                gameSynchronizer.lock();
+                this.otherPlayerThread = new Thread(new OpponentController(false));
                 logToScreen("You bluffed.", this.logArea, LOGGER);
                 Rectangle pressed = (Rectangle) ((Node) event.getTarget());
                 Random rand = new Random();
