@@ -290,7 +290,6 @@ public class HTTPService {
     }
 
     /**
-     * TODO : add tests
      * Requests the opponent information.
      * If an opponent is found, it returns their network and player information.
      * If an opponent is not found, this player whose information provided as parameter is queued.

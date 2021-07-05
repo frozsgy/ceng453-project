@@ -33,6 +33,8 @@ public class GameState implements Serializable {
                 }, Map.Entry::getValue)); // deep copy
     }
 
+    // TODO
+    // since we will pass this data between clients, we may also need to hold if the posting player had bluffed
     public GameState(GameLogic gameLogicVariables) {
         this.middle = gameLogicVariables.getMiddle();
         this.lastWinner = gameLogicVariables.getLastWinner();

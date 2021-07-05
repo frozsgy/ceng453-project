@@ -281,6 +281,12 @@ public class GameController implements Initializable {
 
         }
     }
+
+    public void bulkScoreUpdate() {
+        this.setEnemyScore(GameLogic.getInstance().getScores().get(PlayerEnum.TWO));
+        this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.ONE));
+    }
+
     /**
      * Creates a card Rectangle
      *
@@ -808,7 +814,7 @@ public class GameController implements Initializable {
     @FXML
     protected void mouseClickHandler(MouseEvent event) {
         if (this.round == MULIPLAYER_LEVEL && !this.isHost) {
-            this.postCard();
+            this.postCard(event.getButton() == MouseButton.SECONDARY);
         }
         else if (event.getButton() == MouseButton.PRIMARY) {
             this.throwCard(event);
@@ -817,7 +823,7 @@ public class GameController implements Initializable {
         }
     }
 
-    private void postCard() {
+    private void postCard(boolean bluffed) {
         // TODO
         // Post the played card to server.
         // Read the current state.

@@ -55,7 +55,6 @@ public class OpponentController implements Runnable {
         /*
         TODO uncomment this
         try {
-            // TODO -- enable sleep for realistic AI behaviour
             Thread.sleep(ThreadLocalRandom.current().nextInt(125, 870));
         } catch (InterruptedException e) {
             LOGGER.error("User interrupt");

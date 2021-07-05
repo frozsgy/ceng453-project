@@ -127,12 +127,12 @@ public class GameLogic {
         this.playerCardCounts = state.getPlayerCardCounts();
         // TODO
         // this currently syncs the initial player cards.
-        // we need to sync mid and scores too.
-        // we also need to do it for every stage, not just for initial.
+        // we need to do it for every stage, not just for initial.
         if (this.playerCards.get(PlayerEnum.ONE).size() == CARD_PER_HAND) {
             System.out.println(this.playerCards.get(PlayerEnum.ONE));
-            GameController._instance.initPlayerCards(true);
             GameController._instance.bulkAddToMiddle(this.middle, isFirstTime);
+            GameController._instance.bulkScoreUpdate();
+            GameController._instance.initPlayerCards(true);
             // update players self view.
         }
         isFirstTime = false;
