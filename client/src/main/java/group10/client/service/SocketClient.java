@@ -35,7 +35,5 @@ public class SocketClient extends SocketBase {
             LOGGER.error("Error while connecting to socket server");
         }
 
-
-
     }
 }

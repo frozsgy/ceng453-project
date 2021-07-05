@@ -26,10 +26,6 @@ public abstract class SocketBase {
      * Output stream to handle outgoing data
      */
     protected ObjectOutputStream out;
-    /**
-     * Flag to keep track of turns
-     */
-    protected boolean sent = false;
 
     /**
      * Constant logger instance to print messages to console
@@ -43,16 +39,13 @@ public abstract class SocketBase {
      */
     public Object readSocket() {
         Object read = null;
-        if (this.sent) {
-            try {
-                read = this.in.readObject();
-                this.sent = false;
-                LOGGER.info("Read data from socket");
-            } catch (IOException e) {
-                LOGGER.error("Error while reading from socket");
-            } catch (ClassNotFoundException e) {
-                LOGGER.error("Class not found.");
-            }
+        try {
+            read = this.in.readObject();
+            LOGGER.info("Read data from socket");
+        } catch (IOException e) {
+            LOGGER.error("Error while reading from socket");
+        } catch (ClassNotFoundException e) {
+            LOGGER.error("Class not found.");
         }
         return read;
     }
@@ -64,17 +57,14 @@ public abstract class SocketBase {
      * @return boolean true for successful, false for failed
      */
     public boolean writeSocket(Object data) {
-        if (!this.sent) {
-            try {
-                this.out.writeObject(data);
-                LOGGER.info("Data sent through socket");
-            } catch (IOException e) {
-                LOGGER.error("Error while sending data through socket");
-            }
-            this.sent = true;
-            return true;
+        try {
+            this.out.writeObject(data);
+            LOGGER.info("Data sent through socket");
+        } catch (IOException e) {
+            LOGGER.error("Error while sending data through socket");
+            return false;
         }
-        return false;
+        return true;
     }
 
     /**

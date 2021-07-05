@@ -37,8 +37,6 @@ public class SocketServer extends SocketBase {
         } catch (IOException e) {
             LOGGER.error("Error creating socket");
         }
-
-        this.sent = true;
     }
 
 }
