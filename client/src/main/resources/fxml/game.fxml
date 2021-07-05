@@ -4,7 +4,6 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
-
 <AnchorPane fx:id="gameMainAnchor" prefHeight="600.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group10.client.controller.GameController">
    <children>
       <Text fx:id="levelText" fill="WHITE" layoutX="8.0" layoutY="279.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Level:" wrappingWidth="99.7294921875" />
