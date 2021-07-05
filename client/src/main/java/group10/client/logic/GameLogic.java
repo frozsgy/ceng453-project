@@ -70,6 +70,8 @@ public class GameLogic {
      */
     private static GameLogic instance;
 
+    private boolean isFirstTime;
+
     /**
      * Creates a new instance if it does not exist and assigns it to instance field
      *
@@ -110,6 +112,7 @@ public class GameLogic {
      * Resets everything and sets ai strategy to LevelOneStrategy
      */
     private GameLogic() {
+        this.isFirstTime = true;
         this.resetScores();
         this.resetFields();
         this.setAiStrategy(1);
@@ -129,8 +132,10 @@ public class GameLogic {
         if (this.playerCards.get(PlayerEnum.ONE).size() == CARD_PER_HAND) {
             System.out.println(this.playerCards.get(PlayerEnum.ONE));
             GameController._instance.initPlayerCards(true);
+            GameController._instance.bulkAddToMiddle(this.middle, isFirstTime);
             // update players self view.
         }
+        isFirstTime = false;
     }
 
     /**
