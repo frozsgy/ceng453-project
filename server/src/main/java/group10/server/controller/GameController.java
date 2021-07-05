@@ -20,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
@@ -107,11 +108,12 @@ public class GameController {
      */
     @PostMapping("/match")
     @ResponseBody
-    public ResponseEntity<?> getOpponent(@RequestBody MatchMakingDTO playerNetworkInfo) {
+    public ResponseEntity<?> getOpponent(@RequestBody MatchMakingDTO playerNetworkInfo, HttpServletRequest request) {
         try {
             Player player = playerService.getLoggedInPlayer();
             playerNetworkInfo.setPlayer(player.getId());
             playerNetworkInfo.setUserName(player.getUsername());
+            playerNetworkInfo.setIp(request.getRemoteAddr());
             MatchMakingDTO opponentNetworkInfo = gameService.getOpponent(playerNetworkInfo);
             if (opponentNetworkInfo != null) {
                 LOGGER.info(player.getUsername() + "(" + player.getId() + ") matched with " + opponentNetworkInfo.getUserName() + "(" + opponentNetworkInfo.getPlayer() + ")");

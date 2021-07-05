@@ -619,8 +619,6 @@ public class GameController implements Initializable {
             LOGGER.warn("IP could not be grabbed. Aborting");
             return;
         }
-        ip = "127.0.0.1"; // TODO -- solve this
-
         MultiplayerController multiplayerController = new MultiplayerController(ip, port, txt);
         new Thread(multiplayerController).start();
     }

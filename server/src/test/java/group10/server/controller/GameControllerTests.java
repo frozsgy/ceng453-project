@@ -197,7 +197,6 @@ class GameControllerTests {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         JSONObject jsonResponse = new JSONObject(authorization);
-        assertEquals(jsonResponse.get("ip"), IP);
         assertEquals(jsonResponse.get("port"), PORT);
         assertEquals(jsonResponse.get("player"), (int)userId);
         assertEquals(jsonResponse.get("userName"), testUsername);
