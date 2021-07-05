@@ -212,17 +212,4 @@ class GameControllerTest {
             break;
         }
     }
-
-    @Test
-    @DisplayName("Game Over Screen")
-    @Order(16)
-    void gameOverScreen(FxRobot robot) {
-        GameController._instance.gameOverScreen();
-        AnchorPane s = robot.lookup("#midStack").queryAs(AnchorPane.class);
-        assertEquals(s.getChildren().size(), 0);
-        s = robot.lookup("#bottomAnchorPane").queryAs(AnchorPane.class);
-        assertEquals(s.getChildren().size(), 0);
-        s = robot.lookup("#upperAnchorPane").queryAs(AnchorPane.class);
-        assertEquals(s.getChildren().size(), 0);
-    }
 }
