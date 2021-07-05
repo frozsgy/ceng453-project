@@ -668,7 +668,9 @@ public class GameController implements Initializable {
         Platform.runLater(() -> {
             this.setUpNextLevel(false);
             GameState initialState = (GameState) this.socketClient.readSocket();
-            GameLogic.getInstance().readLogicFromState(initialState);
+            if (initialState != null) {
+                GameLogic.getInstance().readLogicFromState(initialState);
+            }
             startWaitForHostTask();
         });
 
