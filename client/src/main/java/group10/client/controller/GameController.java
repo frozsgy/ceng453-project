@@ -1014,8 +1014,10 @@ public class GameController implements Initializable {
             GameLogic.getInstance().setCurrentPlayer(PlayerEnum.TWO);
             this.toggleClickable(false);
             this.setMidCount();
-            GameState state = new GameState(GameLogic.getInstance(), false, null);
-            socketServer.writeSocket(state);
+            if (this.round == MULTIPLAYER_LEVEL && isHost) {
+                GameState state = new GameState(GameLogic.getInstance(), false, null);
+                socketServer.writeSocket(state);
+            }
             this.otherPlayerThread.start();
             gameSynchronizer.unlock();
         } catch (IllegalArgumentException ex) {
