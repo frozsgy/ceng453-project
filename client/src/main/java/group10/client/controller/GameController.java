@@ -290,6 +290,13 @@ public class GameController implements Initializable {
         }
     }
 
+    public void removeOneCardFromOpponent() {
+        int size = this.upperAnchorPane.getChildren().size();
+        if (size > 0) {
+            this.upperAnchorPane.getChildren().remove(0);
+        }
+    }
+
     /**
      * Updates scores of players at once
      */

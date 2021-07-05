@@ -164,9 +164,11 @@ public class GameLogic {
 
     public void waitForHost() {
         GameState state = (GameState) GameController._instance.getSocketClient().readSocket();
-        Platform.runLater(() -> readLogicFromState(state));
-//        System.out.println("Read socket");
-//        readLogicFromState(state);
+        Platform.runLater(() -> {
+            readLogicFromState(state);
+            GameController._instance.removeOneCardFromOpponent();
+
+        });
     }
 
     /**
