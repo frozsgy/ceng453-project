@@ -266,29 +266,11 @@ public class GameController implements Initializable {
         this.drawAllCards();
     }
 
-    public void bulkAddToMiddle(Stack<Card> mid, boolean isFirstTime) {
+    public void bulkAddToMiddle(Stack<Card> mid) {
         this.midStack.getChildren().clear();
         this.setMidCount();
         for (Card c : mid) {
-            // TODO
-            // we do not store if the card is hidden or not other than making its image different.
-            // since we do not post this data in GameState, this will draw every card as open as we also apply shift to
-            // first 3 cards. We need to shifting on middle :D
-            if (isFirstTime) {
-                Rectangle rec = null;
-                if (c != mid.peek()) {
-                    rec = createCardRectangle(true, null);
-
-                } else {
-                    rec = createCardRectangle(false, c);
-                }
-                rec.setLayoutX(midStackShift++ * MID_STACK_SHIFT);
-                midStack.getChildren().add(rec);
-            } else {
-                this.midStack.getChildren().add(createCardRectangle(false, c));
-            }
-
-
+            this.midStack.getChildren().add(createCardRectangle(false, c));
         }
     }
 
