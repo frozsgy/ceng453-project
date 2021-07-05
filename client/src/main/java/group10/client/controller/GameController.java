@@ -632,19 +632,7 @@ public class GameController implements Initializable {
             this.setUpNextLevel(false);
             GameState initialState = (GameState) this.socketClient.readSocket();
             GameLogic.getInstance().readLogicFromState(initialState);
-            Task<Boolean> idleTask = new Task<>() {
-                @Override
-                public Boolean call() {
-                    GameLogic.getInstance().waitForHost();
-                    return  true;
-                }
-            };
-            idleTask.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED,
-                    (EventHandler<WorkerStateEvent>) t -> {
-                        LOGGER.info("read the state");
-                    });
-            new Thread(idleTask).start();
-
+            startWaitForHostTask();
         });
 
     }
@@ -872,10 +860,25 @@ public class GameController implements Initializable {
                     System.out.println("Read state");
                     System.out.println(newState.getMiddle());
                     GameLogic.getInstance().readLogicFromState(newState);
+                    startWaitForHostTask();
                 });
         new Thread(newGameTask).start();
     }
 
+    public void startWaitForHostTask() {
+        Task<Boolean> idleTask = new Task<>() {
+            @Override
+            public Boolean call() {
+                GameLogic.getInstance().waitForHost();
+                return  true;
+            }
+        };
+        idleTask.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED,
+                (EventHandler<WorkerStateEvent>) t -> {
+                    LOGGER.info("read the state");
+                });
+        new Thread(idleTask).start();
+    }
     /**
      * Method that allows the player to bluff
      *
