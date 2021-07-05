@@ -158,6 +158,10 @@ public class GameLogic {
         // we need to do it for every stage, not just for initial.
         GameController._instance.bulkAddToMiddle(this.middle);
         GameController._instance.bulkScoreUpdate();
+        if (state.isGameOver()) {
+            GameController._instance.gameOverScreen();
+            return;
+        }
         if (this.playerCards.get(PlayerEnum.ONE).size() == CARD_PER_HAND) {
             System.out.println(this.playerCards.get(PlayerEnum.ONE));
             System.out.println("============REINIT================");

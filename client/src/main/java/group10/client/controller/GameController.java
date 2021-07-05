@@ -649,7 +649,7 @@ public class GameController implements Initializable {
         }
         Platform.runLater(() -> {
             this.setUpNextLevel(false);
-            GameState initialState = new GameState(GameLogic.getInstance(), false, null);
+            GameState initialState = new GameState(GameLogic.getInstance(), false, null, isGameEnded);
             this.socketServer.writeSocket(initialState);
         });
     }
@@ -665,7 +665,7 @@ public class GameController implements Initializable {
         this.socketClient = new SocketClient(found.getIp(), found.getPort());
         LOGGER.info("Host socket accepted the connection");
         txt.setText("Your opponent is: " + found.getUserName() + "\nGame will start in 3 seconds.");
-        this.socketClient.writeSocket(new GameState(GameLogic.getInstance(), false, null));
+        this.socketClient.writeSocket(new GameState(GameLogic.getInstance(), false, null, isGameEnded));
         try {
             Thread.sleep(MULTIPLAYER_IDLE_MS);
         } catch (InterruptedException e) {
@@ -908,7 +908,7 @@ public class GameController implements Initializable {
             // send this via socket,
             // read a new game state,
             // then call GameLogic.getInstance().readLogicFromState with new read state
-            GameState state = new GameState(GameLogic.getInstance(), bluffed, played);
+            GameState state = new GameState(GameLogic.getInstance(), bluffed, played, isGameEnded);
             // TODO
             // Post the Card played variable to host player along side with the bluffed boolean.
             // Read the new data from the host player.
@@ -1047,7 +1047,7 @@ public class GameController implements Initializable {
             this.toggleClickable(false);
             this.setMidCount();
             if (this.round == MULTIPLAYER_LEVEL && isHost) {
-                GameState state = new GameState(GameLogic.getInstance(), false, null);
+                GameState state = new GameState(GameLogic.getInstance(), false, null, isGameEnded);
                 socketServer.writeSocket(state);
             }
             this.otherPlayerThread.start();
@@ -1076,14 +1076,10 @@ public class GameController implements Initializable {
         this.setMidCount();
         this.serveHand();
         if (this.round == MULTIPLAYER_LEVEL && this.isHost) {
-            if (isGameEnded) {
-                this.socketServer.writeSocket(null);
-            } else {
-                GameState newState = new GameState(GameLogic.getInstance(), this.hostBluffed, null);
-                LOGGER.info("Writing state");
-                System.out.println(newState.getPlayerCards());
-                this.socketServer.writeSocket(newState);
-            }
+            GameState newState = new GameState(GameLogic.getInstance(), this.hostBluffed, null, isGameEnded);
+            LOGGER.info("Writing state");
+            System.out.println(newState.getPlayerCards());
+            this.socketServer.writeSocket(newState);
         }
     }
 
