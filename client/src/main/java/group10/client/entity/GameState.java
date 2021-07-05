@@ -55,6 +55,11 @@ public class GameState implements Serializable {
     private boolean isGameOver;
 
     /**
+     * Boolean to show if opponent accepted the bluff.
+     */
+    private boolean isBluffAccepted;
+
+    /**
      * Swaps players of the given map. Used while fetching and syncing states.
      *
      * @param map Map to swap keys of
@@ -256,5 +261,13 @@ public class GameState implements Serializable {
      */
     public boolean isGameOver() {
         return isGameOver;
+    }
+
+    /**
+     * Gets the isBluffAccepted
+     * @return Boolean that denotes if the opponent accepted the bluff or not.
+     */
+    public boolean isBluffAccepted() {
+        return isBluffAccepted;
     }
 }
