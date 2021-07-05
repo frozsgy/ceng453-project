@@ -34,7 +34,7 @@ public class OpponentController implements Runnable {
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     @Override
     public void run() {

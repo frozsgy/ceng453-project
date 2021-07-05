@@ -15,7 +15,9 @@ public class GameConstants {
      * Defines the last playable round of the game.
      */
     public static final int LAST_ROUND = 3;
-
+    /**
+     * Defines the multiplayer level number of the game.
+     */
     public static final int MULTIPLAYER_LEVEL = LAST_ROUND + 1;
     /**
      * Defines the max score that needs to be performed before
@@ -32,6 +34,8 @@ public class GameConstants {
      * Defines double pisti points.
      */
     public final static int DOUBLE_PISTI = 2 * PISTI;
-
+    /**
+     * Defines the idle time for multiplayer level.
+     */
     public final static int MULTIPLAYER_IDLE_MS = 3000;
 }

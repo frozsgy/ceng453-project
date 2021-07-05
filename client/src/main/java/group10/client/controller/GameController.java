@@ -172,8 +172,13 @@ public class GameController implements Initializable {
      * Reentrant lock to synchronize threads
      */
     public static final ReentrantLock gameSynchronizer = new ReentrantLock();
-
+    /**
+     * Flag to keep if the player is host of the multiplayer level
+     */
     private boolean isHost;
+    /**
+     * Flag to keep if the host has bluffed
+     */
     private boolean hostBluffed;
 
 
@@ -202,9 +207,10 @@ public class GameController implements Initializable {
     /**
      * Initializes card rectangles
      *
-     * @param pane      AnchorPane to place the card onto
-     * @param name      name of the card
-     * @param yLocation y-location of the card
+     * @param pane        AnchorPane to place the card onto
+     * @param name        name of the card
+     * @param yLocation   y-location of the card
+     * @param accessCards flag to keep if the player can access the initialized cards
      */
     private void initCards(AnchorPane pane, String name, double yLocation, boolean accessCards) {
         pane.getChildren().clear();
@@ -252,6 +258,8 @@ public class GameController implements Initializable {
 
     /**
      * Initializes player cards' rectangles
+     *
+     * @param accessCards flag to keep if the player can access the initialized cards
      */
     public void initPlayerCards(boolean accessCards) {
         initCards(this.bottomAnchorPane, "", PLAYER_CARD_Y, accessCards);
@@ -266,6 +274,11 @@ public class GameController implements Initializable {
         this.drawAllCards();
     }
 
+    /**
+     * Adds cards to the middle stack at once
+     *
+     * @param mid stack of cards to add
+     */
     public void bulkAddToMiddle(Stack<Card> mid) {
         this.midStack.getChildren().clear();
         this.setMidCount();
@@ -274,6 +287,9 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     * Updates scores of players at once
+     */
     public void bulkScoreUpdate() {
         this.setEnemyScore(GameLogic.getInstance().getScores().get(PlayerEnum.TWO));
         this.setPlayerScore(GameLogic.getInstance().getScores().get(PlayerEnum.ONE));
@@ -567,7 +583,9 @@ public class GameController implements Initializable {
         centerScene(width, height);
     }
 
-    // TODO JAVADOC
+    /**
+     * Initializes multiplayer level
+     */
     private void initMultiLevel() {
         GameLogic.getInstance().resetScores();
         this.setEnemyScore(0);
@@ -592,6 +610,12 @@ public class GameController implements Initializable {
         new Thread(multiplayerController).start();
     }
 
+    /**
+     * Creates socket for the multiplayer level
+     *
+     * @param port port of the socket
+     * @param txt  Text area for the GUI
+     */
     public void createSocket(int port, Text txt) {
         this.isHost = true;
         txt.setText("You are in queue. Please wait...");
@@ -614,6 +638,12 @@ public class GameController implements Initializable {
         });
     }
 
+    /**
+     * Connects to a created socket
+     *
+     * @param found opponent info to connect the socket of
+     * @param txt   Text area for the GUI
+     */
     public void connectSocket(OpponentInfo found, Text txt) {
         System.out.println(found.getIp());
         this.socketClient = new SocketClient(found.getIp(), found.getPort());
@@ -824,6 +854,11 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     * Handles playing as non host player for the multiplayer level.
+     *
+     * @param event Mouse event that triggered this method
+     */
     private void playAsNonHostPlayer(MouseEvent event) {
         boolean bluffed = event.getButton() == MouseButton.SECONDARY;
         Rectangle pressed = (Rectangle) ((Node) event.getTarget());
@@ -1047,18 +1082,38 @@ public class GameController implements Initializable {
         this.navigateToHome(e);
     }
 
+    /**
+     * Gets socket server
+     *
+     * @return socket server
+     */
     public SocketServer getSocketServer() {
         return socketServer;
     }
 
+    /**
+     * Sets socket server
+     *
+     * @param socketServer new value of socket server
+     */
     public void setSocketServer(SocketServer socketServer) {
         this.socketServer = socketServer;
     }
 
+    /**
+     * Gets socket client
+     *
+     * @return socket client
+     */
     public SocketClient getSocketClient() {
         return socketClient;
     }
 
+    /**
+     * Sets socket client
+     *
+     * @param socketClient new value of socket client
+     */
     public void setSocketClient(SocketClient socketClient) {
         this.socketClient = socketClient;
     }

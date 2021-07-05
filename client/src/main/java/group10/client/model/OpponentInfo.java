@@ -26,10 +26,19 @@ public class OpponentInfo {
      */
     private String userName;
 
+    /**
+     * Default empty constructor
+     */
     public OpponentInfo() {
 
     }
 
+    /**
+     * Constructor
+     *
+     * @param ip   IP address of the opponent
+     * @param port port of the opponent
+     */
     public OpponentInfo(String ip, int port) {
         this.ip = ip;
         this.port = port;

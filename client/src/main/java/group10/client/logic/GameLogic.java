@@ -1,6 +1,5 @@
 package group10.client.logic;
 
-import group10.client.constants.GameConstants;
 import group10.client.controller.GameController;
 import group10.client.entity.GameState;
 import group10.client.entity.Level;
@@ -70,14 +69,25 @@ public class GameLogic {
      */
     private static GameLogic instance;
 
-    private boolean isFirstTime;
-
+    /**
+     * Game state to keep current state
+     */
     private GameState currentState;
 
+    /**
+     * Gets current state
+     *
+     * @return current state
+     */
     public GameState getCurrentState() {
         return currentState;
     }
 
+    /**
+     * Sets curernt state
+     *
+     * @param currentState new value of current state
+     */
     public void setCurrentState(GameState currentState) {
         this.currentState = currentState;
     }
@@ -122,12 +132,16 @@ public class GameLogic {
      * Resets everything and sets ai strategy to LevelOneStrategy
      */
     private GameLogic() {
-        this.isFirstTime = true;
         this.resetScores();
         this.resetFields();
         this.setAiStrategy(1);
     }
 
+    /**
+     * Reads game logic from GameState instance and updates accordingly
+     *
+     * @param state game state
+     */
     public void readLogicFromState(GameState state) {
         this.middle = state.getMiddle();
         this.lastWinner = state.getLastWinner();
@@ -145,7 +159,6 @@ public class GameLogic {
             GameController._instance.initPlayerCards(true);
             // update players self view.
         }
-        isFirstTime = false;
     }
 
     /**
@@ -158,7 +171,7 @@ public class GameLogic {
             strategy = new LevelOneStrategy(this.playerCards, this.middle);
         } else if (level == 2) {
             strategy = new LevelTwoStrategy(this.playerCards, this.middle);
-        } else if (level == 3){
+        } else if (level == 3) {
             strategy = new LevelThreeStrategy(this.playerCards, this.middle);
         } else {
             strategy = new LevelFourStrategy(this.playerCards, this.middle);
@@ -456,6 +469,7 @@ public class GameLogic {
 
     /**
      * POSTs the scores to server via HTTP.
+     *
      * @param logArea log area to print logs
      */
     public void sendScores(TextArea logArea) {
