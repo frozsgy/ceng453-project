@@ -52,14 +52,13 @@ public class OpponentController implements Runnable {
      * Handles opponent actions
      */
     public void play() {
-        /*
-        TODO uncomment this
+        
         try {
             Thread.sleep(ThreadLocalRandom.current().nextInt(125, 870));
         } catch (InterruptedException e) {
             LOGGER.error("User interrupt");
         }
-         */
+
         Platform.runLater(() -> {
             GameController._instance.playAsOpponent(updateBluff);
             GameController._instance.doTableActions();
