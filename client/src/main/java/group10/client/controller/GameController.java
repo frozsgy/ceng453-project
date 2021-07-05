@@ -351,7 +351,7 @@ public class GameController implements Initializable {
             Card card = allCards.pop();
             GameLogic.getInstance().getMiddle().add(card);
             Rectangle rec = createCardRectangle(false, card);
-            if (round == MULTIPLAYER_LEVEL) {
+            if (round == MULTIPLAYER_LEVEL || i == CARD_PER_HAND - 1) {
                 rec.setLayoutX(midStackShift * MID_STACK_SHIFT);
             } else {
                 rec.setLayoutX(midStackShift++ * MID_STACK_SHIFT);
