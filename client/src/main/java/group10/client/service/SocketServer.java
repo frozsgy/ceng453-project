@@ -39,4 +39,14 @@ public class SocketServer extends SocketBase {
         }
     }
 
+    @Override
+    public void closeSocket() {
+        super.closeSocket();
+        try {
+            this.server.close();
+        } catch (IOException e) {
+            LOGGER.error("Error while closing socket server");
+        }
+    }
+
 }
