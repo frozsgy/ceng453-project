@@ -38,7 +38,9 @@ public class GameState implements Serializable {
     // TODO
     // since we will pass this data between clients, we may also need to hold if the posting player had bluffed
     public GameState(GameLogic gameLogicVariables, boolean bluffed, Card cardThrown) {
-        this.middle = gameLogicVariables.getMiddle();
+        this.middle = new Stack<>();
+        Stack<Card> middle = gameLogicVariables.getMiddle();
+        this.middle.addAll(middle);
         this.lastWinner = gameLogicVariables.getLastWinner();
         this.scores = new HashMap<>();
         scores.put(PlayerEnum.ONE, gameLogicVariables.getScores().get(PlayerEnum.TWO));
