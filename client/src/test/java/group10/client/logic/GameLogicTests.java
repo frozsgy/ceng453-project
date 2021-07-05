@@ -2,13 +2,13 @@ package group10.client.logic;
 
 
 import group10.client.entity.GameState;
+import group10.client.entity.Player;
 import group10.client.entity.PlayerGame;
 import group10.client.enums.Cards;
 import group10.client.enums.MatchType;
 import group10.client.enums.PlayerEnum;
 import group10.client.enums.Suits;
 import group10.client.model.Card;
-import group10.client.entity.Player;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;

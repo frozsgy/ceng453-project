@@ -1,7 +1,6 @@
 package group10.client.controller;
 
 import group10.client.constants.UiConstants;
-import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;

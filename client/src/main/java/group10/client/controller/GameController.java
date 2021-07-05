@@ -1,10 +1,8 @@
 package group10.client.controller;
 
-import com.google.gson.Gson;
 import group10.client.constants.GameConstants;
 import group10.client.constants.UiConstants;
 import group10.client.entity.GameState;
-import group10.client.entity.PlayerGame;
 import group10.client.enums.Cards;
 import group10.client.enums.PlayerEnum;
 import group10.client.enums.Suits;
@@ -26,7 +24,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
