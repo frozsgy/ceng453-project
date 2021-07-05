@@ -152,6 +152,26 @@ public class GameService {
     }
 
     /**
+     * Thread safe method that removes the player from the queue.
+     *
+     * @param playerNetworkInfo Network information of the requesting player where player and userName fields are populated by the caller.
+     * @return True if successful, false otherwise.
+     */
+    public boolean removeOpponent(MatchMakingDTO playerNetworkInfo) {
+        synchronized (this.queue) {
+            if (this.queue.isEmpty()) {
+                return false;
+            }
+            if (this.queue.peek().getPlayer() == playerNetworkInfo.getPlayer()) {
+                this.queue.remove();
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    /**
      * Gets the queue.
      *
      * @return current queue.

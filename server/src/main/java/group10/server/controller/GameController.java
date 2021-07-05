@@ -114,11 +114,40 @@ public class GameController {
             playerNetworkInfo.setUserName(player.getUsername());
             MatchMakingDTO opponentNetworkInfo = gameService.getOpponent(playerNetworkInfo);
             if (opponentNetworkInfo != null) {
-                LOGGER.info(player.getId() + " matched with " + opponentNetworkInfo.getPlayer());
+                LOGGER.info(player.getUsername() + "(" + player.getId() + ") matched with " + opponentNetworkInfo.getUserName() + "(" + opponentNetworkInfo.getPlayer() + ")");
             } else {
-                LOGGER.info(player.getId() + " is queued");
+                LOGGER.info(player.getUsername() + "(" + player.getId() + ") is queued");
             }
             return ResponseEntity.ok(opponentNetworkInfo);
+        } catch (NullPointerException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
+    /**
+     * HTTP POST requests to /match/dequeue path are served by this method.
+     * Removes the user from the queue.
+     *
+     * @param playerNetworkInfo Server and IP of the player that requested opponent.
+     *                          This parameter is modified inside the method in a way that
+     *                          playerId and userName fields are populated using the token of the user.
+     * @return HTTP200 Opponent network information as HTTP response.
+     */
+    @PostMapping("/match/dequeue")
+    @ResponseBody
+    public ResponseEntity<?> dequeue(@RequestBody MatchMakingDTO playerNetworkInfo) {
+        try {
+            Player player = playerService.getLoggedInPlayer();
+            playerNetworkInfo.setPlayer(player.getId());
+            playerNetworkInfo.setUserName(player.getUsername());
+            boolean removeResult = gameService.removeOpponent(playerNetworkInfo);
+            if (removeResult) {
+                LOGGER.info(player.getUsername() + "(" + player.getId() + ") removed from the queue");
+            } else {
+                LOGGER.info(player.getUsername() + "(" + player.getId() + ") cannot be removed from the queue");
+            }
+            return ResponseEntity.ok(removeResult);
         } catch (NullPointerException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
