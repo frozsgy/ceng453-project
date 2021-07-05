@@ -330,7 +330,6 @@ public class GameController implements Initializable {
             } else {
                 StackPane stackPane = drawCardInsideRectangle(rec, card, false);
                 midStack.getChildren().add(stackPane);
-                midStackShift--;
             }
             this.cardMappings.put(rec, card);
         }
