@@ -873,40 +873,44 @@ public class GameController implements Initializable {
      * @param event Mouse event that triggered this method
      */
     private void playAsNonHostPlayer(MouseEvent event) {
-        boolean bluffed = event.getButton() == MouseButton.SECONDARY;
-        Rectangle pressed = (Rectangle) ((Node) event.getTarget());
-        Card played = this.cardMappings.get(pressed);
-        this.cardMappings.remove(pressed);
-        GameLogic.getInstance().getPlayerCards().get(PlayerEnum.ONE).remove(played);
-        this.bottomAnchorPane.getChildren().remove(pressed);
-        // send this via socket,
-        // read a new game state,
-        // then call GameLogic.getInstance().readLogicFromState with new read state
-        GameState state = new GameState(GameLogic.getInstance(), bluffed, played);
-        // TODO
-        // Post the Card played variable to host player along side with the bluffed boolean.
-        // Read the new data from the host player.
-        // Update the view accordingly. (call GameLogic.getInstance().readLogicFromState. That method also needs to be completed.)
-        // While updating the view, removing a random Rectangle from the opponent's side (i.e, upperAnchorPane) is enough as
-        // this player cannot see the opponents' cards anyway.
-        Task<Boolean> newGameTask = new Task<>() {
-            @Override
-            public Boolean call() {
-                GameController._instance.getSocketClient().writeSocket(state);
-                LOGGER.info("Posted: " + state.getCardThrown());
-                return true;
-            }
-        };
-        newGameTask.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED,
-                (EventHandler<WorkerStateEvent>) t -> {
-                    LOGGER.info("Socket write success");
-                    GameState newState = (GameState) GameController._instance.getSocketClient().readSocket();
-                    LOGGER.warn("Read state");
-                    System.out.println(newState.getPlayerCards());
-                    GameLogic.getInstance().readLogicFromState(newState);
-                    GameLogic.getInstance().startWaitForHostTask();
-                });
-        new Thread(newGameTask).start();
+        if (GameLogic.getInstance().getCurrentPlayer() == PlayerEnum.TWO) {
+            GameLogic.getInstance().setCurrentPlayer(PlayerEnum.ONE);
+            boolean bluffed = event.getButton() == MouseButton.SECONDARY;
+            Rectangle pressed = (Rectangle) ((Node) event.getTarget());
+            Card played = this.cardMappings.get(pressed);
+            this.cardMappings.remove(pressed);
+            GameLogic.getInstance().getPlayerCards().get(PlayerEnum.ONE).remove(played);
+            this.bottomAnchorPane.getChildren().remove(pressed);
+            // send this via socket,
+            // read a new game state,
+            // then call GameLogic.getInstance().readLogicFromState with new read state
+            GameState state = new GameState(GameLogic.getInstance(), bluffed, played);
+            // TODO
+            // Post the Card played variable to host player along side with the bluffed boolean.
+            // Read the new data from the host player.
+            // Update the view accordingly. (call GameLogic.getInstance().readLogicFromState. That method also needs to be completed.)
+            // While updating the view, removing a random Rectangle from the opponent's side (i.e, upperAnchorPane) is enough as
+            // this player cannot see the opponents' cards anyway.
+            Task<Boolean> newGameTask = new Task<>() {
+                @Override
+                public Boolean call() {
+                    GameController._instance.getSocketClient().writeSocket(state);
+                    LOGGER.info("Posted: " + state.getCardThrown());
+                    return true;
+                }
+            };
+            newGameTask.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED,
+                    (EventHandler<WorkerStateEvent>) t -> {
+                        LOGGER.info("Socket write success");
+                        GameState newState = (GameState) GameController._instance.getSocketClient().readSocket();
+                        LOGGER.info("Read state");
+                        System.out.println(newState.getPlayerCards());
+                        GameLogic.getInstance().readLogicFromState(newState);
+                        GameLogic.getInstance().startWaitForHostTask();
+                    });
+            new Thread(newGameTask).start();
+        }
+
     }
 
 
@@ -1045,7 +1049,7 @@ public class GameController implements Initializable {
         this.serveHand();
         if (this.round == MULTIPLAYER_LEVEL && this.isHost) {
             GameState newState = new GameState(GameLogic.getInstance(), this.hostBluffed, null);
-            LOGGER.warn("Writing state");
+            LOGGER.info("Writing state");
             System.out.println(newState.getPlayerCards());
             this.socketServer.writeSocket(newState);
         }

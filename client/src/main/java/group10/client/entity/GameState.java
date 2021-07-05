@@ -5,10 +5,7 @@ import group10.client.logic.GameLogic;
 import group10.client.model.Card;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Stack;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -93,8 +90,14 @@ public class GameState implements Serializable {
         this.scores = new HashMap<>();
         scores.put(PlayerEnum.ONE, gameLogicVariables.getScores().get(PlayerEnum.TWO));
         scores.put(PlayerEnum.TWO, gameLogicVariables.getScores().get(PlayerEnum.ONE));
-        this.playerCards = this.swapMapKeys(gameLogicVariables.getPlayerCards());
-        this.currentPlayer = gameLogicVariables.getCurrentPlayer() == PlayerEnum.ONE ? PlayerEnum.TWO : PlayerEnum.ONE;
+        this.playerCards = new HashMap<>();
+        Map<PlayerEnum, List<Card>> playerCards = this.swapMapKeys(gameLogicVariables.getPlayerCards());
+        List<Card> p1 = new ArrayList(playerCards.get(PlayerEnum.ONE));
+        List<Card> p2 = new ArrayList(playerCards.get(PlayerEnum.TWO));
+
+        this.playerCards.put(PlayerEnum.ONE, p1);
+        this.playerCards.put(PlayerEnum.TWO, p2);
+        this.currentPlayer = gameLogicVariables.getCurrentPlayer();
         this.playerCardCounts = this.swapMapKeys(gameLogicVariables.getPlayerCardCounts());
         this.hostPlayerName = gameLogicVariables.getPlayerGameEntity().getPlayer().getUsername();
         this.bluffed = bluffed;
