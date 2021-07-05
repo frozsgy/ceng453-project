@@ -50,6 +50,11 @@ public class GameState implements Serializable {
     private Card cardThrown;
 
     /**
+     * Boolean to show if game is over or not.
+     */
+    private boolean isGameOver;
+
+    /**
      * Swaps players of the given map. Used while fetching and syncing states.
      *
      * @param map Map to swap keys of
@@ -77,8 +82,9 @@ public class GameState implements Serializable {
      * @param gameLogicVariables game logic variables
      * @param bluffed            flag of if the user has bluffed or not
      * @param cardThrown         thrown card by player
+     * @param isGameOver         denotes if game is ended or not.
      */
-    public GameState(GameLogic gameLogicVariables, boolean bluffed, Card cardThrown) {
+    public GameState(GameLogic gameLogicVariables, boolean bluffed, Card cardThrown, boolean isGameOver) {
         this.middle = new Stack<>();
         Stack<Card> middle = gameLogicVariables.getMiddle();
         this.middle.addAll(middle);
@@ -97,6 +103,7 @@ public class GameState implements Serializable {
         this.hostPlayerName = gameLogicVariables.getPlayerGameEntity().getPlayer().getUsername();
         this.bluffed = bluffed;
         this.cardThrown = cardThrown;
+        this.isGameOver = isGameOver;
     }
 
     /**
@@ -241,5 +248,13 @@ public class GameState implements Serializable {
      */
     public void setBluffed(boolean bluffed) {
         this.bluffed = bluffed;
+    }
+
+    /**
+     * Gets the isGameEnded
+     * @return Boolean that denotes if the game has ended or not.
+     */
+    public boolean isGameOver() {
+        return isGameOver;
     }
 }
