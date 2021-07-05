@@ -872,6 +872,8 @@ public class GameController implements Initializable {
                 (EventHandler<WorkerStateEvent>) t -> {
                     LOGGER.info("Socket write success");
                     GameState newState = (GameState) GameController._instance.getSocketClient().readSocket();
+                    System.out.println("Read state");
+                    System.out.println(newState.getMiddle());
                     GameLogic.getInstance().readLogicFromState(newState);
                 });
         new Thread(newGameTask).start();
@@ -1008,6 +1010,8 @@ public class GameController implements Initializable {
         this.serveHand();
         if (this.round == MULTIPLAYER_LEVEL && this.isHost) {
             GameState newState = new GameState(GameLogic.getInstance(), this.hostBluffed, null);
+            System.out.println("Writing state");
+            System.out.println(newState.getMiddle());
             this.socketServer.writeSocket(newState);
         }
     }
