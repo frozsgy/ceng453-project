@@ -12,7 +12,7 @@ This folder contains the frontend client application for the CENG453 Project, Pi
 ## Build and Run
 
 1. Use `mvn package` to package the project into a jar file. 
-2. Run the created jar file in the target folder as follows: `java -jar client-0.0.1-SNAPSHOT.jar`
+2. Run the created jar file in the target folder as follows: `java -jar client10.jar`
 3. Run the backend server according to the instructions in the server folder.
 4. The application should be up and running.
 
