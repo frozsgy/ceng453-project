@@ -106,4 +106,20 @@ public class GameState implements Serializable {
     public void setPlayerCardCounts(Map<PlayerEnum, Integer> playerCardCounts) {
         this.playerCardCounts = playerCardCounts;
     }
+
+    public Card getCardThrown() {
+        return cardThrown;
+    }
+
+    public void setCardThrown(Card cardThrown) {
+        this.cardThrown = cardThrown;
+    }
+
+    public boolean isBluffed() {
+        return bluffed;
+    }
+
+    public void setBluffed(boolean bluffed) {
+        this.bluffed = bluffed;
+    }
 }

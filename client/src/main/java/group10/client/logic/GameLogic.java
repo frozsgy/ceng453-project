@@ -148,8 +148,10 @@ public class GameLogic {
             strategy = new LevelOneStrategy(this.playerCards, this.middle);
         } else if (level == 2) {
             strategy = new LevelTwoStrategy(this.playerCards, this.middle);
-        } else {
+        } else if (level == 3){
             strategy = new LevelThreeStrategy(this.playerCards, this.middle);
+        } else {
+            strategy = new LevelFourStrategy(this.playerCards, this.middle);
         }
     }
 

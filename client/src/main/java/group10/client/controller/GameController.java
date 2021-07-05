@@ -171,6 +171,7 @@ public class GameController implements Initializable {
 
     private boolean isHost;
 
+
     /**
      * Initializes the scene
      *
@@ -1013,5 +1014,21 @@ public class GameController implements Initializable {
             GameLogic.getInstance().sendScores(logArea);
         }
         this.navigateToHome(e);
+    }
+
+    public SocketServer getSocketServer() {
+        return socketServer;
+    }
+
+    public void setSocketServer(SocketServer socketServer) {
+        this.socketServer = socketServer;
+    }
+
+    public SocketClient getSocketClient() {
+        return socketClient;
+    }
+
+    public void setSocketClient(SocketClient socketClient) {
+        this.socketClient = socketClient;
     }
 }
