@@ -349,5 +349,15 @@ public class GameLogicTests {
         assertTrue(aiStrategyThree instanceof LevelThreeStrategy);
     }
 
+    @Test
+    @DisplayName("Multiplayer Strategy Test")
+    @Order(18)
+    void multiStrategyTest() {
+        this.resetGameLogic();
+        GameLogic.getInstance().setAiStrategy(4);
+        AiStrategy aiStrategy = GameLogic.getInstance().getAiStrategy();
+        assertTrue(aiStrategy instanceof LevelFourStrategy);
+    }
+
 
 }
