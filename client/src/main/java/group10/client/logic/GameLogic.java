@@ -203,6 +203,7 @@ public class GameLogic {
                 });
         new Thread(idleTask).start();
     }
+
     /**
      * Sets ai strategy for strategy pattern
      *

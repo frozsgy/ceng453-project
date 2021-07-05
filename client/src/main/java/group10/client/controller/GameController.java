@@ -711,7 +711,7 @@ public class GameController implements Initializable {
         if (GameLogic.getInstance().getScores().get(PlayerEnum.ONE) > GameLogic.getInstance().getScores().get(PlayerEnum.TWO)) {
             msg += "You won!";
         } else if (GameLogic.getInstance().getScores().get(PlayerEnum.ONE) < GameLogic.getInstance().getScores().get(PlayerEnum.TWO)) {
-            msg += GameLogic.getInstance().getCurrentState().getHostPlayerName() +" won! You lost!";
+            msg += GameLogic.getInstance().getCurrentState().getHostPlayerName() + " won! You lost!";
         } else {
             msg += "Noone won! It is a draw!";
         }
