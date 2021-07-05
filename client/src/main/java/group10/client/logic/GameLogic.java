@@ -11,6 +11,9 @@ import group10.client.enums.Suits;
 import group10.client.model.Card;
 import group10.client.service.HTTPService;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.TextArea;
 import javafx.scene.shape.Rectangle;
 import org.slf4j.Logger;
@@ -170,7 +173,20 @@ public class GameLogic {
 
         });
     }
-
+    public void startWaitForHostTask() {
+        Task<Boolean> idleTask = new Task<>() {
+            @Override
+            public Boolean call() {
+                GameLogic.getInstance().waitForHost();
+                return  true;
+            }
+        };
+        idleTask.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED,
+                (EventHandler<WorkerStateEvent>) t -> {
+                    LOGGER.info("read the state");
+                });
+        new Thread(idleTask).start();
+    }
     /**
      * Sets ai strategy for strategy pattern
      *

@@ -671,7 +671,7 @@ public class GameController implements Initializable {
             if (initialState != null) {
                 GameLogic.getInstance().readLogicFromState(initialState);
             }
-            startWaitForHostTask();
+            GameLogic.getInstance().startWaitForHostTask();
         });
 
     }
@@ -904,25 +904,12 @@ public class GameController implements Initializable {
                     System.out.println("Read state");
                     System.out.println(newState.getMiddle());
                     GameLogic.getInstance().readLogicFromState(newState);
-                    startWaitForHostTask();
+                    GameLogic.getInstance().startWaitForHostTask();
                 });
         new Thread(newGameTask).start();
     }
 
-    public void startWaitForHostTask() {
-        Task<Boolean> idleTask = new Task<>() {
-            @Override
-            public Boolean call() {
-                GameLogic.getInstance().waitForHost();
-                return  true;
-            }
-        };
-        idleTask.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED,
-                (EventHandler<WorkerStateEvent>) t -> {
-                    LOGGER.info("read the state");
-                });
-        new Thread(idleTask).start();
-    }
+
     /**
      * Method that allows the player to bluff
      *
