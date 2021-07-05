@@ -9,7 +9,6 @@ import group10.client.enums.Suits;
 import group10.client.logic.GameLogic;
 import group10.client.model.Card;
 import group10.client.model.OpponentInfo;
-import group10.client.service.HTTPService;
 import group10.client.service.SocketClient;
 import group10.client.service.SocketServer;
 import group10.client.state.SessionStorage;
@@ -484,13 +483,14 @@ public class GameController implements Initializable {
     /**
      * Sets up the next level
      * TODO check this
+     *
      * @param continued flag to check if the deal is happening in the same level or not
      */
     private void setUpNextLevel(boolean continued) {
         this.challengeButton.setVisible(false);
         int playerScore = GameLogic.getInstance().getScores().get(PlayerEnum.ONE);
         int enemyScore = GameLogic.getInstance().getScores().get(PlayerEnum.TWO);
-        if (round == MULIPLAYER_LEVEL && !thirdLevelScorePosted) {
+        if (round == MULTIPLAYER_LEVEL && !thirdLevelScorePosted) {
             if (playerScore >= MAX_SCORE || enemyScore >= MAX_SCORE) {
                 thirdLevelScorePosted = true;
                 GameLogic.getInstance().sendScores(logArea);
@@ -608,7 +608,7 @@ public class GameController implements Initializable {
             String username = gameState.getHostPlayerName();
             txt.setText("Your opponent is: " + username + "\nGame will start in 3 seconds.");
         }
-        try{
+        try {
             Thread.sleep(MULTIPLAYER_IDLE_MS);
         } catch (InterruptedException e) {
             LOGGER.info("3s wait failed.");
@@ -626,7 +626,7 @@ public class GameController implements Initializable {
         LOGGER.info("Host socket accepted the connection");
         txt.setText("Your opponent is: " + found.getUserName() + "\nGame will start in 3 seconds.");
         this.socketClient.writeSocket(new GameState(GameLogic.getInstance(), false, null));
-        try{
+        try {
             Thread.sleep(MULTIPLAYER_IDLE_MS);
         } catch (InterruptedException e) {
             LOGGER.info("3s wait failed.");
@@ -815,10 +815,9 @@ public class GameController implements Initializable {
      */
     @FXML
     protected void mouseClickHandler(MouseEvent event) {
-        if (this.round == MULIPLAYER_LEVEL && !this.isHost) {
+        if (this.round == MULTIPLAYER_LEVEL && !this.isHost) {
             this.playAsNonHostPlayer(event);
-        }
-        else if (event.getButton() == MouseButton.PRIMARY) {
+        } else if (event.getButton() == MouseButton.PRIMARY) {
             this.throwCard(event);
         } else if (event.getButton() == MouseButton.SECONDARY) {
             this.doBluff(event);
@@ -841,6 +840,7 @@ public class GameController implements Initializable {
         // this player cannot see the opponents' cards anyway.
 
     }
+
     /**
      * Method that allows the player to bluff
      *
@@ -930,24 +930,29 @@ public class GameController implements Initializable {
      * @param event mouse event
      */
     private void throwCard(MouseEvent event) {
-        try {
-            this.otherPlayerThread = new Thread(new OpponentController(false));
-            gameSynchronizer.lock();
-            if (this.AiBluffed) {
-                this.AiBluffed = false;
-                this.rejectBluff();
-                logToScreen("You rejected the bluff.", this.logArea, LOGGER);
+        if (this.round == MULTIPLAYER_LEVEL) {
+            System.out.println("multiplayer throw card");
+        } else {
+            try {
+                this.otherPlayerThread = new Thread(new OpponentController(false));
+                gameSynchronizer.lock();
+                if (this.AiBluffed) {
+                    this.AiBluffed = false;
+                    this.rejectBluff();
+                    logToScreen("You rejected the bluff.", this.logArea, LOGGER);
+                }
+                Rectangle pressed = (Rectangle) ((Node) event.getTarget());
+                this.controlPlayer(pressed);
+                GameLogic.getInstance().setCurrentPlayer(PlayerEnum.TWO);
+                this.toggleClickable(false);
+                this.setMidCount();
+                this.otherPlayerThread.start();
+                gameSynchronizer.unlock();
+            } catch (IllegalArgumentException ex) {
+                logToScreen("Already played", this.logArea, LOGGER);
             }
-            Rectangle pressed = (Rectangle) ((Node) event.getTarget());
-            this.controlPlayer(pressed);
-            GameLogic.getInstance().setCurrentPlayer(PlayerEnum.TWO);
-            this.toggleClickable(false);
-            this.setMidCount();
-            this.otherPlayerThread.start();
-            gameSynchronizer.unlock();
-        } catch (IllegalArgumentException ex) {
-            logToScreen("Already played", this.logArea, LOGGER);
         }
+
     }
 
     /**

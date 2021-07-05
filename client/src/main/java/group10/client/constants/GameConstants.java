@@ -16,7 +16,7 @@ public class GameConstants {
      */
     public static final int LAST_ROUND = 3;
 
-    public static final int MULIPLAYER_LEVEL = LAST_ROUND + 1;
+    public static final int MULTIPLAYER_LEVEL = LAST_ROUND + 1;
     /**
      * Defines the max score that needs to be performed before
      * passing to next level. Note that scoring a score more than
