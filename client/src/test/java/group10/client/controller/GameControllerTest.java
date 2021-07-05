@@ -1,6 +1,7 @@
 package group10.client.controller;
 
 import group10.client.constants.UiConstants;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -211,5 +212,18 @@ class GameControllerTest {
             }
             break;
         }
+    }
+
+    @Test
+    @DisplayName("Game Over Screen")
+    @Order(16)
+    void gameOverScreen(FxRobot robot) {
+        GameController._instance.gameOverScreen();
+        AnchorPane s = robot.lookup("#midStack").queryAs(AnchorPane.class);
+        assertEquals(s.getChildren().size(), 0);
+        s = robot.lookup("#bottomAnchorPane").queryAs(AnchorPane.class);
+        assertEquals(s.getChildren().size(), 0);
+        s = robot.lookup("#upperAnchorPane").queryAs(AnchorPane.class);
+        assertEquals(s.getChildren().size(), 0);
     }
 }

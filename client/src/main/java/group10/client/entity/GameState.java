@@ -66,7 +66,7 @@ public class GameState implements Serializable {
      * @param <T> Class that is stored in the map
      * @return Swapped map
      */
-    private <T> Map<PlayerEnum, T> swapMapKeys(Map<PlayerEnum, T> map) {
+    public <T> Map<PlayerEnum, T> swapMapKeys(Map<PlayerEnum, T> map) {
         return map.entrySet().stream().collect(Collectors.toMap(
                 key -> {
                     if (key.getKey() == PlayerEnum.ONE) {
