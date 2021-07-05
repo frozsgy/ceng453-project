@@ -457,7 +457,7 @@ public class GameController implements Initializable {
         this.challengeButton.setVisible(false);
         int playerScore = GameLogic.getInstance().getScores().get(PlayerEnum.ONE);
         int enemyScore = GameLogic.getInstance().getScores().get(PlayerEnum.TWO);
-        if (round == LAST_ROUND + 1 && !thirdLevelScorePosted) {
+        if (round == MULIPLAYER_LEVEL && !thirdLevelScorePosted) {
             if (playerScore >= MAX_SCORE || enemyScore >= MAX_SCORE) {
                 thirdLevelScorePosted = true;
                 GameLogic.getInstance().sendScores(logArea);
