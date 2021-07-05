@@ -52,7 +52,7 @@ public class OpponentController implements Runnable {
      * Handles opponent actions
      */
     public void play() {
-        
+
         try {
             Thread.sleep(ThreadLocalRandom.current().nextInt(125, 870));
         } catch (InterruptedException e) {
