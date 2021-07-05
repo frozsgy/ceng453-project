@@ -20,6 +20,8 @@ public class GameState implements Serializable {
     private PlayerEnum currentPlayer;
     private Map<PlayerEnum, Integer> playerCardCounts;
     private String hostPlayerName;
+    private boolean bluffed;
+    private Card cardThrown;
 
     private <T> Map<PlayerEnum,T> swapMapKeys(Map<PlayerEnum, T> map) {
         return map.entrySet().stream().collect(Collectors.toMap(
@@ -35,7 +37,7 @@ public class GameState implements Serializable {
 
     // TODO
     // since we will pass this data between clients, we may also need to hold if the posting player had bluffed
-    public GameState(GameLogic gameLogicVariables) {
+    public GameState(GameLogic gameLogicVariables, boolean bluffed, Card cardThrown) {
         this.middle = gameLogicVariables.getMiddle();
         this.lastWinner = gameLogicVariables.getLastWinner();
         this.scores = new HashMap<>();
@@ -45,6 +47,8 @@ public class GameState implements Serializable {
         this.currentPlayer = gameLogicVariables.getCurrentPlayer() == PlayerEnum.ONE ? PlayerEnum.TWO : PlayerEnum.ONE;
         this.playerCardCounts = this.swapMapKeys(gameLogicVariables.getPlayerCardCounts());
         this.hostPlayerName =  gameLogicVariables.getPlayerGameEntity().getPlayer().getUsername();
+        this.bluffed = bluffed;
+        this.cardThrown = cardThrown;
     }
 
     public Stack<Card> getMiddle() {

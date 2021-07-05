@@ -219,6 +219,8 @@ public class GameController implements Initializable {
             }
             Rectangle card = createCardRectangle(isHidden, drawn);
             if (accessCards) {
+                this.cardMappings.clear();
+                this.cardMappings.put(card, drawn);
                 card.setOnMouseClicked(this::mouseClickHandler);
             }
             cardList.add(card);
@@ -613,7 +615,7 @@ public class GameController implements Initializable {
         }
         Platform.runLater(() -> {
             this.setUpNextLevel(false);
-            GameState initialState = new GameState(GameLogic.getInstance());
+            GameState initialState = new GameState(GameLogic.getInstance(), false, null);
             this.socketServer.writeSocket(initialState);
         });
     }
@@ -623,7 +625,7 @@ public class GameController implements Initializable {
         this.socketClient = new SocketClient(found.getIp(), found.getPort());
         LOGGER.info("Host socket accepted the connection");
         txt.setText("Your opponent is: " + found.getUserName() + "\nGame will start in 3 seconds.");
-        this.socketClient.writeSocket(new GameState(GameLogic.getInstance()));
+        this.socketClient.writeSocket(new GameState(GameLogic.getInstance(), false, null));
         try{
             Thread.sleep(MULTIPLAYER_IDLE_MS);
         } catch (InterruptedException e) {
@@ -814,7 +816,7 @@ public class GameController implements Initializable {
     @FXML
     protected void mouseClickHandler(MouseEvent event) {
         if (this.round == MULIPLAYER_LEVEL && !this.isHost) {
-            this.postCard(event.getButton() == MouseButton.SECONDARY);
+            this.playAsNonHostPlayer(event);
         }
         else if (event.getButton() == MouseButton.PRIMARY) {
             this.throwCard(event);
@@ -823,11 +825,21 @@ public class GameController implements Initializable {
         }
     }
 
-    private void postCard(boolean bluffed) {
+    private void playAsNonHostPlayer(MouseEvent event) {
+        boolean bluffed = event.getButton() == MouseButton.SECONDARY;
+        Rectangle pressed = (Rectangle) ((Node) event.getTarget());
+        Card played = this.cardMappings.get(pressed);
+        // send this via socket,
+        // read a new game state,
+        // then call GameLogic.getInstance().readLogicFromState with new read state
+        GameState state = new GameState(GameLogic.getInstance(), bluffed, played);
         // TODO
-        // Post the played card to server.
-        // Read the current state.
-        // Update the view accordingly.
+        // Post the Card played variable to host player along side with the bluffed boolean.
+        // Read the new data from the host player.
+        // Update the view accordingly. (call GameLogic.getInstance().readLogicFromState. That method also needs to be completed.)
+        // While updating the view, removing a random Rectangle from the opponent's side (i.e, upperAnchorPane) is enough as
+        // this player cannot see the opponents' cards anyway.
+
     }
     /**
      * Method that allows the player to bluff
