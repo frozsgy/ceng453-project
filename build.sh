@@ -1,14 +1,14 @@
 #!/bin/bash
 rm -fr executables
 mkdir executables
-echo "Creating group10.war..."
+echo "Creating server10.war..."
 cd server
 mvn clean install package
 cd target
-cp group10.war ../../executables/
-echo "Creating group10.jar..."
+cp server10.war ../../executables/
+echo "Creating client10.jar..."
 cd ../../client
 mvn clean install package
 cd target
-cp group10.jar ../../executables/
+cp client10.jar ../../executables/
 

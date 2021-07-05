@@ -91,7 +91,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
-		<finalName>group10</finalName>
+		<finalName>client10</finalName>
 	</build>
 
 </project>

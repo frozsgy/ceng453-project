@@ -122,7 +122,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
-		<finalName>group10</finalName>
+		<finalName>server10</finalName>
 	</build>
 
 </project>
