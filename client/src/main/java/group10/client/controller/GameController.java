@@ -1049,6 +1049,12 @@ public class GameController implements Initializable {
         for (int i = this.round; i <= LAST_ROUND; i++) {
             GameLogic.getInstance().sendScores(logArea);
         }
+        if (socketServer != null) {
+            socketServer.closeSocket();
+        }
+        if (socketClient != null) {
+            socketClient.closeSocket();
+        }
         this.navigateToHome(e);
     }
 
