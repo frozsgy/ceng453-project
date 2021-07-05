@@ -25,7 +25,7 @@ public class GameConstants {
      * this value is possible. If this is the case, the game will continue
      * until all cards end.
      */
-    public static final int MAX_SCORE = 11; //TODO make this 151
+    public static final int MAX_SCORE = 151;
     /**
      * Defines how many points a pisti worth.
      */

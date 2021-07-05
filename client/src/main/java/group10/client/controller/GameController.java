@@ -909,7 +909,6 @@ public class GameController implements Initializable {
             // read a new game state,
             // then call GameLogic.getInstance().readLogicFromState with new read state
             GameState state = new GameState(GameLogic.getInstance(), bluffed, played, isGameEnded);
-            // TODO
             // Post the Card played variable to host player along side with the bluffed boolean.
             // Read the new data from the host player.
             // Update the view accordingly. (call GameLogic.getInstance().readLogicFromState. That method also needs to be completed.)
