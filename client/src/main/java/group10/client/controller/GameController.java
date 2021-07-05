@@ -768,7 +768,12 @@ public class GameController implements Initializable {
      */
     private boolean controlOpponent() {
         Pair<Rectangle, Card> cardMap = GameLogic.getInstance().getAiStrategy().playAsOpponent(cardMappings);
-        boolean bluffed = GameLogic.getInstance().getAiStrategy().getHasBluffed();
+        boolean bluffed = false;
+        if (this.round == MULTIPLAYER_LEVEL) {
+            bluffed = GameLogic.getInstance().getCurrentState().isBluffed();
+        } else {
+            bluffed = GameLogic.getInstance().getAiStrategy().getHasBluffed();
+        }
         GameController._instance.getChallengeButton().setVisible(bluffed);
         Rectangle removed = cardMap.getKey();
         Card opponentCard = cardMap.getValue();
@@ -931,29 +936,24 @@ public class GameController implements Initializable {
      * @param event mouse event
      */
     private void throwCard(MouseEvent event) {
-        if (this.round == MULTIPLAYER_LEVEL) {
-            System.out.println("multiplayer throw card");
-        } else {
-            try {
-                this.otherPlayerThread = new Thread(new OpponentController(false));
-                gameSynchronizer.lock();
-                if (this.AiBluffed) {
-                    this.AiBluffed = false;
-                    this.rejectBluff();
-                    logToScreen("You rejected the bluff.", this.logArea, LOGGER);
-                }
-                Rectangle pressed = (Rectangle) ((Node) event.getTarget());
-                this.controlPlayer(pressed);
-                GameLogic.getInstance().setCurrentPlayer(PlayerEnum.TWO);
-                this.toggleClickable(false);
-                this.setMidCount();
-                this.otherPlayerThread.start();
-                gameSynchronizer.unlock();
-            } catch (IllegalArgumentException ex) {
-                logToScreen("Already played", this.logArea, LOGGER);
+        try {
+            this.otherPlayerThread = new Thread(new OpponentController(false));
+            gameSynchronizer.lock();
+            if (this.AiBluffed) {
+                this.AiBluffed = false;
+                this.rejectBluff();
+                logToScreen("You rejected the bluff.", this.logArea, LOGGER);
             }
+            Rectangle pressed = (Rectangle) ((Node) event.getTarget());
+            this.controlPlayer(pressed);
+            GameLogic.getInstance().setCurrentPlayer(PlayerEnum.TWO);
+            this.toggleClickable(false);
+            this.setMidCount();
+            this.otherPlayerThread.start();
+            gameSynchronizer.unlock();
+        } catch (IllegalArgumentException ex) {
+            logToScreen("Already played", this.logArea, LOGGER);
         }
-
     }
 
     /**

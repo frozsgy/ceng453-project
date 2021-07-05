@@ -72,6 +72,16 @@ public class GameLogic {
 
     private boolean isFirstTime;
 
+    private GameState currentState;
+
+    public GameState getCurrentState() {
+        return currentState;
+    }
+
+    public void setCurrentState(GameState currentState) {
+        this.currentState = currentState;
+    }
+
     /**
      * Creates a new instance if it does not exist and assigns it to instance field
      *
