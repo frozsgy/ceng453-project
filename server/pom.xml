@@ -13,6 +13,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>server</name>
 	<description>Server Project for CENG453</description>
+	<packaging>war</packaging>
 	<properties>
 		<java.version>16</java.version>
 	</properties>
@@ -121,6 +122,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
+		<finalName>group10</finalName>
 	</build>
 
 </project>
