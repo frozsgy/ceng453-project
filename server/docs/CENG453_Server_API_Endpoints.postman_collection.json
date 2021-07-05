@@ -14,12 +14,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/user",
+							"raw": "http://localhost:8083/api/user",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8083",
 							"path": [
 								"api",
 								"user"
@@ -47,12 +47,12 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/user/register",
+							"raw": "http://localhost:8083/api/user/register",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8083",
 							"path": [
 								"api",
 								"user",
@@ -81,12 +81,12 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/user/login",
+							"raw": "http://localhost:8083/api/user/login",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8083",
 							"path": [
 								"api",
 								"user",
@@ -115,12 +115,12 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/user/requestPwCode",
+							"raw": "http://localhost:8083/api/user/requestPwCode",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8083",
 							"path": [
 								"api",
 								"user",
@@ -156,12 +156,12 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/user/updatePassword",
+							"raw": "http://localhost:8083/api/user/updatePassword",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8083",
 							"path": [
 								"api",
 								"user",
@@ -204,12 +204,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/game/new",
+							"raw": "http://localhost:8083/api/game/new",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8083",
 							"path": [
 								"api",
 								"game",
@@ -235,12 +235,12 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/game/next",
+							"raw": "http://localhost:8083/api/game/next",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8083",
 							"path": [
 								"api",
 								"game",
@@ -252,39 +252,17 @@
 					"response": []
 				},
 				{
-					"name": "Is Matched",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/api/game/new",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"game",
-								"new"
-							]
-						},
-						"description": "This endpoint will be implemented for the concurrency level to allow matching different users at level 4."
-					},
-					"response": []
-				},
-				{
 					"name": "Get Scoreboard",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/game/scoreboard/30",
+							"raw": "http://localhost:8083/api/game/scoreboard/30",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8083",
 							"path": [
 								"api",
 								"game",
@@ -302,12 +280,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/game/scoreboard/game/14",
+							"raw": "http://localhost:8083/api/game/scoreboard/game/14",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8083",
 							"path": [
 								"api",
 								"game",
@@ -317,6 +295,81 @@
 							]
 						},
 						"description": "Returns the level-by-level scoreboard of a specific game."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Opponent",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiIzIiwic3ViIjoidGVzdDEiLCJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNjI1MjU0NjI1LCJleHAiOjE2MjUyNTUyMjV9.FLC6H8CE5wowe8dhV6QNvC1am8_LdGnThDYpYgBHO7sJwpYtFgFKlENOfMTDlOAw1ZvxoHh9lwkoKB3CS-J6rQ",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ip\" : \"localhost\",\n    \"port\": \"5858\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8083/api/game/match",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"api",
+								"game",
+								"match"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Leave Multiplayer Game",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiIzIiwic3ViIjoidGVzdDEiLCJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNjI1MjU0NjI1LCJleHAiOjE2MjUyNTUyMjV9.FLC6H8CE5wowe8dhV6QNvC1am8_LdGnThDYpYgBHO7sJwpYtFgFKlENOfMTDlOAw1ZvxoHh9lwkoKB3CS-J6rQ",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ip\" : \"localhost\",\n    \"port\": \"5858\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8083/api/game/match/dequeue",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"api",
+								"game",
+								"match",
+								"dequeue"
+							]
+						}
 					},
 					"response": []
 				}
@@ -349,7 +402,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "PLACEHOLDER_TOKEN",
+				"value": "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiIzIiwic3ViIjoidGVzdDEiLCJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNjI1NDk2NDI0LCJleHAiOjE2MjU0OTcwMjR9.W5RsB74GTm6qrrfpjf9XN1KoV6WYXz9VbsN2F7Zx3t4QrPcstYciMX1QSWT3kr3hbOSEYLjg2smu7Q5I4p-eXQ",
 				"type": "string"
 			}
 		]
