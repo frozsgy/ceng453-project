@@ -184,6 +184,11 @@ public class GameController implements Initializable {
      */
     private boolean hostBluffed;
 
+    /**
+     * Boolean that shows if the game has ended or not.
+     */
+    private boolean isGameEnded;
+
 
     /**
      * Initializes the scene
@@ -205,6 +210,7 @@ public class GameController implements Initializable {
         enableAutoScroll(this.logArea);
         this.gameMainAnchor.setBackground(UIUtility.getBackground());
         centerScene(this.gameMainAnchor.getPrefWidth(), this.gameMainAnchor.getPrefHeight());
+        this.isGameEnded = false;
     }
 
     /**
@@ -691,14 +697,32 @@ public class GameController implements Initializable {
             GameLogic.getInstance().sendScores(logArea);
             this.initMultiLevel(); // this one clears scores inside.
         } else {
-            this.challengeButton.setVisible(false);
-            Text gameOver = new Text("Game Over");
-            gameOver.setFill(WHITE);
-            thirdLevelScorePosted = true; // TODO remove this?
-            logToScreen("---- Round Ended ----", logArea, LOGGER);
-            GameLogic.getInstance().sendScores(logArea);
-            this.midStack.getChildren().add(gameOver);
+            this.gameOverScreen();
         }
+    }
+
+    public void gameOverScreen() {
+        this.challengeButton.setVisible(false);
+        upperAnchorPane.getChildren().clear();
+        midStack.getChildren().clear();
+        GameLogic.getInstance().getMiddle().clear();
+        setMidCount();
+        bottomAnchorPane.getChildren().clear();
+        String msg = "Game Over.\n";
+        if (GameLogic.getInstance().getScores().get(PlayerEnum.ONE) > GameLogic.getInstance().getScores().get(PlayerEnum.TWO)) {
+            msg += "You won!";
+        } else if (GameLogic.getInstance().getScores().get(PlayerEnum.ONE) < GameLogic.getInstance().getScores().get(PlayerEnum.TWO)) {
+            msg += GameLogic.getInstance().getCurrentState().getHostPlayerName() +" won! You lost!";
+        } else {
+            msg += "Noone won! It is a draw!";
+        }
+        Text gameOver = new Text(msg);
+        isGameEnded = true;
+        gameOver.setFill(WHITE);
+        thirdLevelScorePosted = true; // TODO remove this?
+        logToScreen("---- Round Ended ----", logArea, LOGGER);
+        GameLogic.getInstance().sendScores(logArea);
+        this.midStack.getChildren().add(gameOver);
     }
 
     /**
@@ -904,9 +928,13 @@ public class GameController implements Initializable {
                         LOGGER.info("Socket write success");
                         GameState newState = (GameState) GameController._instance.getSocketClient().readSocket();
                         LOGGER.info("Read state");
-                        System.out.println(newState.getPlayerCards());
-                        GameLogic.getInstance().readLogicFromState(newState);
-                        GameLogic.getInstance().startWaitForHostTask();
+                        if (newState == null) {
+                            gameOverScreen();
+                        } else {
+                            GameLogic.getInstance().readLogicFromState(newState);
+                            GameLogic.getInstance().startWaitForHostTask();
+                        }
+
                     });
             new Thread(newGameTask).start();
         }
@@ -1048,10 +1076,14 @@ public class GameController implements Initializable {
         this.setMidCount();
         this.serveHand();
         if (this.round == MULTIPLAYER_LEVEL && this.isHost) {
-            GameState newState = new GameState(GameLogic.getInstance(), this.hostBluffed, null);
-            LOGGER.info("Writing state");
-            System.out.println(newState.getPlayerCards());
-            this.socketServer.writeSocket(newState);
+            if (isGameEnded) {
+                this.socketServer.writeSocket(null);
+            } else {
+                GameState newState = new GameState(GameLogic.getInstance(), this.hostBluffed, null);
+                LOGGER.info("Writing state");
+                System.out.println(newState.getPlayerCards());
+                this.socketServer.writeSocket(newState);
+            }
         }
     }
 

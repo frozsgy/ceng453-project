@@ -147,6 +147,7 @@ public class GameLogic {
      * @param state game state
      */
     public void readLogicFromState(GameState state) {
+        this.currentState = state;
         this.middle = state.getMiddle();
         this.lastWinner = state.getLastWinner();
         this.scores = state.getScores();
