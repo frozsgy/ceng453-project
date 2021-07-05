@@ -14,7 +14,9 @@ import java.util.Stack;
 public class LevelFourStrategy extends AiStrategy{
     @Override
     public Pair<Rectangle, Card> playAsOpponent(Map<Rectangle, Card> cardMappings) {
+
         GameState gameState = (GameState) GameController._instance.getSocketServer().readSocket();
+        GameLogic.getInstance().setCurrentState(gameState);
         Card thrown = gameState.getCardThrown();
         Rectangle r = GameLogic.getRectangleByCard(cardMappings, thrown);
         return new Pair<>(r, thrown);

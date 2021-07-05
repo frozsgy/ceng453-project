@@ -1,25 +1,32 @@
 package group10.client.controller;
 
+import com.google.gson.Gson;
 import group10.client.constants.GameConstants;
 import group10.client.constants.UiConstants;
 import group10.client.entity.GameState;
+import group10.client.entity.PlayerGame;
 import group10.client.enums.Cards;
 import group10.client.enums.PlayerEnum;
 import group10.client.enums.Suits;
 import group10.client.logic.GameLogic;
 import group10.client.model.Card;
 import group10.client.model.OpponentInfo;
+import group10.client.service.HTTPService;
 import group10.client.service.SocketClient;
 import group10.client.service.SocketServer;
 import group10.client.state.SessionStorage;
 import group10.client.utility.PropertiesLoader;
 import group10.client.utility.UIUtility;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
@@ -212,6 +219,9 @@ public class GameController implements Initializable {
             this.currentCards = new ArrayList<>();
             cardList = this.currentCards;
         }
+        if (accessCards) {
+            this.cardMappings.clear();
+        }
         for (int i = 0; i < CARD_PER_HAND; i++) {
             Card drawn = null;
             if (accessCards) {
@@ -219,7 +229,6 @@ public class GameController implements Initializable {
             }
             Rectangle card = createCardRectangle(isHidden, drawn);
             if (accessCards) {
-                this.cardMappings.clear();
                 this.cardMappings.put(card, drawn);
                 card.setOnMouseClicked(this::mouseClickHandler);
             }
@@ -770,6 +779,7 @@ public class GameController implements Initializable {
         Pair<Rectangle, Card> cardMap = GameLogic.getInstance().getAiStrategy().playAsOpponent(cardMappings);
         boolean bluffed = false;
         if (this.round == MULTIPLAYER_LEVEL) {
+            LOGGER.info("Socket read: " + cardMap.getValue());
             bluffed = GameLogic.getInstance().getCurrentState().isBluffed();
         } else {
             bluffed = GameLogic.getInstance().getAiStrategy().getHasBluffed();
@@ -844,7 +854,20 @@ public class GameController implements Initializable {
         // Update the view accordingly. (call GameLogic.getInstance().readLogicFromState. That method also needs to be completed.)
         // While updating the view, removing a random Rectangle from the opponent's side (i.e, upperAnchorPane) is enough as
         // this player cannot see the opponents' cards anyway.
-
+        Task<Boolean> newGameTask = new Task<>() {
+            @Override
+            public Boolean call() {
+                GameController._instance.getSocketClient().writeSocket(state);
+                LOGGER.info("Posted: " + state.getCardThrown());
+                return true;
+            }
+        };
+        newGameTask.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED,
+                (EventHandler<WorkerStateEvent>) t -> {
+                    LOGGER.info("Socket write success");
+//                    GameState newState = (GameState) GameController._instance.getSocketClient().readSocket();
+                });
+        new Thread(newGameTask).start();
     }
 
     /**
