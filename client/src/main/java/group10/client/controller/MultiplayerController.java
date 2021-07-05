@@ -6,6 +6,12 @@ import javafx.scene.text.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Handles socket requests through Runnable interface.
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
+ * @see Runnable
+ */
 public class MultiplayerController implements Runnable {
 
     /**
@@ -13,11 +19,30 @@ public class MultiplayerController implements Runnable {
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(MultiplayerController.class);
 
+    /**
+     * IP address of socket
+     */
     private String ip;
+    /**
+     * Port of socket
+     */
     private int port;
+    /**
+     * Text area for GUI
+     */
     private Text txt;
+    /**
+     * Opponent information
+     */
     private OpponentInfo found;
 
+    /**
+     * Constructor
+     *
+     * @param ip   ip address of socket
+     * @param port port of socket
+     * @param txt  reference of Text to GUI
+     */
     public MultiplayerController(String ip, int port, Text txt) {
         this.ip = ip;
         this.port = port;
@@ -25,12 +50,18 @@ public class MultiplayerController implements Runnable {
         this.found = HTTPService.getInstance().getOpponent(new OpponentInfo(ip, port));
     }
 
+    /**
+     * Thread runner method
+     */
     @Override
     public void run() {
         this.connect();
 
     }
 
+    /**
+     * Method that connects to the socket
+     */
     private void connect() {
         if (this.found != null) {
             // found. connect to socket.

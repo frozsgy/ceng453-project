@@ -11,19 +11,59 @@ import java.util.Map;
 import java.util.Stack;
 import java.util.stream.Collectors;
 
+/**
+ * Class that is used to transfer Game State between players
+ *
+ * @author Alperen Caykus, Mustafa Ozan Alpay
+ * @see Serializable
+ */
 public class GameState implements Serializable {
 
+    /**
+     * Stack of cards in the middle stack
+     */
     private Stack<Card> middle;
+    /**
+     * Last winner of the game
+     */
     private PlayerEnum lastWinner;
+    /**
+     * Map of players and scores
+     */
     private Map<PlayerEnum, Integer> scores;
+    /**
+     * Map of players and list of cards
+     */
     private Map<PlayerEnum, List<Card>> playerCards;
+    /**
+     * Current player
+     */
     private PlayerEnum currentPlayer;
+    /**
+     * Map of player card counts
+     */
     private Map<PlayerEnum, Integer> playerCardCounts;
+    /**
+     * Host player name
+     */
     private String hostPlayerName;
+    /**
+     * Flag to keep bluffs
+     */
     private boolean bluffed;
+    /**
+     * Thrown card by player
+     */
     private Card cardThrown;
 
-    private <T> Map<PlayerEnum,T> swapMapKeys(Map<PlayerEnum, T> map) {
+    /**
+     * Swaps players of the given map. Used while fetching and syncing states.
+     *
+     * @param map Map to swap keys of
+     * @param <T> Class that is stored in the map
+     * @return Swapped map
+     */
+    private <T> Map<PlayerEnum, T> swapMapKeys(Map<PlayerEnum, T> map) {
         return map.entrySet().stream().collect(Collectors.toMap(
                 key -> {
                     if (key.getKey() == PlayerEnum.ONE) {
@@ -37,6 +77,14 @@ public class GameState implements Serializable {
 
     // TODO
     // since we will pass this data between clients, we may also need to hold if the posting player had bluffed
+
+    /**
+     * Constructor
+     *
+     * @param gameLogicVariables game logic variables
+     * @param bluffed            flag of if the user has bluffed or not
+     * @param cardThrown         thrown card by player
+     */
     public GameState(GameLogic gameLogicVariables, boolean bluffed, Card cardThrown) {
         this.middle = new Stack<>();
         Stack<Card> middle = gameLogicVariables.getMiddle();
@@ -48,79 +96,169 @@ public class GameState implements Serializable {
         this.playerCards = this.swapMapKeys(gameLogicVariables.getPlayerCards());
         this.currentPlayer = gameLogicVariables.getCurrentPlayer() == PlayerEnum.ONE ? PlayerEnum.TWO : PlayerEnum.ONE;
         this.playerCardCounts = this.swapMapKeys(gameLogicVariables.getPlayerCardCounts());
-        this.hostPlayerName =  gameLogicVariables.getPlayerGameEntity().getPlayer().getUsername();
+        this.hostPlayerName = gameLogicVariables.getPlayerGameEntity().getPlayer().getUsername();
         this.bluffed = bluffed;
         this.cardThrown = cardThrown;
     }
 
+    /**
+     * Gets middle stack.
+     *
+     * @return Stack of cards
+     */
     public Stack<Card> getMiddle() {
         return middle;
     }
 
+    /**
+     * Sets middle stack
+     *
+     * @param middle middle stack
+     */
     public void setMiddle(Stack<Card> middle) {
         this.middle = middle;
     }
 
+    /**
+     * Gets last winner
+     *
+     * @return last winner
+     */
     public PlayerEnum getLastWinner() {
         return lastWinner;
     }
 
+    /**
+     * Sets last winner
+     *
+     * @param lastWinner last winner value to be set
+     */
     public void setLastWinner(PlayerEnum lastWinner) {
         this.lastWinner = lastWinner;
     }
 
+    /**
+     * Gets scores
+     *
+     * @return map of players and scores
+     */
     public Map<PlayerEnum, Integer> getScores() {
         return scores;
     }
 
+    /**
+     * Sets scores
+     *
+     * @param scores new scores to be set
+     */
     public void setScores(Map<PlayerEnum, Integer> scores) {
         this.scores = scores;
     }
 
+    /**
+     * Gets player cards
+     *
+     * @return player cards
+     */
     public Map<PlayerEnum, List<Card>> getPlayerCards() {
         return playerCards;
     }
 
+    /**
+     * Sets player cards
+     *
+     * @param playerCards new map of player cards
+     */
     public void setPlayerCards(Map<PlayerEnum, List<Card>> playerCards) {
         this.playerCards = playerCards;
     }
 
+    /**
+     * Gets current player
+     *
+     * @return current player
+     */
     public PlayerEnum getCurrentPlayer() {
         return currentPlayer;
     }
 
+    /**
+     * Sets current player
+     *
+     * @param currentPlayer new value of current player
+     */
     public void setCurrentPlayer(PlayerEnum currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
 
+    /**
+     * Gets host player name
+     *
+     * @return host player name
+     */
     public String getHostPlayerName() {
         return hostPlayerName;
     }
 
+    /**
+     * Sets host player name
+     *
+     * @param hostPlayerName new host player name
+     */
     public void setHostPlayerName(String hostPlayerName) {
         this.hostPlayerName = hostPlayerName;
     }
 
+    /**
+     * Gets player card counts
+     *
+     * @return map of player and card counts
+     */
     public Map<PlayerEnum, Integer> getPlayerCardCounts() {
         return playerCardCounts;
     }
 
+    /**
+     * Sets player card counts
+     *
+     * @param playerCardCounts new value of player card counts
+     */
     public void setPlayerCardCounts(Map<PlayerEnum, Integer> playerCardCounts) {
         this.playerCardCounts = playerCardCounts;
     }
 
+    /**
+     * Gets thrown card
+     *
+     * @return thrown card
+     */
     public Card getCardThrown() {
         return cardThrown;
     }
 
+    /**
+     * Sets thrown card
+     *
+     * @param cardThrown new value of thrown card
+     */
     public void setCardThrown(Card cardThrown) {
         this.cardThrown = cardThrown;
     }
 
+    /**
+     * Gets bluffed
+     *
+     * @return bluffed
+     */
     public boolean isBluffed() {
         return bluffed;
     }
 
+    /**
+     * Sets bluffed
+     *
+     * @param bluffed new value of bluffed
+     */
     public void setBluffed(boolean bluffed) {
         this.bluffed = bluffed;
     }
