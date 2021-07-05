@@ -33,10 +33,6 @@ public class GameState implements Serializable {
      */
     private Map<PlayerEnum, List<Card>> playerCards;
     /**
-     * Current player
-     */
-    private PlayerEnum currentPlayer;
-    /**
      * Map of player card counts
      */
     private Map<PlayerEnum, Integer> playerCardCounts;
@@ -97,7 +93,6 @@ public class GameState implements Serializable {
 
         this.playerCards.put(PlayerEnum.ONE, p1);
         this.playerCards.put(PlayerEnum.TWO, p2);
-        this.currentPlayer = gameLogicVariables.getCurrentPlayer();
         this.playerCardCounts = this.swapMapKeys(gameLogicVariables.getPlayerCardCounts());
         this.hostPlayerName = gameLogicVariables.getPlayerGameEntity().getPlayer().getUsername();
         this.bluffed = bluffed;
@@ -174,24 +169,6 @@ public class GameState implements Serializable {
      */
     public void setPlayerCards(Map<PlayerEnum, List<Card>> playerCards) {
         this.playerCards = playerCards;
-    }
-
-    /**
-     * Gets current player
-     *
-     * @return current player
-     */
-    public PlayerEnum getCurrentPlayer() {
-        return currentPlayer;
-    }
-
-    /**
-     * Sets current player
-     *
-     * @param currentPlayer new value of current player
-     */
-    public void setCurrentPlayer(PlayerEnum currentPlayer) {
-        this.currentPlayer = currentPlayer;
     }
 
     /**

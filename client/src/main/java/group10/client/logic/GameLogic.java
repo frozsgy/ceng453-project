@@ -151,7 +151,6 @@ public class GameLogic {
         this.lastWinner = state.getLastWinner();
         this.scores = state.getScores();
         this.playerCards = state.getPlayerCards();
-//        this.currentPlayer = state.getCurrentPlayer();
         this.playerCardCounts = state.getPlayerCardCounts();
         // TODO
         // this currently syncs the initial player cards.
