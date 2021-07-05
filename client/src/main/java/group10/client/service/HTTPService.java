@@ -293,6 +293,7 @@ public class HTTPService {
      * Requests the opponent information.
      * If an opponent is found, it returns their network and player information.
      * If an opponent is not found, this player whose information provided as parameter is queued.
+     *
      * @param selfInformation This player's information to queue if an opponent is not found.
      * @return null if an opponent is not found. Opponent information otherwise.
      */
@@ -301,7 +302,20 @@ public class HTTPService {
         HttpEntity<String> entity = initEntity(true, json);
         String path = APIConstants.FIND_OPPONENT_PATH;
         ResponseEntity<OpponentInfo> response = restTemplate.exchange(path, HttpMethod.POST, entity, OpponentInfo.class);
-        System.out.println(response.getBody());
+        return response.getBody();
+    }
+
+    /**
+     * Dequeues the user from the multiplayer queue.
+     *
+     * @param selfInformation This player's information to dequeue.
+     * @return True if successful, False otherwise
+     */
+    public Boolean dequeue(OpponentInfo selfInformation) {
+        String json = gson.toJson(selfInformation);
+        HttpEntity<String> entity = initEntity(true, json);
+        String path = APIConstants.DEQUEUE_PATH;
+        ResponseEntity<Boolean> response = restTemplate.exchange(path, HttpMethod.POST, entity, Boolean.class);
         return response.getBody();
     }
 

@@ -53,4 +53,9 @@ public class APIConstants {
      */
     public final static String FIND_OPPONENT_PATH = GAME + "match";
 
+    /**
+     * Endpoint to dequeue from the queue.
+     */
+    public final static String DEQUEUE_PATH = FIND_OPPONENT_PATH + "/dequeue";
+
 }
