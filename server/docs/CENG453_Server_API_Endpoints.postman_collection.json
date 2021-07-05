@@ -14,13 +14,17 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8083/api/user",
+							"raw": "http://144.122.71.168:8083/server10/api/user",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"144",
+								"122",
+								"71",
+								"168"
 							],
 							"port": "8083",
 							"path": [
+								"server10",
 								"api",
 								"user"
 							]
@@ -47,13 +51,17 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8083/api/user/register",
+							"raw": "http://144.122.71.168:8083/server10/api/user/register",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"144",
+								"122",
+								"71",
+								"168"
 							],
 							"port": "8083",
 							"path": [
+								"server10",
 								"api",
 								"user",
 								"register"
@@ -81,13 +89,17 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8083/api/user/login",
+							"raw": "http://144.122.71.168:8083/server10/api/user/login",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"144",
+								"122",
+								"71",
+								"168"
 							],
 							"port": "8083",
 							"path": [
+								"server10",
 								"api",
 								"user",
 								"login"
@@ -115,13 +127,17 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8083/api/user/requestPwCode",
+							"raw": "http://144.122.71.168:8083/server10/api/user/requestPwCode",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"144",
+								"122",
+								"71",
+								"168"
 							],
 							"port": "8083",
 							"path": [
+								"server10",
 								"api",
 								"user",
 								"requestPwCode"
@@ -156,13 +172,17 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8083/api/user/updatePassword",
+							"raw": "http://144.122.71.168:8083/server10/api/user/updatePassword",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"144",
+								"122",
+								"71",
+								"168"
 							],
 							"port": "8083",
 							"path": [
+								"server10",
 								"api",
 								"user",
 								"updatePassword"
@@ -204,13 +224,17 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8083/api/game/new",
+							"raw": "http://144.122.71.168:8083/server10/api/game/new",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"144",
+								"122",
+								"71",
+								"168"
 							],
 							"port": "8083",
 							"path": [
+								"server10",
 								"api",
 								"game",
 								"new"
@@ -235,13 +259,17 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8083/api/game/next",
+							"raw": "http://144.122.71.168:8083/server10/api/game/next",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"144",
+								"122",
+								"71",
+								"168"
 							],
 							"port": "8083",
 							"path": [
+								"server10",
 								"api",
 								"game",
 								"next"
@@ -257,13 +285,17 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8083/api/game/scoreboard/30",
+							"raw": "http://144.122.71.168:8083/server10/api/game/scoreboard/30",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"144",
+								"122",
+								"71",
+								"168"
 							],
 							"port": "8083",
 							"path": [
+								"server10",
 								"api",
 								"game",
 								"scoreboard",
@@ -280,13 +312,17 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8083/api/game/scoreboard/game/14",
+							"raw": "http://144.122.71.168:8083/server10/api/game/scoreboard/game/14",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"144",
+								"122",
+								"71",
+								"168"
 							],
 							"port": "8083",
 							"path": [
+								"server10",
 								"api",
 								"game",
 								"scoreboard",
@@ -320,13 +356,17 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8083/api/game/match",
+							"raw": "http://144.122.71.168:8083/server10/api/game/match",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"144",
+								"122",
+								"71",
+								"168"
 							],
 							"port": "8083",
 							"path": [
+								"server10",
 								"api",
 								"game",
 								"match"
@@ -357,13 +397,17 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8083/api/game/match/dequeue",
+							"raw": "http://144.122.71.168:8083/server10/api/game/match/dequeue",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"144",
+								"122",
+								"71",
+								"168"
 							],
 							"port": "8083",
 							"path": [
+								"server10",
 								"api",
 								"game",
 								"match",
@@ -402,7 +446,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiIzIiwic3ViIjoidGVzdDEiLCJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNjI1NDk2NDI0LCJleHAiOjE2MjU0OTcwMjR9.W5RsB74GTm6qrrfpjf9XN1KoV6WYXz9VbsN2F7Zx3t4QrPcstYciMX1QSWT3kr3hbOSEYLjg2smu7Q5I4p-eXQ",
+				"value": "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiIzIiwic3ViIjoidGVzdDEiLCJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNjI1NDk2ODM1LCJleHAiOjE2MjU0OTc0MzV9.gg9CvmOVEi22K4-kL244TPbuywyGWLx2Q8nkubPHCvII-9huDDJkS4tocp5bXaWc7rSUdaGaXrQoEEHFJ0CjMQ",
 				"type": "string"
 			}
 		]
