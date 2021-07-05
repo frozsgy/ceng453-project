@@ -293,6 +293,10 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     * Removes the left most opponent card from the upperAnchorPane.
+     * Removes only one card.
+     */
     public void removeOneCardFromOpponent() {
         int size = this.upperAnchorPane.getChildren().size();
         if (size > 0) {
@@ -692,6 +696,10 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     * Displays the game over screen when the multiplayer level is completed.
+     * It displays who won the game, and also posts level scores to server.
+     */
     public void gameOverScreen() {
         this.challengeButton.setVisible(false);
         upperAnchorPane.getChildren().clear();

@@ -169,6 +169,12 @@ public class GameLogic {
         }
     }
 
+    /**
+     * Waits for host player to update view.
+     * Reads the response from the socket and updates the current view and state
+     * by calling readLogicFromState using the state acquired from the host.
+     * Runs on a seperate thread, i.e, does not run on JavaFX thread.
+     */
     public void waitForHost() {
         GameState state = (GameState) GameController._instance.getSocketClient().readSocket();
         Platform.runLater(() -> {
@@ -177,6 +183,12 @@ public class GameLogic {
             this.currentPlayer = PlayerEnum.TWO;
         });
     }
+
+    /**
+     * Wrapper to start waitForHost task.
+     * As we need to wait for host multiple times, this method removes repetitive code and
+     * acts as a wrapper to start waiting for host player.
+     */
     public void startWaitForHostTask() {
         Task<Boolean> idleTask = new Task<>() {
             @Override
