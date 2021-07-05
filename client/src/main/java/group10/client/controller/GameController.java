@@ -508,7 +508,6 @@ public class GameController implements Initializable {
 
     /**
      * Sets up the next level
-     * TODO check this
      *
      * @param continued flag to check if the deal is happening in the same level or not
      */
@@ -683,7 +682,6 @@ public class GameController implements Initializable {
     }
 
     /**
-     * TODO check this for score posting.
      * Wrapper for setting up the next level
      */
     private void setUpNextLevelWrapper() {
@@ -692,8 +690,6 @@ public class GameController implements Initializable {
             button.setOnAction(e -> this.setUpNextLevel(false));
             this.midStack.getChildren().add(button);
         } else if (this.round == LAST_ROUND) {
-            // TODO check this.round > LAST_ROUND logic
-            thirdLevelScorePosted = true; // TODO is this correct?
             GameLogic.getInstance().sendScores(logArea);
             this.initMultiLevel(); // this one clears scores inside.
         } else {
@@ -719,7 +715,7 @@ public class GameController implements Initializable {
         Text gameOver = new Text(msg);
         isGameEnded = true;
         gameOver.setFill(WHITE);
-        thirdLevelScorePosted = true; // TODO remove this?
+        thirdLevelScorePosted = true;
         logToScreen("---- Round Ended ----", logArea, LOGGER);
         GameLogic.getInstance().sendScores(logArea);
         this.midStack.getChildren().add(gameOver);
@@ -1077,7 +1073,6 @@ public class GameController implements Initializable {
         if (this.round == MULTIPLAYER_LEVEL && this.isHost) {
             GameState newState = new GameState(GameLogic.getInstance(), this.hostBluffed, null, isGameEnded);
             LOGGER.info("Writing state");
-            System.out.println(newState.getPlayerCards());
             this.socketServer.writeSocket(newState);
         }
     }
