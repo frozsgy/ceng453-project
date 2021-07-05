@@ -177,6 +177,8 @@ public class GameController implements Initializable {
     public static final ReentrantLock gameSynchronizer = new ReentrantLock();
 
     private boolean isHost;
+    private boolean hostBluffed;
+
 
 
     /**
@@ -195,6 +197,7 @@ public class GameController implements Initializable {
         this.round = 0;
         this.setUpNextLevel(false); // set up level 1
         this.AiBluffed = false;
+        this.hostBluffed = false;
         enableAutoScroll(this.logArea);
         this.gameMainAnchor.setBackground(UIUtility.getBackground());
         centerScene(this.gameMainAnchor.getPrefWidth(), this.gameMainAnchor.getPrefHeight());
@@ -845,6 +848,7 @@ public class GameController implements Initializable {
         Rectangle pressed = (Rectangle) ((Node) event.getTarget());
         Card played = this.cardMappings.get(pressed);
         this.cardMappings.remove(pressed);
+        GameLogic.getInstance().getPlayerCards().get(PlayerEnum.ONE).remove(played);
         this.bottomAnchorPane.getChildren().remove(pressed);
         // send this via socket,
         // read a new game state,
@@ -867,7 +871,8 @@ public class GameController implements Initializable {
         newGameTask.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED,
                 (EventHandler<WorkerStateEvent>) t -> {
                     LOGGER.info("Socket write success");
-//                    GameState newState = (GameState) GameController._instance.getSocketClient().readSocket();
+                    GameState newState = (GameState) GameController._instance.getSocketClient().readSocket();
+                    GameLogic.getInstance().readLogicFromState(newState);
                 });
         new Thread(newGameTask).start();
     }
@@ -881,6 +886,7 @@ public class GameController implements Initializable {
         try {
             if (GameLogic.getInstance().getMiddle().size() == 1 && this.round >= LAST_ROUND) {
                 gameSynchronizer.lock();
+                this.hostBluffed = true;
                 this.otherPlayerThread = new Thread(new OpponentController(false));
                 logToScreen("You bluffed.", this.logArea, LOGGER);
                 Rectangle pressed = (Rectangle) ((Node) event.getTarget());
@@ -964,6 +970,7 @@ public class GameController implements Initializable {
         try {
             this.otherPlayerThread = new Thread(new OpponentController(false));
             gameSynchronizer.lock();
+            this.hostBluffed = false;
             if (this.AiBluffed) {
                 this.AiBluffed = false;
                 this.rejectBluff();
@@ -999,6 +1006,10 @@ public class GameController implements Initializable {
     public void doTableActions() {
         this.setMidCount();
         this.serveHand();
+        if (this.round == MULTIPLAYER_LEVEL && this.isHost) {
+            GameState newState = new GameState(GameLogic.getInstance(), this.hostBluffed, null);
+            this.socketServer.writeSocket(newState);
+        }
     }
 
     /**
