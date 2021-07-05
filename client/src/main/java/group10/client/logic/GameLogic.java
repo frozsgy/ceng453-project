@@ -1,5 +1,8 @@
 package group10.client.logic;
 
+import group10.client.constants.GameConstants;
+import group10.client.controller.GameController;
+import group10.client.entity.GameState;
 import group10.client.entity.Level;
 import group10.client.entity.PlayerGame;
 import group10.client.enums.Cards;
@@ -110,6 +113,24 @@ public class GameLogic {
         this.resetScores();
         this.resetFields();
         this.setAiStrategy(1);
+    }
+
+    public void readLogicFromState(GameState state) {
+        this.middle = state.getMiddle();
+        this.lastWinner = state.getLastWinner();
+        this.scores = state.getScores();
+        this.playerCards = state.getPlayerCards();
+        this.currentPlayer = state.getCurrentPlayer();
+        this.playerCardCounts = state.getPlayerCardCounts();
+        // TODO
+        // this currently syncs the initial player cards.
+        // we need to sync mid and scores too.
+        // we also need to do it for every stage, not just for initial.
+        if (this.playerCards.get(PlayerEnum.ONE).size() == CARD_PER_HAND) {
+            System.out.println(this.playerCards.get(PlayerEnum.ONE));
+            GameController._instance.initPlayerCards(true);
+            // update players self view.
+        }
     }
 
     /**

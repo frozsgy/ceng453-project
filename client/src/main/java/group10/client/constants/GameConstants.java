@@ -15,6 +15,8 @@ public class GameConstants {
      * Defines the last playable round of the game.
      */
     public static final int LAST_ROUND = 3;
+
+    public static final int MULIPLAYER_LEVEL = LAST_ROUND + 1;
     /**
      * Defines the max score that needs to be performed before
      * passing to next level. Note that scoring a score more than

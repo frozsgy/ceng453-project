@@ -170,6 +170,8 @@ public class GameController implements Initializable {
      */
     public static final ReentrantLock gameSynchronizer = new ReentrantLock();
 
+    private boolean isHost;
+
     /**
      * Initializes the scene
      *
@@ -180,6 +182,7 @@ public class GameController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         GameLogic.getInstance();
         _instance = this;
+        this.isHost = false;
         this.thirdLevelScorePosted = false;
         this.leaveButton.setFocusTraversable(false);
         this.round = 0;
@@ -197,7 +200,8 @@ public class GameController implements Initializable {
      * @param name      name of the card
      * @param yLocation y-location of the card
      */
-    private void initCards(AnchorPane pane, String name, double yLocation) {
+    private void initCards(AnchorPane pane, String name, double yLocation, boolean accessCards) {
+        pane.getChildren().clear();
         List<Rectangle> cardList;
         boolean isHidden = false;
         if (name.equals("enemy ")) {
@@ -209,7 +213,14 @@ public class GameController implements Initializable {
             cardList = this.currentCards;
         }
         for (int i = 0; i < CARD_PER_HAND; i++) {
-            Rectangle card = createCardRectangle(isHidden, null);
+            Card drawn = null;
+            if (accessCards) {
+                drawn = GameLogic.getInstance().getPlayerCards().get(PlayerEnum.ONE).get(i);
+            }
+            Rectangle card = createCardRectangle(isHidden, drawn);
+            if (accessCards) {
+                card.setOnMouseClicked(this::mouseClickHandler);
+            }
             cardList.add(card);
             try {
                 pane.getChildren().add(cardList.get(i));
@@ -226,14 +237,14 @@ public class GameController implements Initializable {
      * Initializes opponent cards' rectangles
      */
     private void initOpponentCards() {
-        initCards(this.upperAnchorPane, "enemy ", ENEMY_CARD_Y);
+        initCards(this.upperAnchorPane, "enemy ", ENEMY_CARD_Y, false);
     }
 
     /**
      * Initializes player cards' rectangles
      */
-    private void initPlayerCards() {
-        initCards(this.bottomAnchorPane, "", PLAYER_CARD_Y);
+    public void initPlayerCards(boolean accessCards) {
+        initCards(this.bottomAnchorPane, "", PLAYER_CARD_Y, accessCards);
     }
 
     /**
@@ -241,7 +252,7 @@ public class GameController implements Initializable {
      */
     private void nextHand() {
         this.initOpponentCards();
-        this.initPlayerCards();
+        this.initPlayerCards(false);
         this.drawAllCards();
     }
 
@@ -302,7 +313,7 @@ public class GameController implements Initializable {
     /**
      * Deals cards for both of the players.
      */
-    private void drawAllCards() {
+    public void drawAllCards() {
         Map<PlayerEnum, List<Card>> playerCards = GameLogic.getInstance().getPlayerCards();
         List<Card> cardsOne = playerCards.get(PlayerEnum.ONE);
         List<Card> cardsTwo = playerCards.get(PlayerEnum.TWO);
@@ -404,7 +415,7 @@ public class GameController implements Initializable {
     /**
      * Clears the view
      */
-    private void clearView() {
+    public void clearView() {
         this.bottomAnchorPane.getChildren().clear();
         this.upperAnchorPane.getChildren().clear();
         this.midStackShift = 0;
@@ -430,7 +441,7 @@ public class GameController implements Initializable {
         this.setPlayerScore(playerScore);
         this.initOpponentCards();
         this.shuffleCards();
-        this.initPlayerCards();
+        this.initPlayerCards(false);
         this.initStack();
         this.drawAllCards();
         GameLogic.getInstance().setAiStrategy(round);
@@ -555,6 +566,7 @@ public class GameController implements Initializable {
     }
 
     public void createSocket(int port, Text txt) {
+        this.isHost = true;
         txt.setText("You are in queue. Please wait...");
         this.socketServer = new SocketServer(port);
         LOGGER.info("Opponent is connected");
@@ -588,9 +600,8 @@ public class GameController implements Initializable {
         }
         Platform.runLater(() -> {
             this.setUpNextLevel(false);
-            System.out.println("@@@@@@@@@");
             GameState initialState = (GameState) this.socketClient.readSocket();
-            System.out.println("asdasdsa");
+            GameLogic.getInstance().readLogicFromState(initialState);
         });
 
     }
@@ -771,13 +782,22 @@ public class GameController implements Initializable {
      */
     @FXML
     protected void mouseClickHandler(MouseEvent event) {
-        if (event.getButton() == MouseButton.PRIMARY) {
+        if (this.round == MULIPLAYER_LEVEL && !this.isHost) {
+            this.postCard();
+        }
+        else if (event.getButton() == MouseButton.PRIMARY) {
             this.throwCard(event);
         } else if (event.getButton() == MouseButton.SECONDARY) {
             this.doBluff(event);
         }
     }
 
+    private void postCard() {
+        // TODO
+        // Post the played card to server.
+        // Read the current state.
+        // Update the view accordingly.
+    }
     /**
      * Method that allows the player to bluff
      *
