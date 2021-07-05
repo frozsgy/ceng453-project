@@ -160,7 +160,9 @@ public class GameLogic {
         GameController._instance.bulkScoreUpdate();
         if (this.playerCards.get(PlayerEnum.ONE).size() == CARD_PER_HAND) {
             System.out.println(this.playerCards.get(PlayerEnum.ONE));
+            System.out.println("============REINIT================");
             GameController._instance.initPlayerCards(true);
+            GameController._instance.initOpponentCards();
             // update players self view.
         }
     }
@@ -178,7 +180,7 @@ public class GameLogic {
             @Override
             public Boolean call() {
                 GameLogic.getInstance().waitForHost();
-                return  true;
+                return true;
             }
         };
         idleTask.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED,

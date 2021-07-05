@@ -32,6 +32,7 @@ public class LevelFourStrategy extends AiStrategy {
         GameLogic.getInstance().setCurrentState(gameState);
         Card thrown = gameState.getCardThrown();
         Rectangle r = GameLogic.getRectangleByCard(cardMappings, thrown);
+        this.removePlayedCard(thrown);
         return new Pair<>(r, thrown);
     }
 
