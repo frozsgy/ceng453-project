@@ -8,12 +8,13 @@ This folder contains the backend server application for the CENG453 Project, Pi≈
 
 * JDK 16
 * Maven
+* Apache Tomcat
 
 ## Build and Run
 
-1. Use `mvn package` to package the project into a jar file. 
-2. Run the created jar file in the target folder as follows: `java -jar server-0.0.1-SNAPSHOT.jar`
-3. The server should be up and running at `http://localhost:8080/`.
+1. Use `mvn package` to package the project into a war file. 
+2. Deploy the created `server10.war` file into your Apache Tomcat server.
+3. The server should be up and running at `http://localhost:8083/server10/`.
 
 # Database Design 
 
@@ -37,7 +38,7 @@ The ER diagram of the project can be found below.
 
 ## Swagger 
 
-The Swagger API Documentation can be accessed at [docs/swagger-api-docs.json](docs/swagger-api-docs.json). Also while the application is running, the API Documentation through Swagger can be accessed at the following URL: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html). 
+The Swagger API Documentation can be accessed at [docs/swagger-api-docs.json](docs/swagger-api-docs.json). Also while the application is running, the API Documentation through Swagger can be accessed at the following URL: [http://144.122.71.168:8083/server10/swagger-ui.html](http://144.122.71.168:8083/server10/swagger-ui.html). 
 
 ## JavaDoc
 
