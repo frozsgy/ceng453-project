@@ -1,6 +1,5 @@
 package group10.client.service;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -39,6 +38,9 @@ public class SocketServer extends SocketBase {
         }
     }
 
+    /**
+     * Closes socket and handles cleanup.
+     */
     @Override
     public void closeSocket() {
         super.closeSocket();
