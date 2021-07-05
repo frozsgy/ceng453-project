@@ -4,6 +4,9 @@ import group10.client.controller.GameController;
 import group10.client.entity.GameState;
 import group10.client.enums.PlayerEnum;
 import group10.client.model.Card;
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
+import javafx.event.EventHandler;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Pair;
 
@@ -12,6 +15,7 @@ import java.util.Map;
 import java.util.Stack;
 
 public class LevelFourStrategy extends AiStrategy{
+
     @Override
     public Pair<Rectangle, Card> playAsOpponent(Map<Rectangle, Card> cardMappings) {
 

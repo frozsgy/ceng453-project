@@ -844,6 +844,8 @@ public class GameController implements Initializable {
         boolean bluffed = event.getButton() == MouseButton.SECONDARY;
         Rectangle pressed = (Rectangle) ((Node) event.getTarget());
         Card played = this.cardMappings.get(pressed);
+        this.cardMappings.remove(pressed);
+        this.bottomAnchorPane.getChildren().remove(pressed);
         // send this via socket,
         // read a new game state,
         // then call GameLogic.getInstance().readLogicFromState with new read state
