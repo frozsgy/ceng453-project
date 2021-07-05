@@ -11,6 +11,7 @@ import group10.client.enums.PlayerEnum;
 import group10.client.enums.Suits;
 import group10.client.model.Card;
 import group10.client.service.HTTPService;
+import javafx.application.Platform;
 import javafx.scene.control.TextArea;
 import javafx.scene.shape.Rectangle;
 import org.slf4j.Logger;
@@ -146,6 +147,13 @@ public class GameLogic {
             // update players self view.
         }
         isFirstTime = false;
+    }
+
+    public void waitForHost() {
+        GameState state = (GameState) GameController._instance.getSocketClient().readSocket();
+        Platform.runLater(() -> readLogicFromState(state));
+//        System.out.println("Read socket");
+//        readLogicFromState(state);
     }
 
     /**

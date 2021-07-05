@@ -1,8 +1,10 @@
 package group10.client.controller;
 
+import com.google.gson.Gson;
 import group10.client.constants.GameConstants;
 import group10.client.constants.UiConstants;
 import group10.client.entity.GameState;
+import group10.client.entity.PlayerGame;
 import group10.client.enums.Cards;
 import group10.client.enums.PlayerEnum;
 import group10.client.enums.Suits;
@@ -24,6 +26,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
@@ -629,6 +632,19 @@ public class GameController implements Initializable {
             this.setUpNextLevel(false);
             GameState initialState = (GameState) this.socketClient.readSocket();
             GameLogic.getInstance().readLogicFromState(initialState);
+            Task<Boolean> idleTask = new Task<>() {
+                @Override
+                public Boolean call() {
+                    GameLogic.getInstance().waitForHost();
+                    return  true;
+                }
+            };
+            idleTask.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED,
+                    (EventHandler<WorkerStateEvent>) t -> {
+                        LOGGER.info("read the state");
+                    });
+            new Thread(idleTask).start();
+
         });
 
     }
@@ -964,6 +980,8 @@ public class GameController implements Initializable {
             GameLogic.getInstance().setCurrentPlayer(PlayerEnum.TWO);
             this.toggleClickable(false);
             this.setMidCount();
+            GameState state = new GameState(GameLogic.getInstance(), false, null);
+            socketServer.writeSocket(state);
             this.otherPlayerThread.start();
             gameSynchronizer.unlock();
         } catch (IllegalArgumentException ex) {
