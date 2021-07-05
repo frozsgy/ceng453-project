@@ -1,11 +1,14 @@
 package group10.client.logic;
 
 
+import group10.client.entity.GameState;
+import group10.client.entity.PlayerGame;
 import group10.client.enums.Cards;
 import group10.client.enums.MatchType;
 import group10.client.enums.PlayerEnum;
 import group10.client.enums.Suits;
 import group10.client.model.Card;
+import group10.client.entity.Player;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -13,6 +16,8 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.annotation.Order;
 
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectOutputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
@@ -347,6 +352,29 @@ public class GameLogicTests {
         GameLogic.getInstance().setAiStrategy(3);
         AiStrategy aiStrategyThree = GameLogic.getInstance().getAiStrategy();
         assertTrue(aiStrategyThree instanceof LevelThreeStrategy);
+    }
+
+    @Test
+    @DisplayName("Multiplayer Strategy Test")
+    @Order(18)
+    void multiStrategyTest() {
+        this.resetGameLogic();
+        GameLogic.getInstance().setAiStrategy(4);
+        AiStrategy aiStrategy = GameLogic.getInstance().getAiStrategy();
+        assertTrue(aiStrategy instanceof LevelFourStrategy);
+    }
+
+    @Test
+    @DisplayName("Multiplayer Protocol Serialization Test")
+    @Order(19)
+    void serializationTest()  {
+        PlayerGame player = new PlayerGame();
+        Player pl = new Player();
+        pl.setUsername("asdsaa");
+        player.setPlayer(pl);
+        GameLogic.getInstance().setPlayerGameEntity(player);
+        GameState state = new GameState(GameLogic.getInstance(), false, null, false);
+        assertDoesNotThrow(() ->  new ObjectOutputStream(new ByteArrayOutputStream()).writeObject(state));
     }
 
 
